@@ -10,12 +10,12 @@ We provide several alternatives (containerized and non-containerized) for downlo
 
     | Use case      | Perl utils | Python utils | Method                                             |
     |---------------|------------|--------------|----------------------------------------------------|
-    | CLI           | ✔          | ✘            | 1 (CPAN)                                           |
-    | CLI (conda)   | ✔          | ✘            | 2 (CPAN in Conda env)                              |
-    | CLI           | ✔          | ✔            | 4 or 5 (Docker; no dependencies)                   |
+    | CLI           | ✓          | ✗            | 1 (CPAN)                                           |
+    | CLI (conda)   | ✓          | ✗            | 2 (CPAN in Conda env)                              |
+    | CLI           | ✓          | ✓            | 4 or 5 (Docker; no dependencies)                   |
     | Web App UI    |            |              | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
 
-    ??? Note "Overview of Pheno-Ranker Apps and utilities"
+    ??? Tip "Overview of Pheno-Ranker Apps and utilities"
     
         | Software Name                                                                                   | Language        | Type          | Short Description                              | Install Methods         | Documentation URL                                                                                 |
         |-------------------------------------------------------------------------------------------------|-----------------|---------------|------------------------------------------------|-------------------------|---------------------------------------------------------------------------------------------------|

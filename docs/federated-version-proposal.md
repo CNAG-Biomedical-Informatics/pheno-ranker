@@ -125,8 +125,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
     
     Currently, the `/individuals` endpoint from the Beacon v2 API can be queried, and as long as the user has appropriate access to the record-level data, the results can be parsed and saved in a text file (i.e., `BFF`). `Pheno-Ranker` can then be executed locally, either via the command-line interface (CLI) or through the Web App UI. While this approach works, it becomes cumbersome when the goal is to search for similar patients across multiple Beacon instances.  
 
-
-    To facilitate `Pheno-Ranker`’s integration into the Beacon v2 API ecosystem, we propose two distinct pathways for query submission to enhance flexibility and security
+    To facilitate `Pheno-Ranker`’s integration into the Beacon v2 API ecosystem, we propose two distinct pathways for query submission to enhance flexibility and security (both requiring `POST` requests):
     
     1. The first method mirrors the approach used in hospital networks, where queries leverage a precomputed vector. This ensures secure and efficient similarity evaluations against an existing database. To support this, a Beacon aggregator would periodically gather ontology terms via the _filtering_terms_ endpoint from each Beacon v2 API, thereby creating a global lookup table
 
