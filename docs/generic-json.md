@@ -58,7 +58,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box_ that are [BFF](bff.md) and [PXF](pxf.md).
 
 ??? Tip "Do I need to create a configuration file?"
-    This file only has to be created if you are working with **your own JSON format**.
+    Again, this file only has to be created if you are working with **your own JSON format**. If you have `CSV` please go to this [page](csv-import.md).
 
     If your file format resembles Moviepackets, you can use that file directly. Just ensure you **modify the terms** to align with your data.
 
@@ -106,8 +106,8 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     | Format      | Required properties | Optional properties | Pre-configured |
     | ----------- | ------------------- | ------------------- |  -----  | 
     | BFF / PXF   | `primary_key, allowed_terms, array_terms, array_regex, id_correspondence` | `format` | ✓ |
-    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, id_correspondence` | `array_regex` |   |
-    | Others (`non-array`) |  `primary_key, allowed_terms` | `format` |   |
+    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, id_correspondence` | `array_regex` | ✗ |
+    | Others (`non-array`) |  `primary_key, allowed_terms` | `format` | ✗ |
     
     
      * Where:
