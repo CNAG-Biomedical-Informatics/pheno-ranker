@@ -63,7 +63,7 @@ Based on the median, the **Completeness** of the [Phenopackets Corpus](phenopack
 
 ## Cohort Mode
 
-We begin with a simple calculation using the **Jaccard** index. We also export intermediate files using `--e omim` for later use. From now on, we will focus on `phenotypicFeatures` terms, which we aim to use for patient classification.
+We begin with a simple calculation in **cohort** mode. In the run, we will also export intermediate files using `--e omim` for later use. From now on, we will focus on `phenotypicFeatures` terms, which we aim to use for patient classification.
 
 Ensure that the `pheno-ranker` directory is set correctly.
 
