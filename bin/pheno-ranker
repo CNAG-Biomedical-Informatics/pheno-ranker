@@ -63,17 +63,17 @@ GetOptions(
     'exclude-terms=s{1,11}'              => \my @exclude_terms,               # array
     'retain-excluded-phenotypicFeatures' => \
       my $retain_excluded_phenotypicFeatures,                                 # flag
-    'prp|precomputed-ref-prefix=s' => \my $precomputed_ref_prefix,                # string
-    'max-matrix-items-in-ram=i' => \my $max_matrix_items_in_ram,            # integer
-    'config=s'                 => \my $config_file,                           # string
-    'age!'                     => \$age,                                      # flag
-    'help|?'                   => \my $help,                                  # flag
-    'log:s'                    => \my $log,                                   # opt-string (defined)
-    'man'                      => \my $man,                                   # flag
-    'debug=i'                  => \my $debug,                                 # integer
-    'verbose|'                 => \my $verbose,                               # flag
-    'color!'                   => \$color,                                    # flag
-    'version|V'                => sub { say "$0 Version $VERSION"; exit; }
+    'prp|precomputed-ref-prefix=s' => \my $precomputed_ref_prefix,            # string
+    'max-matrix-items-in-ram=i'    => \my $max_matrix_items_in_ram,           # integer
+    'config=s'                     => \my $config_file,                       # string
+    'age!'                         => \$age,                                  # flag
+    'help|?'                       => \my $help,                              # flag
+    'log:s'                        => \my $log,                               # opt-string (defined)
+    'man'                          => \my $man,                               # flag
+    'debug=i'                      => \my $debug,                             # integer
+    'verbose|'                     => \my $verbose,                           # flag
+    'color!'                       => \$color,                                # flag
+    'version|V'                    => sub { say "$0 Version $VERSION"; exit; }
 ) or pod2usage(2);
 pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
@@ -227,27 +227,28 @@ sub write_log {
     # NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
     my $os = $^O;
     chomp(
-        my $ncpuhost =
+        my $threadshost =
           lc($os) eq 'darwin' ? qx{/usr/sbin/sysctl -n hw.logicalcpu}
-        : $os eq 'MSWin32' ? qx{wmic cpu get NumberOfLogicalProcessors}
-        :                    qx{/usr/bin/nproc} // 1
+        : lc($os) eq 'freebsd' ? qx{sysctl -n hw.ncpu}
+        : $os eq 'MSWin32'     ? qx{wmic cpu get NumberOfLogicalProcessors}
+        :                        qx{/usr/bin/nproc} // 1
     );
 
     # For the Windows command, the result will also contain the string
     # "NumberOfLogicalProcessors" which is the header of the output.
     # So we need to extract the actual number from it:
     if ( $os eq 'MSWin32' ) {
-        ($ncpuhost) = $ncpuhost =~ /(\d+)/;
+        ($threadshost) = $threadshost =~ /(\d+)/;
     }
-    $ncpuhost = 0 + $ncpuhost;    # coercing it to be a number
+    $threadshost = 0 + $threadshost;    # coercing it to be a number
 
     my $info = {
-        date      => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
-        ncpuhost  => $ncpuhost,
-        hostname  => hostname,
-        id        => time . substr( "00000$$", -5 ),                   # string
-        version   => $VERSION,
-             user => $ENV{'LOGNAME'}
+        date        => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
+        threadshost => $threadshost,
+        hostname    => hostname,
+        id          => time . substr( "00000$$", -5 ),                   # string
+        version     => $VERSION,
+             user   => $ENV{'LOGNAME'}
           || $ENV{'USER'}
           || $ENV{'USERNAME'}
           || 'dummy-user'
@@ -501,11 +502,11 @@ With C<-r> reference cohort(s) and C<--t> patient data.
 
 B<Examples:>
 
- $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+ $ bin/pheno-ranker -r phenopackets.json  # intra-cohort
 
- $ ./pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
+ $ bin/pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
 
- $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
+ $ bin/pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
 
  $ $path/pheno-ranker -r individuals.json others.yaml --append-prefixes CANCER CONTROL  # inter-cohort
 

@@ -266,11 +266,11 @@ There are two modes of operation:
 
 **Examples:**
 
-    $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+    $ bin/pheno-ranker -r phenopackets.json  # intra-cohort
 
-    $ ./pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
+    $ bin/pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
 
-    $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
+    $ bin/pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
 
     $ $path/pheno-ranker -r individuals.json others.yaml --append-prefixes CANCER CONTROL  # inter-cohort
 
