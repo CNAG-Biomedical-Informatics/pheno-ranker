@@ -15,7 +15,7 @@ def flatten_json(y):
     def flatten(x, name=''):
         if isinstance(x, dict):
             for a in x:
-                if a == 'id' and name == '':  # Special handling for 'id' key
+                if a in ['id', 'id_from_qr'] and name == '':  # Special handling for 'id' and 'id_from_qr'
                     out[a] = x[a]
                 else:
                     flatten(x[a], name + a + '_')
@@ -61,7 +61,7 @@ def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None,
     styles = getSampleStyleSheet()
 
     for obj, qr_code_file in zip(json_data, qr_code_files):
-        id_value = obj.get('id', 'default').replace(':', '_')
+        id_value = obj.get('id_from_qr', 'default').replace(':', '_')
         pdf_file_name = f'{id_value}.pdf'
         pdf_path = os.path.join(output_dir, pdf_file_name)
 
@@ -77,7 +77,7 @@ def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None,
         qr_code_img = Image(qr_code_file, width=1*inch, height=1*inch)
         qr_code_img.hAlign = 'LEFT'
 
-        id_value = obj.get('id', 'default')
+        id_value = obj.get('id_from_qr', 'default')
         id_paragraph = Paragraph(f'ID: {id_value}', styles['Heading2'])
 
         if logo_path:

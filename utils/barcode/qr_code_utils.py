@@ -79,7 +79,7 @@ def generate_qr_codes_from_json(json_data, output_dir, qr_version, compress=True
     for key, value in json_data.items():
         if 'binary_digit_string' in value:
             binary_digit_string = value['binary_digit_string']
-            safe_key = key.replace(':', '_')
+            safe_key = key.replace(':', '_').replace('/', '_')
             img_path = os.path.join(output_dir, f"{safe_key}.png")
             generate_qr_from_data(binary_digit_string, img_path, qr_version, compress)
 
@@ -187,6 +187,11 @@ def decode_qr_codes_to_json(file_paths, json_template):
                 result = decode_binary_string(binary_digit_string, json_template)
                 unflattened_result = unflatten(result)
                 final_result = convert_curie_objects_to_array(unflattened_result)
+
+                # Extract the ID from the filename (this will be the sanitized ID)
+                id_from_filename = os.path.splitext(os.path.basename(filepath))[0]
+                final_result["id_from_qr"] = id_from_filename
+
                 results.append(final_result)
             else:
                 print(f"No valid QR code data found in {filepath}")

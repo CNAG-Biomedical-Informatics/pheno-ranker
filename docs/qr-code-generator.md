@@ -10,7 +10,7 @@
         * Enrolling in clinical trial or health data program via QR
         * Patient-doctor transfer of  information
         * Medical reports with augmented data
-        * Clinical trials repors (see example below)
+        * Clinical trials reports (see example below)
 
         Of course if you plan to use `Pheno-Ranker` with non pheno-clinical data you will need to come up with your own examples :smile:.
 
