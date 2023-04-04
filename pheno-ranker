@@ -1,0 +1,337 @@
+#!/usr/bin/env perl
+#
+#   A script that ranks individuals against a cohort (BFF)
+#
+#   Last Modified: Apr/03/2023
+#
+#   Version 1.0.0
+#
+#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.crg.eu)
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, see <https://www.gnu.org/licenses/>.
+#
+#   If this program helps you in your research, please cite.
+
+use strict;
+use warnings;
+use feature qw(say);
+use autodie;
+use Getopt::Long qw(:config posix_default);
+use Pod::Usage;
+use Path::Tiny;
+use Data::Dumper;
+use JSON::XS;
+use Term::ANSIColor qw(:constants);
+use Hash::Fold fold => { array_delimiter => ':' };
+
+my $debug   = 0;
+my $verbose = 0;
+
+##### Main #####
+pheno_ranker();
+################
+exit;
+
+sub pheno_ranker {
+
+    # Defining a few variables
+    my $version     = '1.0.0';
+    my $output_file = 'matrix.txt';
+
+    # Reading arguments
+    GetOptions(
+        'reference|r=s' => \my $reference_file,                       # string
+        'target|t=s'    => \my $target_file,                          # string
+        'o=s'           => \$output_file,                             # string
+        'e|export'      => \my $export,                               # flag
+        'help|?'        => \my $help,                                 # flag
+        'man'           => \my $man,                                  # flag
+        'debug=i'       => \$debug,                                   # integer
+        'verbose'       => \$verbose,                                 # flag
+        'no-color|nc'   => \my $no_color,                             # flag
+        'version|v'     => sub { say "$0 Version $version"; exit; }
+    ) or pod2usage(2);
+    pod2usage(1)                              if $help;
+    pod2usage( -verbose => 2, -exitval => 0 ) if $man;
+    pod2usage(
+        -message => "Please specify a valid reference-cohort for -r\n",
+        -exitval => 1
+    ) unless $reference_file;
+
+    # Turning color off if argument <--no-color>
+    $ENV{'ANSI_COLORS_DISABLED'} = 1 if $no_color;
+
+    # Start printing to STDOUT
+    say BOLD CYAN program_header($version), RESET if $verbose;
+
+    # Load JSON files as Perl data structure
+    my $ref_data = read_json($reference_file);
+
+    # First we create:
+    # - $glob_hash => hash with all the cohort keys
+    # - $ref_hash  => BIG hash with all individuals in cohort flattened
+    my ( $glob_hash, $ref_hash ) = create_global_and_ref_hashes($ref_data);
+
+    # Second we peform one-hot encoding for each individual
+    my $ref_binary = create_binary_string( $glob_hash, $ref_hash );
+
+    # Dump JSON if --export
+    serialize_hashes( $glob_hash, $ref_hash, $ref_binary ) if $export;
+
+    # Perform intra-cohort comparison if --r only
+    intra_cohort_comparison( $ref_binary, $output_file ) unless $target_file;
+
+    # Perform compare and rank if --t
+    if ($target_file) {
+        my $tar_data   = read_json($target_file);
+        my $tar_binary = create_binary_string( $glob_hash,
+            { $tar_data->{id} => remap_hash( fold($tar_data) ) } );
+        compare_and_rank( $ref_binary, $tar_binary );
+    }
+
+}
+
+sub serialize_hashes {
+
+    my ( $glob_hash, $ref_hash, $ref_binary ) = @_;
+    write_json( { data => $glob_hash,  filepath => 'global_hash.json' } );
+    write_json( { data => $ref_hash,   filepath => 'ref_hash.json' } );
+    write_json( { data => $ref_binary, filepath => 'ref_binary.json' } );
+    return 1;
+}
+
+sub write_json {
+
+    my $arg       = shift;
+    my $file      = $arg->{filepath};
+    my $json_data = $arg->{data};
+    my $json      = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
+    path($file)->spew_utf8($json);
+    return 1;
+}
+
+sub intra_cohort_comparison {
+
+    my $ref_binary = shift;
+    my $output     = shift;
+
+    say "Performing INTRA-COHORT compariSon" if ( $debug || $verbose );
+    open( my $fh, ">", $output );
+    say $fh join "\t", "\t", keys %{$ref_binary};
+
+    # I
+    for my $i ( keys %{$ref_binary} ) {
+        my $str1 = $ref_binary->{$i};
+        print $fh "$i\t";
+
+        # J
+        for my $j ( keys %{$ref_binary} ) {
+            my $str2 = $ref_binary->{$j};
+            print $fh hd_fast( $str1, $str2 ), "\t";
+        }
+        print $fh "\n";
+    }
+    close $fh;
+    say "Matrix saved to <$output>" if ( $debug || $verbose );
+    return 1;
+}
+
+sub compare_and_rank {
+
+    my ( $ref_binary, $tar_binary ) = @_;
+
+    say "Performing PATIENT-COHORT comparison" if ( $debug || $verbose );
+    my %out;
+    my ($tmp) = keys %{$tar_binary};
+    my $str2 = $tar_binary->{$tmp};
+    for my $key ( keys %{$ref_binary} ) {
+        my $str1 = $ref_binary->{$key};
+        say "STR1:$str1" if $debug;
+        say "STR2:$str2" if $debug;
+        $out{$key} = hd_fast( $str1, $str2 );
+    }
+
+    # Sort by value and print
+    for my $key ( sort { $out{$a} <=> $out{$b} } keys %out ) {
+        say "Distance($key) =  $out{$key}";
+    }
+    return 1;
+
+}
+
+sub create_global_and_ref_hashes {
+
+    my $array     = shift;
+    my $hash_ref1 = {};
+    my $hash_out;
+
+    for my $i ( @{$array} ) {
+        my $hash_ref2 = fold($i);
+        $hash_ref1 = { %$hash_ref1, %$hash_ref2 };
+        $hash_out->{ $hash_ref2->{id} } = remap_hash($hash_ref2);
+    }
+    $hash_ref1 = remap_hash($hash_ref1);
+    return ( $hash_ref1, $hash_out );
+}
+
+sub remap_hash {
+
+    my $hash = shift;
+    my $hash_out;
+    for my $key ( keys %{$hash} ) {
+
+        # Discard undefined
+        next unless defined $hash->{$key};
+
+        # Discarding lines with key (ms time)
+        next if $key =~ m/info|notes|value|\.high|\.low/;
+        my $val = $hash->{$key};
+
+        # Discarding lines with vali (ms times)
+        next if ($val eq 'NA' || $val eq 'Fake' || $val =~ m/1900-01-01|NA0000|P999Y/);
+
+        # Getting rid of the index for (measures|treatments|exposures|phenotypicMeasure):\d+
+        $key =~ s/:(\d+)\././;
+        my $tmp = $key . '.' . $val;
+        $hash_out->{$tmp} = 1;
+    }
+    return $hash_out;
+}
+
+sub create_binary_string {
+
+    my ( $glob_hash, $ref_hash ) = @_;
+    my $hash_out;
+
+    # *** IMPORTANT ***
+    # Being a nested for, keys %{$glob_hash} does need sorting
+    # BUT, we sort to follow the same order as serialized (sorted)
+    my @sorted_keys_glob_hash = sort keys %{$glob_hash}; 
+
+    # IDs of each indidividual
+    for my $key1 ( keys %{$ref_hash} ) {
+
+        # One-hot encoding = Representing categorical data as numerical
+        my $binary_str = '';
+        for my $key2 (@sorted_keys_glob_hash) {
+            $binary_str .= exists $ref_hash->{$key1}{$key2} ? 1 : 0;
+        }
+        $hash_out->{$key1} = $binary_str;
+    }
+    return $hash_out;
+}
+
+sub read_json {
+
+    my $str = path(shift)->slurp_utf8;
+    return decode_json($str);    # Decode to Perl data structure
+}
+
+sub hd_fast {
+
+    # Hamming Distance
+    return ( $_[0] ^ $_[1] ) =~ tr/\001-\255//;
+}
+
+sub program_header {
+
+    my $version = shift;
+    my $str     = <<EOF;
+****************************************
+*    Rank against cohort (BFF/PXF)     *
+*          - PHENO-RANKER -            *
+*          Version: $version            *
+*      (C) 2023 Manuel Rueda, PhD      *
+*    GNU General Public License v3     *
+****************************************
+EOF
+    return $str;
+}
+
+=head1 NAME
+
+pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+
+=head1 SYNOPSIS
+
+
+pheno-ranker -r <individuals.json> -t <patient.json> [-options]
+
+     Arguments:                       
+       -r|reference-file              BFF/PXF file (JSON array)
+       -t|target-file                 BFF/PXF file (JSON)
+
+     Options:
+       -o                             Output file [matrix.txt]
+       -h|help                        Brief help message
+       -man                           Full documentation
+       -debug                         Print debugging (from 1 to 5, being 5 max)
+       -verbose                       Verbosity on
+       -nc|-no-color                  Don't print colors to STDOUT
+
+=head1 DESCRIPTION
+
+pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+
+=head1 SUMMARY
+
+pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+
+=head1 INSTALLATION
+
+This file is part of L<Convert-Pheno|https://github.com/CNAG-Biomedical-Informatics/convert-pheno>.
+
+=head3 System requirements
+
+  * Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOs, OpenSuse) should do as well.
+  * Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with "perl -v"
+  * 500MB of RAM.
+  * 1 core (it only uses one core per job).
+  * At least 1GB HDD.
+
+=head1 HOW TO RUN PHENO-RANKER
+
+For executing pheno-ranker you will need:
+
+=over
+
+=item Input file(s):
+      
+A PXF or BFF file(s) in JSON format. If no C<--t> argument is provided then it will compute intra-cohort comparison only. If C<--t> argument is provided then the target JSON will be compared agaisnt the C<-r> reference JSON.
+
+=back
+
+B<Examples:>
+
+ $ pheno-ranker -r phenopackets.json  # intra-cohort
+
+ $ $path/pheno-ranker -t patient.json -r individuals.json # patient-cohort
+
+=head2 COMMON ERRORS AND SOLUTIONS
+
+ * Error message: Foo
+   Solution: Bar
+
+ * Error message: Foo
+   Solution: Bar
+
+=head1 AUTHOR 
+
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.crg.eu>.
+
+=head1 COPYRIGHT AND LICENSE
+
+This PERL file is copyrighted. See the LICENSE file included in this distribution.
+
+=cut
