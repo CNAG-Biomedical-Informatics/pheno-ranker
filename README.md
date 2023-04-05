@@ -12,11 +12,13 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Options:
        -o                             Output file [matrix.txt]
+       -debug                         Print debugging (from 1 to 5, being 5 max)
+       -e|export                      Export miscellaena JSON files
        -h|help                        Brief help message
        -man                           Full documentation
-       -debug                         Print debugging (from 1 to 5, being 5 max)
-       -verbose                       Verbosity on
        -nc|-no-color                  Don't print colors to STDOUT
+       -verbose                       Verbosity on
+       -v|version                     Print version
 
 # DESCRIPTION
 
