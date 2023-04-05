@@ -32,6 +32,7 @@ use Pod::Usage;
 use Data::Dumper;
 use Path::Tiny;
 use JSON::XS;
+use Sort::Naturally;
 use Term::ANSIColor qw(:constants);
 use Hash::Fold fold => { array_delimiter => ':' };
 
@@ -122,13 +123,13 @@ sub write_json {
 sub intra_cohort_comparison {
 
     my ($ref_binary_hash, $output ) = @_;
-    my @sorted_keys_ref_binary_hash = sort keys %{$ref_binary_hash};
+    my @sorted_keys_ref_binary_hash = nsort(keys %{$ref_binary_hash});
 
     say "Performing INTRA-COHORT compariSon" if ( $debug || $verbose );
 
     # Print to  $output
     open( my $fh, ">", $output );
-    say $fh "\t", join "\t", keys %{$ref_binary_hash};
+    say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
     # I elements
     for my $i ( @sorted_keys_ref_binary_hash ) {
@@ -156,7 +157,7 @@ sub compare_and_rank {
     my %out;
     my ($tmp) = keys %{$tar_binary_hash};
     my $str2 = $tar_binary_hash->{$tmp};
-    for my $key ( keys %{$ref_binary_hash} ) {
+    for my $key ( keys %{$ref_binary_hash} ) { # No need to sort
         my $str1 = $ref_binary_hash->{$key};
         say "STR1:$str1" if $debug;
         say "STR2:$str2" if $debug;
@@ -209,9 +210,10 @@ sub remap_hash {
         # measures:0.foo.bar
         # exposures:1.baz.foo
         # *** IMPORTANT ****
-        # By removing the element, we also lose the provenance of each nested value, 
-        # but this is a compromise that we have to make to encode the data correctly
-        
+        # - By removing the element, we also lose the provenance of each nested value, 
+        #   e.g., "diseases.ageOfOnset.age.iso8601duration.72Y"
+        #   but this is a compromise that we have to make to encode the data correctly!!!
+        # - We are keeping the ^id. so this means we will have at least ONE match
         $key =~ s/:(\d+)\././;
         my $tmp = $key . '.' . $val;
         $out_hash->{$tmp} = 1;
@@ -227,10 +229,10 @@ sub create_binary_digit_string {
     # *** IMPORTANT ***
     # Being a nested for, keys %{$glob_hash} does need sorting
     # BUT, we sort to follow the same order as serialized (sorted)
-    my @sorted_keys_glob_hash = sort keys %{$glob_hash}; 
+    my @sorted_keys_glob_hash = nsort(keys %{$glob_hash}); 
 
     # IDs of each indidividual
-    for my $key1 ( keys %{$ref_hash} ) {
+    for my $key1 ( keys %{$ref_hash} ) { # no need to sort
 
         # One-hot encoding = Representing categorical data as numerical
         my $binary_str = '';
