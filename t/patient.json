@@ -1,0 +1,500 @@
+{
+   "diseases" : [
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 40479768,
+                  "condition_end_date" : "1981-09-16",
+                  "condition_end_datetime" : "1981-09-16 00:00:00",
+                  "condition_occurrence_id" : 1,
+                  "condition_source_concept_id" : 40479768,
+                  "condition_source_value" : 444470001,
+                  "condition_start_date" : "1981-08-10",
+                  "condition_start_datetime" : "1981-08-10 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 82
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "32Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:444470001",
+            "label" : "Injury of anterior cruciate ligament"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 378001,
+                  "condition_end_date" : "2008-07-17",
+                  "condition_end_datetime" : "2008-07-17 00:00:00",
+                  "condition_occurrence_id" : 2,
+                  "condition_source_concept_id" : 378001,
+                  "condition_source_value" : 62106007,
+                  "condition_start_date" : "2008-05-18",
+                  "condition_start_datetime" : "2008-05-18 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 84
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "59Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:62106007",
+            "label" : "Concussion with no loss of consciousness"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 4112343,
+                  "condition_end_date" : "1971-02-02",
+                  "condition_end_datetime" : "1971-02-02 00:00:00",
+                  "condition_occurrence_id" : 3,
+                  "condition_source_concept_id" : 4112343,
+                  "condition_source_value" : 195662009,
+                  "condition_start_date" : "1971-01-24",
+                  "condition_start_datetime" : "1971-01-24 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 42
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "21Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:195662009",
+            "label" : "Acute viral pharyngitis"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 4112343,
+                  "condition_end_date" : "2017-05-20",
+                  "condition_end_datetime" : "2017-05-20 00:00:00",
+                  "condition_occurrence_id" : 4,
+                  "condition_source_concept_id" : 4112343,
+                  "condition_source_value" : 195662009,
+                  "condition_start_date" : "2017-05-12",
+                  "condition_start_datetime" : "2017-05-12 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 64
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "68Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:195662009",
+            "label" : "Acute viral pharyngitis"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 28060,
+                  "condition_end_date" : "1953-02-16",
+                  "condition_end_datetime" : "1953-02-16 00:00:00",
+                  "condition_occurrence_id" : 5,
+                  "condition_source_concept_id" : 28060,
+                  "condition_source_value" : 43878008,
+                  "condition_start_date" : "1953-02-06",
+                  "condition_start_datetime" : "1953-02-06 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 41
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "4Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:43878008",
+            "label" : "Streptococcal sore throat"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 40481087,
+                  "condition_end_date" : "2012-02-28",
+                  "condition_end_datetime" : "2012-02-28 00:00:00",
+                  "condition_occurrence_id" : 6,
+                  "condition_source_concept_id" : 40481087,
+                  "condition_source_value" : 444814009,
+                  "condition_start_date" : "2012-02-14",
+                  "condition_start_datetime" : "2012-02-14 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 25
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "63Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:444814009",
+            "label" : "Viral sinusitis"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 4112343,
+                  "condition_end_date" : "2008-01-26",
+                  "condition_end_datetime" : "2008-01-26 00:00:00",
+                  "condition_occurrence_id" : 7,
+                  "condition_source_concept_id" : 4112343,
+                  "condition_source_value" : 195662009,
+                  "condition_start_date" : "2008-01-16",
+                  "condition_start_datetime" : "2008-01-16 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 76
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "58Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:195662009",
+            "label" : "Acute viral pharyngitis"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      },
+      {
+         "_info" : {
+            "CONDITION_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "condition_concept_id" : 4296205,
+                  "condition_end_date" : "1978-07-27",
+                  "condition_end_datetime" : "1978-07-27 00:00:00",
+                  "condition_occurrence_id" : 8,
+                  "condition_source_concept_id" : 4296205,
+                  "condition_source_value" : 403191005,
+                  "condition_start_date" : "1978-06-22",
+                  "condition_start_datetime" : "1978-06-22 00:00:00",
+                  "condition_status_concept_id" : 0,
+                  "condition_status_source_value" : null,
+                  "condition_type_concept_id" : 32020,
+                  "person_id" : 1,
+                  "provider_id" : "\\N",
+                  "stop_reason" : null,
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 81
+               }
+            }
+         },
+         "ageOfOnset" : {
+            "age" : {
+               "iso8601duration" : "29Y"
+            }
+         },
+         "diseaseCode" : {
+            "id" : "SNOMED:403191005",
+            "label" : "Second degree burn"
+         },
+         "stage" : {
+            "id" : "None:No matching concept",
+            "label" : "No matching concept"
+         }
+      }
+   ],
+   "ethnicity" : {
+      "id" : "NCIT:C41261",
+      "label" : "White"
+   },
+   "geographicOrigin" : {
+      "id" : "NCIT:C43857",
+      "label" : "Italian"
+   },
+   "id" : "1",
+   "info" : {
+      "PERSON" : {
+         "OMOP_columns" : {
+            "birth_datetime" : "1949-01-27 00:00:00",
+            "care_site_id" : "\\N",
+            "day_of_birth" : 27,
+            "ethnicity_concept_id" : 0,
+            "ethnicity_source_concept_id" : 0,
+            "ethnicity_source_value" : "italian",
+            "gender_concept_id" : 8507,
+            "gender_source_concept_id" : 0,
+            "gender_source_value" : "M",
+            "location_id" : "\\N",
+            "month_of_birth" : 1,
+            "person_id" : 1,
+            "person_source_value" : "000728a7-80de-420a-9286-2c20e81cb7b8",
+            "provider_id" : "\\N",
+            "race_concept_id" : 8527,
+            "race_source_concept_id" : 0,
+            "race_source_value" : "white",
+            "year_of_birth" : 1949
+         }
+      },
+      "dateOfBirth" : "1949-01-27T00:00:00Z"
+   },
+   "interventionsOrProcedures" : [
+      {
+         "_info" : {
+            "PROCEDURE_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "modifier_concept_id" : 0,
+                  "modifier_source_value" : null,
+                  "person_id" : 1,
+                  "procedure_concept_id" : 44783196,
+                  "procedure_date" : "1981-08-17",
+                  "procedure_datetime" : "1981-08-17 00:00:00",
+                  "procedure_occurrence_id" : 1,
+                  "procedure_source_concept_id" : 44783196,
+                  "procedure_source_value" : 699253003,
+                  "procedure_type_concept_id" : 38000275,
+                  "provider_id" : "\\N",
+                  "quantity" : "\\N",
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 85
+               }
+            }
+         },
+         "ageAtProcedure" : {
+            "age" : {
+               "iso8601duration" : "32Y"
+            }
+         },
+         "dateOfProcedure" : "1981-08-17",
+         "procedureCode" : {
+            "id" : "SNOMED:699253003",
+            "label" : "Surgical manipulation of joint of knee"
+         }
+      },
+      {
+         "_info" : {
+            "PROCEDURE_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "modifier_concept_id" : 0,
+                  "modifier_source_value" : null,
+                  "person_id" : 1,
+                  "procedure_concept_id" : 4125906,
+                  "procedure_date" : "1982-09-11",
+                  "procedure_datetime" : "1982-09-11 00:00:00",
+                  "procedure_occurrence_id" : 2,
+                  "procedure_source_concept_id" : 4125906,
+                  "procedure_source_value" : 288086009,
+                  "procedure_type_concept_id" : 38000275,
+                  "provider_id" : "\\N",
+                  "quantity" : "\\N",
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 83
+               }
+            }
+         },
+         "ageAtProcedure" : {
+            "age" : {
+               "iso8601duration" : "33Y"
+            }
+         },
+         "dateOfProcedure" : "1982-09-11",
+         "procedureCode" : {
+            "id" : "SNOMED:288086009",
+            "label" : "Suture open wound"
+         }
+      },
+      {
+         "_info" : {
+            "PROCEDURE_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "modifier_concept_id" : 0,
+                  "modifier_source_value" : null,
+                  "person_id" : 1,
+                  "procedure_concept_id" : 4252419,
+                  "procedure_date" : "1981-08-10",
+                  "procedure_datetime" : "1981-08-10 00:00:00",
+                  "procedure_occurrence_id" : 3,
+                  "procedure_source_concept_id" : 4252419,
+                  "procedure_source_value" : 74016001,
+                  "procedure_type_concept_id" : 38000275,
+                  "provider_id" : "\\N",
+                  "quantity" : "\\N",
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 82
+               }
+            }
+         },
+         "ageAtProcedure" : {
+            "age" : {
+               "iso8601duration" : "32Y"
+            }
+         },
+         "dateOfProcedure" : "1981-08-10",
+         "procedureCode" : {
+            "id" : "SNOMED:74016001",
+            "label" : "Radiologic examination of knee"
+         }
+      },
+      {
+         "_info" : {
+            "PROCEDURE_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "modifier_concept_id" : 0,
+                  "modifier_source_value" : null,
+                  "person_id" : 1,
+                  "procedure_concept_id" : 4170947,
+                  "procedure_date" : "1958-03-11",
+                  "procedure_datetime" : "1958-03-11 00:00:00",
+                  "procedure_occurrence_id" : 4,
+                  "procedure_source_concept_id" : 4170947,
+                  "procedure_source_value" : 274474001,
+                  "procedure_type_concept_id" : 38000275,
+                  "provider_id" : "\\N",
+                  "quantity" : "\\N",
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 79
+               }
+            }
+         },
+         "ageAtProcedure" : {
+            "age" : {
+               "iso8601duration" : "9Y"
+            }
+         },
+         "dateOfProcedure" : "1958-03-11",
+         "procedureCode" : {
+            "id" : "SNOMED:274474001",
+            "label" : "Bone immobilization"
+         }
+      },
+      {
+         "_info" : {
+            "PROCEDURE_OCCURRENCE" : {
+               "OMOP_columns" : {
+                  "modifier_concept_id" : 0,
+                  "modifier_source_value" : null,
+                  "person_id" : 1,
+                  "procedure_concept_id" : 4047491,
+                  "procedure_date" : "1958-03-11",
+                  "procedure_datetime" : "1958-03-11 00:00:00",
+                  "procedure_occurrence_id" : 5,
+                  "procedure_source_concept_id" : 4047491,
+                  "procedure_source_value" : 1225002,
+                  "procedure_type_concept_id" : 38000275,
+                  "provider_id" : "\\N",
+                  "quantity" : "\\N",
+                  "visit_detail_id" : 0,
+                  "visit_occurrence_id" : 79
+               }
+            }
+         },
+         "ageAtProcedure" : {
+            "age" : {
+               "iso8601duration" : "9Y"
+            }
+         },
+         "dateOfProcedure" : "1958-03-11",
+         "procedureCode" : {
+            "id" : "SNOMED:1225002",
+            "label" : "Radiography of humerus"
+         }
+      }
+   ],
+   "sex" : {
+      "id" : "NCIT:C20197",
+      "label" : "Male"
+   }
+}

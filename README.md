@@ -17,8 +17,8 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -h|help                        Brief help message
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
-       -verbose                       Verbosity on
-       -v|version                     Print version
+       -v|verbose                     Verbosity on
+       -V|version                     Print version
 
 # DESCRIPTION
 
@@ -26,7 +26,7 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 
 # SUMMARY
 
-pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PXF file against a BFF/PXF cohort
 
 # INSTALLATION
 

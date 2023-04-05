@@ -27,7 +27,7 @@ use strict;
 use warnings;
 use feature qw(say);
 use autodie;
-use Getopt::Long qw(:config posix_default);
+use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Data::Dumper;
 use Path::Tiny;
@@ -59,9 +59,9 @@ sub pheno_ranker {
         'help|?'        => \my $help,                                 # flag
         'man'           => \my $man,                                  # flag
         'debug=i'       => \$debug,                                   # integer
-        'verbose'       => \$verbose,                                 # flag
+        'verbose|'      => \$verbose,                                 # flag
         'no-color|nc'   => \my $no_color,                             # flag
-        'version|v'     => sub { say "$0 Version $version"; exit; }
+        'version|V'     => sub { say "$0 Version $version"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
@@ -88,14 +88,21 @@ sub pheno_ranker {
     my $ref_binary_hash = create_binary_digit_string( $glob_hash, $ref_hash );
 
     # Dump JSON if --export
-    serialize_hashes( { glob_hash => $glob_hash, ref_hash => $ref_hash, ref_binary_hash => $ref_binary_hash} ) if $export;
+    serialize_hashes(
+        {
+            glob_hash       => $glob_hash,
+            ref_hash        => $ref_hash,
+            ref_binary_hash => $ref_binary_hash
+        }
+    ) if $export;
 
     # Perform intra-cohort comparison if --r only
-    intra_cohort_comparison( $ref_binary_hash, $output_file ) unless $target_file;
+    intra_cohort_comparison( $ref_binary_hash, $output_file )
+      unless $target_file;
 
     # Perform compare and rank if --t
     if ($target_file) {
-        my $tar_data   = read_json($target_file);
+        my $tar_data        = read_json($target_file);
         my $tar_binary_hash = create_binary_digit_string( $glob_hash,
             { $tar_data->{id} => remap_hash( fold($tar_data) ) } );
         compare_and_rank( $ref_binary_hash, $tar_binary_hash );
@@ -106,7 +113,8 @@ sub pheno_ranker {
 sub serialize_hashes {
 
     my $arg = shift;
-    write_json( { data => $arg->{$_},  filepath => qq/$_.json/ } ) for keys %{$arg};
+    write_json( { data => $arg->{$_}, filepath => qq/$_.json/ } )
+      for keys %{$arg};
     return 1;
 }
 
@@ -122,8 +130,8 @@ sub write_json {
 
 sub intra_cohort_comparison {
 
-    my ($ref_binary_hash, $output ) = @_;
-    my @sorted_keys_ref_binary_hash = nsort(keys %{$ref_binary_hash});
+    my ( $ref_binary_hash, $output ) = @_;
+    my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
 
     say "Performing INTRA-COHORT compariSon" if ( $debug || $verbose );
 
@@ -131,14 +139,19 @@ sub intra_cohort_comparison {
     open( my $fh, ">", $output );
     say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
+    # NB: It's a symmetric matrix so we could just compute
+    #     triangle. However,  R needs the whole matrix
+    #     Hammind distance is very fast, but
+    #     I will re-implement if time becomes a bottleneck
+
     # I elements
-    for my $i ( @sorted_keys_ref_binary_hash ) {
+    for my $i (@sorted_keys_ref_binary_hash) {
         say "Calculating <$i> against the cohort..." if $verbose;
         my $str1 = $ref_binary_hash->{$i};
         print $fh "$i\t";
 
         # J elements
-        for my $j ( @sorted_keys_ref_binary_hash ) {
+        for my $j (@sorted_keys_ref_binary_hash) {
             my $str2 = $ref_binary_hash->{$j};
             print $fh hd_fast( $str1, $str2 ), "\t";
         }
@@ -157,7 +170,7 @@ sub compare_and_rank {
     my %out;
     my ($tmp) = keys %{$tar_binary_hash};
     my $str2 = $tar_binary_hash->{$tmp};
-    for my $key ( keys %{$ref_binary_hash} ) { # No need to sort
+    for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
         my $str1 = $ref_binary_hash->{$key};
         say "STR1:$str1" if $debug;
         say "STR2:$str2" if $debug;
@@ -166,7 +179,7 @@ sub compare_and_rank {
 
     # Sort by value and print
     for my $key ( sort { $out{$a} <=> $out{$b} } keys %out ) {
-        say "Distance($key) =  $out{$key}";
+        say "Distance(id:$key) =  $out{$key}";
     }
     return 1;
 
@@ -174,16 +187,16 @@ sub compare_and_rank {
 
 sub create_global_and_ref_hashes {
 
-    my $array     = shift;
+    my $array       = shift;
     my $global_hash = {};
     my $ref_hash_flattened;
 
     for my $i ( @{$array} ) {
         my $id = $i->{id};
         say "Flattening and remapping $id..." if $verbose;
-        my $ref_hash = remap_hash(fold($i));
-        $ref_hash_flattened->{ $id } = $ref_hash;
- 
+        my $ref_hash = remap_hash( fold($i) );
+        $ref_hash_flattened->{$id} = $ref_hash;
+
         # The idea is to create a $global_hash with unique key-values
         $global_hash = { %$global_hash, %$ref_hash };
     }
@@ -204,13 +217,16 @@ sub remap_hash {
         my $val = $hash->{$key};
 
         # Discarding lines with val (Time profiled with :NYTProf: ms time)
-        next if ($val eq 'NA' || $val eq 'Fake' || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/);
+        next
+          if ( $val eq 'NA'
+            || $val eq 'Fake'
+            || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/ );
 
         # Getting rid of the index for (measures|treatments|exposures|phenotypicMeasure):\d+
         # measures:0.foo.bar
         # exposures:1.baz.foo
         # *** IMPORTANT ****
-        # - By removing the element, we also lose the provenance of each nested value, 
+        # - By removing the element, we also lose the provenance of each nested value,
         #   e.g., "diseases.ageOfOnset.age.iso8601duration.72Y"
         #   but this is a compromise that we have to make to encode the data correctly!!!
         # - We are keeping the ^id. so this means we will have at least ONE match
@@ -229,10 +245,10 @@ sub create_binary_digit_string {
     # *** IMPORTANT ***
     # Being a nested for, keys %{$glob_hash} does need sorting
     # BUT, we sort to follow the same order as serialized (sorted)
-    my @sorted_keys_glob_hash = nsort(keys %{$glob_hash}); 
+    my @sorted_keys_glob_hash = nsort( keys %{$glob_hash} );
 
     # IDs of each indidividual
-    for my $key1 ( keys %{$ref_hash} ) { # no need to sort
+    for my $key1 ( keys %{$ref_hash} ) {    # no need to sort
 
         # One-hot encoding = Representing categorical data as numerical
         my $binary_str = '';
@@ -291,8 +307,8 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -h|help                        Brief help message
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
-       -verbose                       Verbosity on
-       -v|version                     Print version
+       -v|verbose                     Verbosity on
+       -V|version                     Print version
 
 =head1 DESCRIPTION
 
@@ -300,7 +316,7 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 
 =head1 SUMMARY
 
-pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PXF file against a BFF/PXF cohort
 
 =head1 INSTALLATION
 
