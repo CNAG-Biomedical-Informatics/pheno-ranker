@@ -28,7 +28,7 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 
 # INSTALLATION
 
-This file is part of [Convert-Pheno](https://github.com/CNAG-Biomedical-Informatics/convert-pheno).
+    $ cpanm sudo --installdeps .
 
 ### System requirements
 

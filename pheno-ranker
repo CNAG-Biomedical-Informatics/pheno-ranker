@@ -2,7 +2,7 @@
 #
 #   A script that ranks individuals against a cohort (BFF)
 #
-#   Last Modified: Apr/03/2023
+#   Last Modified: Apr/04/2023
 #
 #   Version 1.0.0
 #
@@ -29,8 +29,8 @@ use feature qw(say);
 use autodie;
 use Getopt::Long qw(:config posix_default);
 use Pod::Usage;
-use Path::Tiny;
 use Data::Dumper;
+use Path::Tiny;
 use JSON::XS;
 use Term::ANSIColor qw(:constants);
 use Hash::Fold fold => { array_delimiter => ':' };
@@ -84,30 +84,28 @@ sub pheno_ranker {
     my ( $glob_hash, $ref_hash ) = create_global_and_ref_hashes($ref_data);
 
     # Second we peform one-hot encoding for each individual
-    my $ref_binary = create_binary_string( $glob_hash, $ref_hash );
+    my $ref_binary_hash = create_binary_string( $glob_hash, $ref_hash );
 
     # Dump JSON if --export
-    serialize_hashes( $glob_hash, $ref_hash, $ref_binary ) if $export;
+    serialize_hashes( { glob_hash => $glob_hash, ref_hash => $ref_hash, ref_binary_hash => $ref_binary_hash} ) if $export;
 
     # Perform intra-cohort comparison if --r only
-    intra_cohort_comparison( $ref_binary, $output_file ) unless $target_file;
+    intra_cohort_comparison( $ref_binary_hash, $output_file ) unless $target_file;
 
     # Perform compare and rank if --t
     if ($target_file) {
         my $tar_data   = read_json($target_file);
-        my $tar_binary = create_binary_string( $glob_hash,
+        my $tar_binary_hash = create_binary_string( $glob_hash,
             { $tar_data->{id} => remap_hash( fold($tar_data) ) } );
-        compare_and_rank( $ref_binary, $tar_binary );
+        compare_and_rank( $ref_binary_hash, $tar_binary_hash );
     }
 
 }
 
 sub serialize_hashes {
 
-    my ( $glob_hash, $ref_hash, $ref_binary ) = @_;
-    write_json( { data => $glob_hash,  filepath => 'global_hash.json' } );
-    write_json( { data => $ref_hash,   filepath => 'ref_hash.json' } );
-    write_json( { data => $ref_binary, filepath => 'ref_binary.json' } );
+    my $arg = shift;
+    write_json( { data => $arg->{$_},  filepath => qq/$_.json/ } ) for keys %{$arg};
     return 1;
 }
 
@@ -123,21 +121,23 @@ sub write_json {
 
 sub intra_cohort_comparison {
 
-    my $ref_binary = shift;
-    my $output     = shift;
+    my ($ref_binary_hash, $output ) = @_;
+    my @sorted_keys_ref_binary_hash = sort keys %{$ref_binary_hash};
 
     say "Performing INTRA-COHORT compariSon" if ( $debug || $verbose );
-    open( my $fh, ">", $output );
-    say $fh join "\t", "\t", keys %{$ref_binary};
 
-    # I
-    for my $i ( keys %{$ref_binary} ) {
-        my $str1 = $ref_binary->{$i};
+    # Print to  $output
+    open( my $fh, ">", $output );
+    say $fh "\t", join "\t", keys %{$ref_binary_hash};
+
+    # I elements
+    for my $i ( @sorted_keys_ref_binary_hash ) {
+        my $str1 = $ref_binary_hash->{$i};
         print $fh "$i\t";
 
-        # J
-        for my $j ( keys %{$ref_binary} ) {
-            my $str2 = $ref_binary->{$j};
+        # J elements
+        for my $j ( @sorted_keys_ref_binary_hash ) {
+            my $str2 = $ref_binary_hash->{$j};
             print $fh hd_fast( $str1, $str2 ), "\t";
         }
         print $fh "\n";
@@ -149,14 +149,14 @@ sub intra_cohort_comparison {
 
 sub compare_and_rank {
 
-    my ( $ref_binary, $tar_binary ) = @_;
+    my ( $ref_binary_hash, $tar_binary_hash ) = @_;
 
     say "Performing PATIENT-COHORT comparison" if ( $debug || $verbose );
     my %out;
-    my ($tmp) = keys %{$tar_binary};
-    my $str2 = $tar_binary->{$tmp};
-    for my $key ( keys %{$ref_binary} ) {
-        my $str1 = $ref_binary->{$key};
+    my ($tmp) = keys %{$tar_binary_hash};
+    my $str2 = $tar_binary_hash->{$tmp};
+    for my $key ( keys %{$ref_binary_hash} ) {
+        my $str1 = $ref_binary_hash->{$key};
         say "STR1:$str1" if $debug;
         say "STR2:$str2" if $debug;
         $out{$key} = hd_fast( $str1, $str2 );
@@ -194,14 +194,20 @@ sub remap_hash {
         # Discard undefined
         next unless defined $hash->{$key};
 
-        # Discarding lines with key (ms time)
+        # Discarding lines with key (Time profiled with :NYTProf: ms time)
         next if $key =~ m/info|notes|value|\.high|\.low/;
         my $val = $hash->{$key};
 
-        # Discarding lines with vali (ms times)
-        next if ($val eq 'NA' || $val eq 'Fake' || $val =~ m/1900-01-01|NA0000|P999Y/);
+        # Discarding lines with val (Time profiled with :NYTProf: ms time)
+        next if ($val eq 'NA' || $val eq 'Fake' || $val =~ m/1900-01-01|NA0000|P999Y|ARRAY/);
 
         # Getting rid of the index for (measures|treatments|exposures|phenotypicMeasure):\d+
+        # measures:0.foo.bar
+        # exposures:1.baz.foo
+        # *** IMPORTANT ****
+        # By removing the element, we also lose the provenance of each nested value, 
+        # but this is a compromise that we have to make to encode the data correctly
+        
         $key =~ s/:(\d+)\././;
         my $tmp = $key . '.' . $val;
         $hash_out->{$tmp} = 1;
@@ -290,7 +296,7 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 
 =head1 INSTALLATION
 
-This file is part of L<Convert-Pheno|https://github.com/CNAG-Biomedical-Informatics/convert-pheno>.
+ $ cpanm sudo --installdeps .
 
 =head3 System requirements
 

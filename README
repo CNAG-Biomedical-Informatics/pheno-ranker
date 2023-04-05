@@ -1,0 +1,4 @@
+# perl -d:NYTProf ./pheno-ranker -r individuals.json
+# nytprofhtml --no-flame
+
+./pheno-ranker -r individuals.json -t patient.json
