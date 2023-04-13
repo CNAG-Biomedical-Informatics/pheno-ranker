@@ -2,7 +2,7 @@
 #
 #   A script that ranks individuals against a cohort (BFF)
 #
-#   Last Modified: Apr/04/2023
+#   Last Modified: Apr/06/2023
 #
 #   Version 1.0.0
 #
@@ -32,9 +32,11 @@ use Pod::Usage;
 use Data::Dumper;
 use Path::Tiny;
 use JSON::XS;
+use YAML::XS   qw(LoadFile);
 use Sort::Naturally;
 use Term::ANSIColor qw(:constants);
 use Hash::Fold fold => { array_delimiter => ':' };
+use Math::BigInt;
 
 my $debug   = 0;
 my $verbose = 0;
@@ -54,8 +56,9 @@ sub pheno_ranker {
     GetOptions(
         'reference|r=s' => \my $reference_file,                       # string
         'target|t=s'    => \my $target_file,                          # string
+        'weights|w=s'   => \my $weights_file,                         # string
         'o=s'           => \$output_file,                             # string
-        'e|export'      => \my $export,                               # flag
+        'export|e'      => \my $export,                               # flag
         'help|?'        => \my $help,                                 # flag
         'man'           => \my $man,                                  # flag
         'debug=i'       => \$debug,                                   # integer
@@ -79,35 +82,40 @@ sub pheno_ranker {
     # Load JSON files as Perl data structure
     my $ref_data = read_json($reference_file);
 
+    # We assing weights if <--w)
+    my $weight = read_yaml($weights_file) if ($weights_file && -f $weights_file);
+
     # First we create:
     # - $glob_hash => hash with all the cohort keys
-    # - $ref_hash  => BIG hash with all individuals in cohort flattened
-    my ( $glob_hash, $ref_hash ) = create_global_and_ref_hashes($ref_data);
+    # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
+    my ( $glob_hash, $ref_hash ) = create_global_and_ref_hashes($ref_data, $weight);
 
     # Second we peform one-hot encoding for each individual
-    my $ref_binary_hash = create_binary_digit_string( $glob_hash, $ref_hash );
+    my $ref_binary_hash = create_weigthted_binary_digit_string($glob_hash, $ref_hash );
 
-    # Dump JSON if --export
-    serialize_hashes(
-        {
-            glob_hash       => $glob_hash,
-            ref_hash        => $ref_hash,
-            ref_binary_hash => $ref_binary_hash
-        }
-    ) if $export;
+    # Hases to be serialized to JSON if <--export>
+    my $hash2serialize = {
+        glob_hash       => $glob_hash,
+        ref_hash        => $ref_hash,
+        ref_binary_hash => $ref_binary_hash
+    };
 
-    # Perform intra-cohort comparison if --r only
+    # Perform intra-cohort comparison if <--r>
     intra_cohort_comparison( $ref_binary_hash, $output_file )
       unless $target_file;
 
-    # Perform compare and rank if --t
+    # Perform patient-to-cohort comparison and rank if <--t>
     if ($target_file) {
         my $tar_data        = read_json($target_file);
-        my $tar_binary_hash = create_binary_digit_string( $glob_hash,
-            { $tar_data->{id} => remap_hash( fold($tar_data) ) } );
+        my $tar_binary_hash = create_weigthted_binary_digit_string( $glob_hash, { $tar_data->{id} => remap_hash( fold($tar_data)) });
         compare_and_rank( $ref_binary_hash, $tar_binary_hash );
+
+        # Load $tar_binary_hash if <--e}
+        $hash2serialize->{tar_binary_hash} = $tar_binary_hash if $export;
     }
 
+    # Dump to JSON if <--export>
+    serialize_hashes($hash2serialize) if $export;
 }
 
 sub serialize_hashes {
@@ -187,14 +195,14 @@ sub compare_and_rank {
 
 sub create_global_and_ref_hashes {
 
-    my $array       = shift;
+    my ($array, $weight)   = @_;
     my $global_hash = {};
     my $ref_hash_flattened;
 
     for my $i ( @{$array} ) {
         my $id = $i->{id};
         say "Flattening and remapping $id..." if $verbose;
-        my $ref_hash = remap_hash( fold($i) );
+        my $ref_hash = remap_hash( fold($i), $weight );
         $ref_hash_flattened->{$id} = $ref_hash;
 
         # The idea is to create a $global_hash with unique key-values
@@ -205,7 +213,7 @@ sub create_global_and_ref_hashes {
 
 sub remap_hash {
 
-    my $hash = shift;
+    my ($hash, $weight) = @_;
     my $out_hash;
     for my $key ( keys %{$hash} ) {
 
@@ -232,12 +240,42 @@ sub remap_hash {
         # - We are keeping the ^id. so this means we will have at least ONE match
         $key =~ s/:(\d+)\././;
         my $tmp = $key . '.' . $val;
-        $out_hash->{$tmp} = 1;
+
+        # Assign weight
+        $out_hash->{$tmp} = exists $weight->{$tmp} ? $weight->{$tmp} : 1;
     }
     return $out_hash;
 }
 
-sub create_binary_digit_string {
+
+sub create_weigthted_binary_digit_string {
+
+    my ($glob_hash, $cmp_hash ) = @_;
+    my $out_hash;
+
+    # *** IMPORTANT ***
+    # Being a nested for, keys %{$glob_hash} does need sorting
+    # BUT, we sort to follow the same order as serialized (sorted)
+    my @sorted_keys_glob_hash = nsort( keys %{$glob_hash} );
+
+    # IDs of each indidividual
+    for my $key1 ( keys %{$cmp_hash} ) {    # no need to sort
+
+        # One-hot encoding = Representing categorical data as numerical
+
+        my $binary_str = '';
+        for my $key2 (@sorted_keys_glob_hash) {
+
+            my $ones = (1) x $glob_hash->{$key2};
+            my $zeros = (0) x $glob_hash->{$key2};
+            $binary_str .= exists $cmp_hash->{$key1}{$key2} ? $ones : $zeros;
+        }
+        $out_hash->{$key1} = $binary_str;
+    }
+    return $out_hash;
+}
+
+sub _create_binary_digit_string {
 
     my ( $glob_hash, $ref_hash ) = @_;
     my $out_hash;
@@ -260,16 +298,63 @@ sub create_binary_digit_string {
     return $out_hash;
 }
 
+sub _alt_create_binary_digit_string {    # no speed increase
+
+    my ( $glob_hash, $ref_hash ) = @_;
+    my $out_hash;
+
+    # *** IMPORTANT ***
+    # Being a nested for, keys %{$glob_hash} does need sorting
+    # BUT, we sort to follow the same order as serialized (sorted)
+    my @sorted_keys_glob_hash = nsort( keys %{$glob_hash} );
+    my $zero_str              = '0' x scalar @sorted_keys_glob_hash;
+
+    # IDs of each indidividual
+    for my $key1 ( keys %{$ref_hash} ) {    # no need to sort
+
+        # One-hot encoding = Representing categorical data as numerical
+        my $binary_str = $zero_str;
+        for ( my $i = 0 ; $i <= $#sorted_keys_glob_hash ; $i++ ) {
+            next unless exists $ref_hash->{$key1}{ $sorted_keys_glob_hash[$i] };
+            vec( $binary_str, $i, 8 ) = ord('1');
+        }
+        $out_hash->{$key1} = $binary_str;
+    }
+    return $out_hash;
+}
+
 sub read_json {
 
     my $str = path(shift)->slurp_utf8;
     return decode_json($str);    # Decode to Perl data structure
 }
 
+sub read_yaml {
+
+    return LoadFile(shift);      # Decode to Perl data structure
+}
+
 sub hd_fast {
 
     # Hamming Distance
     return ( $_[0] ^ $_[1] ) =~ tr/\001-\255//;
+}
+
+sub weighted_hamming_distance {
+    my ( $s1, $s2, $weights ) = @_;
+
+    if ( length($s1) != length($s2) || length($s1) != scalar @$weights ) {
+        die "Input strings and weights must have the same length";
+    }
+
+    my $distance = 0;
+    for ( my $i = 0 ; $i < length($s1) ; $i++ ) {
+        if ( vec( $s1, $i, 1 ) != vec( $s2, $i, 1 ) ) {
+            $distance += $weights->[$i];
+        }
+    }
+
+    return $distance;
 }
 
 sub program_header {
@@ -338,13 +423,17 @@ For executing pheno-ranker you will need:
 
 =item Input file(s):
       
-A PXF or BFF file(s) in JSON format. If no C<--t> argument is provided then it will compute intra-cohort comparison only. If C<--t> argument is provided then the target JSON will be compared agaisnt the C<-r> reference JSON.
+A PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object. 
+
+If no C<--t> argument is provided then it will compute intra-cohort comparison only. If C<--t> argument is provided then the target JSON will be compared against the C<-r> reference cohort.
 
 =back
 
 B<Examples:>
 
- $ pheno-ranker -r phenopackets.json  # intra-cohort
+ $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+
+ $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
 
  $ $path/pheno-ranker -t patient.json -r individuals.json # patient-cohort
 
