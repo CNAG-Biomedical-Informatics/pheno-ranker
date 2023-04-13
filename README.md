@@ -12,6 +12,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Options:
        -o                             Output file [matrix.txt]
+       -w|weights                     YAML file with weights
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellaena JSON files
        -h|help                        Brief help message
@@ -46,11 +47,17 @@ For executing pheno-ranker you will need:
 
 - Input file(s):
 
-    A PXF or BFF file(s) in JSON format. If no `--t` argument is provided then it will compute intra-cohort comparison only. If `--t` argument is provided then the target JSON will be compared agaisnt the `-r` reference JSON.
+    A PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object. 
+
+    If no `--t` argument is provided then it will compute intra-cohort comparison only. If `--t` argument is provided then the target JSON will be compared against the `-r` reference cohort.
 
 **Examples:**
 
-    $ pheno-ranker -r phenopackets.json  # intra-cohort
+    $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+
+    $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
+
+    $ ./pheno-ranker -r phenopackets.json -w weights.yaml  # intra-cohort with weights
 
     $ $path/pheno-ranker -t patient.json -r individuals.json # patient-cohort
 
