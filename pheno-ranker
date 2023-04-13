@@ -59,6 +59,7 @@ sub pheno_ranker {
         'weights|w=s'   => \my $weights_file,                         # string
         'o=s'           => \$output_file,                             # string
         'export|e'      => \my $export,                               # flag
+        'align|a:s'     => \my $align,                                # opt-string
         'help|?'        => \my $help,                                 # flag
         'man'           => \my $man,                                  # flag
         'debug=i'       => \$debug,                                   # integer
@@ -83,13 +84,14 @@ sub pheno_ranker {
     my $ref_data = read_json($reference_file);
 
     # We assing weights if <--w>
-    my $weight = ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
+    my $weight =
+      ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
 
     # First we create:
     # - $glob_hash => hash with all the cohort keys
     # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
     my ( $glob_hash, $ref_hash ) =
-      create_global_and_ref_hashes( $ref_data, $weight );
+      create_glob_and_ref_hashes( $ref_data, $weight );
 
     # Second we peform one-hot encoding for each individual
     my $ref_binary_hash =
@@ -111,7 +113,20 @@ sub pheno_ranker {
         my $tar_data        = read_json($target_file);
         my $tar_binary_hash = create_weigthted_binary_digit_string( $glob_hash,
             { $tar_data->{id} => remap_hash( $tar_data, $weight ) } );
-        compare_and_rank( $ref_binary_hash, $tar_binary_hash, $weight );
+        my ( $results_rank, $results_align ) =
+          compare_and_rank( $glob_hash, $ref_binary_hash, $tar_binary_hash,
+            $weight );
+
+        # Print Rank
+        say join "\n", @$results_rank;
+
+        # Write JSON for align
+        write_json(
+            {
+                filepath => ( $align ? $align : 'align.json' ),
+                data     => $results_align
+            }
+        ) if defined $align;
 
         # Load $tar_binary_hash if <--e}
         $hash2serialize->{tar_binary_hash} = $tar_binary_hash if $export;
@@ -175,7 +190,7 @@ sub intra_cohort_comparison {
 
 sub compare_and_rank {
 
-    my ( $ref_binary_hash, $tar_binary_hash, $weight ) = @_;
+    my ( $glob_hash, $ref_binary_hash, $tar_binary_hash, $weight ) = @_;
     say "Performing PATIENT-COHORT comparison" if ( $debug || $verbose );
 
     my $distance_str = $weight ? 'wDistance' : 'Distance';
@@ -185,22 +200,97 @@ sub compare_and_rank {
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
         my $str1 = $ref_binary_hash->{$key};
         say "STR1:$str1" if $debug;
-        say "STR2:$str2" if $debug;
+        say "STR2:$str2\n" if $debug;
         $out{$key} = hd_fast( $str1, $str2 );
     }
 
-    # Sort by value and print
+    # Sort by value and load results
+    my @results;
+    my %info;
     for my $key ( sort { $out{$a} <=> $out{$b} } keys %out ) {
-        say qq/$distance_str(id:$key) = $out{$key}/;
+
+        # Add distance
+        my $tmp_str = qq/$distance_str(id:$key) = $out{$key}/;
+        push @results, $tmp_str;
+
+        my $alignment =
+          create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
+        say "$tmp_str\n$$alignment" if $debug;
+
+        # Add alignment
+        $info{$key} = {
+            type                    => $distance_str,
+            distance                => $out{$key},
+            reference_binary_string => $ref_binary_hash->{$key},
+            target_binary_string    => $str2,
+            alignment               => $$alignment
+        };
+
+        # Add ASCII
+
     }
-    return 1;
+    return \@results, \%info;
+}
+
+sub create_alignment {
+
+    my ( $binary_string1, $binary_string2, $glob_hash ) = @_;
+
+    my $length1 = length($binary_string1);
+    my $length2 = length($binary_string2);
+
+    die "The binary strings must have the same length"
+      if ( $length1 != $length2 );
+
+    my $recreated_array = recreate_array($glob_hash);
+
+    #say "$length1, $length2, ", scalar @$recreated_array;
+
+    my $out          = '';
+    my $cum_distance = 0;
+    for ( my $i = 0 ; $i < $length1 ; $i++ ) {
+        my $char1 = substr( $binary_string1, $i, 1 );
+        my $char2 = substr( $binary_string2, $i, 1 );
+        my $key   = $recreated_array->[$i];
+        my $val   = sprintf( "%3d", $glob_hash->{$key} );
+        $i = $i + $glob_hash->{$key} - 1;
+        $cum_distance += $glob_hash->{$key} if $char1 ne $char2;
+        my $cum_d_pretty = sprintf( "%3d", $cum_distance );
+        my $distance     = $char1 eq $char2 ? 0 : $glob_hash->{$key};
+        $distance = sprintf( "%3d", $distance );
+
+        # We need a hash for this
+        $out .=
+          ( $char1 eq '1' && $char2 eq '1' )
+          ? qq/$char1 ----- $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/
+          : ( $char1 eq '0' && $char2 eq '1' )
+          ? qq/$char1 xxx-- $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/
+          : ( $char1 eq '1' && $char2 eq '0' )
+          ? qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/
+          : qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/;
+    }
+    return \$out;
+}
+
+sub recreate_array {
+
+    my $glob_hash             = shift;
+    my @sorted_keys_glob_hash = nsort( keys %{$glob_hash} );
+    my @recreated_array;
+
+    foreach my $key (@sorted_keys_glob_hash) {
+        for ( my $i = 0 ; $i < $glob_hash->{$key} ; $i++ ) {
+            push @recreated_array, $key;
+        }
+    }
+    return \@recreated_array;
 
 }
 
-sub create_global_and_ref_hashes {
+sub create_glob_and_ref_hashes {
 
     my ( $array, $weight ) = @_;
-    my $global_hash = {};
+    my $glob_hash = {};
     my $ref_hash_flattened;
 
     for my $i ( @{$array} ) {
@@ -209,10 +299,10 @@ sub create_global_and_ref_hashes {
         my $ref_hash = remap_hash( $i, $weight );
         $ref_hash_flattened->{$id} = $ref_hash;
 
-        # The idea is to create a $global_hash with unique key-values
-        $global_hash = { %$global_hash, %$ref_hash };
+        # The idea is to create a $glob_hash with unique key-values
+        $glob_hash = { %$glob_hash, %$ref_hash };
     }
-    return ( $global_hash, $ref_hash_flattened );
+    return ( $glob_hash, $ref_hash_flattened );
 }
 
 sub discard_excluded_phenotypicFeatures {
@@ -264,7 +354,7 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded/;
         $key =~ s/:(\d+)\././;
         my $tmp = $key . '.' . $val;
 
-        # Assign weight 
+        # Assign weight
         # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
         $out_hash->{$tmp} = exists $weight->{$tmp} ? $weight->{$tmp} : 1;
     }
@@ -285,7 +375,6 @@ sub create_weigthted_binary_digit_string {
     for my $key1 ( keys %{$cmp_hash} ) {    # no need to sort
 
         # One-hot encoding = Representing categorical data as numerical
-
         my $binary_str = '';
         for my $key2 (@sorted_keys_glob_hash) {
 
