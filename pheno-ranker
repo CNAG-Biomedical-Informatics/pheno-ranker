@@ -2,7 +2,7 @@
 #
 #   A script that ranks individuals against a cohort (BFF)
 #
-#   Last Modified: Apr/06/2023
+#   Last Modified: Apr/14/2023
 #
 #   Version 1.0.0
 #
@@ -51,6 +51,7 @@ sub pheno_ranker {
     # Defining a few variables
     my $version     = '1.0.0';
     my $output_file = 'matrix.txt';
+    my $align_file  = 'alignment.json';
 
     # Reading arguments
     GetOptions(
@@ -123,7 +124,7 @@ sub pheno_ranker {
         # Write JSON for align
         write_json(
             {
-                filepath => ( $align ? $align : 'align.json' ),
+                filepath => ( $align ? $align : $align_file ),
                 data     => $results_align
             }
         ) if defined $align;
@@ -141,16 +142,6 @@ sub serialize_hashes {
     my $arg = shift;
     write_json( { data => $arg->{$_}, filepath => qq/$_.json/ } )
       for keys %{$arg};
-    return 1;
-}
-
-sub write_json {
-
-    my $arg       = shift;
-    my $file      = $arg->{filepath};
-    my $json_data = $arg->{data};
-    my $json      = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
-    path($file)->spew_utf8($json);
     return 1;
 }
 
@@ -199,8 +190,8 @@ sub compare_and_rank {
     my $str2 = $tar_binary_hash->{$tmp};
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
         my $str1 = $ref_binary_hash->{$key};
-        say "STR1:$str1" if $debug;
-        say "STR2:$str2\n" if $debug;
+        say "STR1:$str1"   if $debug > 1;
+        say "STR2:$str2\n" if $debug > 1;
         $out{$key} = hd_fast( $str1, $str2 );
     }
 
@@ -215,7 +206,8 @@ sub compare_and_rank {
 
         my $alignment =
           create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
-        say "$tmp_str\n$$alignment" if $debug;
+        my $sep = ('-') x 80;
+        say qq/# $tmp_str\n$sep\n$$alignment/ if $debug;
 
         # Add alignment
         $info{$key} = {
@@ -274,8 +266,11 @@ sub create_alignment {
 
 sub recreate_array {
 
-    my $glob_hash             = shift;
-    my @sorted_keys_glob_hash = nsort( keys %{$glob_hash} );
+    my $glob_hash = shift;
+
+    # *** IMPORTANT ***
+    # nsort does not yield same results as canonical from JSON::XS
+    my @sorted_keys_glob_hash = sort keys %{$glob_hash};
     my @recreated_array;
 
     foreach my $key (@sorted_keys_glob_hash) {
@@ -367,9 +362,9 @@ sub create_weigthted_binary_digit_string {
     my $out_hash;
 
     # *** IMPORTANT ***
-    # Being a nested for, keys %{$glob_hash} does need sorting
+    # Being a nested for, keys %{$glob_hash} does not need sorting
     # BUT, we sort to follow the same order as serialized (sorted)
-    my @sorted_keys_glob_hash = nsort( keys %{$glob_hash} );
+    my @sorted_keys_glob_hash = sort keys %{$glob_hash};
 
     # IDs of each indidividual
     for my $key1 ( keys %{$cmp_hash} ) {    # no need to sort
@@ -396,6 +391,18 @@ sub read_json {
 sub read_yaml {
 
     return LoadFile(shift);      # Decode to Perl data structure
+}
+
+sub write_json {
+
+    my $arg       = shift;
+    my $file      = $arg->{filepath};
+    my $json_data = $arg->{data};
+
+    # Note that canonical DOES not match the order of nsort from Sort:.Naturally
+    my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
+    path($file)->spew_utf8($json);
+    return 1;
 }
 
 sub hd_fast {
