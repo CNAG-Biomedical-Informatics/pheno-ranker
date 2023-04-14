@@ -63,10 +63,10 @@ sub pheno_ranker {
         'weights|w=s'   => \my $weights_file,                         # string
         'o=s'           => \$output_file,                             # string
         'export|e'      => \my $export,                               # flag
-        'align|a:s'     => \my $align,                                # opt-string
+        'align|a:s'     => \my $align,                                # opt-string (defined)
         'sort-by=s'     => \$sort_by,                                 # string
         'help|?'        => \my $help,                                 # flag
-        'log:s'         => \my $log,                                  # opt-string
+        'log:s'         => \my $log,                                  # opt-string (defined)
         'man'           => \my $man,                                  # flag
         'debug=i'       => \$debug,                                   # integer
         'verbose|'      => \$verbose,                                 # flag
@@ -121,26 +121,28 @@ sub pheno_ranker {
 
     # Perform patient-to-cohort comparison and rank if <--t>
     if ($target_file) {
-        my $tar_data        = read_json($target_file);
-        my $tar_binary_hash = create_weigthted_binary_digit_string( $glob_hash,
-            { $tar_data->{id} => remap_hash( $tar_data, $weight ) } );
-        my ( $results_rank, $results_align ) =
+        my $tar_data = read_json($target_file);
+        my $tar_hash = { $tar_data->{id} => remap_hash( $tar_data, $weight ) };
+        my $tar_binary_hash =
+          create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
+        my ( $results_rank, $results_align, $alignments_array ) =
           compare_and_rank( $glob_hash, $ref_binary_hash, $tar_binary_hash,
             $weight, $sort_by );
 
-        # Print Rank
+        # Print Ranked results to STDOUT
         say join "\n", @$results_rank;
 
-        # Write JSON for align
-        write_json(
-            {
-                filepath => ( $align ? $align : $align_file ),
-                data     => $results_align
-            }
-        ) if defined $align;
+        # Write TXT for alignment
+        write_alignment( $align ? $align : $align_file, $alignments_array )
+          if defined $align;
 
-        # Load $tar_binary_hash if <--e}
-        $hash2serialize->{tar_binary_hash} = $tar_binary_hash if $export;
+        # Load keys into hash if <--e>
+        if ($export) {
+            $hash2serialize->{tar_hash}        = $tar_hash;
+            $hash2serialize->{tar_binary_hash} = $tar_binary_hash;
+            $hash2serialize->{alignment_hash}  = $results_align
+              if defined $align;
+        }
     }
 
     # Dump to JSON if <--export>
@@ -217,6 +219,7 @@ sub compare_and_rank {
 
     # Sort %score by value and load results
     my @results;
+    my @alignments;
     my %info;
     for my $key (
         sort {
@@ -230,13 +233,13 @@ sub compare_and_rank {
         # Add distances
         my $tmp_str = qq/REF(id:$key) --- TAR(id:$tar):/;
         $tmp_str .= qq/\t${weight_str}Distance:$score{$key}{hamming}/;
-        $tmp_str .= qq/\t${weight_str}Jaccard: $score{$key}{jaccard}/;
+        $tmp_str .= qq/\t${weight_str}Jaccard:$score{$key}{jaccard}/;
         push @results, $tmp_str;
 
         my $alignment =
           create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
         my $sep = ('-') x 80;
-        say qq/# $tmp_str\n$sep\n$$alignment/ if $debug;
+        push @alignments, qq/# $tmp_str\n$sep\n$$alignment/;
 
         # Add alignment
         $info{$key} = {
@@ -253,7 +256,7 @@ sub compare_and_rank {
         # Add ASCII
 
     }
-    return \@results, \%info;
+    return \@results, \%info, \@alignments;
 }
 
 sub create_alignment {
@@ -490,6 +493,14 @@ sub write_log {
     );
 }
 
+sub write_alignment {
+
+    my ( $output, $array ) = @_;
+    open( my $fh, ">", $output );
+    print $fh $_, "\n" for @$array;
+    close $fh;
+}
+
 sub program_header {
 
     my $VERSION = shift;
@@ -526,7 +537,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
-       -sort-by                       Sort reference-patiend by [>hamming|jaccard]
+       -sort-by                       Sort reference-patienit comparison by [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
        -w|weights                     YAML file with weights

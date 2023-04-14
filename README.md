@@ -18,7 +18,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
-       -sort-by                       Sort reference-patiend by [>hamming|jaccard]
+       -sort-by                       Sort reference-patienit comparison by [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
        -w|weights                     YAML file with weights
