@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 
+use File::Temp qw{ tempfile };    # core
 use Test::More tests => 2; # Indicate the number of tests you want to run
 use File::Compare;
 
@@ -20,16 +21,14 @@ my $input_file = 't/individuals.json';
 my $reference_file = 't/matrix_ref.txt';
 
 # The generated output file
-my $output_file = 't/matrix.txt';
+my ( undef, $tmp_file ) =
+      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
 # Run the command line script with the input file, and redirect the output to the output_file
-system("$script -r $input_file -o $output_file");
+system("$script -r $input_file -o $tmp_file");
 
 # Compare the output_file and the reference_file
-ok( compare( $output_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
-
-# Cleanup the generated output file after testing
-unlink $output_file;
+ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
 }
 
 ##########
@@ -38,15 +37,15 @@ unlink $output_file;
 
 {
 my $patient_file = 't/patient.json';
-my $output_file = 't/rank.txt';
 my $reference_file = 't/rank_ref_sorted.txt';
 
+# The generated output file
+my ( undef, $tmp_file ) =
+      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+
 # Run the command line script with the input file, and redirect the output to the output_file
-system("$script -r $input_file -t $patient_file  | sort > $output_file");
+system("$script -r $input_file -t $patient_file | sort > $tmp_file");
 
 # Compare the output_file and the reference_file
-ok( compare( $output_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
-
-# Cleanup the generated output file after testing
-unlink $output_file;
+ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
 }

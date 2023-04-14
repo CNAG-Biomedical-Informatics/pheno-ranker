@@ -1,500 +1,500 @@
-Distance(id:1) = 0
-Distance(id:1004) = 31
-Distance(id:1005) = 34
-Distance(id:101) = 31
-Distance(id:1022) = 33
-Distance(id:102) = 35
-Distance(id:1024) = 41
-Distance(id:1032) = 31
-Distance(id:103) = 35
-Distance(id:1053) = 33
-Distance(id:105) = 39
-Distance(id:1058) = 36
-Distance(id:1072) = 40
-Distance(id:1076) = 40
-Distance(id:1082) = 32
-Distance(id:1084) = 41
-Distance(id:1085) = 33
-Distance(id:1092) = 31
-Distance(id:1102) = 32
-Distance(id:110) = 33
-Distance(id:1107) = 31
-Distance(id:111) = 33
-Distance(id:11) = 31
-Distance(id:1132) = 33
-Distance(id:1134) = 31
-Distance(id:1135) = 31
-Distance(id:1136) = 33
-Distance(id:1138) = 31
-Distance(id:114) = 38
-Distance(id:1144) = 31
-Distance(id:1148) = 30
-Distance(id:1149) = 31
-Distance(id:1150) = 29
-Distance(id:115) = 39
-Distance(id:1155) = 31
-Distance(id:116) = 40
-Distance(id:1169) = 49
-Distance(id:117) = 35
-Distance(id:1176) = 50
-Distance(id:119) = 33
-Distance(id:120) = 29
-Distance(id:1214) = 33
-Distance(id:1215) = 32
-Distance(id:1227) = 31
-Distance(id:123) = 29
-Distance(id:12) = 33
-Distance(id:124) = 33
-Distance(id:1246) = 33
-Distance(id:1250) = 33
-Distance(id:126) = 34
-Distance(id:129) = 31
-Distance(id:1293) = 31
-Distance(id:1318) = 39
-Distance(id:1320) = 33
-Distance(id:133) = 31
-Distance(id:1333) = 33
-Distance(id:135) = 39
-Distance(id:137) = 49
-Distance(id:1389) = 34
-Distance(id:140) = 35
-Distance(id:1409) = 33
-Distance(id:141) = 38
-Distance(id:1425) = 32
-Distance(id:143) = 34
-Distance(id:144) = 34
-Distance(id:145) = 32
-Distance(id:1476) = 36
-Distance(id:148) = 42
-Distance(id:149) = 37
-Distance(id:152) = 33
-Distance(id:153) = 33
-Distance(id:154) = 45
-Distance(id:155) = 38
-Distance(id:156) = 35
-Distance(id:158) = 31
-Distance(id:159) = 30
-Distance(id:160) = 33
-Distance(id:161) = 33
-Distance(id:162) = 34
-Distance(id:16) = 32
-Distance(id:163) = 40
-Distance(id:164) = 35
-Distance(id:165) = 34
-Distance(id:170) = 33
-Distance(id:171) = 30
-Distance(id:173) = 36
-Distance(id:17) = 39
-Distance(id:176) = 38
-Distance(id:177) = 33
-Distance(id:180) = 33
-Distance(id:181) = 33
-Distance(id:182) = 31
-Distance(id:18) = 32
-Distance(id:183) = 40
-Distance(id:184) = 33
-Distance(id:185) = 37
-Distance(id:186) = 42
-Distance(id:187) = 31
-Distance(id:188) = 29
-Distance(id:189) = 31
-Distance(id:190) = 35
-Distance(id:191) = 36
-Distance(id:192) = 29
-Distance(id:19) = 34
-Distance(id:194) = 29
-Distance(id:195) = 30
-Distance(id:196) = 35
-Distance(id:197) = 38
-Distance(id:199) = 44
-Distance(id:202) = 31
-Distance(id:207) = 31
-Distance(id:209) = 36
-Distance(id:211) = 33
-Distance(id:212) = 35
-Distance(id:213) = 33
-Distance(id:217) = 29
-Distance(id:219) = 31
-Distance(id:220) = 35
-Distance(id:222) = 33
-Distance(id:224) = 35
-Distance(id:225) = 35
-Distance(id:227) = 35
-Distance(id:232) = 42
-Distance(id:23) = 34
-Distance(id:235) = 33
-Distance(id:236) = 31
-Distance(id:239) = 33
-Distance(id:2) = 40
-Distance(id:244) = 38
-Distance(id:245) = 47
-Distance(id:246) = 31
-Distance(id:248) = 32
-Distance(id:249) = 37
-Distance(id:250) = 33
-Distance(id:254) = 29
-Distance(id:260) = 31
-Distance(id:262) = 33
-Distance(id:263) = 39
-Distance(id:264) = 31
-Distance(id:266) = 42
-Distance(id:268) = 31
-Distance(id:270) = 33
-Distance(id:273) = 56
-Distance(id:276) = 33
-Distance(id:277) = 31
-Distance(id:279) = 31
-Distance(id:280) = 33
-Distance(id:28) = 33
-Distance(id:283) = 40
-Distance(id:285) = 32
-Distance(id:286) = 38
-Distance(id:287) = 31
-Distance(id:289) = 31
-Distance(id:292) = 31
-Distance(id:293) = 40
-Distance(id:295) = 36
-Distance(id:297) = 33
-Distance(id:298) = 33
-Distance(id:299) = 33
-Distance(id:300) = 33
-Distance(id:304) = 36
-Distance(id:30) = 46
-Distance(id:307) = 31
-Distance(id:308) = 31
-Distance(id:310) = 31
-Distance(id:311) = 31
-Distance(id:312) = 38
-Distance(id:316) = 42
-Distance(id:318) = 34
-Distance(id:320) = 31
-Distance(id:321) = 34
-Distance(id:32) = 33
-Distance(id:326) = 38
-Distance(id:327) = 31
-Distance(id:328) = 35
-Distance(id:331) = 31
-Distance(id:332) = 38
-Distance(id:334) = 41
-Distance(id:335) = 31
-Distance(id:337) = 33
-Distance(id:3) = 38
-Distance(id:338) = 33
-Distance(id:339) = 31
-Distance(id:340) = 31
-Distance(id:341) = 38
-Distance(id:343) = 51
-Distance(id:347) = 31
-Distance(id:348) = 33
-Distance(id:349) = 35
-Distance(id:350) = 33
-Distance(id:351) = 60
-Distance(id:352) = 32
-Distance(id:35) = 33
-Distance(id:354) = 33
-Distance(id:357) = 52
-Distance(id:358) = 34
-Distance(id:359) = 34
-Distance(id:362) = 44
-Distance(id:363) = 29
-Distance(id:36) = 36
-Distance(id:364) = 31
-Distance(id:366) = 31
-Distance(id:368) = 33
-Distance(id:369) = 31
-Distance(id:370) = 36
-Distance(id:371) = 33
-Distance(id:372) = 34
-Distance(id:374) = 33
-Distance(id:376) = 33
-Distance(id:377) = 35
-Distance(id:379) = 33
-Distance(id:380) = 29
-Distance(id:38) = 38
-Distance(id:384) = 38
-Distance(id:387) = 33
-Distance(id:388) = 33
-Distance(id:390) = 34
-Distance(id:392) = 33
-Distance(id:393) = 38
-Distance(id:394) = 33
-Distance(id:395) = 31
-Distance(id:398) = 29
-Distance(id:399) = 47
-Distance(id:403) = 37
-Distance(id:404) = 35
-Distance(id:40) = 46
-Distance(id:406) = 43
-Distance(id:408) = 35
-Distance(id:409) = 33
-Distance(id:410) = 40
-Distance(id:411) = 39
-Distance(id:412) = 32
-Distance(id:41) = 32
-Distance(id:418) = 30
-Distance(id:419) = 41
-Distance(id:421) = 33
-Distance(id:422) = 33
-Distance(id:42) = 35
-Distance(id:426) = 39
-Distance(id:430) = 56
-Distance(id:431) = 38
-Distance(id:432) = 32
-Distance(id:43) = 33
-Distance(id:437) = 33
-Distance(id:439) = 39
-Distance(id:440) = 33
-Distance(id:442) = 44
-Distance(id:443) = 31
-Distance(id:445) = 33
-Distance(id:449) = 42
-Distance(id:450) = 31
-Distance(id:452) = 31
-Distance(id:453) = 45
-Distance(id:454) = 35
-Distance(id:455) = 37
-Distance(id:457) = 36
-Distance(id:458) = 33
-Distance(id:459) = 31
-Distance(id:461) = 33
-Distance(id:462) = 31
-Distance(id:464) = 31
-Distance(id:469) = 50
-Distance(id:470) = 32
-Distance(id:471) = 33
-Distance(id:472) = 30
-Distance(id:474) = 32
-Distance(id:476) = 41
-Distance(id:479) = 37
-Distance(id:480) = 30
-Distance(id:482) = 33
-Distance(id:484) = 40
-Distance(id:486) = 34
-Distance(id:487) = 33
-Distance(id:488) = 36
-Distance(id:489) = 42
-Distance(id:492) = 38
-Distance(id:49) = 34
-Distance(id:495) = 30
-Distance(id:498) = 31
-Distance(id:499) = 44
-Distance(id:500) = 29
-Distance(id:502) = 37
-Distance(id:505) = 43
-Distance(id:507) = 33
-Distance(id:510) = 30
-Distance(id:512) = 31
-Distance(id:515) = 41
-Distance(id:518) = 39
-Distance(id:520) = 57
-Distance(id:525) = 53
-Distance(id:526) = 35
-Distance(id:528) = 33
-Distance(id:53) = 29
-Distance(id:533) = 46
-Distance(id:534) = 35
-Distance(id:539) = 47
-Distance(id:5) = 45
-Distance(id:545) = 35
-Distance(id:546) = 36
-Distance(id:549) = 45
-Distance(id:550) = 39
-Distance(id:552) = 33
-Distance(id:558) = 31
-Distance(id:559) = 33
-Distance(id:563) = 50
-Distance(id:564) = 31
-Distance(id:565) = 31
-Distance(id:569) = 32
-Distance(id:571) = 40
-Distance(id:572) = 33
-Distance(id:57) = 31
-Distance(id:573) = 40
-Distance(id:576) = 61
-Distance(id:578) = 39
-Distance(id:579) = 49
-Distance(id:580) = 33
-Distance(id:582) = 40
-Distance(id:587) = 33
-Distance(id:592) = 50
-Distance(id:596) = 35
-Distance(id:597) = 46
-Distance(id:598) = 33
-Distance(id:600) = 48
-Distance(id:601) = 29
-Distance(id:603) = 46
-Distance(id:605) = 33
-Distance(id:606) = 33
-Distance(id:607) = 32
-Distance(id:609) = 29
-Distance(id:610) = 33
-Distance(id:613) = 36
-Distance(id:614) = 39
-Distance(id:61) = 47
-Distance(id:615) = 49
-Distance(id:616) = 43
-Distance(id:621) = 33
-Distance(id:624) = 33
-Distance(id:625) = 34
-Distance(id:63) = 40
-Distance(id:6) = 36
-Distance(id:636) = 46
-Distance(id:639) = 33
-Distance(id:640) = 33
-Distance(id:642) = 31
-Distance(id:64) = 33
-Distance(id:644) = 33
-Distance(id:648) = 31
-Distance(id:649) = 32
-Distance(id:651) = 34
-Distance(id:653) = 31
-Distance(id:65) = 35
-Distance(id:654) = 31
-Distance(id:655) = 32
-Distance(id:656) = 31
-Distance(id:662) = 37
-Distance(id:66) = 33
-Distance(id:664) = 41
-Distance(id:665) = 31
-Distance(id:669) = 33
-Distance(id:670) = 32
-Distance(id:67) = 31
-Distance(id:673) = 35
-Distance(id:675) = 35
-Distance(id:677) = 31
-Distance(id:679) = 32
-Distance(id:680) = 43
-Distance(id:682) = 31
-Distance(id:685) = 31
-Distance(id:686) = 33
-Distance(id:687) = 35
-Distance(id:689) = 32
-Distance(id:691) = 33
-Distance(id:693) = 41
-Distance(id:69) = 41
-Distance(id:695) = 29
-Distance(id:697) = 29
-Distance(id:700) = 35
-Distance(id:701) = 33
-Distance(id:70) = 31
-Distance(id:703) = 30
-Distance(id:704) = 31
-Distance(id:709) = 46
-Distance(id:710) = 34
-Distance(id:711) = 33
-Distance(id:712) = 30
-Distance(id:715) = 35
-Distance(id:718) = 43
-Distance(id:719) = 31
-Distance(id:720) = 33
-Distance(id:722) = 31
-Distance(id:72) = 33
-Distance(id:723) = 33
-Distance(id:727) = 31
-Distance(id:729) = 33
-Distance(id:730) = 34
-Distance(id:732) = 33
-Distance(id:733) = 37
-Distance(id:7) = 34
-Distance(id:736) = 37
-Distance(id:738) = 31
-Distance(id:739) = 33
-Distance(id:741) = 37
-Distance(id:742) = 31
-Distance(id:743) = 35
-Distance(id:74) = 38
-Distance(id:744) = 31
-Distance(id:747) = 31
-Distance(id:752) = 32
-Distance(id:753) = 32
-Distance(id:754) = 47
-Distance(id:755) = 33
-Distance(id:756) = 31
-Distance(id:757) = 33
-Distance(id:758) = 34
-Distance(id:763) = 33
-Distance(id:764) = 36
-Distance(id:774) = 40
-Distance(id:775) = 35
-Distance(id:776) = 33
-Distance(id:778) = 33
-Distance(id:782) = 48
-Distance(id:78) = 30
-Distance(id:785) = 34
-Distance(id:787) = 33
-Distance(id:789) = 30
-Distance(id:793) = 31
-Distance(id:79) = 38
-Distance(id:795) = 31
-Distance(id:800) = 40
-Distance(id:80) = 31
-Distance(id:806) = 54
-Distance(id:807) = 42
-Distance(id:812) = 31
-Distance(id:81) = 39
-Distance(id:814) = 31
-Distance(id:817) = 45
-Distance(id:820) = 42
-Distance(id:821) = 39
-Distance(id:822) = 30
-Distance(id:823) = 36
-Distance(id:82) = 35
-Distance(id:825) = 29
-Distance(id:826) = 33
-Distance(id:828) = 34
-Distance(id:829) = 35
-Distance(id:830) = 39
-Distance(id:834) = 32
-Distance(id:836) = 32
-Distance(id:842) = 31
-Distance(id:84) = 31
-Distance(id:844) = 33
-Distance(id:851) = 31
-Distance(id:855) = 33
-Distance(id:857) = 35
-Distance(id:858) = 31
-Distance(id:859) = 41
-Distance(id:862) = 32
-Distance(id:86) = 31
-Distance(id:867) = 33
-Distance(id:869) = 45
-Distance(id:871) = 46
-Distance(id:877) = 55
-Distance(id:884) = 34
-Distance(id:886) = 30
-Distance(id:887) = 31
-Distance(id:890) = 31
-Distance(id:90) = 38
-Distance(id:911) = 34
-Distance(id:914) = 33
-Distance(id:917) = 49
-Distance(id:918) = 31
-Distance(id:923) = 31
-Distance(id:924) = 33
-Distance(id:925) = 31
-Distance(id:929) = 31
-Distance(id:932) = 31
-Distance(id:936) = 31
-Distance(id:938) = 33
-Distance(id:939) = 39
-Distance(id:940) = 34
-Distance(id:94) = 39
-Distance(id:950) = 34
-Distance(id:951) = 29
-Distance(id:95) = 34
-Distance(id:954) = 33
-Distance(id:956) = 32
-Distance(id:959) = 31
-Distance(id:9) = 62
-Distance(id:96) = 30
-Distance(id:969) = 33
-Distance(id:970) = 31
-Distance(id:971) = 33
-Distance(id:972) = 33
-Distance(id:97) = 39
-Distance(id:974) = 38
-Distance(id:975) = 31
-Distance(id:978) = 44
-Distance(id:987) = 34
-Distance(id:99) = 34
-Distance(id:994) = 31
+REF(id:1004) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:1005) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:101) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:1022) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:1024) --- TAR(id:1):	Distance:41	Jaccard: 0.0888888888888889
+REF(id:102) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:1032) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:103) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:1053) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:1058) --- TAR(id:1):	Distance:36	Jaccard: 0.0526315789473684
+REF(id:105) --- TAR(id:1):	Distance:39	Jaccard: 0.133333333333333
+REF(id:1072) --- TAR(id:1):	Distance:40	Jaccard: 0.0697674418604651
+REF(id:1076) --- TAR(id:1):	Distance:40	Jaccard: 0.024390243902439
+REF(id:1082) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:1084) --- TAR(id:1):	Distance:41	Jaccard: 0.0238095238095238
+REF(id:1085) --- TAR(id:1):	Distance:33	Jaccard: 0.108108108108108
+REF(id:1092) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:1102) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:1107) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:110) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:111) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:1132) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:1134) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:1135) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:1136) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:1138) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:1144) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:1148) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:1149) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:114) --- TAR(id:1):	Distance:38	Jaccard: 0.0952380952380952
+REF(id:1150) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:1155) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:115) --- TAR(id:1):	Distance:39	Jaccard: 0
+REF(id:1169) --- TAR(id:1):	Distance:49	Jaccard: 0.02
+REF(id:116) --- TAR(id:1):	Distance:40	Jaccard: 0.130434782608696
+REF(id:1176) --- TAR(id:1):	Distance:50	Jaccard: 0.0196078431372549
+REF(id:117) --- TAR(id:1):	Distance:35	Jaccard: 0.0277777777777778
+REF(id:119) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:11) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:120) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:1214) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:1215) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:1227) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:123) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:1246) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:124) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:1250) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:126) --- TAR(id:1):	Distance:34	Jaccard: 0.170731707317073
+REF(id:1293) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:129) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:12) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:1318) --- TAR(id:1):	Distance:39	Jaccard: 0.0487804878048781
+REF(id:1320) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:1333) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:133) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:135) --- TAR(id:1):	Distance:39	Jaccard: 0.025
+REF(id:137) --- TAR(id:1):	Distance:49	Jaccard: 0.0925925925925926
+REF(id:1389) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:1409) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:140) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:141) --- TAR(id:1):	Distance:38	Jaccard: 0.0256410256410256
+REF(id:1425) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:143) --- TAR(id:1):	Distance:34	Jaccard: 0.105263157894737
+REF(id:144) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:145) --- TAR(id:1):	Distance:32	Jaccard: 0.0857142857142857
+REF(id:1476) --- TAR(id:1):	Distance:36	Jaccard: 0
+REF(id:148) --- TAR(id:1):	Distance:42	Jaccard: 0.0666666666666667
+REF(id:149) --- TAR(id:1):	Distance:37	Jaccard: 0
+REF(id:152) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:153) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:154) --- TAR(id:1):	Distance:45	Jaccard: 0.0217391304347826
+REF(id:155) --- TAR(id:1):	Distance:38	Jaccard: 0.116279069767442
+REF(id:156) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:158) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:159) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:160) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:161) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:162) --- TAR(id:1):	Distance:34	Jaccard: 0.0810810810810811
+REF(id:163) --- TAR(id:1):	Distance:40	Jaccard: 0.0697674418604651
+REF(id:164) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:165) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:16) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:170) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:171) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:173) --- TAR(id:1):	Distance:36	Jaccard: 0.1
+REF(id:176) --- TAR(id:1):	Distance:38	Jaccard: 0.191489361702128
+REF(id:177) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:17) --- TAR(id:1):	Distance:39	Jaccard: 0.0930232558139535
+REF(id:180) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:181) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:182) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:183) --- TAR(id:1):	Distance:40	Jaccard: 0.024390243902439
+REF(id:184) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:185) --- TAR(id:1):	Distance:37	Jaccard: 0.119047619047619
+REF(id:186) --- TAR(id:1):	Distance:42	Jaccard: 0.0232558139534884
+REF(id:187) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:188) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:189) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:18) --- TAR(id:1):	Distance:32	Jaccard: 0.0857142857142857
+REF(id:190) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:191) --- TAR(id:1):	Distance:36	Jaccard: 0.142857142857143
+REF(id:192) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:194) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:195) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:196) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:197) --- TAR(id:1):	Distance:38	Jaccard: 0.05
+REF(id:199) --- TAR(id:1):	Distance:44	Jaccard: 0.12
+REF(id:19) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:1) --- TAR(id:1):	Distance:0	Jaccard: 1
+REF(id:202) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:207) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:209) --- TAR(id:1):	Distance:36	Jaccard: 0.142857142857143
+REF(id:211) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:212) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:213) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:217) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:219) --- TAR(id:1):	Distance:31	Jaccard: 0.0882352941176471
+REF(id:220) --- TAR(id:1):	Distance:35	Jaccard: 0.102564102564103
+REF(id:222) --- TAR(id:1):	Distance:33	Jaccard: 0.0833333333333333
+REF(id:224) --- TAR(id:1):	Distance:35	Jaccard: 0.0277777777777778
+REF(id:225) --- TAR(id:1):	Distance:35	Jaccard: 0.102564102564103
+REF(id:227) --- TAR(id:1):	Distance:35	Jaccard: 0.0540540540540541
+REF(id:232) --- TAR(id:1):	Distance:42	Jaccard: 0.16
+REF(id:235) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:236) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:239) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:23) --- TAR(id:1):	Distance:34	Jaccard: 0.0810810810810811
+REF(id:244) --- TAR(id:1):	Distance:38	Jaccard: 0.116279069767442
+REF(id:245) --- TAR(id:1):	Distance:47	Jaccard: 0.0408163265306122
+REF(id:246) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:248) --- TAR(id:1):	Distance:32	Jaccard: 0.111111111111111
+REF(id:249) --- TAR(id:1):	Distance:37	Jaccard: 0.0975609756097561
+REF(id:250) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:254) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:260) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:262) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:263) --- TAR(id:1):	Distance:39	Jaccard: 0.133333333333333
+REF(id:264) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:266) --- TAR(id:1):	Distance:42	Jaccard: 0.0454545454545455
+REF(id:268) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:270) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:273) --- TAR(id:1):	Distance:56	Jaccard: 0.0819672131147541
+REF(id:276) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:277) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:279) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:280) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:283) --- TAR(id:1):	Distance:40	Jaccard: 0.148936170212766
+REF(id:285) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:286) --- TAR(id:1):	Distance:38	Jaccard: 0.0731707317073171
+REF(id:287) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:289) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:28) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:292) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:293) --- TAR(id:1):	Distance:40	Jaccard: 0.0909090909090909
+REF(id:295) --- TAR(id:1):	Distance:36	Jaccard: 0.1
+REF(id:297) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:298) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:299) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:2) --- TAR(id:1):	Distance:40	Jaccard: 0.0476190476190476
+REF(id:300) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:304) --- TAR(id:1):	Distance:36	Jaccard: 0.162790697674419
+REF(id:307) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:308) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:30) --- TAR(id:1):	Distance:46	Jaccard: 0.163636363636364
+REF(id:310) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:311) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:312) --- TAR(id:1):	Distance:38	Jaccard: 0.0952380952380952
+REF(id:316) --- TAR(id:1):	Distance:42	Jaccard: 0.142857142857143
+REF(id:318) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:320) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:321) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:326) --- TAR(id:1):	Distance:38	Jaccard: 0.136363636363636
+REF(id:327) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:328) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:32) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:331) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:332) --- TAR(id:1):	Distance:38	Jaccard: 0
+REF(id:334) --- TAR(id:1):	Distance:41	Jaccard: 0.163265306122449
+REF(id:335) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:337) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:338) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:339) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:340) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:341) --- TAR(id:1):	Distance:38	Jaccard: 0.116279069767442
+REF(id:343) --- TAR(id:1):	Distance:51	Jaccard: 0.0192307692307692
+REF(id:347) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:348) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:349) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:350) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:351) --- TAR(id:1):	Distance:60	Jaccard: 0.0476190476190476
+REF(id:352) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:354) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:357) --- TAR(id:1):	Distance:52	Jaccard: 0.0188679245283019
+REF(id:358) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:359) --- TAR(id:1):	Distance:34	Jaccard: 0.0285714285714286
+REF(id:35) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:362) --- TAR(id:1):	Distance:44	Jaccard: 0.0434782608695652
+REF(id:363) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:364) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:366) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:368) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:369) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:36) --- TAR(id:1):	Distance:36	Jaccard: 0.0769230769230769
+REF(id:370) --- TAR(id:1):	Distance:36	Jaccard: 0.121951219512195
+REF(id:371) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:372) --- TAR(id:1):	Distance:34	Jaccard: 0.0285714285714286
+REF(id:374) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:376) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:377) --- TAR(id:1):	Distance:35	Jaccard: 0.0277777777777778
+REF(id:379) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:380) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:384) --- TAR(id:1):	Distance:38	Jaccard: 0.116279069767442
+REF(id:387) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:388) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:38) --- TAR(id:1):	Distance:38	Jaccard: 0.0731707317073171
+REF(id:390) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:392) --- TAR(id:1):	Distance:33	Jaccard: 0.108108108108108
+REF(id:393) --- TAR(id:1):	Distance:38	Jaccard: 0.0731707317073171
+REF(id:394) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:395) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:398) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:399) --- TAR(id:1):	Distance:47	Jaccard: 0.06
+REF(id:3) --- TAR(id:1):	Distance:38	Jaccard: 0.05
+REF(id:403) --- TAR(id:1):	Distance:37	Jaccard: 0.13953488372093
+REF(id:404) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:406) --- TAR(id:1):	Distance:43	Jaccard: 0.0652173913043478
+REF(id:408) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:409) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:40) --- TAR(id:1):	Distance:46	Jaccard: 0.0980392156862745
+REF(id:410) --- TAR(id:1):	Distance:40	Jaccard: 0.0909090909090909
+REF(id:411) --- TAR(id:1):	Distance:39	Jaccard: 0.0930232558139535
+REF(id:412) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:418) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:419) --- TAR(id:1):	Distance:41	Jaccard: 0.0888888888888889
+REF(id:41) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:421) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:422) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:426) --- TAR(id:1):	Distance:39	Jaccard: 0.0487804878048781
+REF(id:42) --- TAR(id:1):	Distance:35	Jaccard: 0.0277777777777778
+REF(id:430) --- TAR(id:1):	Distance:56	Jaccard: 0.0666666666666667
+REF(id:431) --- TAR(id:1):	Distance:38	Jaccard: 0.0256410256410256
+REF(id:432) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:437) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:439) --- TAR(id:1):	Distance:39	Jaccard: 0.0930232558139535
+REF(id:43) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:440) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:442) --- TAR(id:1):	Distance:44	Jaccard: 0.0434782608695652
+REF(id:443) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:445) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:449) --- TAR(id:1):	Distance:42	Jaccard: 0.0869565217391304
+REF(id:450) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:452) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:453) --- TAR(id:1):	Distance:45	Jaccard: 0.0217391304347826
+REF(id:454) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:455) --- TAR(id:1):	Distance:37	Jaccard: 0.0975609756097561
+REF(id:457) --- TAR(id:1):	Distance:36	Jaccard: 0.1
+REF(id:458) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:459) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:461) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:462) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:464) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:469) --- TAR(id:1):	Distance:50	Jaccard: 0.107142857142857
+REF(id:470) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:471) --- TAR(id:1):	Distance:33	Jaccard: 0.0571428571428571
+REF(id:472) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:474) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:476) --- TAR(id:1):	Distance:41	Jaccard: 0.0465116279069767
+REF(id:479) --- TAR(id:1):	Distance:37	Jaccard: 0.13953488372093
+REF(id:480) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:482) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:484) --- TAR(id:1):	Distance:40	Jaccard: 0.111111111111111
+REF(id:486) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:487) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:488) --- TAR(id:1):	Distance:36	Jaccard: 0.027027027027027
+REF(id:489) --- TAR(id:1):	Distance:42	Jaccard: 0.0454545454545455
+REF(id:492) --- TAR(id:1):	Distance:38	Jaccard: 0.116279069767442
+REF(id:495) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:498) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:499) --- TAR(id:1):	Distance:44	Jaccard: 0.0638297872340425
+REF(id:49) --- TAR(id:1):	Distance:34	Jaccard: 0.19047619047619
+REF(id:500) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:502) --- TAR(id:1):	Distance:37	Jaccard: 0
+REF(id:505) --- TAR(id:1):	Distance:43	Jaccard: 0.0851063829787234
+REF(id:507) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:510) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:512) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:515) --- TAR(id:1):	Distance:41	Jaccard: 0.0888888888888889
+REF(id:518) --- TAR(id:1):	Distance:39	Jaccard: 0.025
+REF(id:520) --- TAR(id:1):	Distance:57	Jaccard: 0.0338983050847458
+REF(id:525) --- TAR(id:1):	Distance:53	Jaccard: 0.0862068965517241
+REF(id:526) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:528) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:533) --- TAR(id:1):	Distance:46	Jaccard: 0.0212765957446809
+REF(id:534) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:539) --- TAR(id:1):	Distance:47	Jaccard: 0.0784313725490196
+REF(id:53) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:545) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:546) --- TAR(id:1):	Distance:36	Jaccard: 0.027027027027027
+REF(id:549) --- TAR(id:1):	Distance:45	Jaccard: 0.1
+REF(id:550) --- TAR(id:1):	Distance:39	Jaccard: 0.0714285714285714
+REF(id:552) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:558) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:559) --- TAR(id:1):	Distance:33	Jaccard: 0.131578947368421
+REF(id:563) --- TAR(id:1):	Distance:50	Jaccard: 0.0566037735849057
+REF(id:564) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:565) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:569) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:571) --- TAR(id:1):	Distance:40	Jaccard: 0.0909090909090909
+REF(id:572) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:573) --- TAR(id:1):	Distance:40	Jaccard: 0.024390243902439
+REF(id:576) --- TAR(id:1):	Distance:61	Jaccard: 0.0317460317460317
+REF(id:578) --- TAR(id:1):	Distance:39	Jaccard: 0
+REF(id:579) --- TAR(id:1):	Distance:49	Jaccard: 0.125
+REF(id:57) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:580) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:582) --- TAR(id:1):	Distance:40	Jaccard: 0.0697674418604651
+REF(id:587) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:592) --- TAR(id:1):	Distance:50	Jaccard: 0.0740740740740741
+REF(id:596) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:597) --- TAR(id:1):	Distance:46	Jaccard: 0.0212765957446809
+REF(id:598) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:5) --- TAR(id:1):	Distance:45	Jaccard: 0.0217391304347826
+REF(id:600) --- TAR(id:1):	Distance:48	Jaccard: 0.0588235294117647
+REF(id:601) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:603) --- TAR(id:1):	Distance:46	Jaccard: 0.0416666666666667
+REF(id:605) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:606) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:607) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:609) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:610) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:613) --- TAR(id:1):	Distance:36	Jaccard: 0.027027027027027
+REF(id:614) --- TAR(id:1):	Distance:39	Jaccard: 0.0714285714285714
+REF(id:615) --- TAR(id:1):	Distance:49	Jaccard: 0.0754716981132075
+REF(id:616) --- TAR(id:1):	Distance:43	Jaccard: 0.0444444444444444
+REF(id:61) --- TAR(id:1):	Distance:47	Jaccard: 0.0961538461538462
+REF(id:621) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:624) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:625) --- TAR(id:1):	Distance:34	Jaccard: 0.0285714285714286
+REF(id:636) --- TAR(id:1):	Distance:46	Jaccard: 0.0416666666666667
+REF(id:639) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:63) --- TAR(id:1):	Distance:40	Jaccard: 0.0476190476190476
+REF(id:640) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:642) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:644) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:648) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:649) --- TAR(id:1):	Distance:32	Jaccard: 0.0588235294117647
+REF(id:64) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:651) --- TAR(id:1):	Distance:34	Jaccard: 0.0285714285714286
+REF(id:653) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:654) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:655) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:656) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:65) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:662) --- TAR(id:1):	Distance:37	Jaccard: 0.0975609756097561
+REF(id:664) --- TAR(id:1):	Distance:41	Jaccard: 0
+REF(id:665) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:669) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:66) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:670) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:673) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:675) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:677) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:679) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:67) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:680) --- TAR(id:1):	Distance:43	Jaccard: 0.0444444444444444
+REF(id:682) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:685) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:686) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:687) --- TAR(id:1):	Distance:35	Jaccard: 0.0277777777777778
+REF(id:689) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:691) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:693) --- TAR(id:1):	Distance:41	Jaccard: 0.127659574468085
+REF(id:695) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:697) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:69) --- TAR(id:1):	Distance:41	Jaccard: 0.0681818181818182
+REF(id:6) --- TAR(id:1):	Distance:36	Jaccard: 0
+REF(id:700) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:701) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:703) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:704) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:709) --- TAR(id:1):	Distance:46	Jaccard: 0.0416666666666667
+REF(id:70) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:710) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:711) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:712) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:715) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:718) --- TAR(id:1):	Distance:43	Jaccard: 0.0652173913043478
+REF(id:719) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:720) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:722) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:723) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:727) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:729) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:72) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:730) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:732) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:733) --- TAR(id:1):	Distance:37	Jaccard: 0.075
+REF(id:736) --- TAR(id:1):	Distance:37	Jaccard: 0.0975609756097561
+REF(id:738) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:739) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:741) --- TAR(id:1):	Distance:37	Jaccard: 0
+REF(id:742) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:743) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:744) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:747) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:74) --- TAR(id:1):	Distance:38	Jaccard: 0.0256410256410256
+REF(id:752) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:753) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:754) --- TAR(id:1):	Distance:47	Jaccard: 0.0208333333333333
+REF(id:755) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:756) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:757) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:758) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:763) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:764) --- TAR(id:1):	Distance:36	Jaccard: 0
+REF(id:774) --- TAR(id:1):	Distance:40	Jaccard: 0.024390243902439
+REF(id:775) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:776) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:778) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:782) --- TAR(id:1):	Distance:48	Jaccard: 0.0769230769230769
+REF(id:785) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:787) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:789) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:78) --- TAR(id:1):	Distance:30	Jaccard: 0.142857142857143
+REF(id:793) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:795) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:79) --- TAR(id:1):	Distance:38	Jaccard: 0.0952380952380952
+REF(id:7) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:800) --- TAR(id:1):	Distance:40	Jaccard: 0.111111111111111
+REF(id:806) --- TAR(id:1):	Distance:54	Jaccard: 0.0181818181818182
+REF(id:807) --- TAR(id:1):	Distance:42	Jaccard: 0.0454545454545455
+REF(id:80) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:812) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:814) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:817) --- TAR(id:1):	Distance:45	Jaccard: 0
+REF(id:81) --- TAR(id:1):	Distance:39	Jaccard: 0.025
+REF(id:820) --- TAR(id:1):	Distance:42	Jaccard: 0.0454545454545455
+REF(id:821) --- TAR(id:1):	Distance:39	Jaccard: 0.0714285714285714
+REF(id:822) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:823) --- TAR(id:1):	Distance:36	Jaccard: 0.027027027027027
+REF(id:825) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:826) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:828) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:829) --- TAR(id:1):	Distance:35	Jaccard: 0
+REF(id:82) --- TAR(id:1):	Distance:35	Jaccard: 0.0540540540540541
+REF(id:830) --- TAR(id:1):	Distance:39	Jaccard: 0.025
+REF(id:834) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:836) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:842) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:844) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:84) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:851) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:855) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:857) --- TAR(id:1):	Distance:35	Jaccard: 0.0277777777777778
+REF(id:858) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:859) --- TAR(id:1):	Distance:41	Jaccard: 0.0888888888888889
+REF(id:862) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:867) --- TAR(id:1):	Distance:33	Jaccard: 0
+REF(id:869) --- TAR(id:1):	Distance:45	Jaccard: 0.0816326530612245
+REF(id:86) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:871) --- TAR(id:1):	Distance:46	Jaccard: 0
+REF(id:877) --- TAR(id:1):	Distance:55	Jaccard: 0.0178571428571429
+REF(id:884) --- TAR(id:1):	Distance:34	Jaccard: 0.0285714285714286
+REF(id:886) --- TAR(id:1):	Distance:30	Jaccard: 0.0625
+REF(id:887) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:890) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:90) --- TAR(id:1):	Distance:38	Jaccard: 0.136363636363636
+REF(id:911) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:914) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:917) --- TAR(id:1):	Distance:49	Jaccard: 0.02
+REF(id:918) --- TAR(id:1):	Distance:31	Jaccard: 0.03125
+REF(id:923) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:924) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:925) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:929) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:932) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:936) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:938) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:939) --- TAR(id:1):	Distance:39	Jaccard: 0.0487804878048781
+REF(id:940) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:94) --- TAR(id:1):	Distance:39	Jaccard: 0.0487804878048781
+REF(id:950) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:951) --- TAR(id:1):	Distance:29	Jaccard: 0.09375
+REF(id:954) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:956) --- TAR(id:1):	Distance:32	Jaccard: 0.0303030303030303
+REF(id:959) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:95) --- TAR(id:1):	Distance:34	Jaccard: 0.15
+REF(id:969) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:96) --- TAR(id:1):	Distance:30	Jaccard: 0.142857142857143
+REF(id:970) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:971) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:972) --- TAR(id:1):	Distance:33	Jaccard: 0.0294117647058824
+REF(id:974) --- TAR(id:1):	Distance:38	Jaccard: 0
+REF(id:975) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:978) --- TAR(id:1):	Distance:44	Jaccard: 0.0434782608695652
+REF(id:97) --- TAR(id:1):	Distance:39	Jaccard: 0.113636363636364
+REF(id:987) --- TAR(id:1):	Distance:34	Jaccard: 0.0555555555555556
+REF(id:994) --- TAR(id:1):	Distance:31	Jaccard: 0.0606060606060606
+REF(id:99) --- TAR(id:1):	Distance:34	Jaccard: 0
+REF(id:9) --- TAR(id:1):	Distance:62	Jaccard: 0.0882352941176471
