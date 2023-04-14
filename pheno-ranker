@@ -30,11 +30,13 @@ use autodie;
 use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Data::Dumper;
+use Sys::Hostname;
+use POSIX           qw(strftime);
+use Term::ANSIColor qw(:constants);
 use Path::Tiny;
 use JSON::XS;
 use YAML::XS qw(LoadFile);
 use Sort::Naturally;
-use Term::ANSIColor qw(:constants);
 use Hash::Fold fold => { array_delimiter => ':' };
 use Math::BigInt;
 
@@ -49,9 +51,10 @@ exit;
 sub pheno_ranker {
 
     # Defining a few variables
-    my $version     = '1.0.0';
+    my $VERSION     = '1.0.0';
     my $output_file = 'matrix.txt';
-    my $align_file  = 'alignment.json';
+    my $align_file  = 'alignment.txt';
+    my $sort_by     = 'hamming';
 
     # Reading arguments
     GetOptions(
@@ -61,12 +64,14 @@ sub pheno_ranker {
         'o=s'           => \$output_file,                             # string
         'export|e'      => \my $export,                               # flag
         'align|a:s'     => \my $align,                                # opt-string
+        'sort-by=s'     => \$sort_by,                                 # string
         'help|?'        => \my $help,                                 # flag
+        'log:s'         => \my $log,                                  # opt-string
         'man'           => \my $man,                                  # flag
         'debug=i'       => \$debug,                                   # integer
         'verbose|'      => \$verbose,                                 # flag
         'no-color|nc'   => \my $no_color,                             # flag
-        'version|V'     => sub { say "$0 Version $version"; exit; }
+        'version|V'     => sub { say "$0 Version $VERSION"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
@@ -74,12 +79,17 @@ sub pheno_ranker {
         -message => "Please specify a valid reference-cohort for -r\n",
         -exitval => 1
     ) unless $reference_file;
+    pod2usage(
+        -message =>
+          "Please specify a valid --sort-by method <hamming|jaccard>\n",
+        -exitval => 1
+    ) unless ( $sort_by eq 'hamming' || $sort_by eq 'jaccard' );
 
     # Turning color off if argument <--no-color>
     $ENV{'ANSI_COLORS_DISABLED'} = 1 if $no_color;
 
     # Start printing to STDOUT
-    say BOLD CYAN program_header($version), RESET if $verbose;
+    say BOLD CYAN program_header($VERSION), RESET if $verbose;
 
     # Load JSON files as Perl data structure
     my $ref_data = read_json($reference_file);
@@ -89,7 +99,7 @@ sub pheno_ranker {
       ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
 
     # First we create:
-    # - $glob_hash => hash with all the cohort keys
+    # - $glob_hash => hash with all the cohort keys possible
     # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
     my ( $glob_hash, $ref_hash ) =
       create_glob_and_ref_hashes( $ref_data, $weight );
@@ -116,7 +126,7 @@ sub pheno_ranker {
             { $tar_data->{id} => remap_hash( $tar_data, $weight ) } );
         my ( $results_rank, $results_align ) =
           compare_and_rank( $glob_hash, $ref_binary_hash, $tar_binary_hash,
-            $weight );
+            $weight, $sort_by );
 
         # Print Rank
         say join "\n", @$results_rank;
@@ -135,6 +145,11 @@ sub pheno_ranker {
 
     # Dump to JSON if <--export>
     serialize_hashes($hash2serialize) if $export;
+
+    # Create log if <--log>
+    write_log( $log ? $log : 'pheno-ranker-log.json',
+        { reference => $reference_file, target => $target_file }, $VERSION )
+      if defined $log;
 }
 
 sub serialize_hashes {
@@ -181,27 +196,41 @@ sub intra_cohort_comparison {
 
 sub compare_and_rank {
 
-    my ( $glob_hash, $ref_binary_hash, $tar_binary_hash, $weight ) = @_;
-    say "Performing PATIENT-COHORT comparison" if ( $debug || $verbose );
+    my ( $glob_hash, $ref_binary_hash, $tar_binary_hash, $weight, $sort_by ) =
+      @_;
+    say "Performing COHORT(REF)-PATIENT(TAR) comparison"
+      if ( $debug || $verbose );
 
-    my $distance_str = $weight ? 'wDistance' : 'Distance';
-    my %out;
-    my ($tmp) = keys %{$tar_binary_hash};
-    my $str2 = $tar_binary_hash->{$tmp};
+    # Define string for later
+    my $weight_str = $weight ? 'w' : '';
+
+    # Hash for scoring distances, etc
+    my %score;
+    my ($tar) = keys %{$tar_binary_hash};
+    my $str2 = $tar_binary_hash->{$tar};
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
         my $str1 = $ref_binary_hash->{$key};
-        say "STR1:$str1"   if $debug > 1;
-        say "STR2:$str2\n" if $debug > 1;
-        $out{$key} = hd_fast( $str1, $str2 );
+        say "REF:$str1\nTAR:$str2\n" if $debug > 1;
+        $score{$key}{hamming} = hd_fast( $str1, $str2 );
+        $score{$key}{jaccard} = jaccard_similarity( $str1, $str2 );
     }
 
-    # Sort by value and load results
+    # Sort %score by value and load results
     my @results;
     my %info;
-    for my $key ( sort { $out{$a} <=> $out{$b} } keys %out ) {
+    for my $key (
+        sort {
+                $sort_by eq 'jaccard'
+              ? $score{$b}{$sort_by} <=> $score{$a}{$sort_by}    # 1 to 0
+              : $score{$a}{$sort_by} <=> $score{$b}{$sort_by}    # 0 to N
+        } keys %score
+      )
+    {
 
-        # Add distance
-        my $tmp_str = qq/$distance_str(id:$key) = $out{$key}/;
+        # Add distances
+        my $tmp_str = qq/REF(id:$key) --- TAR(id:$tar):/;
+        $tmp_str .= qq/\t${weight_str}Distance:$score{$key}{hamming}/;
+        $tmp_str .= qq/\t${weight_str}Jaccard: $score{$key}{jaccard}/;
         push @results, $tmp_str;
 
         my $alignment =
@@ -211,8 +240,11 @@ sub compare_and_rank {
 
         # Add alignment
         $info{$key} = {
-            type                    => $distance_str,
-            distance                => $out{$key},
+            type         => $weight_str eq 'w' ? 'weighted' : 'non-weighted',
+            reference_id => $key,
+            target_id    => $tar,
+            hamming_distance        => $score{$key}{hamming} + 0,    # coerce to number
+            jaccard_similarity      => $score{$key}{jaccard} + 0,    # coerce to number
             reference_binary_string => $ref_binary_hash->{$key},
             target_binary_string    => $str2,
             alignment               => $$alignment
@@ -234,32 +266,34 @@ sub create_alignment {
     die "The binary strings must have the same length"
       if ( $length1 != $length2 );
 
+    # Expand array to have weights as N-elements
     my $recreated_array = recreate_array($glob_hash);
 
-    #say "$length1, $length2, ", scalar @$recreated_array;
-
-    my $out          = '';
+    my $out          = "REF -- TAR\n";
     my $cum_distance = 0;
     for ( my $i = 0 ; $i < $length1 ; $i++ ) {
+
         my $char1 = substr( $binary_string1, $i, 1 );
         my $char2 = substr( $binary_string2, $i, 1 );
         my $key   = $recreated_array->[$i];
         my $val   = sprintf( "%3d", $glob_hash->{$key} );
         $i = $i + $glob_hash->{$key} - 1;
         $cum_distance += $glob_hash->{$key} if $char1 ne $char2;
-        my $cum_d_pretty = sprintf( "%3d", $cum_distance );
-        my $distance     = $char1 eq $char2 ? 0 : $glob_hash->{$key};
+        my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
+        my $distance            = $char1 eq $char2 ? 0 : $glob_hash->{$key};
         $distance = sprintf( "%3d", $distance );
 
-        # We need a hash for this
-        $out .=
-          ( $char1 eq '1' && $char2 eq '1' )
-          ? qq/$char1 ----- $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/
-          : ( $char1 eq '0' && $char2 eq '1' )
-          ? qq/$char1 xxx-- $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/
-          : ( $char1 eq '1' && $char2 eq '0' )
-          ? qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/
-          : qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_d_pretty|) $key\n/;
+        my %format = (
+            '11' =>
+qq/$char1 ----- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
+            '10' =>
+qq/$char1 xxx-- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
+            '01' =>
+qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
+            '00' =>
+qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/
+        );
+        $out .= $format{ $char1 . $char2 } . "\n";
     }
     return \$out;
 }
@@ -351,6 +385,7 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded/;
 
         # Assign weight
         # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
+        # NB: We don't warn if it does not exists, just assign 1
         $out_hash->{$tmp} = exists $weight->{$tmp} ? $weight->{$tmp} : 1;
     }
     return $out_hash;
@@ -411,14 +446,58 @@ sub hd_fast {
     return ( $_[0] ^ $_[1] ) =~ tr/\001-\255//;
 }
 
+sub jaccard_similarity {
+
+    my ( $str1, $str2 ) = @_;
+
+    # NB: It does not take into account 0 --- 0
+    my ( $intersection, $union ) = ( 0, 0 );
+    for my $i ( 0 .. length($str1) - 1 ) {
+        my $char1 = substr( $str1, $i, 1 );
+        my $char2 = substr( $str2, $i, 1 );
+
+        if ( $char1 eq '1' || $char2 eq '1' ) {
+            $union++;
+            $intersection++ if $char1 eq '1' && $char2 eq '1';
+        }
+    }
+    return $union == 0 ? 0 : $intersection / $union;
+}
+
+sub write_log {
+
+    my ( $log, $data, $VERSION ) = @_;
+
+    # NB: We will use anonymous (no effect on $data)
+    chomp( my $ncpuhost = qx{/usr/bin/nproc} ) // 1;
+
+    my $info = {
+        date     => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
+        ncpuhost => ( 0 + $ncpuhost ),                                # coercing it to be a number
+        hostname => hostname,
+        id       => time . substr( "00000$$", -5 ),                   # string
+        version  => $VERSION,
+        user     => $ENV{LOGNAME} || $ENV{USER} || getpwuid($<)
+    };
+
+    # Saving file
+    say BOLD GREEN "Writing <$log> file\n" if $verbose;
+    write_json(
+        {
+            filepath => $log,
+            data     => { info => $info, data => $data }
+        }
+    );
+}
+
 sub program_header {
 
-    my $version = shift;
+    my $VERSION = shift;
     my $str     = <<EOF;
 ****************************************
 *    Rank against cohort (BFF/PXF)     *
 *          - PHENO-RANKER -            *
-*          Version: $version            *
+*          Version: $VERSION            *
 *      (C) 2023 Manuel Rueda, PhD      *
 *    GNU General Public License v3     *
 ****************************************
@@ -441,14 +520,16 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
      Options:
        -o                             Output file [matrix.txt]
-       -w|weights                     YAML file with weights
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellaena JSON files
        -h|help                        Brief help message
+       -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
+       -sort-by                       Sort reference-patiend by [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
+       -w|weights                     YAML file with weights
 
 =head1 DESCRIPTION
 

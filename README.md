@@ -12,14 +12,16 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Options:
        -o                             Output file [matrix.txt]
-       -w|weights                     YAML file with weights
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellaena JSON files
        -h|help                        Brief help message
+       -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
+       -sort-by                       Sort reference-patiend by [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
+       -w|weights                     YAML file with weights
 
 # DESCRIPTION
 
