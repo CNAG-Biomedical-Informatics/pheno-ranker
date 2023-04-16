@@ -38,7 +38,10 @@ use JSON::XS;
 use YAML::XS qw(LoadFile);
 use Sort::Naturally;
 use Hash::Fold fold => { array_delimiter => ':' };
-use Math::BigInt;
+
+#use Math::BigInt;
+use Math::CDF qw(pnorm pbinom);
+use Statistics::Descriptive;
 
 my $debug   = 0;
 my $verbose = 0;
@@ -95,6 +98,7 @@ sub pheno_ranker {
     my $ref_data = read_json($reference_file);
 
     # We assing weights if <--w>
+    # NB: The user can exclude variables by using  variable: 0
     my $weight =
       ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
 
@@ -203,58 +207,141 @@ sub compare_and_rank {
     say "Performing COHORT(REF)-PATIENT(TAR) comparison"
       if ( $debug || $verbose );
 
-    # Define string for later
-    my $weight_str = $weight ? 'w' : '';
+    # Hash for compiling distances
+    my $score;
 
-    # Hash for scoring distances, etc
-    my %score;
+    # Hash for stats
+    my $stat;
+
     my ($tar) = keys %{$tar_binary_hash};
     my $str2 = $tar_binary_hash->{$tar};
+
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
         my $str1 = $ref_binary_hash->{$key};
         say "REF:$str1\nTAR:$str2\n" if $debug > 1;
-        $score{$key}{hamming} = hd_fast( $str1, $str2 );
-        $score{$key}{jaccard} = jaccard_similarity( $str1, $str2 );
-    }
+        $score->{$key}{hamming} = hd_fast( $str1, $str2 );
+        $score->{$key}{jaccard} = jaccard_similarity( $str1, $str2 );
 
-    # Sort %score by value and load results
-    my @results;
+        # Add values
+        push @{ $stat->{hamming_data} }, $score->{$key}{hamming};
+        push @{ $stat->{jaccard_data} }, $score->{$key}{jaccard};
+    }
+    $stat->{hamming_stats} = add_stats( $stat->{hamming_data} );
+    $stat->{jaccard_stats} = add_stats( $stat->{jaccard_data} );
+
+    # Initialize a few variables
+    my @headers = (
+        'REFERENCE(ID)',
+        'TARGET(ID)',
+        'WEIGHTED',
+        'HAMMING-DISTANCE',
+        'HAMMING-DISTANCE-Z-SCORE',
+        'HAMMING-DISTANCE-P-VALUE(Z-SCORE)',
+        'HAMMING-DISTANCE-Z-SCORE(RANDOM)',
+        'JACCARD-INDEX',
+        'JACCARD-INDEX-Z-SCORE',
+        'JACCARD-INDEX-P-VALUE(Z-SCORE)'
+    );
+    my $header  = join "\t", @headers;
+    my @results = $header;
     my @alignments;
     my %info;
+    my $length_align = length($str2);
+    my $weight_bool  = $weight ? 'True' : 'False';
+
+    # Sort %score by value and load results
     for my $key (
         sort {
-                $sort_by eq 'jaccard'
-              ? $score{$b}{$sort_by} <=> $score{$a}{$sort_by}    # 1 to 0
-              : $score{$a}{$sort_by} <=> $score{$b}{$sort_by}    # 0 to N
-        } keys %score
+            $sort_by eq 'jaccard'                                    #
+              ? $score->{$b}{$sort_by} <=> $score->{$a}{$sort_by}    # 1 to 0 (similarity)
+              : $score->{$a}{$sort_by} <=> $score->{$b}{$sort_by}    # 0 to N (distance)
+        } keys %$score
       )
     {
 
-        # Add distances
-        my $tmp_str = qq/REF(id:$key) --- TAR(id:$tar):/;
-        $tmp_str .= qq/\t${weight_str}Distance:$score{$key}{hamming}/;
-        $tmp_str .= qq/\t${weight_str}Jaccard:$score{$key}{jaccard}/;
-        push @results, $tmp_str;
-
-        my $alignment =
+        # Create ASCII alignemnt
+        my ( $n_00, $alignment ) =
           create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
-        my $sep = ('-') x 80;
-        push @alignments, qq/# $tmp_str\n$sep\n$$alignment/;
 
-        # Add alignment
-        $info{$key} = {
-            type         => $weight_str eq 'w' ? 'weighted' : 'non-weighted',
-            reference_id => $key,
-            target_id    => $tar,
-            hamming_distance        => $score{$key}{hamming} + 0,    # coerce to number
-            jaccard_similarity      => $score{$key}{jaccard} + 0,    # coerce to number
-            reference_binary_string => $ref_binary_hash->{$key},
-            target_binary_string    => $str2,
-            alignment               => $$alignment
+        # Compute estimated av and dev for binary_string of L = length_align - n_00
+        # Corrected length_align L = length_align - n_00
+        my $length_align_corrected = $length_align - $n_00;
+        ( $stat->{hamming_stats}{mean_rnd}, $stat->{hamming_stats}{sd_rnd} ) =
+          estimate_hamming_stats($length_align_corrected);
+
+        # Compute a few stats
+        my $hamming_z_score = z_score(
+            $score->{$key}{hamming},
+            $stat->{hamming_stats}{mean},
+            $stat->{hamming_stats}{sd}
+        );
+        my $hamming_z_score_from_random = z_score(
+            $score->{$key}{hamming},
+            $stat->{hamming_stats}{mean_rnd},
+            $stat->{hamming_stats}{sd_rnd}
+        );
+
+        #my $hamming_p_value =
+        #  p_value( $score->{$key}{hamming}, $length_align_corrected );
+        my $hamming_p_value_from_z_score =
+          p_value_from_z_score($hamming_z_score);
+        my $jaccard_z_score = z_score(
+            $score->{$key}{jaccard},
+            $stat->{jaccard_stats}{mean},
+            $stat->{jaccard_stats}{sd}
+        );
+        my $jaccard_p_value_from_z_score =
+          p_value_from_z_score( 1 - $jaccard_z_score );
+
+        # Create a hash with formats
+        my $format = {
+            'REFERENCE(ID)'    => { value => $key,         format => undef },
+            'TARGET(ID)'       => { value => $tar,         format => undef },
+            'WEIGHTED'         => { value => $weight_bool, format => undef },
+            'HAMMING-DISTANCE' =>
+              { value => $score->{$key}{hamming}, format => '%4d' },
+            'HAMMING-DISTANCE-Z-SCORE' =>
+              { value => $hamming_z_score, format => '%7.3f' },
+            'HAMMING-DISTANCE-P-VALUE(Z-SCORE)' =>
+              { value => $hamming_p_value_from_z_score, format => '%12.7f' },
+            'HAMMING-DISTANCE-Z-SCORE(RANDOM)' =>
+              { value => $hamming_z_score_from_random, format => '%8.4f' },
+            'JACCARD-INDEX' =>
+              { value => $score->{$key}{jaccard}, format => '%7.3f' },
+            'JACCARD-INDEX-Z-SCORE' =>
+              { value => $jaccard_z_score, format => '%7.3f' },
+            'JACCARD-INDEX-P-VALUE(Z-SCORE)' =>
+              { value => $jaccard_p_value_from_z_score, format => '%12.7f' },
+
         };
 
-        # Add ASCII
+        # Serialize results
+        my $tmp_str = join "\t", map {
+            defined $format->{$_}{format}
+              ? sprintf( $format->{$_}{format}, $format->{$_}{value} )
+              : $format->{$_}{value}
+        } @headers;
+        push @results, $tmp_str;
 
+        # Add all of the above to @alignments
+        my $sep = ('-') x 80;
+        push @alignments, qq/#$header\n$tmp_str\n$sep\n$$alignment/;
+
+        # Add values to info
+        $info{$key} = {
+            weighted => $weight_bool eq 'True'
+            ? JSON::XS::true
+            : JSON::XS::false,
+            reference_id            => $key,
+            target_id               => $tar,
+            reference_binary_string => $ref_binary_hash->{$key},
+            target_binary_string    => $str2,
+            hamming_distance        => $score->{$key}{hamming},       # coerce to number
+            hamming_z_score         => $hamming_z_score,
+            jaccard_similarity      => $score->{$key}{jaccard},       # coerce to number
+            jaccard_distance        => 1 - $score->{$key}{jaccard},
+            alignment               => $$alignment,
+        };
     }
     return \@results, \%info, \@alignments;
 }
@@ -274,12 +361,14 @@ sub create_alignment {
 
     my $out          = "REF -- TAR\n";
     my $cum_distance = 0;
+    my $n_00         = 0;
     for ( my $i = 0 ; $i < $length1 ; $i++ ) {
 
         my $char1 = substr( $binary_string1, $i, 1 );
         my $char2 = substr( $binary_string2, $i, 1 );
-        my $key   = $recreated_array->[$i];
-        my $val   = sprintf( "%3d", $glob_hash->{$key} );
+        $n_00++ if ( $char1 == 0 && $char2 == 0 );
+        my $key = $recreated_array->[$i];
+        my $val = sprintf( "%3d", $glob_hash->{$key} );
         $i = $i + $glob_hash->{$key} - 1;
         $cum_distance += $glob_hash->{$key} if $char1 ne $char2;
         my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
@@ -297,8 +386,9 @@ qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
 qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/
         );
         $out .= $format{ $char1 . $char2 } . "\n";
+
     }
-    return \$out;
+    return $n_00, \$out;
 }
 
 sub recreate_array {
@@ -327,7 +417,7 @@ sub create_glob_and_ref_hashes {
 
     for my $i ( @{$array} ) {
         my $id = $i->{id};
-        say "Flattening and remapping $id..." if $verbose;
+        say "Flattening and remapping <id:$id> ..." if $verbose;
         my $ref_hash = remap_hash( $i, $weight );
         $ref_hash_flattened->{$id} = $ref_hash;
 
@@ -420,29 +510,6 @@ sub create_weigthted_binary_digit_string {
     return $out_hash;
 }
 
-sub read_json {
-
-    my $str = path(shift)->slurp_utf8;
-    return decode_json($str);    # Decode to Perl data structure
-}
-
-sub read_yaml {
-
-    return LoadFile(shift);      # Decode to Perl data structure
-}
-
-sub write_json {
-
-    my $arg       = shift;
-    my $file      = $arg->{filepath};
-    my $json_data = $arg->{data};
-
-    # Note that canonical DOES not match the order of nsort from Sort:.Naturally
-    my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
-    path($file)->spew_utf8($json);
-    return 1;
-}
-
 sub hd_fast {
 
     # Hamming Distance
@@ -465,6 +532,53 @@ sub jaccard_similarity {
         }
     }
     return $union == 0 ? 0 : $intersection / $union;
+}
+
+sub estimate_hamming_stats {
+
+    my $length               = shift;
+    my $probability_mismatch = 0.5;
+    my $estimated_average    = $length * $probability_mismatch;
+    my $estimated_std_dev =
+      sqrt( $length * $probability_mismatch * ( 1 - $probability_mismatch ) );
+    return $estimated_average, $estimated_std_dev;
+}
+
+sub z_score {
+
+    my ( $observed_value, $expected_value, $std_dev ) = @_;
+    return ( $observed_value - $expected_value ) / $std_dev;
+}
+
+sub p_value_from_z_score {
+
+    return pnorm(shift)    # One-tailed test
+}
+
+#sub _p_value {
+#
+#    my ( $hamming_distance, $string_length ) = @_;
+#    my $probability_mismatch = 0.5;
+#    return 2 * (1 - pbinom($hamming_distance - 1, $string_length, $probability_mismatch))
+#}
+
+sub add_stats {
+
+    my $array = shift;
+    my $hash_out;
+    my $stat = Statistics::Descriptive::Full->new();
+    $stat->add_data($array);
+    $hash_out->{mean}   = $stat->mean();
+    $hash_out->{sd}     = $stat->standard_deviation();
+    $hash_out->{count}  = $stat->count();
+    $hash_out->{per25}  = $stat->percentile(25);
+    $hash_out->{per75}  = $stat->percentile(75);
+    $hash_out->{min}    = $stat->min();
+    $hash_out->{max}    = $stat->max();
+    $hash_out->{median} = $stat->median();
+    $hash_out->{sum}    = $stat->sum();
+
+    return $hash_out;
 }
 
 sub write_log {
@@ -496,9 +610,34 @@ sub write_log {
 sub write_alignment {
 
     my ( $output, $array ) = @_;
+
+    # Watch out for RAM usage!!!
     open( my $fh, ">", $output );
-    print $fh $_, "\n" for @$array;
+    print $fh join "\n", @$array;
     close $fh;
+}
+
+sub read_json {
+
+    my $str = path(shift)->slurp_utf8;
+    return decode_json($str);    # Decode to Perl data structure
+}
+
+sub read_yaml {
+
+    return LoadFile(shift);      # Decode to Perl data structure
+}
+
+sub write_json {
+
+    my $arg       = shift;
+    my $file      = $arg->{filepath};
+    my $json_data = $arg->{data};
+
+    # Note that canonical DOES not match the order of nsort from Sort:.Naturally
+    my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
+    path($file)->spew_utf8($json);
+    return 1;
 }
 
 sub program_header {
@@ -537,7 +676,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -nc|-no-color                  Don't print colors to STDOUT
-       -sort-by                       Sort reference-patienit comparison by [>hamming|jaccard]
+       -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
        -w|weights                     YAML file with weights
