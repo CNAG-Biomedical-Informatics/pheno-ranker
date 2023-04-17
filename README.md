@@ -17,6 +17,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -h|help                        Brief help message
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
+       -max-out                       Print only N of comparisons (used with --t)  [50]
        -nc|-no-color                  Don't print colors to STDOUT
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
@@ -39,7 +40,7 @@ pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PX
 
     * Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOs, OpenSuse) should do as well.
     * Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with "perl -v"
-    * 500MB of RAM.
+    * 1GB of RAM.
     * 1 core (it only uses one core per job).
     * At least 1GB HDD.
 
@@ -61,7 +62,7 @@ For executing pheno-ranker you will need:
 
     $ ./pheno-ranker -r phenopackets.json -w weights.yaml  # intra-cohort with weights
 
-    $ $path/pheno-ranker -t patient.json -r individuals.json # patient-cohort
+    $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
 
 ## COMMON ERRORS AND SOLUTIONS
 
