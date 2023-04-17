@@ -15,6 +15,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellaena JSON files
        -h|help                        Brief help message
+       -hpo                           Include HPO ascendant terms (if present)
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]

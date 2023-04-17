@@ -57,6 +57,7 @@ sub pheno_ranker {
     my $align_file  = 'alignment.txt';
     my $sort_by     = 'hamming';
     my $max_out     = 50;
+    my $hpo_file    = 'db/hp.json';
 
     # Reading arguments
     GetOptions(
@@ -65,6 +66,7 @@ sub pheno_ranker {
         'weights|w=s'   => \my $weights_file,                         # string
         'o=s'           => \$output_file,                             # string
         'max-out:i'     => \$max_out,                                 # integer
+        'hpo'           => \my $hpo,                                  # flag
         'export|e'      => \my $export,                               # flag
         'align|a:s'     => \my $align,                                # opt-string (defined)
         'sort-by=s'     => \$sort_by,                                 # string
@@ -87,6 +89,10 @@ sub pheno_ranker {
           "Please specify a valid --sort-by method <hamming|jaccard>\n",
         -exitval => 1
     ) unless ( $sort_by eq 'hamming' || $sort_by eq 'jaccard' );
+    pod2usage(
+        -message => "We could not find <$hpo_file>\n",
+        -exitval => 1
+    ) if ( $hpo && !-f $hpo_file );
 
     # Turning color off if argument <--no-color>
     $ENV{'ANSI_COLORS_DISABLED'} = 1 if $no_color;
@@ -98,15 +104,19 @@ sub pheno_ranker {
     my $ref_data = read_json($reference_file);
 
     # We assing weights if <--w>
-    # NB: The user can exclude variables by using  variable: 0
+    # NB: The user can exclude variables by using variable: 0
     my $weight =
       ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
+
+    # Now we load $hpo_nodes, $hpo_edges if --hpo
+    my $nodes = my $term_parents = undef;
+    ( $nodes, $term_parents ) = parse_hpo_json( read_json($hpo_file) ) if $hpo;
 
     # First we create:
     # - $glob_hash => hash with all the cohort keys possible
     # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
     my ( $glob_hash, $ref_hash ) =
-      create_glob_and_ref_hashes( $ref_data, $weight );
+      create_glob_and_ref_hashes( $ref_data, $weight, $term_parents );
 
     # Second we peform one-hot encoding for each individual
     my $ref_binary_hash =
@@ -130,8 +140,17 @@ sub pheno_ranker {
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
         my ( $results_rank, $results_align, $alignments_array ) =
-          compare_and_rank( { glob_hash => $glob_hash, ref_binary_hash => $ref_binary_hash, tar_binary_hash =>$tar_binary_hash,
-            weight => $weight, sort_by =>$sort_by, align => $align, max_out => $max_out} );
+          compare_and_rank(
+            {
+                glob_hash       => $glob_hash,
+                ref_binary_hash => $ref_binary_hash,
+                tar_binary_hash => $tar_binary_hash,
+                weight          => $weight,
+                sort_by         => $sort_by,
+                align           => $align,
+                max_out         => $max_out
+            }
+          );
 
         # Print Ranked results to STDOUT
         say join "\n", @$results_rank;
@@ -202,14 +221,14 @@ sub intra_cohort_comparison {
 
 sub compare_and_rank {
 
-    my $arg = shift;
-    my $glob_hash = $arg->{glob_hash};
+    my $arg             = shift;
+    my $glob_hash       = $arg->{glob_hash};
     my $ref_binary_hash = $arg->{ref_binary_hash};
     my $tar_binary_hash = $arg->{tar_binary_hash};
-    my $weight = $arg->{weight};
-    my $sort_by = $arg->{sort_by};
-    my $align = $arg->{align};
-    my $max_out = $arg->{max_out};
+    my $weight          = $arg->{weight};
+    my $sort_by         = $arg->{sort_by};
+    my $align           = $arg->{align};
+    my $max_out         = $arg->{max_out};
 
     say "Performing COHORT(REF)-PATIENT(TAR) comparison"
       if ( $debug || $verbose );
@@ -255,7 +274,7 @@ sub compare_and_rank {
 
     # Sort %score by value and load results
     my $count = 1;
-    $max_out++; # to be able to start w/ ONE
+    $max_out++;    # to be able to start w/ ONE
 
     # Start loop
     for my $key (
@@ -335,7 +354,7 @@ sub compare_and_rank {
         push @results, $tmp_str;
 
         # To save memory only load if --align
-        if (defined $align) {
+        if ( defined $align ) {
 
             # Add all of the above to @alignments
             my $sep = ('-') x 80;
@@ -433,14 +452,14 @@ sub recreate_array {
 
 sub create_glob_and_ref_hashes {
 
-    my ( $array, $weight ) = @_;
+    my ( $array, $weight, $term_parents ) = @_;
     my $glob_hash = {};
     my $ref_hash_flattened;
 
     for my $i ( @{$array} ) {
         my $id = $i->{id};
         say "Flattening and remapping <id:$id> ..." if $verbose;
-        my $ref_hash = remap_hash( $i, $weight );
+        my $ref_hash = remap_hash( $i, $weight, $term_parents );
         $ref_hash_flattened->{$id} = $ref_hash;
 
         # The idea is to create a $glob_hash with unique key-values
@@ -461,7 +480,7 @@ sub discard_excluded_phenotypicFeatures {
 
 sub remap_hash {
 
-    my ( $hash, $weight ) = @_;
+    my ( $hash, $weight, $term_parents ) = @_;
     my $out_hash;
 
     # Do some cleaning first
@@ -507,6 +526,12 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
         # Finally add value to key
         my $tmp_key = $key . '.' . $val;
 
+        # Add HPO ascendants
+        if ( defined $term_parents && $val =~ /^HP:/ ) {
+            my $ascendants = add_hpo_ascendants( $tmp_key, $term_parents );
+            $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
+        }
+
         # Assign weights
         # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
         # NB: We don't warn if it does not exists, just assign 1
@@ -514,6 +539,25 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
           exists $weight->{$tmp_key} ? $weight->{$tmp_key} : 1;
     }
     return $out_hash;
+}
+
+sub add_hpo_ascendants {
+
+    my ( $key, $term_parents ) = @_;
+    say $key;
+    $key =~ m/HP:(\w+)$/;
+    my $hpo_key = 'http://purl.obolibrary.org/obo/HP_' . $1;
+
+    say "$hpo_key";
+    my @ascendants;
+    for my $parent_id ( @{ $term_parents->{$hpo_key} } ) {
+        $parent_id =~ m/\/(\w+)$/;
+        $parent_id = $1;
+        $parent_id =~ tr/_/:/;
+        my $asc_key = $key . '.asc.' . $parent_id;
+        push @ascendants, $asc_key;
+    }
+    return \@ascendants;
 }
 
 sub add_id2key {
@@ -555,6 +599,37 @@ sub create_weigthted_binary_digit_string {
         $out_hash->{$key1} = $binary_str;
     }
     return $out_hash;
+}
+
+sub parse_hpo_json {
+
+    my $data = shift;
+
+    # The <hp.json> file is a structured representation of the Human Phenotype Ontology (HPO) in JSON format.
+    # The HPO is structured into a directed acyclic graph (DAG)
+    # Here's a brief overview of the structure of the hpo.json file:
+    # - graphs: This key contains an array of ontology graphs. In the case of HPO, there is only one graph. The graph has two main keys:
+    # - nodes: An array of objects, each representing an HPO term. Each term object has the following keys:
+    # - id: The identifier of the term (e.g., "HP:0000118").
+    # - lbl: The label (name) of the term (e.g., "Phenotypic abnormality").
+    # - meta: Metadata associated with the term, including definition, synonyms, and other information.
+    # - type: The type of the term, usually "CLASS".
+    # - edges: An array of objects, each representing a relationship between two HPO terms. Each edge object has the following keys:
+    # - sub: The subject (child) term ID (e.g., "HP:0000924").
+    # - obj: The object (parent) term ID (e.g., "HP:0000118").
+    # - pred: The predicate that describes the relationship between the subject and object terms, typically "is_a" in HPO.
+    # - meta: This key contains metadata about the HPO ontology as a whole, such as version information, description, and other details.
+
+    my $graph = $data->{graphs}->[0];
+    my %nodes = map { $_->{id} => $_ } @{ $graph->{nodes} };
+    my %edges = ();
+
+    for my $edge ( @{ $graph->{edges} } ) {
+        my $child_id  = $edge->{sub};
+        my $parent_id = $edge->{obj};
+        push @{ $edges{$child_id} }, $parent_id;
+    }
+    return \%nodes, \%edges;
 }
 
 sub hd_fast {
@@ -666,7 +741,12 @@ sub write_alignment {
 
 sub read_json {
 
-    my $str = path(shift)->slurp_utf8;
+    my $file = shift;
+
+    # NB: hp.json is non-UTF8
+    # malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
+    my $str =
+      $file =~ /hp\.json/ ? path($file)->slurp : path($file)->slurp_utf8;
     return decode_json($str);    # Decode to Perl data structure
 }
 
@@ -720,6 +800,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellaena JSON files
        -h|help                        Brief help message
+       -hpo                           Include HPO ascendant terms (if present)
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
