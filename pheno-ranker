@@ -2,7 +2,7 @@
 #
 #   A script that ranks individuals against a cohort (BFF)
 #
-#   Last Modified: Apr/14/2023
+#   Last Modified: Apr/17/2023
 #
 #   Version 1.0.0
 #
@@ -38,8 +38,6 @@ use JSON::XS;
 use YAML::XS qw(LoadFile);
 use Sort::Naturally;
 use Hash::Fold fold => { array_delimiter => ':' };
-
-#use Math::BigInt;
 use Math::CDF qw(pnorm pbinom);
 use Statistics::Descriptive;
 
@@ -231,16 +229,12 @@ sub compare_and_rank {
 
     # Initialize a few variables
     my @headers = (
-        'REFERENCE(ID)',
-        'TARGET(ID)',
-        'WEIGHTED',
-        'HAMMING-DISTANCE',
-        'HAMMING-DISTANCE-Z-SCORE',
-        'HAMMING-DISTANCE-P-VALUE(Z-SCORE)',
-        'HAMMING-DISTANCE-Z-SCORE(RANDOM)',
-        'JACCARD-INDEX',
-        'JACCARD-INDEX-Z-SCORE',
-        'JACCARD-INDEX-P-VALUE(Z-SCORE)'
+        'REFERENCE(ID)',    'TARGET(ID)',
+        'LENGTH',           'WEIGHTED',
+        'HAMMING-DISTANCE', 'DISTANCE-Z-SCORE',
+        'DISTANCE-P-VALUE', 'DISTANCE-Z-SCORE(RAND)',
+        'JACCARD-INDEX',    'JACCARD-Z-SCORE',
+        'JACCARD-P-VALUE'
     );
     my $header  = join "\t", @headers;
     my @results = $header;
@@ -295,24 +289,24 @@ sub compare_and_rank {
 
         # Create a hash with formats
         my $format = {
-            'REFERENCE(ID)'    => { value => $key,         format => undef },
-            'TARGET(ID)'       => { value => $tar,         format => undef },
-            'WEIGHTED'         => { value => $weight_bool, format => undef },
+            'REFERENCE(ID)' => { value => $key,         format => undef },
+            'TARGET(ID)'    => { value => $tar,         format => undef },
+            'WEIGHTED'      => { value => $weight_bool, format => undef },
+            'LENGTH' => { value => $length_align_corrected, format => '%6d' },
             'HAMMING-DISTANCE' =>
               { value => $score->{$key}{hamming}, format => '%4d' },
-            'HAMMING-DISTANCE-Z-SCORE' =>
+            'DISTANCE-Z-SCORE' =>
               { value => $hamming_z_score, format => '%7.3f' },
-            'HAMMING-DISTANCE-P-VALUE(Z-SCORE)' =>
+            'DISTANCE-P-VALUE' =>
               { value => $hamming_p_value_from_z_score, format => '%12.7f' },
-            'HAMMING-DISTANCE-Z-SCORE(RANDOM)' =>
+            'DISTANCE-Z-SCORE(RAND)' =>
               { value => $hamming_z_score_from_random, format => '%8.4f' },
             'JACCARD-INDEX' =>
               { value => $score->{$key}{jaccard}, format => '%7.3f' },
-            'JACCARD-INDEX-Z-SCORE' =>
+            'JACCARD-Z-SCORE' =>
               { value => $jaccard_z_score, format => '%7.3f' },
-            'JACCARD-INDEX-P-VALUE(Z-SCORE)' =>
+            'JACCARD-P-VALUE' =>
               { value => $jaccard_p_value_from_z_score, format => '%12.7f' },
-
         };
 
         # Serialize results
@@ -329,16 +323,20 @@ sub compare_and_rank {
 
         # Add values to info
         $info{$key} = {
-            weighted => $weight_bool eq 'True'
+              weighted => $weight_bool eq 'True'
             ? JSON::XS::true
             : JSON::XS::false,
             reference_id            => $key,
             target_id               => $tar,
             reference_binary_string => $ref_binary_hash->{$key},
             target_binary_string    => $str2,
-            hamming_distance        => $score->{$key}{hamming},       # coerce to number
+            alignment_length        => $length_align_corrected,
+            hamming_distance        => $score->{$key}{hamming},
             hamming_z_score         => $hamming_z_score,
-            jaccard_similarity      => $score->{$key}{jaccard},       # coerce to number
+            hamming_p_value         => $hamming_p_value_from_z_score,
+            jaccard_similarity      => $score->{$key}{jaccard},
+            jaccard_z_score         => $jaccard_z_score,
+            jaccard_p_value         => $jaccard_p_value_from_z_score,
             jaccard_distance        => 1 - $score->{$key}{jaccard},
             alignment               => $$alignment,
         };
@@ -445,6 +443,16 @@ sub remap_hash {
     # Do some cleaning first
     $hash = fold( discard_excluded_phenotypicFeatures($hash) );
 
+    # Create the hash once
+    my %id_correspondence = (
+        measures                  => 'assayCode.id',
+        treatments                => 'treatmentCode.id',
+        exposures                 => 'exposureCode.id',
+        diseases                  => 'diseaseCode.id',
+        phenotypicFeatures        => 'featureType.id',
+        interventionsOrProcedures => 'procedureCode.id'
+    );
+
     for my $key ( keys %{$hash} ) {
 
         # To see which ones were discarded
@@ -453,10 +461,13 @@ sub remap_hash {
         # Discard undefined
         next unless defined $hash->{$key};
 
-        # Discarding lines with 'low quality' keys (Time profiled with :NYTProf: ms time)
+        # Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
+        # Some can be "rescued" by adding the ontology as ($1)
         next
           if $key =~
-m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded/;
+m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure|No matching concept/;
+
+        # Load values
         my $val = $hash->{$key};
 
         # Discarding lines with val (Time profiled with :NYTProf: ms time)
@@ -465,23 +476,34 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded/;
             || $val eq 'Fake'
             || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/ );
 
-        # Getting rid of the index for (measures|treatments|exposures|phenotypicMeasure):\d+
-        # measures:0.foo.bar
-        # exposures:1.baz.foo
-        # *** IMPORTANT ****
-        # - By removing the element, we also lose the provenance of each nested value,
-        #   e.g., "diseases.ageOfOnset.age.iso8601duration.72Y"
-        #   but this is a compromise that we have to make to encode the data correctly!!!
-        # - We are keeping the ^id. so this means we will have at least ONE match
-        $key =~ s/:(\d+)\././;
-        my $tmp = $key . '.' . $val;
+        # Add IDs to key
+        $key = add_id2key( $key, $hash, \%id_correspondence );
 
-        # Assign weight
+        # Finally add value to key
+        my $tmp_key = $key . '.' . $val;
+
+        # Assign weights
         # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
         # NB: We don't warn if it does not exists, just assign 1
-        $out_hash->{$tmp} = exists $weight->{$tmp} ? $weight->{$tmp} : 1;
+        $out_hash->{$tmp_key} =
+          exists $weight->{$tmp_key} ? $weight->{$tmp_key} : 1;
     }
     return $out_hash;
+}
+
+sub add_id2key {
+
+    my ( $key, $hash, $id_correspondence ) = @_;
+    if ( $key =~
+/measures|treatments|exposures|diseases|phenotypicFeatures|interventionsOrProcedures/
+      )
+    {
+        $key =~ m/^(\w+):(\d+)\.(\S+)/;
+        my $tmp_key = $1 . ':' . $2 . '.' . $id_correspondence->{$1};
+        my $val     = $hash->{$tmp_key};
+        $key = $1 . '.' . $val . '.' . $3;
+    }
+    return $key;
 }
 
 sub create_weigthted_binary_digit_string {
