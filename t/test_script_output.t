@@ -41,10 +41,10 @@ my $reference_file = 't/rank_ref_sorted.txt';
 
 # The generated output file
 my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 0 );
 
 # Run the command line script with the input file, and redirect the output to the output_file
-system("$script -r $input_file -t $patient_file | sort > $tmp_file");
+system("$script -r $input_file -t $patient_file | sort -k2 | cut -f2-> $tmp_file");
 
 # Compare the output_file and the reference_file
 ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);

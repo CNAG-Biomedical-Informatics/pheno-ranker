@@ -56,6 +56,7 @@ sub pheno_ranker {
     my $output_file = 'matrix.txt';
     my $align_file  = 'alignment.txt';
     my $sort_by     = 'hamming';
+    my $max_out     = 50;
 
     # Reading arguments
     GetOptions(
@@ -63,6 +64,7 @@ sub pheno_ranker {
         'target|t=s'    => \my $target_file,                          # string
         'weights|w=s'   => \my $weights_file,                         # string
         'o=s'           => \$output_file,                             # string
+        'max-out:i'     => \$max_out,                                 # integer
         'export|e'      => \my $export,                               # flag
         'align|a:s'     => \my $align,                                # opt-string (defined)
         'sort-by=s'     => \$sort_by,                                 # string
@@ -128,8 +130,8 @@ sub pheno_ranker {
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
         my ( $results_rank, $results_align, $alignments_array ) =
-          compare_and_rank( $glob_hash, $ref_binary_hash, $tar_binary_hash,
-            $weight, $sort_by );
+          compare_and_rank( { glob_hash => $glob_hash, ref_binary_hash => $ref_binary_hash, tar_binary_hash =>$tar_binary_hash,
+            weight => $weight, sort_by =>$sort_by, align => $align, max_out => $max_out} );
 
         # Print Ranked results to STDOUT
         say join "\n", @$results_rank;
@@ -200,8 +202,15 @@ sub intra_cohort_comparison {
 
 sub compare_and_rank {
 
-    my ( $glob_hash, $ref_binary_hash, $tar_binary_hash, $weight, $sort_by ) =
-      @_;
+    my $arg = shift;
+    my $glob_hash = $arg->{glob_hash};
+    my $ref_binary_hash = $arg->{ref_binary_hash};
+    my $tar_binary_hash = $arg->{tar_binary_hash};
+    my $weight = $arg->{weight};
+    my $sort_by = $arg->{sort_by};
+    my $align = $arg->{align};
+    my $max_out = $arg->{max_out};
+
     say "Performing COHORT(REF)-PATIENT(TAR) comparison"
       if ( $debug || $verbose );
 
@@ -216,7 +225,8 @@ sub compare_and_rank {
 
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
         my $str1 = $ref_binary_hash->{$key};
-        say "REF:$str1\nTAR:$str2\n" if $debug > 1;
+        say "Comparing <id:$key> --- <id:$tar>" if $verbose;
+        say "REF:$str1\nTAR:$str2\n"            if $debug > 1;
         $score->{$key}{hamming} = hd_fast( $str1, $str2 );
         $score->{$key}{jaccard} = jaccard_similarity( $str1, $str2 );
 
@@ -229,12 +239,12 @@ sub compare_and_rank {
 
     # Initialize a few variables
     my @headers = (
-        'REFERENCE(ID)',    'TARGET(ID)',
-        'LENGTH',           'WEIGHTED',
-        'HAMMING-DISTANCE', 'DISTANCE-Z-SCORE',
-        'DISTANCE-P-VALUE', 'DISTANCE-Z-SCORE(RAND)',
-        'JACCARD-INDEX',    'JACCARD-Z-SCORE',
-        'JACCARD-P-VALUE'
+        'RANK',                   'REFERENCE(ID)',
+        'TARGET(ID)',             'LENGTH',
+        'WEIGHTED',               'HAMMING-DISTANCE',
+        'DISTANCE-Z-SCORE',       'DISTANCE-P-VALUE',
+        'DISTANCE-Z-SCORE(RAND)', 'JACCARD-INDEX',
+        'JACCARD-Z-SCORE',        'JACCARD-P-VALUE'
     );
     my $header  = join "\t", @headers;
     my @results = $header;
@@ -244,6 +254,10 @@ sub compare_and_rank {
     my $weight_bool  = $weight ? 'True' : 'False';
 
     # Sort %score by value and load results
+    my $count = 1;
+    $max_out++; # to be able to start w/ ONE
+
+    # Start loop
     for my $key (
         sort {
             $sort_by eq 'jaccard'                                    #
@@ -252,6 +266,8 @@ sub compare_and_rank {
         } keys %$score
       )
     {
+
+        say "$count: Creating alignment <id:$key>" if $verbose;
 
         # Create ASCII alignemnt
         my ( $n_00, $alignment ) =
@@ -289,6 +305,7 @@ sub compare_and_rank {
 
         # Create a hash with formats
         my $format = {
+            'RANK'          => { value => $count,       format => undef },
             'REFERENCE(ID)' => { value => $key,         format => undef },
             'TARGET(ID)'    => { value => $tar,         format => undef },
             'WEIGHTED'      => { value => $weight_bool, format => undef },
@@ -317,29 +334,36 @@ sub compare_and_rank {
         } @headers;
         push @results, $tmp_str;
 
-        # Add all of the above to @alignments
-        my $sep = ('-') x 80;
-        push @alignments, qq/#$header\n$tmp_str\n$sep\n$$alignment/;
+        # To save memory only load if --align
+        if (defined $align) {
 
-        # Add values to info
-        $info{$key} = {
-              weighted => $weight_bool eq 'True'
-            ? JSON::XS::true
-            : JSON::XS::false,
-            reference_id            => $key,
-            target_id               => $tar,
-            reference_binary_string => $ref_binary_hash->{$key},
-            target_binary_string    => $str2,
-            alignment_length        => $length_align_corrected,
-            hamming_distance        => $score->{$key}{hamming},
-            hamming_z_score         => $hamming_z_score,
-            hamming_p_value         => $hamming_p_value_from_z_score,
-            jaccard_similarity      => $score->{$key}{jaccard},
-            jaccard_z_score         => $jaccard_z_score,
-            jaccard_p_value         => $jaccard_p_value_from_z_score,
-            jaccard_distance        => 1 - $score->{$key}{jaccard},
-            alignment               => $$alignment,
-        };
+            # Add all of the above to @alignments
+            my $sep = ('-') x 80;
+            push @alignments, qq/#$header\n$tmp_str\n$sep\n$$alignment/;
+
+            # Add values to info
+            $info{$key} = {
+                  weighted => $weight_bool eq 'True'
+                ? JSON::XS::true
+                : JSON::XS::false,
+                reference_id            => $key,
+                target_id               => $tar,
+                reference_binary_string => $ref_binary_hash->{$key},
+                target_binary_string    => $str2,
+                alignment_length        => $length_align_corrected,
+                hamming_distance        => $score->{$key}{hamming},
+                hamming_z_score         => $hamming_z_score,
+                hamming_p_value         => $hamming_p_value_from_z_score,
+                jaccard_similarity      => $score->{$key}{jaccard},
+                jaccard_z_score         => $jaccard_z_score,
+                jaccard_p_value         => $jaccard_p_value_from_z_score,
+                jaccard_distance        => 1 - $score->{$key}{jaccard},
+                alignment               => $$alignment,
+            };
+        }
+
+        $count++;
+        last if $count == $max_out;
     }
     return \@results, \%info, \@alignments;
 }
@@ -465,7 +489,7 @@ sub remap_hash {
         # Some can be "rescued" by adding the ontology as ($1)
         next
           if $key =~
-m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure|No matching concept/;
+m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
 
         # Load values
         my $val = $hash->{$key};
@@ -474,6 +498,7 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
         next
           if ( $val eq 'NA'
             || $val eq 'Fake'
+            || $val eq 'None:No matching concept'
             || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/ );
 
         # Add IDs to key
@@ -697,6 +722,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -h|help                        Brief help message
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
+       -max-out                       Print only N of comparisons (used with --t)  [50]
        -nc|-no-color                  Don't print colors to STDOUT
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
