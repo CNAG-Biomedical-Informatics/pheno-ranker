@@ -2,7 +2,7 @@
 #
 #   A script that ranks individuals against a cohort (BFF)
 #
-#   Last Modified: Apr/17/2023
+#   Last Modified: Apr/18/2023
 #
 #   Version 1.0.0
 #
@@ -45,10 +45,10 @@ exit;
 sub pheno_ranker {
 
     # Defining a few variables
-    my $VERSION    = 'fake_until';
+    my $VERSION    = '1.0.0';
     my $out_file   = 'matrix.txt';
     my $align_file = 'alignment.txt';
-    my $hpo_file   = 'db/hp.json';
+    my $log_file = 'pheno-ranker-log.json';
 
     # Reading arguments
     GetOptions(
@@ -85,13 +85,13 @@ sub pheno_ranker {
     ######################
     # START PHENO-RANKER #
     ######################
-    my $ranker = PhenoRanker->new(
+    my $ranker = Ranker->new(
         {
             reference_file => $reference_file,
             target_file    => $target_file,
             weights_file   => $weights_file,
             hpo            => $hpo,
-            hpo_file       => $hpo_file,
+            hpo_file       => undef,
             align          => $align,
             align_file     => $align_file,
             export         => $export,
@@ -105,10 +105,10 @@ sub pheno_ranker {
     );
 
     # Run method
-    $ranker->run_pheno_ranker();
+    $ranker->run();
 
     # Create log if <--log>
-    write_log( $log ? $log : 'pheno-ranker-log.json', $ranker, $VERSION )
+    write_log( $log ? $log : $log_file, $ranker, $VERSION )
       if defined $log;
 
     ####################

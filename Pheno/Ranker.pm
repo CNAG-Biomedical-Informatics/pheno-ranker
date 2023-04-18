@@ -1,4 +1,4 @@
-package PhenoRanker;
+package Ranker;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ $Data::Dumper::Sortkeys = 1;
 use constant DEVEL_MODE => 0;
 
 use Exporter 'import';
-our @EXPORT = qw($VERSION);
+our @EXPORT = qw($VERSION write_json);
 
 # Global variables:
 our $VERSION  = '1.0.0';
@@ -46,9 +46,9 @@ has max_out => (
 
 has hpo_file => (
 
-    hpo_file => catfile( $lib_path, 'db/hp.json' ),
+    hpo_file => catfile( $lib_path, '../db/hp.json' ),
     coerce   => sub {
-        $_[0] // catfile( $lib_path, 'db/hp.json' );
+        $_[0] // catfile( $lib_path, '../db/hp.json' );
     },
     is  => 'ro',
     isa => Str
@@ -72,9 +72,11 @@ has [
 # End declaring attributes for the class #
 ##########################################
 
-sub run_pheno_ranker {
+sub run {
 
     my $self = shift;
+
+    #print Dumper $self and die;
 
     # Load variables
     my $reference_file = $self->{reference_file};
