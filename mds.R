@@ -14,7 +14,6 @@ fit <- cmdscale(d, eig=TRUE, k=2)
 x <- fit$points[,1]
 y <- fit$points[,2]
 
-
 # Create example data frame
 df <- data.frame(x, y, label=row.names(data))
 

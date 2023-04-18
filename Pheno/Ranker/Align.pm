@@ -463,5 +463,4 @@ sub parse_hpo_json {
     }
     return \%nodes, \%edges;
 }
-
 1;

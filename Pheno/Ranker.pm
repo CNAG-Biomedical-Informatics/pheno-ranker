@@ -1,4 +1,4 @@
-package Ranker;
+package Pheno::Ranker;
 
 use strict;
 use warnings;
@@ -14,15 +14,16 @@ use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
 
-$Data::Dumper::Sortkeys = 1;
-use constant DEVEL_MODE => 0;
-
 use Exporter 'import';
-our @EXPORT = qw($VERSION write_json);
+our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 our $VERSION  = '1.0.0';
 our $lib_path = dirname( abs_path(__FILE__) );
+
+$Data::Dumper::Sortkeys = 1;
+use constant DEVEL_MODE => 0;
+
 
 ############################################
 # Start declaring attributes for the class #

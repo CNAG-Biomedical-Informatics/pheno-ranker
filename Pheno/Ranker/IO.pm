@@ -65,5 +65,4 @@ sub write_json {
     path($file)->spew_utf8($json);
     return 1;
 }
-
 1;
