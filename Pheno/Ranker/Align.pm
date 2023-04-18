@@ -5,16 +5,13 @@ use warnings;
 use autodie;
 use feature qw(say);
 use Data::Dumper;
-use Path::Tiny;
-use File::Basename;
-use List::Util      qw(any);
 use Sort::Naturally qw(nsort);
 use Hash::Fold fold => { array_delimiter => ':' };
 use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(add_hpo_ascendants add_id2key compare_and_rank create_alignment create_glob_and_ref_hashes create_weigthted_binary_digit_string discard_excluded_phenotypicFeatures intra_cohort_comparison parse_hpo_json recreate_array remap_hash);
+  qw(intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes discard_excluded_phenotypicFeatures remap_hash add_hpo_ascendants add_id2key create_weigthted_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
 

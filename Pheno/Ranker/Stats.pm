@@ -2,15 +2,16 @@ package Pheno::Ranker::Stats;
 
 use strict;
 use warnings;
-use feature qw(say);
 use autodie;
+use feature qw(say);
 use Data::Dumper;
 use Math::CDF qw(pnorm pbinom);
 use Statistics::Descriptive;
 
 use Exporter 'import';
 our @EXPORT =
-  qw( add_stats estimate_hamming_stats hd_fast jaccard_similarity _p_value p_value_from_z_score z_score);
+  qw(hd_fast jaccard_similarity estimate_hamming_stats z_score p_value_from_z_score _p_value add_stats);
+
 use constant DEVEL_MODE => 0;
 
 sub hd_fast {

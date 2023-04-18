@@ -2,8 +2,8 @@ package Ranker;
 
 use strict;
 use warnings;
-use feature qw(say);
 use autodie;
+use feature qw(say);
 use Data::Dumper;
 use File::Basename        qw(dirname);
 use Cwd                   qw(abs_path);
