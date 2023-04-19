@@ -24,6 +24,14 @@ our $lib_path = dirname( abs_path(__FILE__) );
 $Data::Dumper::Sortkeys = 1;
 use constant DEVEL_MODE => 0;
 
+# Module variables
+my @beacon_v2_terms =
+  qw(diseases ethnicity exposures geographicOrigin id info interventionsOrProcedures karyotypicSex measures pedigrees phenotypicFeatures treatments);
+my @phenopackets_v2_terms =
+  qw(id subject phenotypicFeatures measurements biosamples interpretations diseases medicalActions files metaData);
+my $allowed_terms =
+  ArrayRef [ Enum [ @beacon_v2_terms, @phenopackets_v2_terms ] ];
+
 ############################################
 # Start declaring attributes for the class #
 ############################################
@@ -61,7 +69,7 @@ has hpo_file => (
 #has [qw /stream ohdsi_db/] => ( default => 0, is => 'ro' );
 
 has [qw /included_terms excluded_terms/] =>
-  ( default => sub { [] }, is => 'ro' );
+  ( default => sub { [] }, is => 'ro', isa => $allowed_terms );
 
 has [
     qw/reference_file target_file weights_file out_file hpo align align_file export log verbose/

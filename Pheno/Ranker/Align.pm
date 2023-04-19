@@ -338,7 +338,7 @@ sub prune_excluded_included {
 
     # EXCLUDED
     if (@excluded) {
-        for my $key ( keys %$hash ) {
+        for my $key (@excluded) {
             delete $hash->{$key} if exists $hash->{$key};
         }
     }

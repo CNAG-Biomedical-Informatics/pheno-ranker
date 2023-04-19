@@ -63,7 +63,7 @@ For executing pheno-ranker you will need:
 
     $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
 
-    $ ./pheno-ranker -r phenopackets.json -w weights.yaml  # intra-cohort with weights
+    $ ./pheno-ranker -r phenopackets.json -w weights.yaml --excluded-terms sex ethnicity exposures # intra-cohort with weights
 
     $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
 
