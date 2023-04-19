@@ -60,6 +60,8 @@ sub pheno_ranker {
         'export|e'      => \my $export,                               # flag
         'align|a:s'     => \my $align,                                # opt-string (defined)
         'sort-by=s'     => \my $sort_by,                              # string
+        'included-terms=s{1,11}' => \my @included_terms,                     # array
+        'excluded-terms=s{1,11}'  => \my @excluded_terms,                    # array
         'help|?'        => \my $help,                                 # flag
         'log:s'         => \my $log,                                  # opt-string (defined)
         'man'           => \my $man,                                  # flag
@@ -98,6 +100,8 @@ sub pheno_ranker {
         out_file       => $out_file,
         max_out        => $max_out,
         sort_by        => $sort_by,
+        included_terms => \@included_terms,
+        excluded_terms => \@excluded_terms,
         log            => $log,
         debug          => $debug,
         verbose        => $verbose
@@ -176,8 +180,10 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -o                             Output file [matrix.txt]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
+       -excluded-terms                Excluded terms
        -h|help                        Brief help message
        -hpo                           Include HPO ascendant terms (if present)
+       -included-terms                Included terms
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]

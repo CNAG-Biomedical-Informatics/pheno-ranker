@@ -3,7 +3,10 @@ package Pheno::Ranker::Align;
 use strict;
 use warnings;
 use autodie;
-use feature qw(say);
+use feature    qw(say);
+use List::Util qw(any);
+
+#use List::MoreUtils qw(duplicates);
 use Data::Dumper;
 use Sort::Naturally qw(nsort);
 use Hash::Fold fold => { array_delimiter => ':' };
@@ -11,20 +14,21 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes discard_excluded_phenotypicFeatures remap_hash add_hpo_ascendants add_id2key create_weigthted_binary_digit_string parse_hpo_json);
+  qw(intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes  remap_hash create_weigthted_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
 
 sub intra_cohort_comparison {
 
-    my ( $ref_binary_hash, $output, $self ) = @_;
+    my ( $ref_binary_hash, $self ) = @_;
+    my $out_file                    = $self->{out_file};
     my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
 
     say "Performing INTRA-COHORT compariSon"
       if ( $self->{debug} || $self->{verbose} );
 
-    # Print to  $output
-    open( my $fh, ">", $output );
+    # Print to  $out_file
+    open( my $fh, ">", $out_file );
     say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
     # NB: It's a symmetric matrix so we could just compute
@@ -46,7 +50,7 @@ sub intra_cohort_comparison {
         print $fh "\n";
     }
     close $fh;
-    say "Matrix saved to <$output>" if ( $self->{debug} || $self->{verbose} );
+    say "Matrix saved to <$out_file>" if ( $self->{debug} || $self->{verbose} );
     return 1;
 }
 
@@ -294,18 +298,60 @@ sub create_glob_and_ref_hashes {
     for my $i ( @{$array} ) {
         my $id = $i->{id};
         say "Flattening and remapping <id:$id> ..." if $self->{verbose};
-        my $ref_hash = remap_hash( $i, $weight, $term_parents );
+        my $ref_hash = remap_hash(
+            {
+                hash         => $i,
+                weight       => $weight,
+                term_parents => $term_parents,
+                self         => $self
+            }
+        );
         $ref_hash_flattened->{$id} = $ref_hash;
 
         # The idea is to create a $glob_hash with unique key-values
+        # Duplicated will be automatically merged
         $glob_hash = { %$glob_hash, %$ref_hash };
     }
     return ( $glob_hash, $ref_hash_flattened );
 }
 
-sub discard_excluded_phenotypicFeatures {
+sub prune_excluded_included {
+
+    my ( $hash, $self ) = @_;
+    my @included = @{ $self->{included_terms} };
+    my @excluded = @{ $self->{excluded_terms} };
+
+    # Die if we have both options at the same time
+    die "Sorry, <--include> and <--exclude> are mutually exclusive\n"
+      if ( @included && @excluded );
+
+    # *** IMPORTANT ***
+    # Original $hash is modified
+
+    # INCLUDED
+    if (@included) {
+        for my $key ( keys %$hash ) {
+            next if $key eq 'id';    # We have to keep $_->{id}
+            delete $hash->{$key} unless any { $_ eq $key } @included;
+        }
+    }
+
+    # EXCLUDED
+    if (@excluded) {
+        for my $key ( keys %$hash ) {
+            delete $hash->{$key} if exists $hash->{$key};
+        }
+    }
+
+    # We will do nothing if @included = @excluded = [] (DEFAULT)
+    return 1;
+}
+
+sub undef_excluded_phenotypicFeatures {
 
     my $hash = shift;
+
+    # Setting the property to undef (it will be discarded later)
     if ( exists $hash->{phenotypicFeatures} ) {
         map { $_ = $_->{excluded} ? undef : $_ }
           @{ $hash->{phenotypicFeatures} };
@@ -315,11 +361,18 @@ sub discard_excluded_phenotypicFeatures {
 
 sub remap_hash {
 
-    my ( $hash, $weight, $term_parents ) = @_;
+    my $arg          = shift;
+    my $hash         = $arg->{hash};
+    my $weight       = $arg->{weight};
+    my $term_parents = $arg->{term_parents};
+    my $self         = $arg->{self};
     my $out_hash;
 
-    # Do some cleaning first
-    $hash = fold( discard_excluded_phenotypicFeatures($hash) );
+    # Do some pruning excluded / included
+    prune_excluded_included( $hash, $self );
+
+    # A bit more pruning plus collapsing
+    $hash = fold( undef_excluded_phenotypicFeatures($hash) );
 
     # Create the hash once
     my %id_correspondence = (

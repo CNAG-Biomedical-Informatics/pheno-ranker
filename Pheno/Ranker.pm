@@ -24,7 +24,6 @@ our $lib_path = dirname( abs_path(__FILE__) );
 $Data::Dumper::Sortkeys = 1;
 use constant DEVEL_MODE => 0;
 
-
 ############################################
 # Start declaring attributes for the class #
 ############################################
@@ -61,7 +60,8 @@ has hpo_file => (
 
 #has [qw /stream ohdsi_db/] => ( default => 0, is => 'ro' );
 
-#has [qw /in_files/] => ( default => sub { [] }, is => 'ro' );
+has [qw /included_terms excluded_terms/] =>
+  ( default => sub { [] }, is => 'ro' );
 
 has [
     qw/reference_file target_file weights_file out_file hpo align align_file export log verbose/
@@ -122,13 +122,28 @@ sub run {
     };
 
     # Perform intra-cohort comparison if <--r>
-    intra_cohort_comparison( $ref_binary_hash, $out_file, $self )
-      unless $target_file;
+    intra_cohort_comparison( $ref_binary_hash, $self ) unless $target_file;
 
     # Perform patient-to-cohort comparison and rank if <--t>
     if ($target_file) {
         my $tar_data = read_json($target_file);
-        my $tar_hash = { $tar_data->{id} => remap_hash( $tar_data, $weight ) };
+
+        # The target file has to have $_->{id} otherwise die
+        die
+"Sorry, <$target_file> does not contain <id> term and it's mandatory\n"
+          unless exists $tar_data->{id};
+
+        # Now we load the rest of the hashes
+        my $tar_hash = {
+            $tar_data->{id} => remap_hash(
+                {
+                    hash         => $tar_data,
+                    weight       => $weight,
+                    term_parents => $term_parents,
+                    self         => $self
+                }
+            )
+        };
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
         my ( $results_rank, $results_align, $alignments_array ) =

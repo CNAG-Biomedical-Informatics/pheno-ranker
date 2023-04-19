@@ -11,7 +11,8 @@ use JSON::XS;
 #use Sort::Naturally qw(nsort);
 
 use Exporter 'import';
-our @EXPORT = qw(serialize_hashes write_alignment read_json read_yaml write_json);
+our @EXPORT =
+  qw(serialize_hashes write_alignment read_json read_yaml write_json);
 use constant DEVEL_MODE => 0;
 
 #########################
