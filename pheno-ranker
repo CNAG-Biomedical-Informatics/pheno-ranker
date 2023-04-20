@@ -51,24 +51,24 @@ sub pheno_ranker {
 
     # Reading arguments
     GetOptions(
-        'reference|r=s' => \my $reference_file,                       # string
-        'target|t=s'    => \my $target_file,                          # string
-        'weights|w=s'   => \my $weights_file,                         # string
-        'o=s'           => \$out_file,                                # string
-        'max-out:i'     => \my $max_out,                              # integer
-        'hpo'           => \my $hpo,                                  # flag
-        'export|e'      => \my $export,                               # flag
-        'align|a:s'     => \my $align,                                # opt-string (defined)
-        'sort-by=s'     => \my $sort_by,                              # string
-        'included-terms=s{1,11}' => \my @included_terms,                     # array
-        'excluded-terms=s{1,11}'  => \my @excluded_terms,                    # array
-        'help|?'        => \my $help,                                 # flag
-        'log:s'         => \my $log,                                  # opt-string (defined)
-        'man'           => \my $man,                                  # flag
-        'debug=i'       => \my $debug,                                # integer
-        'verbose|'      => \my $verbose,                              # flag
-        'no-color|nc'   => \my $no_color,                             # flag
-        'version|V'     => sub { say "$0 Version $VERSION"; exit; }
+        'reference|r=s'          => \my $reference_file,                       # string
+        'target|t=s'             => \my $target_file,                          # string
+        'weights|w=s'            => \my $weights_file,                         # string
+        'o=s'                    => \$out_file,                                # string
+        'max-out:i'              => \my $max_out,                              # integer
+        'hpo'                    => \my $hpo,                                  # flag
+        'export|e'               => \my $export,                               # flag
+        'align|a:s'              => \my $align,                                # opt-string (defined)
+        'sort-by=s'              => \my $sort_by,                              # string
+        'included-terms=s{1,11}' => \my @included_terms,                       # array
+        'excluded-terms=s{1,11}' => \my @excluded_terms,                       # array
+        'help|?'                 => \my $help,                                 # flag
+        'log:s'                  => \my $log,                                  # opt-string (defined)
+        'man'                    => \my $man,                                  # flag
+        'debug=i'                => \my $debug,                                # integer
+        'verbose|'               => \my $verbose,                              # flag
+        'no-color|nc'            => \my $no_color,                             # flag
+        'version|V'              => sub { say "$0 Version $VERSION"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
@@ -180,10 +180,10 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -o                             Output file [matrix.txt]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
-       -excluded-terms                Excluded terms
+       -excluded-terms                Excluded BFF/PXF terms
        -h|help                        Brief help message
        -hpo                           Include HPO ascendant terms (if present)
-       -included-terms                Included terms
+       -included-terms                Included BFF/PXF terms
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]

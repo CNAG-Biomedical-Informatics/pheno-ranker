@@ -14,10 +14,10 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -o                             Output file [matrix.txt]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
-       -excluded-terms                Excluded terms
+       -excluded-terms                Excluded BFF/PXF terms
        -h|help                        Brief help message
        -hpo                           Include HPO ascendant terms (if present)
-       -included-terms                Included terms
+       -included-terms                Included BFF/PXF terms
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]

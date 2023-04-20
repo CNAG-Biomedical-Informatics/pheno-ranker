@@ -26,11 +26,11 @@ use constant DEVEL_MODE => 0;
 
 # Module variables
 my @beacon_v2_terms =
-  qw(diseases ethnicity exposures geographicOrigin id info interventionsOrProcedures karyotypicSex measures pedigrees phenotypicFeatures treatments);
+  qw(diseases ethnicity exposures geographicOrigin id info interventionsOrProcedures karyotypicSex measures pedigrees phenotypicFeatures sex treatments);
 my @phenopackets_v2_terms =
   qw(id subject phenotypicFeatures measurements biosamples interpretations diseases medicalActions files metaData);
 my $allowed_terms =
-  ArrayRef [ Enum [ @beacon_v2_terms, @phenopackets_v2_terms ] ];
+  ArrayRef [ Enum [ @beacon_v2_terms, @phenopackets_v2_terms ] ]; # The error appears twice
 
 ############################################
 # Start declaring attributes for the class #
@@ -141,9 +141,12 @@ sub run {
 "Sorry, <$target_file> does not contain <id> term and it's mandatory\n"
           unless exists $tar_data->{id};
 
+        # We store {id} as a variable as it might be deleted from $tar_data (--excluded-terms id)
+        my $tar_data_id = $tar_data->{id};
+
         # Now we load the rest of the hashes
         my $tar_hash = {
-            $tar_data->{id} => remap_hash(
+            $tar_data_id  => remap_hash(
                 {
                     hash         => $tar_data,
                     weight       => $weight,

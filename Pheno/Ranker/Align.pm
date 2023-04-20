@@ -331,7 +331,7 @@ sub prune_excluded_included {
     # INCLUDED
     if (@included) {
         for my $key ( keys %$hash ) {
-            next if $key eq 'id';    # We have to keep $_->{id}
+            #next if $key eq 'id';    # We have to keep $_->{id}
             delete $hash->{$key} unless any { $_ eq $key } @included;
         }
     }
