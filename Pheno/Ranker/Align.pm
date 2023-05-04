@@ -14,9 +14,15 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes  remap_hash create_weigthted_binary_digit_string parse_hpo_json);
+  qw(check_format intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes  remap_hash create_weigthted_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
+
+sub check_format {
+
+    my $data = shift;
+    return exists $data->[0]{subject} ? 'pxf' : 'bff';
+}
 
 sub intra_cohort_comparison {
 
@@ -331,6 +337,7 @@ sub prune_excluded_included {
     # INCLUDED
     if (@included) {
         for my $key ( keys %$hash ) {
+
             #next if $key eq 'id';    # We have to keep $_->{id}
             delete $hash->{$key} unless any { $_ eq $key } @included;
         }
@@ -374,15 +381,30 @@ sub remap_hash {
     # A bit more pruning plus collapsing
     $hash = fold( undef_excluded_phenotypicFeatures($hash) );
 
-    # Create the hash once
-    my %id_correspondence = (
-        measures                  => 'assayCode.id',
-        treatments                => 'treatmentCode.id',
-        exposures                 => 'exposureCode.id',
-        diseases                  => 'diseaseCode.id',
-        phenotypicFeatures        => 'featureType.id',
-        interventionsOrProcedures => 'procedureCode.id'
-    );
+    # Create (once) the hash that point to the hierarchy for ontology
+    #  *** IMPORTANT ***
+    # - phenotypicFeatures.featureType.id => BFF
+    # - phenotypicFeatures.type.id        => PXF
+    my $id_correspondence = {
+        bff => {
+            measures                  => 'assayCode.id',
+            treatments                => 'treatmentCode.id',
+            exposures                 => 'exposureCode.id',
+            diseases                  => 'diseaseCode.id',
+            phenotypicFeatures        => 'featureType.id',
+            interventionsOrProcedures => 'procedureCode.id'
+        },
+        pxf => {
+
+            # measures                  => 'assayCode.id',
+            # treatments                => 'treatmentCode.id',
+            # exposures                 => 'exposureCode.id',
+            # diseases                  => 'diseaseCode.id',
+            phenotypicFeatures => 'type.id'
+
+              # interventionsOrProcedures => 'procedureCode.id'
+        }
+    };
 
     for my $key ( keys %{$hash} ) {
 
@@ -394,6 +416,7 @@ sub remap_hash {
 
 # Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
 # Some can be "rescued" by adding the ontology as ($1)
+# NB: We discard _labels too!!
         next
           if $key =~
 m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
@@ -409,7 +432,8 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
             || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/ );
 
         # Add IDs to key
-        $key = add_id2key( $key, $hash, \%id_correspondence );
+        $key =
+          add_id2key( $key, $hash, $id_correspondence->{ $self->{format} } );
 
         # Finally add value to key
         my $tmp_key = $key . '.' . $val;

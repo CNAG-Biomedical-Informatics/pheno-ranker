@@ -1,0 +1,207 @@
+#!/usr/bin/env perl
+#
+#   A script that creates a JSON array of random PXF
+#
+#   Note that there is more sophisticated version at:
+#   https://github.com/monarch-initiative/PhenoImp
+#
+#   Last Modified: May/03/2023
+#
+#   Version 1.0.0
+#
+#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.crg.eu)
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, see <https://www.gnu.org/licenses/>.
+#
+#   If this program helps you in your research, please cite.
+use strict;
+use warnings;
+use autodie;
+use feature      qw(say);
+use Getopt::Long qw(:config no_ignore_case);
+use Pod::Usage;
+
+#use Data::Printer;
+use Path::Tiny;
+use JSON::XS;
+use Data::Fake qw/Core Company Dates Names/;
+use FindBin    qw($Bin);
+use lib $Bin;
+use Ontologies qw($hpo_terms);
+
+my $format   = 'bff';
+my $number   = 100;
+my $out_file = 'individuals.json';
+my $VERSION  = '1.0.0';
+
+# Reading arguments
+GetOptions(
+    'format|f=s' => \$format,                                  # string
+    'n=i'        => \$number,                                  # string
+    'o=s'        => \$out_file,                                # string
+    'help|?'     => \my $help,                                 # flag
+    'man'        => \my $man,                                  # flag
+    'debug=i'    => \my $debug,                                # integer
+    'verbose|'   => \my $verbose,                              # flag
+    'version|V'  => sub { say "$0 Version $VERSION"; exit; }
+) or pod2usage(2);
+pod2usage(1)                              if $help;
+pod2usage( -verbose => 2, -exitval => 0 ) if $man;
+
+#########
+# START #
+#########
+my $json_data;
+for ( my $i = 1 ; $i <= $number ; $i++ ) {
+    push @$json_data, pxf_generator($i);
+}
+#######
+# END #
+#######
+#p $json_data;
+
+# Serialize the data and write
+write_json( { filepath => $out_file, data => $json_data } );
+
+sub write_json {
+
+    my $arg       = shift;
+    my $file      = $arg->{filepath};
+    my $json_data = $arg->{data};
+
+    # Note that canonical DOES not match the order of nsort from Sort:.Naturally
+    my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
+    path($file)->spew_utf8($json);
+    return 1;
+}
+
+sub pxf_generator {
+    my $id   = shift;
+    my $i    = int( rand(50) );
+    my $j    = int( rand(50) );
+    my $prng = fake_hash(
+        {
+            id      => "Phenopacket_" . $id,
+            subject => {
+                id  => "IndividualId_" . $id,
+                age => {
+                    iso8601duration =>
+                      fake_template( "P%dY", fake_int( 1, 99 ) )
+                },
+                sex => fake_pick( 'MALE', 'FEMALE' )
+            },
+            phenotypicFeatures => [
+                {
+                    type       => $hpo_terms->[$i],
+                    ageOfOnset => {
+                        age => {
+                            iso8601duration =>
+                              fake_template( "P%dY", fake_int( 1, 99 ) )
+                        }
+                    }
+                },
+                {
+                    type       => $hpo_terms->[$j],
+                    ageOfOnset => {
+                        age => {
+                            iso8601duration =>
+                              fake_template( "P%dY", fake_int( 1, 99 ) )
+                        }
+                    }
+                }
+            ]
+        }
+    );
+    return $prng->();
+}
+
+=head1 NAME
+
+pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+
+=head1 SYNOPSIS
+
+
+pheno-ranker -r <individuals.json> -t <patient.json> [-options]
+
+     Options:
+       -debug                         Print debugging (from 1 to 5, being 5 max)
+       -h|help                        Brief help message
+       -n                             Number of individuals
+       -man                           Full documentation
+       -o                             Output file [individuals.json]
+       -v|verbose                     Verbosity on
+       -V|version                     Print version
+
+=head1 DESCRIPTION
+
+pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+
+=head1 SUMMARY
+
+pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PXF file against a BFF/PXF cohort
+
+=head1 INSTALLATION
+
+ $ cpanm sudo --installdeps .
+
+=head3 System requirements
+
+  * Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOs, OpenSuse) should do as well.
+  * Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with "perl -v"
+  * 1GB of RAM.
+  * 1 core (it only uses one core per job).
+  * At least 1GB HDD.
+
+=head1 HOW TO RUN PHENO-RANKER
+
+For executing pheno-ranker you will need:
+
+=over
+
+=item Input file(s):
+      
+A PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object. 
+
+If no C<--t> argument is provided then it will compute intra-cohort comparison only. If C<--t> argument is provided then the target JSON will be compared against the C<-r> reference cohort.
+
+=back
+
+B<Examples:>
+
+ $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+
+ $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
+
+ $ ./pheno-ranker -r phenopackets.json -w weights.yaml --excluded-terms sex ethnicity exposures # intra-cohort with weights
+
+ $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
+
+=head2 COMMON ERRORS AND SOLUTIONS
+
+ * Error message: Foo
+   Solution: Bar
+
+ * Error message: Foo
+   Solution: Bar
+
+=head1 AUTHOR 
+
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.crg.eu>.
+
+=head1 COPYRIGHT AND LICENSE
+
+This PERL file is copyrighted. See the LICENSE file included in this distribution.
+
+=cut

@@ -100,8 +100,11 @@ sub run {
     my $max_out        = $self->{max_out};
     my $sort_by        = $self->{sort_by};
 
-    # Load JSON files as Perl data structure
+    # Load JSON file as Perl data structure
     my $ref_data = read_json($reference_file);
+
+    # We have to check if we have BFF or PXF
+    add_attribute($self, 'format', check_format($ref_data)); # setter via sub
 
     # We assing weights if <--w>
     # NB: The user can exclude variables by using variable: 0
@@ -187,5 +190,13 @@ sub run {
     # Dump to JSON if <--export>
     serialize_hashes($hash2serialize) if $export;
 
+}
+
+sub add_attribute {
+
+    #  Bypassing the encapsulation provided by Moo 
+    my ($self, $name, $value) = @_;
+    $self->{$name} = $value;
+    return 1;
 }
 1;
