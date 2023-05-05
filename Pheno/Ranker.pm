@@ -72,7 +72,7 @@ has [qw /included_terms excluded_terms/] =>
   ( default => sub { [] }, is => 'ro', isa => $allowed_terms );
 
 has [
-    qw/reference_file target_file weights_file out_file hpo align align_file export log verbose/
+    qw/reference_file target_file weights_file out_file hpo align align_file export log verbose no_age/
 ] => ( is => 'ro' );
 
 #has [qw /data method /] => ( is => 'rw' );

@@ -62,6 +62,7 @@ sub pheno_ranker {
         'sort-by=s'              => \my $sort_by,                              # string
         'included-terms=s{1,11}' => \my @included_terms,                       # array
         'excluded-terms=s{1,11}' => \my @excluded_terms,                       # array
+        'no-age'                 => \my $no_age,                               # flag
         'help|?'                 => \my $help,                                 # flag
         'log:s'                  => \my $log,                                  # opt-string (defined)
         'man'                    => \my $man,                                  # flag
@@ -102,6 +103,7 @@ sub pheno_ranker {
         sort_by        => $sort_by,
         included_terms => \@included_terms,
         excluded_terms => \@excluded_terms,
+        no_age         => $no_age,
         log            => $log,
         debug          => $debug,
         verbose        => $verbose
@@ -188,6 +190,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
        -nc|-no-color                  Don't print colors to STDOUT
+       -no-age                        Don't include any age-related variable
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version

@@ -21,7 +21,7 @@ use constant DEVEL_MODE => 0;
 sub check_format {
 
     my $data = shift;
-    return exists $data->[0]{subject} ? 'pxf' : 'bff';
+    return exists $data->[0]{subject} ? 'PXF' : 'BFF';
 }
 
 sub intra_cohort_comparison {
@@ -102,7 +102,7 @@ sub compare_and_rank {
     # Initialize a few variables
     my @headers = (
         'RANK',                   'REFERENCE(ID)',
-        'TARGET(ID)',             'LENGTH',
+        'TARGET(ID)',             'FORMAT', 'LENGTH',
         'WEIGHTED',               'HAMMING-DISTANCE',
         'DISTANCE-Z-SCORE',       'DISTANCE-P-VALUE',
         'DISTANCE-Z-SCORE(RAND)', 'JACCARD-INDEX',
@@ -172,6 +172,7 @@ sub compare_and_rank {
             'RANK'          => { value => $count,       format => undef },
             'REFERENCE(ID)' => { value => $key,         format => undef },
             'TARGET(ID)'    => { value => $tar,         format => undef },
+            'FORMAT'        => { value => $self->{format},    format => undef },
             'WEIGHTED'      => { value => $weight_bool, format => undef },
             'LENGTH' => { value => $length_align_corrected, format => '%6d' },
             'HAMMING-DISTANCE' =>
@@ -222,6 +223,7 @@ sub compare_and_rank {
                 jaccard_z_score         => $jaccard_z_score,
                 jaccard_p_value         => $jaccard_p_value_from_z_score,
                 jaccard_distance        => 1 - $score->{$key}{jaccard},
+                format                  => $self->{format},
                 alignment               => $$alignment,
             };
         }
@@ -386,7 +388,7 @@ sub remap_hash {
     # - phenotypicFeatures.featureType.id => BFF
     # - phenotypicFeatures.type.id        => PXF
     my $id_correspondence = {
-        bff => {
+        BFF => {
             measures                  => 'assayCode.id',
             treatments                => 'treatmentCode.id',
             exposures                 => 'exposureCode.id',
@@ -394,7 +396,7 @@ sub remap_hash {
             phenotypicFeatures        => 'featureType.id',
             interventionsOrProcedures => 'procedureCode.id'
         },
-        pxf => {
+        PXF => {
 
             # measures                  => 'assayCode.id',
             # treatments                => 'treatmentCode.id',
@@ -420,6 +422,9 @@ sub remap_hash {
         next
           if $key =~
 m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
+
+        # The user can turn off age related values
+        next if ( $self->{no_age} && $key =~ m/age/i);
 
         # Load values
         my $val = $hash->{$key};

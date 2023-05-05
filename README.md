@@ -22,6 +22,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
        -nc|-no-color                  Don't print colors to STDOUT
+       -no-age                        Don't include any age-related variable
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
