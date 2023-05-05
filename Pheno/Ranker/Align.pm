@@ -399,9 +399,9 @@ sub remap_hash {
         PXF => {
 
             # measures                  => 'assayCode.id',
-            # treatments                => 'treatmentCode.id',
+            treatments                => 'code.id',
             # exposures                 => 'exposureCode.id',
-            # diseases                  => 'diseaseCode.id',
+            diseases           => 'term.id',
             phenotypicFeatures => 'type.id'
 
               # interventionsOrProcedures => 'procedureCode.id'

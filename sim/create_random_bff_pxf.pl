@@ -40,27 +40,30 @@ use FindBin    qw($Bin);
 use lib $Bin;
 use Ontologies qw($hpo_array $omim_array $rxnorm_array $ethnicity_array);
 
-my $format             = 'bff';
-my $number             = 100;
-my $out_file           = 'individuals.json';
-my $phenotypicFeatures = 3;
-my $diseases           = 1;
-my $treatments         = 3;
-my $VERSION            = '1.0.0';
+my $format                 = 'bff';
+my $number                 = 100;
+my $out_file               = 'individuals.json';
+my $phenotypicFeatures     = 1;
+my $diseases               = 1;
+my $treatments             = 1;
+my $VERSION                = '1.0.0';
 
 # Reading arguments
 GetOptions(
-    'format|f=s'           => \$format,                                  # string
-    'n=i'                  => \$number,                                  # string
-    'o=s'                  => \$out_file,                                # string
-    'phenotypicFeatures=i' => \$phenotypicFeatures,                      # integer
-    'diseases=i'           => \$diseases,                                # integer
-    'treatments=i'         => \$treatments,                              # integer
-    'help|?'               => \my $help,                                 # flag
-    'man'                  => \my $man,                                  # flag
-    'debug=i'              => \my $debug,                                # integer
-    'verbose|'             => \my $verbose,                              # flag
-    'version|V'            => sub { say "$0 Version $VERSION"; exit; }
+    'format|f=s'               => \$format,                                  # string
+    'n=i'                      => \$number,                                  # string
+    'o=s'                      => \$out_file,                                # string
+    'phenotypicFeatures=i'     => \$phenotypicFeatures,                      # integer
+    'phenotypicFeatures-max=i' => \my $phenotypicFeatures_max,                  # integer
+    'diseases=i'               => \$diseases,                                # integer
+    'diseases-max=i'           => \my $diseases_max,                            # integer
+    'treatments=i'             => \$treatments,                              # integer
+    'treatments-max=i'         => \my $treatments_max,                          # integer
+    'help|?'                   => \my $help,                                 # flag
+    'man'                      => \my $man,                                  # flag
+    'debug=i'                  => \my $debug,                                # integer
+    'verbose|'                 => \my $verbose,                              # flag
+    'version|V'                => sub { say "$0 Version $VERSION"; exit; }
 ) or pod2usage(2);
 pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
@@ -77,10 +80,13 @@ for ( my $i = 1 ; $i <= $number ; $i++ ) {
     push @$json_data,
       $func{$format}->(
         {
-            id                 => $i,
-            phenotypicFeatures => $phenotypicFeatures,
-            diseases           => $diseases,
-            treatments         => $treatments
+            id                     => $i,
+            phenotypicFeatures     => $phenotypicFeatures,
+            diseases               => $diseases,
+            treatments             => $treatments,
+            phenotypicFeatures_max => $phenotypicFeatures_max,
+            diseases_max           => $diseases_max,
+            treatments_max         => $treatments_max
         }
       );
 }
@@ -111,9 +117,12 @@ sub pxf_generator {
     my $n_pF               = $arg->{phenotypicFeatures};
     my $n_d                = $arg->{diseases};
     my $n_t                = $arg->{treatments};
-    my $phenotypicFeatures = phenotypicFeatures( 'pxf', $n_pF );
-    my $diseases           = diseases( 'pxf', $n_d );
-    my $treatments         = treatments( 'pxf', $n_t );
+    my $max_pF             = $arg->{phenotypicFeatures_max};
+    my $max_d              = $arg->{diseases_max};
+    my $max_t              = $arg->{treatments_max};
+    my $phenotypicFeatures = phenotypicFeatures( 'pxf', $n_pF, $max_pF );
+    my $diseases           = diseases( 'pxf', $n_d, $max_d );
+    my $treatments         = treatments( 'pxf', $n_t, $max_t );
     my $pxf                = fake_hash(
         {
             id      => "Phenopacket_" . $id,
@@ -140,10 +149,14 @@ sub bff_generator {
     my $n_pF               = $arg->{phenotypicFeatures};
     my $n_d                = $arg->{diseases};
     my $n_t                = $arg->{treatments};
-    my $phenotypicFeatures = phenotypicFeatures( 'bff', $n_pF );
-    my $diseases           = diseases( 'bff', $n_d );
-    my $treatments         = treatments( 'bff', $n_t );
-    my $bff                = fake_hash(
+    my $max_pF             = $arg->{phenotypicFeatures_max};
+    my $max_d              = $arg->{diseases_max};
+    my $max_t              = $arg->{treatments_max};
+    my $phenotypicFeatures = phenotypicFeatures( 'bff', $n_pF, $max_pF );
+    my $diseases           = diseases( 'bff', $n_d, $max_d );
+    my $treatments         = treatments( 'bff', $n_t, $max_t );
+
+    my $bff = fake_hash(
         {
             id        => "Beacon_" . $id,
             ethnicity => fake_pick(@$ethnicity_array),
@@ -161,12 +174,13 @@ sub bff_generator {
 
 sub phenotypicFeatures {
 
-    my ( $format, $n ) = @_;
+    my ( $format, $n, $max ) = @_;
     my $array;
     my $type  = $format eq 'bff' ? 'featureType' : 'type';
     my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my @slice = defined $max ? @{$hpo_array}[ 0 .. $max - 1 ] :  @$hpo_array;    # slice of refs
     my $hash  = {
-        $type  => fake_pick(@$hpo_array),
+        $type  => fake_pick(@slice),
         $onset => {
             age => {
                 iso8601duration => fake_template( "P%dY", fake_int( 1, 99 ) )
@@ -179,12 +193,13 @@ sub phenotypicFeatures {
 
 sub diseases {
 
-    my ( $format, $n ) = @_;
+    my ( $format, $n, $max ) = @_;
     my $array;
     my $type  = $format eq 'bff' ? 'diseaseCode' : 'term';
     my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my @slice = defined $max ? @{$omim_array}[ 0 .. $max - 1 ] :  @$omim_array;    # slice of refs
     my $hash  = {
-        $type  => fake_pick(@$omim_array),
+        $type  => fake_pick(@slice),
         $onset => {
             age => {
                 iso8601duration => fake_template( "P%dY", fake_int( 1, 99 ) )
@@ -197,10 +212,11 @@ sub diseases {
 
 sub treatments {
 
-    my ( $format, $n ) = @_;
+    my ( $format, $n, $max ) = @_;
     my $array;
-    my $type = $format eq 'bff' ? 'treatmentCode' : 'code';
-    my $hash = { $type => fake_pick(@$rxnorm_array), };
+    my $type  = $format eq 'bff' ? 'treatmentCode' : 'code';
+    my @slice = defined $max ? @{$rxnorm_array}[ 0 .. $max - 1 ] :  @$rxnorm_array;    # slice of refs
+    my $hash  = { $type => fake_pick(@slice) };
     push @$array, $hash for ( 1 .. $n );
     return $array;
 }
@@ -217,8 +233,12 @@ create_random_bff_pxf.pl -r <individuals.json> -t <patient.json> [-options]
      Options:
 
        -diseases                      Number of [1]
-       -phenotypicFeatures            Number of [3]
-       -treatments                    Number of [3]
+       -phenotypicFeatures            IDEM
+       -treatments                    IDEM
+       -diseases-max                  To narrow the selection to N first array elements
+       -phenotypicFeatures-max        IDEM
+       -treatments-max                IDEM
+
 
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -f                             Format [>bff|pxf]

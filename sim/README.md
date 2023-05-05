@@ -9,8 +9,12 @@ create\_random\_bff\_pxf.pl -r &lt;individuals.json> -t &lt;patient.json> \[-opt
      Options:
 
        -diseases                      Number of [1]
-       -phenotypicFeatures            Number of [3]
-       -treatments                    Number of [3]
+       -phenotypicFeatures            IDEM
+       -treatments                    IDEM
+       -diseases-max                  To narrow the selection to N first array elements
+       -phenotypicFeatures-max        IDEM
+       -treatments-max                IDEM
+
 
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -f                             Format [>bff|pxf]
