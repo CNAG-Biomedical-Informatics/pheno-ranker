@@ -1,11 +1,11 @@
 #!/usr/bin/env perl
 #
-#   A script that creates a JSON array of random PXF
+#   A script that creates a JSON array of random BFF/PXF
 #
-#   Note that there is more sophisticated version at:
+#   Note: Monarch has a more sophisticated version at:
 #   https://github.com/monarch-initiative/PhenoImp
 #
-#   Last Modified: May/03/2023
+#   Last Modified: May/05/2023
 #
 #   Version 1.0.0
 #
@@ -43,6 +43,7 @@ use Ontologies qw($hpo_terms);
 my $format   = 'bff';
 my $number   = 100;
 my $out_file = 'individuals.json';
+my $phenotypicFeatures = 1;
 my $VERSION  = '1.0.0';
 
 # Reading arguments
@@ -50,6 +51,7 @@ GetOptions(
     'format|f=s' => \$format,                                  # string
     'n=i'        => \$number,                                  # string
     'o=s'        => \$out_file,                                # string
+    'phenotypicFeatures=i' => \$phenotypicFeatures,            # integer  
     'help|?'     => \my $help,                                 # flag
     'man'        => \my $man,                                  # flag
     'debug=i'    => \my $debug,                                # integer
@@ -59,12 +61,17 @@ GetOptions(
 pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
 
+
+my %func = (
+        bff    => \&bff_generator,
+        pxf     => \&pxf_generator
+    );
 #########
 # START #
 #########
 my $json_data;
 for ( my $i = 1 ; $i <= $number ; $i++ ) {
-    push @$json_data, pxf_generator($i);
+    push @$json_data, $func{$format}->($i,$phenotypicFeatures);
 }
 #######
 # END #
@@ -87,10 +94,11 @@ sub write_json {
 }
 
 sub pxf_generator {
-    my $id   = shift;
-    my $i    = int( rand(50) );
-    my $j    = int( rand(50) );
-    my $prng = fake_hash(
+
+    my ($id, $n)  = @_;
+    my $phenotypicFeatures = phenotypicFeatures('pxf', $n);
+
+    my $pxf = fake_hash(
         {
             id      => "Phenopacket_" . $id,
             subject => {
@@ -101,56 +109,72 @@ sub pxf_generator {
                 },
                 sex => fake_pick( 'MALE', 'FEMALE' )
             },
-            phenotypicFeatures => [
-                {
-                    type       => $hpo_terms->[$i],
-                    ageOfOnset => {
-                        age => {
-                            iso8601duration =>
-                              fake_template( "P%dY", fake_int( 1, 99 ) )
-                        }
-                    }
-                },
-                {
-                    type       => $hpo_terms->[$j],
-                    ageOfOnset => {
-                        age => {
-                            iso8601duration =>
-                              fake_template( "P%dY", fake_int( 1, 99 ) )
-                        }
-                    }
-                }
-            ]
+            phenotypicFeatures => $phenotypicFeatures 
         }
     );
-    return $prng->();
+    return $pxf->();
 }
+
+sub bff_generator {
+
+    my ($id, $n)  = @_;
+    my $phenotypicFeatures = phenotypicFeatures('bff', $n);
+    my $pxf = fake_hash(
+        {
+            id      => "Beacon_" . $id,
+            sex => fake_pick( { id    => "NCIT:C20197", label => "Male" }, { id    => "NCIT:C16576", label => "Female" } ),
+            phenotypicFeatures =>  $phenotypicFeatures
+        }
+    );
+    return $pxf->();
+}
+
+sub phenotypicFeatures {
+
+   my ($format, $n) = @_;
+   my $array; 
+   my $type = $format eq 'bff' ? 'featureType' : 'type';
+   my $hash = {
+                    $type       => fake_pick(@$hpo_terms),
+                    ageOfOnset => {
+                        age => {
+                            iso8601duration =>
+                              fake_template( "P%dY", fake_int( 1, 99 ) )
+                        }
+                    }
+                };
+    push @$array, $hash for (1..$n);
+   return $array;
+}
+
 
 =head1 NAME
 
-pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+create_random_bff_pxf.pl: A script that creates a JSON array of random BFF/PXF
 
 =head1 SYNOPSIS
 
 
-pheno-ranker -r <individuals.json> -t <patient.json> [-options]
+create_random_bff_pxf.pl -r <individuals.json> -t <patient.json> [-options]
 
      Options:
        -debug                         Print debugging (from 1 to 5, being 5 max)
+       -f                             Format [>bff|pxf]
        -h|help                        Brief help message
        -n                             Number of individuals
        -man                           Full documentation
        -o                             Output file [individuals.json]
+       -phenotypicFeatures            Number of -phenotypicFeatures [3]
        -v|verbose                     Verbosity on
        -V|version                     Print version
 
 =head1 DESCRIPTION
 
-pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+A script that creates a JSON array of random BFF/PXF
 
 =head1 SUMMARY
 
-pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PXF file against a BFF/PXF cohort
+A script that creates a JSON array of random BFF/PXF
 
 =head1 INSTALLATION
 
@@ -164,29 +188,17 @@ pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PX
   * 1 core (it only uses one core per job).
   * At least 1GB HDD.
 
-=head1 HOW TO RUN PHENO-RANKER
+=head1 HOW TO RUN CREATE-RANDOM-BFF-PXF
 
-For executing pheno-ranker you will need:
-
-=over
-
-=item Input file(s):
-      
-A PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object. 
-
-If no C<--t> argument is provided then it will compute intra-cohort comparison only. If C<--t> argument is provided then the target JSON will be compared against the C<-r> reference cohort.
-
-=back
+The software runs without any argument and assumes defaults. If you want to change some pearmeters please take a look to the synopsis
 
 B<Examples:>
 
- $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+ $ ./create_random_bff_pxf.pl -f pxf  # BFF with 100 samples
 
- $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
+ $ ./create_random_bff_pxf.pl -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
 
- $ ./pheno-ranker -r phenopackets.json -w weights.yaml --excluded-terms sex ethnicity exposures # intra-cohort with weights
-
- $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
+ $ ./create_random_bff_pxf.pl -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
 
 =head2 COMMON ERRORS AND SOLUTIONS
 
