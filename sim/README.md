@@ -7,6 +7,11 @@ create\_random\_bff\_pxf.pl: A script that creates a JSON array of random BFF/PX
 create\_random\_bff\_pxf.pl -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Options:
+
+       -diseases                      Number of [1]
+       -phenotypicFeatures            Number of [3]
+       -treatments                    Number of [3]
+
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -f                             Format [>bff|pxf]
        -h|help                        Brief help message
@@ -45,6 +50,8 @@ The software runs without any argument and assumes defaults. If you want to chan
     $ ./create_random_bff_pxf.pl -f pxf  # BFF with 100 samples
 
     $ ./create_random_bff_pxf.pl -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
+
+    $ ./create_random_bff_pxf.pl -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
 
 ## COMMON ERRORS AND SOLUTIONS
 

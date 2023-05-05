@@ -38,40 +38,51 @@ use JSON::XS;
 use Data::Fake qw/Core Company Dates Names/;
 use FindBin    qw($Bin);
 use lib $Bin;
-use Ontologies qw($hpo_terms);
+use Ontologies qw($hpo_array $omim_array $rxnorm_array $ethnicity_array);
 
-my $format   = 'bff';
-my $number   = 100;
-my $out_file = 'individuals.json';
-my $phenotypicFeatures = 1;
-my $VERSION  = '1.0.0';
+my $format             = 'bff';
+my $number             = 100;
+my $out_file           = 'individuals.json';
+my $phenotypicFeatures = 3;
+my $diseases           = 1;
+my $treatments         = 3;
+my $VERSION            = '1.0.0';
 
 # Reading arguments
 GetOptions(
-    'format|f=s' => \$format,                                  # string
-    'n=i'        => \$number,                                  # string
-    'o=s'        => \$out_file,                                # string
-    'phenotypicFeatures=i' => \$phenotypicFeatures,            # integer  
-    'help|?'     => \my $help,                                 # flag
-    'man'        => \my $man,                                  # flag
-    'debug=i'    => \my $debug,                                # integer
-    'verbose|'   => \my $verbose,                              # flag
-    'version|V'  => sub { say "$0 Version $VERSION"; exit; }
+    'format|f=s'           => \$format,                                  # string
+    'n=i'                  => \$number,                                  # string
+    'o=s'                  => \$out_file,                                # string
+    'phenotypicFeatures=i' => \$phenotypicFeatures,                      # integer
+    'diseases=i'           => \$diseases,                                # integer
+    'treatments=i'         => \$treatments,                              # integer
+    'help|?'               => \my $help,                                 # flag
+    'man'                  => \my $man,                                  # flag
+    'debug=i'              => \my $debug,                                # integer
+    'verbose|'             => \my $verbose,                              # flag
+    'version|V'            => sub { say "$0 Version $VERSION"; exit; }
 ) or pod2usage(2);
 pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
 
-
 my %func = (
-        bff    => \&bff_generator,
-        pxf     => \&pxf_generator
-    );
+    bff => \&bff_generator,
+    pxf => \&pxf_generator
+);
 #########
 # START #
 #########
 my $json_data;
 for ( my $i = 1 ; $i <= $number ; $i++ ) {
-    push @$json_data, $func{$format}->($i,$phenotypicFeatures);
+    push @$json_data,
+      $func{$format}->(
+        {
+            id                 => $i,
+            phenotypicFeatures => $phenotypicFeatures,
+            diseases           => $diseases,
+            treatments         => $treatments
+        }
+      );
 }
 #######
 # END #
@@ -95,10 +106,15 @@ sub write_json {
 
 sub pxf_generator {
 
-    my ($id, $n)  = @_;
-    my $phenotypicFeatures = phenotypicFeatures('pxf', $n);
-
-    my $pxf = fake_hash(
+    my $arg                = shift;
+    my $id                 = $arg->{id};
+    my $n_pF               = $arg->{phenotypicFeatures};
+    my $n_d                = $arg->{diseases};
+    my $n_t                = $arg->{treatments};
+    my $phenotypicFeatures = phenotypicFeatures( 'pxf', $n_pF );
+    my $diseases           = diseases( 'pxf', $n_d );
+    my $treatments         = treatments( 'pxf', $n_t );
+    my $pxf                = fake_hash(
         {
             id      => "Phenopacket_" . $id,
             subject => {
@@ -109,7 +125,9 @@ sub pxf_generator {
                 },
                 sex => fake_pick( 'MALE', 'FEMALE' )
             },
-            phenotypicFeatures => $phenotypicFeatures 
+            phenotypicFeatures => $phenotypicFeatures,
+            diseases           => $diseases,
+            treatments         => $treatments
         }
     );
     return $pxf->();
@@ -117,36 +135,75 @@ sub pxf_generator {
 
 sub bff_generator {
 
-    my ($id, $n)  = @_;
-    my $phenotypicFeatures = phenotypicFeatures('bff', $n);
-    my $pxf = fake_hash(
+    my $arg                = shift;
+    my $id                 = $arg->{id};
+    my $n_pF               = $arg->{phenotypicFeatures};
+    my $n_d                = $arg->{diseases};
+    my $n_t                = $arg->{treatments};
+    my $phenotypicFeatures = phenotypicFeatures( 'bff', $n_pF );
+    my $diseases           = diseases( 'bff', $n_d );
+    my $treatments         = treatments( 'bff', $n_t );
+    my $bff                = fake_hash(
         {
-            id      => "Beacon_" . $id,
-            sex => fake_pick( { id    => "NCIT:C20197", label => "Male" }, { id    => "NCIT:C16576", label => "Female" } ),
-            phenotypicFeatures =>  $phenotypicFeatures
+            id        => "Beacon_" . $id,
+            ethnicity => fake_pick(@$ethnicity_array),
+            sex       => fake_pick(
+                { id => "NCIT:C20197", label => "Male" },
+                { id => "NCIT:C16576", label => "Female" }
+            ),
+            phenotypicFeatures => $phenotypicFeatures,
+            diseases           => $diseases,
+            treatments         => $treatments
         }
     );
-    return $pxf->();
+    return $bff->();
 }
 
 sub phenotypicFeatures {
 
-   my ($format, $n) = @_;
-   my $array; 
-   my $type = $format eq 'bff' ? 'featureType' : 'type';
-   my $hash = {
-                    $type       => fake_pick(@$hpo_terms),
-                    ageOfOnset => {
-                        age => {
-                            iso8601duration =>
-                              fake_template( "P%dY", fake_int( 1, 99 ) )
-                        }
-                    }
-                };
-    push @$array, $hash for (1..$n);
-   return $array;
+    my ( $format, $n ) = @_;
+    my $array;
+    my $type  = $format eq 'bff' ? 'featureType' : 'type';
+    my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my $hash  = {
+        $type  => fake_pick(@$hpo_array),
+        $onset => {
+            age => {
+                iso8601duration => fake_template( "P%dY", fake_int( 1, 99 ) )
+            }
+        }
+    };
+    push @$array, $hash for ( 1 .. $n );
+    return $array;
 }
 
+sub diseases {
+
+    my ( $format, $n ) = @_;
+    my $array;
+    my $type  = $format eq 'bff' ? 'diseaseCode' : 'term';
+    my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my $hash  = {
+        $type  => fake_pick(@$omim_array),
+        $onset => {
+            age => {
+                iso8601duration => fake_template( "P%dY", fake_int( 1, 99 ) )
+            }
+        }
+    };
+    push @$array, $hash for ( 1 .. $n );
+    return $array;
+}
+
+sub treatments {
+
+    my ( $format, $n ) = @_;
+    my $array;
+    my $type = $format eq 'bff' ? 'treatmentCode' : 'code';
+    my $hash = { $type => fake_pick(@$rxnorm_array), };
+    push @$array, $hash for ( 1 .. $n );
+    return $array;
+}
 
 =head1 NAME
 
@@ -158,13 +215,17 @@ create_random_bff_pxf.pl: A script that creates a JSON array of random BFF/PXF
 create_random_bff_pxf.pl -r <individuals.json> -t <patient.json> [-options]
 
      Options:
+
+       -diseases                      Number of [1]
+       -phenotypicFeatures            Number of [3]
+       -treatments                    Number of [3]
+
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -f                             Format [>bff|pxf]
        -h|help                        Brief help message
        -n                             Number of individuals
        -man                           Full documentation
        -o                             Output file [individuals.json]
-       -phenotypicFeatures            Number of -phenotypicFeatures [3]
        -v|verbose                     Verbosity on
        -V|version                     Print version
 
