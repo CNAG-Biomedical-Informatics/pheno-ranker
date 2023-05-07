@@ -178,24 +178,10 @@ our $rxnorm_array = [
 # mrueda (GPT-4 hallucinated on this one)
 our $ethnicity_array = [
     { id => 'NCIT:C42331', label => 'African' },
-    { id => 'NCIT:C67109', label => 'Any other Asian background' },
-    { id => 'NCIT:C67109', label => 'Any other Black background' },
-    { id => 'NCIT:C67109', label => 'Any other mixed background' },
-    { id => 'NCIT:C67109', label => 'Any other white background' },
-    { id => 'NCIT:C41260', label => 'Asian or Asian British' },
-    { id => 'NCIT:C41260', label => 'Bangladeshi' },
-    { id => 'NCIT:C16352', label => 'Black or Black British' },
-    { id => 'NCIT:C41261', label => 'British' },
-    { id => 'NCIT:C77810', label => 'Caribbean' },
-    { id => 'NCIT:C41260', label => 'Chinese' },
-    { id => 'NCIT:C67109', label => 'Indian' },
-    { id => 'NCIT:C43856', label => 'Irish' },
-    { id => 'NCIT:C67109', label => 'Mixed' },
-    { id => 'NCIT:C67109', label => 'Other ethnic group' },
-    { id => 'NCIT:C41260', label => 'Pakistani' },
+    { id => 'NCIT:C67109', label => 'Multiracial' },
+    { id => 'NCIT:C16352', label => 'Black or African American' },
     { id => 'NCIT:C41261', label => 'White' },
-    { id => 'NCIT:C67109', label => 'White and Asian' },
-    { id => 'NCIT:C67109', label => 'White and Black African' },
-    { id => 'NCIT:C67109', label => 'White and Black Caribbean' }
+    { id => 'NCIT:C41260', label => 'Asian' },
+    { id => 'NCIT:C17459', label => 'Hispanic or Latino' }
 ];
 1;

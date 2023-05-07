@@ -4,16 +4,17 @@ create\_random\_bff\_pxf.pl: A script that creates a JSON array of random BFF/PX
 
 # SYNOPSIS
 
-create\_random\_bff\_pxf.pl -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
+create\_random\_bff\_pxf.pl \[-options\]
 
      Options:
 
        -diseases                      Number of [1]
        -phenotypicFeatures            IDEM
        -treatments                    IDEM
-       -diseases-max                  To narrow the selection to N first array elements
-       -phenotypicFeatures-max        IDEM
-       -treatments-max                IDEM
+       -max-diseases                  To narrow the selection to N first array elements
+       -max-phenotypicFeatures        IDEM
+       -max-treatments                IDEM
+       -o                             Output file [individuals.json]
 
 
        -debug                         Print debugging (from 1 to 5, being 5 max)
@@ -21,7 +22,6 @@ create\_random\_bff\_pxf.pl -r &lt;individuals.json> -t &lt;patient.json> \[-opt
        -h|help                        Brief help message
        -n                             Number of individuals
        -man                           Full documentation
-       -o                             Output file [individuals.json]
        -v|verbose                     Verbosity on
        -V|version                     Print version
 

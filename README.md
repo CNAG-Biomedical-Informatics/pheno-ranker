@@ -11,7 +11,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -t|target-file                 BFF/PXF file (JSON)
 
      Options:
-       -o                             Output file [matrix.txt]
+       -age                           Include age-related variables [>no-age|age]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
        -excluded-terms                Excluded BFF/PXF terms
@@ -21,8 +21,8 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -nc|-no-color                  Don't print colors to STDOUT
-       -no-age                        Don't include any age-related variable
+       -no-color                      Don't print colors to STDOUT [>color|no-color]
+       -o                             Output file [matrix.txt]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version

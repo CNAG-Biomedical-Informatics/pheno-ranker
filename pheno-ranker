@@ -48,6 +48,8 @@ sub pheno_ranker {
     my $out_file   = 'matrix.txt';
     my $align_file = 'alignment.txt';
     my $log_file   = 'pheno-ranker-log.json';
+    my $color       = 1;
+    my $age         = 0;
 
     # Reading arguments
     GetOptions(
@@ -62,13 +64,13 @@ sub pheno_ranker {
         'sort-by=s'              => \my $sort_by,                              # string
         'included-terms=s{1,11}' => \my @included_terms,                       # array
         'excluded-terms=s{1,11}' => \my @excluded_terms,                       # array
-        'no-age'                 => \my $no_age,                               # flag
+        'age!'                   => \$age,                               # flag
         'help|?'                 => \my $help,                                 # flag
         'log:s'                  => \my $log,                                  # opt-string (defined)
         'man'                    => \my $man,                                  # flag
         'debug=i'                => \my $debug,                                # integer
         'verbose|'               => \my $verbose,                              # flag
-        'no-color|nc'            => \my $no_color,                             # flag
+        'color!'                      => \$color,                                  # flag
         'version|V'              => sub { say "$0 Version $VERSION"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
@@ -79,7 +81,7 @@ sub pheno_ranker {
     ) unless $reference_file;
 
     # Turning color off if argument <--no-color>
-    $ENV{'ANSI_COLORS_DISABLED'} = 1 if $no_color;
+    $ENV{'ANSI_COLORS_DISABLED'} = 1 unless $color;
 
     # Start printing to STDOUT
     say BOLD CYAN program_header($VERSION), RESET if $verbose;
@@ -103,7 +105,7 @@ sub pheno_ranker {
         sort_by        => $sort_by,
         included_terms => \@included_terms,
         excluded_terms => \@excluded_terms,
-        no_age         => $no_age,
+        age        => $age,
         log            => $log,
         debug          => $debug,
         verbose        => $verbose
@@ -157,7 +159,7 @@ sub program_header {
 ****************************************
 *    Rank against cohort (BFF/PXF)     *
 *          - PHENO-RANKER -            *
-*          Version: $VERSION            *
+*          Version: $VERSION              *
 *      (C) 2023 Manuel Rueda, PhD      *
 *    GNU General Public License v3     *
 ****************************************
@@ -179,7 +181,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -t|target-file                 BFF/PXF file (JSON)
 
      Options:
-       -o                             Output file [matrix.txt]
+       -age                           Include age-related variables [>no-age|age]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
        -excluded-terms                Excluded BFF/PXF terms
@@ -189,8 +191,8 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -nc|-no-color                  Don't print colors to STDOUT
-       -no-age                        Don't include any age-related variable
+       -no-color                      Don't print colors to STDOUT [>color|no-color]
+       -o                             Output file [matrix.txt]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -v|verbose                     Verbosity on
        -V|version                     Print version
