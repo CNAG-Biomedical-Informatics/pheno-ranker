@@ -62,7 +62,7 @@ my $weights_file = 't/weights.yaml';
 
 # The generated output file
 my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 0 );
+      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
 # Run the command line script with the input file, and redirect the output to the output_file
 system("$script -r $input_file -t $patient_file -w $weights_file | sort -k2 | cut -f2-> $tmp_file");
