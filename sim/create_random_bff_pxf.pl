@@ -81,9 +81,11 @@ use autodie;
 use feature qw(say);
 
 #use Data::Printer;
+use Data::Dumper;
 use Path::Tiny;
+use List::Util qw(head shuffle);
 use JSON::XS;
-use Data::Fake qw/Core Company Dates Names/;
+use Data::Fake qw(Core Company Dates Names);
 use FindBin    qw($Bin);
 use lib $Bin;
 use Ontologies qw($hpo_array $omim_array $rxnorm_array $ethnicity_array);
@@ -195,38 +197,48 @@ sub bff_generator {
 sub phenotypicFeatures {
 
     my ( $format, $n, $max ) = @_;
+    my $type  = $format eq 'bff' ? 'featureType' : 'type';
+    my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+
+    #my @items = sample $count, @values; # 1.54 List::Util
+    my @shuffled_slice =
+      defined $max ? shuffle( head $max, @{$hpo_array} ) : @$hpo_array;    # slice of refs
     my $array;
-    my $type  = $format eq 'bff' ? 'featureType'              : 'type';
-    my $onset = $format eq 'bff' ? 'ageOfOnset'               : 'onset';
-    my @slice = defined $max ? @{$hpo_array}[ 0 .. $max - 1 ] : @$hpo_array;   # slice of refs
-    my $hash  = {
-        $type  => fake_pick(@slice),
-        $onset => {
-            age => {
-                iso8601duration => fake_template( "P%dY", fake_int( 1, 99 ) )
+    for ( my $i = 0 ; $i < $n ; $i++ ) {
+        push @$array,
+          {
+            $type  => $shuffled_slice[$i],
+            $onset => {
+                age => {
+                    iso8601duration =>
+                      fake_template( "P%dY", fake_int( 1, 99 ) )
+                }
             }
-        }
-    };
-    push @$array, $hash for ( 1 .. $n );
+          };
+    }
     return $array;
 }
 
 sub diseases {
 
     my ( $format, $n, $max ) = @_;
+    my $type  = $format eq 'bff' ? 'diseaseCode' : 'term';
+    my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my @shuffled_slice =
+      defined $max ? shuffle( head $max, @{$omim_array} ) : @$omim_array;    # slice of refs
     my $array;
-    my $type  = $format eq 'bff' ? 'diseaseCode'               : 'term';
-    my $onset = $format eq 'bff' ? 'ageOfOnset'                : 'onset';
-    my @slice = defined $max ? @{$omim_array}[ 0 .. $max - 1 ] : @$omim_array; # slice of refs
-    my $hash  = {
-        $type  => fake_pick(@slice),
-        $onset => {
-            age => {
-                iso8601duration => fake_template( "P%dY", fake_int( 1, 99 ) )
+    for ( my $i = 0 ; $i < $n ; $i++ ) {
+        push @$array,
+          {
+            $type  => $shuffled_slice[$i],
+            $onset => {
+                age => {
+                    iso8601duration =>
+                      fake_template( "P%dY", fake_int( 1, 99 ) )
+                }
             }
-        }
-    };
-    push @$array, $hash for ( 1 .. $n );
+          };
+    }
     return $array;
 }
 
@@ -234,13 +246,20 @@ sub treatments {
 
     my ( $format, $n, $max ) = @_;
     my $array;
-    my @slice =
-      defined $max ? @{$rxnorm_array}[ 0 .. $max - 1 ] : @$rxnorm_array;    # slice of refs
+    my @shuffled_slice =
+      defined $max
+      ? shuffle( head $max, @{$rxnorm_array} )
+      : @$rxnorm_array;    # slice of refs
     my $hash =
       $format eq 'bff'
-      ? { treatmentCode => fake_pick(@slice) }
-      : { treatment     => { agent => fake_pick(@slice) } };
-    push @$array, $hash for ( 1 .. $n );
+      ? { treatmentCode => fake_pick(@shuffled_slice) }
+      : { treatment     => { agent => fake_pick(@shuffled_slice) } };
+    for ( my $i = 0 ; $i < $n ; $i++ ) {
+        push @$array,
+          $format eq 'bff'
+          ? { treatmentCode => $shuffled_slice[$i] }
+          : { treatment     => { agent => $shuffled_slice[$i] } };
+    }
     return $array;
 }
 1;

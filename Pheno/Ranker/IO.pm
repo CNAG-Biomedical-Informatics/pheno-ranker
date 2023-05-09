@@ -12,7 +12,7 @@ use JSON::XS;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment read_json read_yaml write_json);
+  qw(serialize_hashes write_alignment read_json read_yaml write_json array2object);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -65,5 +65,21 @@ sub write_json {
     my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
     path($file)->spew_utf8($json);
     return 1;
+}
+
+sub array2object {
+
+    my $data = shift;
+    if ( ref $data eq ref [] ) {
+        my $n = @$data;
+        if ( $n == 1 ) {
+            $data = $data->[0];
+        }
+        else {
+            die
+"Sorry, your file has $n patients but only 1 patient is allowed with <-t>\n";
+        }
+    }
+    return $data;
 }
 1;

@@ -8,7 +8,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Arguments:                       
        -r|reference-file              BFF/PXF file (JSON array)
-       -t|target-file                 BFF/PXF file (JSON)
+       -t|target-file                 BFF/PXF file (JSON or JSON array with 1 object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]

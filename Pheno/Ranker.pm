@@ -137,7 +137,7 @@ sub run {
 
     # Perform patient-to-cohort comparison and rank if <--t>
     if ($target_file) {
-        my $tar_data = read_json($target_file);
+        my $tar_data = array2object(read_json($target_file));
 
         # The target file has to have $_->{id} otherwise die
         die
