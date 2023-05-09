@@ -197,17 +197,14 @@ sub bff_generator {
 sub phenotypicFeatures {
 
     my ( $format, $n, $max ) = @_;
-    my $type  = $format eq 'bff' ? 'featureType' : 'type';
-    my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
-
-    #my @items = sample $count, @values; # 1.54 List::Util
-    my @shuffled_slice =
-      defined $max ? shuffle( head $max, @{$hpo_array} ) : @$hpo_array;    # slice of refs
+    my $type           = $format eq 'bff' ? 'featureType' : 'type';
+    my $onset          = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my $shuffled_slice = shuffle_slice( $max, $hpo_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
           {
-            $type  => $shuffled_slice[$i],
+            $type  => $shuffled_slice->[$i],
             $onset => {
                 age => {
                     iso8601duration =>
@@ -222,15 +219,14 @@ sub phenotypicFeatures {
 sub diseases {
 
     my ( $format, $n, $max ) = @_;
-    my $type  = $format eq 'bff' ? 'diseaseCode' : 'term';
-    my $onset = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
-    my @shuffled_slice =
-      defined $max ? shuffle( head $max, @{$omim_array} ) : @$omim_array;    # slice of refs
+    my $type           = $format eq 'bff' ? 'diseaseCode' : 'term';
+    my $onset          = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my $shuffled_slice = shuffle_slice( $max, $omim_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
           {
-            $type  => $shuffled_slice[$i],
+            $type  => $shuffled_slice->[$i],
             $onset => {
                 age => {
                     iso8601duration =>
@@ -245,22 +241,25 @@ sub diseases {
 sub treatments {
 
     my ( $format, $n, $max ) = @_;
+    my $shuffled_slice = shuffle_slice( $max, $rxnorm_array );
     my $array;
-    my @shuffled_slice =
-      defined $max
-      ? shuffle( head $max, @{$rxnorm_array} )
-      : @$rxnorm_array;    # slice of refs
-    my $hash =
-      $format eq 'bff'
-      ? { treatmentCode => fake_pick(@shuffled_slice) }
-      : { treatment     => { agent => fake_pick(@shuffled_slice) } };
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
           $format eq 'bff'
-          ? { treatmentCode => $shuffled_slice[$i] }
-          : { treatment     => { agent => $shuffled_slice[$i] } };
+          ? { treatmentCode => $shuffled_slice->[$i] }
+          : { treatment     => { agent => $shuffled_slice->[$i] } };
     }
     return $array;
+}
+
+sub shuffle_slice {
+
+    my ( $max, $array ) = @_;
+
+    #my @items = sample $count, @values; # 1.54 List::Util
+    my @slice = defined $max ? head $max, @$array : @$array;   # slice of refs
+    my @shuffled_slice = shuffle @slice;
+    return wantarray ? @shuffled_slice : \@shuffled_slice;
 }
 1;
 
