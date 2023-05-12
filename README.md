@@ -14,10 +14,10 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -age                           Include age-related variables [>no-age|age]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
-       -excluded-terms                Excluded BFF/PXF terms
+       -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -h|help                        Brief help message
        -hpo                           Include HPO ascendant terms (if present)
-       -included-terms                Included BFF/PXF terms
+       -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
@@ -64,7 +64,7 @@ For executing pheno-ranker you will need:
 
     $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
 
-    $ ./pheno-ranker -r phenopackets.json -w weights.yaml --excluded-terms sex ethnicity exposures # intra-cohort with weights
+    $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
 
     $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
 

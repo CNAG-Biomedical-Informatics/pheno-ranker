@@ -51,6 +51,7 @@ sub estimate_hamming_stats {
 sub z_score {
 
     my ( $observed_value, $expected_value, $std_dev ) = @_;
+    return 0 if $std_dev == 0;
     return ( $observed_value - $expected_value ) / $std_dev;
 }
 

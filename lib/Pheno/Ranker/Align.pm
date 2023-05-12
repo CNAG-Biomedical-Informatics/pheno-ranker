@@ -14,9 +14,11 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(check_format intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes  remap_hash create_weigthted_binary_digit_string parse_hpo_json);
+  qw(check_format intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes remap_hash create_weigthted_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
+
+our %nomenclature = ();
 
 sub check_format {
 
@@ -30,7 +32,7 @@ sub intra_cohort_comparison {
     my $out_file                    = $self->{out_file};
     my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
 
-    say "Performing INTRA-COHORT compariSon"
+    say "Performing INTRA-COHORT comparison"
       if ( $self->{debug} || $self->{verbose} );
 
     # Print to  $out_file
@@ -138,6 +140,8 @@ sub compare_and_rank {
         my ( $n_00, $alignment ) =
           create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
 
+     # *** IMPORTANT ***
+     # The LENGTH of the alignment is based on the #variables in the REF-COHORT
      # Compute estimated av and dev for binary_string of L = length_align - n_00
      # Corrected length_align L = length_align - n_00
         my $length_align_corrected = $length_align - $n_00;
@@ -263,16 +267,18 @@ sub create_alignment {
         my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
         my $distance            = $char1 eq $char2 ? 0 : $glob_hash->{$key};
         $distance = sprintf( "%3d", $distance );
+        my $nomenclature = exists $nomenclature{$key} ? $key . qq/ ($nomenclature{$key})/ : $key;
 
+        # w = weight, d = distance, cd = cumul distance
         my %format = (
             '11' =>
-qq/$char1 ----- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
+qq/$char1 ----- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/,
             '10' =>
-qq/$char1 xxx-- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
+qq/$char1 xxx-- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/,
             '01' =>
-qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/,
+qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/,
             '00' =>
-qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $key/
+qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/
         );
         $out .= $format{ $char1 . $char2 } . "\n";
 
@@ -300,7 +306,7 @@ sub recreate_array {
 
 sub create_glob_and_ref_hashes {
 
-    my ( $array, $weight, $term_parents, $self ) = @_;
+    my ( $array, $weight, $self ) = @_;
     my $glob_hash = {};
     my $ref_hash_flattened;
 
@@ -314,14 +320,13 @@ sub create_glob_and_ref_hashes {
             {
                 hash         => $i,
                 weight       => $weight,
-                term_parents => $term_parents,
                 self         => $self
             }
         );
         $ref_hash_flattened->{$id} = $ref_hash;
 
         # The idea is to create a $glob_hash with unique key-values
-        # Duplicated will be automatically merged
+        # Duplicates will be automatically merged
         $glob_hash = { %$glob_hash, %$ref_hash };
     }
     return ( $glob_hash, $ref_hash_flattened );
@@ -330,8 +335,8 @@ sub create_glob_and_ref_hashes {
 sub prune_excluded_included {
 
     my ( $hash, $self ) = @_;
-    my @included = @{ $self->{included_terms} };
-    my @excluded = @{ $self->{excluded_terms} };
+    my @included = @{ $self->{include_terms} };
+    my @excluded = @{ $self->{exclude_terms} };
 
     # Die if we have both options at the same time
     die "Sorry, <--include> and <--exclude> are mutually exclusive\n"
@@ -377,8 +382,9 @@ sub remap_hash {
     my $arg          = shift;
     my $hash         = $arg->{hash};
     my $weight       = $arg->{weight};
-    my $term_parents = $arg->{term_parents};
     my $self         = $arg->{self};
+    my $nodes        = $self->{nodes};
+    my $edges        = $self->{edges};
     my $out_hash;
 
     # Do some pruning excluded / included
@@ -442,15 +448,16 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
             || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/ );
 
         # Add IDs to key
-        $key =
+        my $id_key =
           add_id2key( $key, $hash, $id_correspondence->{ $self->{format} } );
 
-        # Finally add value to key
-        my $tmp_key = $key . '.' . $val;
+        # Finally add value to id_key
+        my $tmp_key = $id_key . '.' . $val;
 
         # Add HPO ascendants
-        if ( defined $term_parents && $val =~ /^HP:/ ) {
-            my $ascendants = add_hpo_ascendants( $tmp_key, $term_parents );
+        if ( defined $edges && $val =~ /^HP:/ ) {
+            my $ascendants =
+              add_hpo_ascendants( $tmp_key, $nodes, $edges );
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
@@ -459,22 +466,54 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
    # NB: We don't warn if it does not exists, just assign 1
         $out_hash->{$tmp_key} =
           exists $weight->{$tmp_key} ? $weight->{$tmp_key} : 1;
+
+        # Finally we load the Nomenclature hash
+        my $label = $key;
+        $label =~ s/id/label/;
+        $nomenclature{$tmp_key} = $hash->{$label} if defined $hash->{$label};
     }
     return $out_hash;
 }
 
 sub add_hpo_ascendants {
 
-    my ( $key, $term_parents ) = @_;
+    my ( $key, $nodes, $edges ) = @_;
+
+    # First we obtain the ontology (0000539) from HP:0000539
     $key =~ m/HP:(\w+)$/;
-    my $hpo_key = 'http://purl.obolibrary.org/obo/HP_' . $1;
+    my $ontology = $1;
+
+    # We'll use it to build a string equivalent to a key from $edges
+    my $hpo_url = 'http://purl.obolibrary.org/obo/HP_';
+    my $hpo_key = $hpo_url . $ontology;
+
+    # We will include all ascendants in an array
     my @ascendants;
-    for my $parent_id ( @{ $term_parents->{$hpo_key} } ) {
-        $parent_id =~ m/\/(\w+)$/;
-        $parent_id = $1;
-        $parent_id =~ tr/_/:/;
-        my $asc_key = $key . '.asc.' . $parent_id;
+    for my $parent_id ( @{ $edges->{$hpo_key} } ) {
+
+        # We have to create a copy to not modify the original $parent_id
+        # as it can appear in multiple individuals
+        my $copy_parent_id = $parent_id;
+        $copy_parent_id =~ m/\/(\w+)$/;
+        $copy_parent_id = $1;
+        $copy_parent_id =~ tr/_/:/;
+
+# *** IMPORTANT ***
+# We cannot add any label to the ascendants, otherwise they will
+# not be matched by an indv down the tree
+# Myopia
+# Mild Myopia
+# We want that 'Mild Myopia' matches 'Myopia', thus we can not add a label from 'Mild Myopia'
+# Use the labels only for debug
+        my $asc_key = DEVEL_MODE ? $key . '.HPO_asc_DEBUG_ONLY' : $key;
+        $asc_key =~ s/HP:$ontology/$copy_parent_id/g;
         push @ascendants, $asc_key;
+
+        # We finally add the label to %nomenclature
+        my $hpo_asc_str = $hpo_url
+          . $copy_parent_id;    # 'http://purl.obolibrary.org/obo/HP_HP:0000539
+        $hpo_asc_str =~ s/HP://;    # 0000539
+        $nomenclature{$asc_key} = $nodes->{$hpo_asc_str}{lbl};
     }
     return \@ascendants;
 }

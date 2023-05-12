@@ -34,7 +34,7 @@ use Sys::Hostname;
 use POSIX           qw(strftime);
 use Term::ANSIColor qw(:constants);
 use FindBin         qw($Bin);
-use lib $Bin;
+use lib "$Bin/lib";
 use Pheno::Ranker qw($VERSION write_json);
 
 ##### Main #####
@@ -62,15 +62,15 @@ sub pheno_ranker {
         'export|e'               => \my $export,                               # flag
         'align|a:s'              => \my $align,                                # opt-string (defined)
         'sort-by=s'              => \my $sort_by,                              # string
-        'included-terms=s{1,11}' => \my @included_terms,                       # array
-        'excluded-terms=s{1,11}' => \my @excluded_terms,                       # array
-        'age!'                   => \$age,                               # flag
+        'include-terms=s{1,11}'  => \my @include_terms,                        # array
+        'exclude-terms=s{1,11}'  => \my @exclude_terms,                        # array
+        'age!'                   => \$age,                                     # flag
         'help|?'                 => \my $help,                                 # flag
         'log:s'                  => \my $log,                                  # opt-string (defined)
         'man'                    => \my $man,                                  # flag
         'debug=i'                => \my $debug,                                # integer
         'verbose|'               => \my $verbose,                              # flag
-        'color!'                      => \$color,                                  # flag
+        'color!'                 => \$color,                                   # flag
         'version|V'              => sub { say "$0 Version $VERSION"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
@@ -103,9 +103,9 @@ sub pheno_ranker {
         out_file       => $out_file,
         max_out        => $max_out,
         sort_by        => $sort_by,
-        included_terms => \@included_terms,
-        excluded_terms => \@excluded_terms,
-        age        => $age,
+        include_terms  => \@include_terms,
+        exclude_terms  => \@exclude_terms,
+        age            => $age,
         log            => $log,
         debug          => $debug,
         verbose        => $verbose
@@ -184,10 +184,10 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -age                           Include age-related variables [>no-age|age]
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
-       -excluded-terms                Excluded BFF/PXF terms
+       -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -h|help                        Brief help message
        -hpo                           Include HPO ascendant terms (if present)
-       -included-terms                Included BFF/PXF terms
+       -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
        -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
@@ -238,7 +238,7 @@ B<Examples:>
 
  $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
 
- $ ./pheno-ranker -r phenopackets.json -w weights.yaml --excluded-terms sex ethnicity exposures # intra-cohort with weights
+ $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
 
  $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
 

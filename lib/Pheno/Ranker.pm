@@ -54,9 +54,9 @@ has max_out => (
 
 has hpo_file => (
 
-    hpo_file => catfile( $lib_path, '../db/hp.json' ),
+    hpo_file => catfile( $lib_path, '../../db/hp.json' ),
     coerce   => sub {
-        $_[0] // catfile( $lib_path, '../db/hp.json' );
+        $_[0] // catfile( $lib_path, '../../db/hp.json' );
     },
     is  => 'ro',
     isa => Str
@@ -68,7 +68,7 @@ has hpo_file => (
 
 #has [qw /stream ohdsi_db/] => ( default => 0, is => 'ro' );
 
-has [qw /included_terms excluded_terms/] =>
+has [qw /include_terms exclude_terms/] =>
   ( default => sub { [] }, is => 'ro', isa => $allowed_terms );
 
 has [
@@ -112,14 +112,17 @@ sub run {
       ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
 
     # Now we load $hpo_nodes, $hpo_edges if --hpo
-    my $nodes = my $term_parents = undef;
-    ( $nodes, $term_parents ) = parse_hpo_json( read_json($hpo_file) ) if $hpo;
+    # NB: we load them within $self to minimize the #args
+    my $nodes = my $edges = undef;
+    ( $nodes, $edges ) = parse_hpo_json( read_json($hpo_file) ) if $hpo;
+    $self->{nodes} = $nodes; # setter
+    $self->{edges} = $edges; # setter
 
     # First we create:
-    # - $glob_hash => hash with all the cohort keys possible
+    # - $glob_hash => hash with all the COHORT keys possible
     # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
     my ( $glob_hash, $ref_hash ) =
-      create_glob_and_ref_hashes( $ref_data, $weight, $term_parents, $self );
+      create_glob_and_ref_hashes( $ref_data, $weight, $self );
 
     # Second we peform one-hot encoding for each individual
     my $ref_binary_hash =
@@ -153,11 +156,14 @@ sub run {
                 {
                     hash         => $tar_data,
                     weight       => $weight,
-                    term_parents => $term_parents,
                     self         => $self
                 }
             )
         };
+       
+        # *** IMPORTANT ***
+        # The target binary is created from matches to $glob_hash
+        # Thus, it does not include variables ONLY present in TARGET
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
         my ( $results_rank, $results_align, $alignments_array ) =
