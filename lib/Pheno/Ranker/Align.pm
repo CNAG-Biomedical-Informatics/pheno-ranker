@@ -435,7 +435,7 @@ sub remap_hash {
 m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
 
         # The user can turn on age related values
-        next if ( $key =~ m/age/i && !$self->{age} );    # $self->{age} [0|1]
+        next if ( $key =~ m/age|onset/i && !$self->{age} );    # $self->{age} [0|1]
 
         # Load values
         my $val = $hash->{$key};
