@@ -267,7 +267,8 @@ sub create_alignment {
         my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
         my $distance            = $char1 eq $char2 ? 0 : $glob_hash->{$key};
         $distance = sprintf( "%3d", $distance );
-        my $nomenclature = exists $nomenclature{$key} ? $key . qq/ ($nomenclature{$key})/ : $key;
+        my $nomenclature =
+          exists $nomenclature{$key} ? $key . qq/ ($nomenclature{$key})/ : $key;
 
         # w = weight, d = distance, cd = cumul distance
         my %format = (
@@ -318,9 +319,9 @@ sub create_glob_and_ref_hashes {
         say "Flattening and remapping <id:$id> ..." if $self->{verbose};
         my $ref_hash = remap_hash(
             {
-                hash         => $i,
-                weight       => $weight,
-                self         => $self
+                hash   => $i,
+                weight => $weight,
+                self   => $self
             }
         );
         $ref_hash_flattened->{$id} = $ref_hash;
@@ -348,8 +349,6 @@ sub prune_excluded_included {
     # INCLUDED
     if (@included) {
         for my $key ( keys %$hash ) {
-
-            #next if $key eq 'id';    # We have to keep $_->{id}
             delete $hash->{$key} unless any { $_ eq $key } @included;
         }
     }
@@ -379,16 +378,22 @@ sub undef_excluded_phenotypicFeatures {
 
 sub remap_hash {
 
-    my $arg          = shift;
-    my $hash         = $arg->{hash};
-    my $weight       = $arg->{weight};
-    my $self         = $arg->{self};
-    my $nodes        = $self->{nodes};
-    my $edges        = $self->{edges};
+    my $arg    = shift;
+    my $hash   = $arg->{hash};
+    my $weight = $arg->{weight};
+    my $self   = $arg->{self};
+    my $nodes  = $self->{nodes};
+    my $edges  = $self->{edges};
     my $out_hash;
 
     # Do some pruning excluded / included
     prune_excluded_included( $hash, $self );
+
+    # If $hash gets empty (the user may include a term that):
+    # - may not exist
+    # - only exist in some individuals
+    # Premature return or we bump into later troube with Fold.pm
+    return {} unless %$hash;
 
     # A bit more pruning plus collapsing
     $hash = fold( undef_excluded_phenotypicFeatures($hash) );
@@ -435,7 +440,7 @@ sub remap_hash {
 m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
 
         # The user can turn on age related values
-        next if ( $key =~ m/age|onset/i && !$self->{age} );    # $self->{age} [0|1]
+        next if ( $key =~ m/age|onset/i && !$self->{age} ); # $self->{age} [0|1]
 
         # Load values
         my $val = $hash->{$key};
@@ -456,8 +461,7 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
 
         # Add HPO ascendants
         if ( defined $edges && $val =~ /^HP:/ ) {
-            my $ascendants =
-              add_hpo_ascendants( $tmp_key, $nodes, $edges );
+            my $ascendants = add_hpo_ascendants( $tmp_key, $nodes, $edges );
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
