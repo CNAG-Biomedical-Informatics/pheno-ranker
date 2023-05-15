@@ -148,7 +148,7 @@ sub program_header {
 *          - PHENO-RANKER -            *
 *          Version: $VERSION              *
 *      (C) 2023 Manuel Rueda, PhD      *
-*    GNU General Public License v3     *
+*       The Artistic License 2.0       *
 ****************************************
 EOF
     return $str;
