@@ -16,6 +16,10 @@ RUN git clone https://github.com/mrueda/pheno-ranker.git
 WORKDIR /usr/share/pheno-ranker
 RUN cpanm --installdeps .
 
+# Install PyPerler
+WORKDIR ex/pyperler
+RUN make install 2> install.log
+
 # Add user "dockeruser"
 ARG UID=1000
 ARG GID=1000

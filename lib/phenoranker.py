@@ -4,7 +4,7 @@ import pathlib
 __author__ = "Manuel Rueda"
 __copyright__ = "Copyright 2023, Manuel Rueda - CNAG"
 __credits__ = ["None"]
-__license__ = "GNU GENERAL PUBLIC LICENSE v3"
+__license__ = "Artistic License 2"
 __version__ = "0.0.0_beta"
 __maintainer__ = "Manuel Rueda"
 __email__ = "manuel.rueda@cnag.crg.eu"

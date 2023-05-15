@@ -8,6 +8,8 @@
 #
 #   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.crg.eu)
 #
+#   License: Artistic License 2.0
+#
 #   If this program helps you in your research, please cite.
 
 use strict;
