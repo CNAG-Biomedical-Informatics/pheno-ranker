@@ -439,7 +439,9 @@ sub remap_hash {
 
 # Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
 # Some can be "rescued" by adding the ontology as ($1)
-# NB: We discard _labels too!!
+# NB1: We discard _labels too!!
+# NB2: info|metaData are always discarded
+
         next
           if $key =~
 m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;

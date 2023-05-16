@@ -16,8 +16,8 @@ my $input_file = 't/individuals.json';
 # TEST 1 #
 ##########
 
-# The reference file to compare the output with
 {
+# The reference file to compare the output with
 my $reference_file = 't/matrix_ref.txt';
 
 # The generated output file
@@ -52,7 +52,7 @@ ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$referen
 }
 
 ##########
-# TEST 2 #
+# TEST 3 #
 ##########
 
 {

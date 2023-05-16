@@ -29,33 +29,37 @@ my $VERSION            = '1.0.0';
 
 # Reading arguments
 GetOptions(
-    'format|f=s'               => \$format,                                    # string
-    'n=i'                      => \$number,                                    # string
-    'o=s'                      => \$out_file,                                  # string
-    'phenotypicFeatures=i'     => \$phenotypicFeatures,                        # integer
-    'max-phenotypicFeatures=i' => \my $max_phenotypicFeatures,                 # integer
-    'diseases=i'               => \$diseases,                                  # integer
-    'max-diseases=i'           => \my $max_diseases,                           # integer
-    'treatments=i'             => \$treatments,                                # integer
-    'max-treatments=i'         => \my $max_treatments,                         # integer
-    'help|?'                   => \my $help,                                   # flag
-    'man'                      => \my $man,                                    # flag
-    'debug=i'                  => \my $debug,                                  # integer
-    'verbose|'                 => \my $verbose,                                # flag
-    'version|V'                => sub { print "$0 Version $VERSION\n"; exit; }
+    'format|f=s'                    => \$format,                            # string
+    'n=i'                           => \$number,                            # string
+    'o=s'                           => \$out_file,                          # string
+    'phenotypicFeatures=i'          => \$phenotypicFeatures,                # integer
+    'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,    # integer
+    'diseases=i'                    => \$diseases,                          # integer
+    'max-diseases-pool=i'           => \my $max_diseases_pool,              # integer
+    'treatments=i'                  => \$treatments,                        # integer
+    'max-treatments-pool=i'         => \my $max_treatments_pool,            # integer
+    'random-seed=i'                 => \my $random_seed,                    # integer
+    'help|?'                        => \my $help,                           # flag
+    'man'                           => \my $man,                            # flag
+    'debug=i'                       => \my $debug,                          # integer
+    'verbose|'                      => \my $verbose,                        # flag
+    'version|V' => sub { print "$0 Version $VERSION\n"; exit; }
 ) or pod2usage(2);
 pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
 
+# Set seed if defined
+srand($random_seed) if defined $random_seed;
+
 # Create object
 my $randomize = Randomizer->new(
     {
-        phenotypicFeatures     => $phenotypicFeatures,
-        diseases               => $diseases,
-        treatments             => $treatments,
-        max_phenotypicFeatures => $max_phenotypicFeatures,
-        max_diseases           => $max_diseases,
-        max_treatments         => $max_treatments
+        phenotypicFeatures          => $phenotypicFeatures,
+        diseases                    => $diseases,
+        treatments                  => $treatments,
+        max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
+        max_diseases_pool           => $max_diseases_pool,
+        max_treatments_pool         => $max_treatments_pool
     }
 );
 
@@ -129,9 +133,9 @@ sub pxf_generator {
     my $n_pF               = $self->{phenotypicFeatures};
     my $n_d                = $self->{diseases};
     my $n_t                = $self->{treatments};
-    my $max_pF             = $self->{max_phenotypicFeatures};
-    my $max_d              = $self->{max_diseases};
-    my $max_t              = $self->{max_treatments};
+    my $max_pF             = $self->{max_phenotypicFeatures_pool};
+    my $max_d              = $self->{max_diseases_pool};
+    my $max_t              = $self->{max_treatments_pool};
     my $phenotypicFeatures = phenotypicFeatures( 'pxf', $n_pF, $max_pF );
     my $diseases           = diseases( 'pxf', $n_d, $max_d );
     my $treatments         = treatments( 'pxf', $n_t, $max_t );
@@ -142,9 +146,9 @@ sub pxf_generator {
                 id  => "IndividualId_" . $id,
                 age => {
                     iso8601duration =>
-                      fake_template( "P%dY", fake_int( 1, 99 ) )
+                      fake_template( "P%dY", fake_int_mod( 1, 99 ) )
                 },
-                sex => fake_pick( 'MALE', 'FEMALE' )
+                sex => fake_pick_mod( [ 'MALE', 'FEMALE' ] )
             },
             phenotypicFeatures => $phenotypicFeatures,
             diseases           => $diseases,
@@ -160,9 +164,9 @@ sub bff_generator {
     my $n_pF               = $self->{phenotypicFeatures};
     my $n_d                = $self->{diseases};
     my $n_t                = $self->{treatments};
-    my $max_pF             = $self->{max_phenotypicFeatures};
-    my $max_d              = $self->{max_diseases};
-    my $max_t              = $self->{max_treatments};
+    my $max_pF             = $self->{max_phenotypicFeatures_pool};
+    my $max_d              = $self->{max_diseases_pool};
+    my $max_t              = $self->{max_treatments_pool};
     my $phenotypicFeatures = phenotypicFeatures( 'bff', $n_pF, $max_pF );
     my $diseases           = diseases( 'bff', $n_d, $max_d );
     my $treatments         = treatments( 'bff', $n_t, $max_t );
@@ -170,10 +174,12 @@ sub bff_generator {
     my $bff = fake_hash(
         {
             id        => "Beacon_" . $id,
-            ethnicity => fake_pick(@$ethnicity_array),
-            sex       => fake_pick(
-                { id => "NCIT:C20197", label => "Male" },
-                { id => "NCIT:C16576", label => "Female" }
+            ethnicity => fake_pick_mod($ethnicity_array),
+            sex       => fake_pick_mod(
+                [
+                    { id => "NCIT:C20197", label => "Male" },
+                    { id => "NCIT:C16576", label => "Female" }
+                ]
             ),
             phenotypicFeatures => $phenotypicFeatures,
             diseases           => $diseases,
@@ -197,7 +203,7 @@ sub phenotypicFeatures {
             $onset => {
                 age => {
                     iso8601duration =>
-                      fake_template( "P%dY", fake_int( 1, 99 ) )
+                      fake_template( "P%dY", fake_int_mod( 1, 99 ) )
                 }
             }
           };
@@ -219,7 +225,7 @@ sub diseases {
             $onset => {
                 age => {
                     iso8601duration =>
-                      fake_template( "P%dY", fake_int( 1, 99 ) )
+                      fake_template( "P%dY", fake_int_mod( 1, 99 ) )
                 }
             }
           };
@@ -246,10 +252,27 @@ sub shuffle_slice {
     my ( $max, $array ) = @_;
 
     #my @items = sample $count, @values; # 1.54 List::Util
-    my @slice = defined $max ? head $max, @$array : @$array;   # slice of refs
+    my @slice          = defined $max ? head $max, @$array : @$array;    # slice of refs
     my @shuffled_slice = shuffle @slice;
     return wantarray ? @shuffled_slice : \@shuffled_slice;
 }
+
+sub fake_int_mod {
+
+    # This subroutie was built because fake_int did not respond to srand
+    my ( $low, $high ) = @_;
+    my $range = $high - $low;
+    return int( rand($range) ) + 1;
+}
+
+sub fake_pick_mod {
+
+    # This subroutine was built because fake_pick did not respond to srand
+    # NB: The original from Data::Fake worked with array (not with arrayref)
+    my $array = shift;
+    return $array->[ int( rand(@$array) ) ];
+}
+
 1;
 
 =head1 NAME
@@ -263,6 +286,8 @@ create_random_bff_pxf.pl [-options]
 
      Options:
 
+       -f                             Format [>bff|pxf]
+       -n                             Number of individuals
        -diseases                      Number of [1]
        -phenotypicFeatures            IDEM
        -treatments                    IDEM
@@ -270,12 +295,10 @@ create_random_bff_pxf.pl [-options]
        -max-phenotypicFeatures        IDEM
        -max-treatments                IDEM
        -o                             Output file [individuals.json]
-
+       -random-seed                   Initializes pseudorandom number sequences for reproducible results (int)
 
        -debug                         Print debugging (from 1 to 5, being 5 max)
-       -f                             Format [>bff|pxf]
        -h|help                        Brief help message
-       -n                             Number of individuals
        -man                           Full documentation
        -v|verbose                     Verbosity on
        -V|version                     Print version

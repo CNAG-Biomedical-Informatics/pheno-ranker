@@ -8,7 +8,7 @@ MAINTAINER Manuel Rueda <manuel.rueda@cnag.crg.eu>
 RUN apt-get update && \
     apt-get -y install gcc unzip make git cpanminus perl-doc vim sudo libperl-dev
 
-# Download Convert-Pheno
+# Download Pheno-Ranker
 WORKDIR /usr/share/
 RUN git clone https://github.com/mrueda/pheno-ranker.git
 
