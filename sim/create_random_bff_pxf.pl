@@ -291,9 +291,9 @@ create_random_bff_pxf.pl [-options]
        -diseases                      Number of [1]
        -phenotypicFeatures            IDEM
        -treatments                    IDEM
-       -max-diseases                  To narrow the selection to N first array elements
-       -max-phenotypicFeatures        IDEM
-       -max-treatments                IDEM
+       -max-diseases-pool             To narrow the selection to N first array elements
+       -max-phenotypicFeatures-pool   IDEM
+       -max-treatments-pool           IDEM
        -o                             Output file [individuals.json]
        -random-seed                   Initializes pseudorandom number sequences for reproducible results (int)
 
