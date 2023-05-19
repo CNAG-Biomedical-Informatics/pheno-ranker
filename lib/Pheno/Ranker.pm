@@ -101,7 +101,12 @@ sub run {
     my $sort_by        = $self->{sort_by};
 
     # Load JSON file as Perl data structure
-    my $ref_data = read_json($reference_file);
+    my $ref_data = io_yaml_or_json(
+        {
+            filepath => $reference_file,
+            mode     => 'read'
+        }
+    );
 
     # We have to check if we have BFF or PXF
     add_attribute($self, 'format', check_format($ref_data)); # setter via sub
@@ -140,7 +145,7 @@ sub run {
 
     # Perform patient-to-cohort comparison and rank if <--t>
     if ($target_file) {
-        my $tar_data = array2object(read_json($target_file));
+        my $tar_data = array2object(io_yaml_or_json({ filepath => $target_file, mode => 'read' }));
 
         # The target file has to have $_->{id} otherwise die
         die

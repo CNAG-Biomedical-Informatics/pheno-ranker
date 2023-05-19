@@ -7,8 +7,8 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Arguments:                       
-       -r|reference-file              BFF/PXF file (JSON array)
-       -t|target-file                 BFF/PXF file (JSON or JSON array with 1 object)
+       -r|reference-file              BFF/PXF file (JSON|YAML array)
+       -t|target-file                 BFF/PXF file (JSON|YAML object or array with 1 object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]
@@ -62,11 +62,11 @@ For executing pheno-ranker you will need:
 
     $ ./pheno-ranker -r phenopackets.json  # intra-cohort
 
-    $ ./pheno-ranker -r phenopackets.json -o my_matrix.txt # intra-cohort
+    $ ./pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
 
     $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
 
-    $ $path/pheno-ranker -t patient.json -r individuals.json -max-out 100 # patient-cohort
+    $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # patient-cohort
 
 ## COMMON ERRORS AND SOLUTIONS
 

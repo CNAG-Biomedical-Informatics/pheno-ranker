@@ -49,7 +49,7 @@ pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
 
 # Set seed if defined
-srand($random_seed) if defined $random_seed;
+srand($random_seed) if defined $random_seed; # user can set it to 0
 
 # Create object
 my $randomize = Randomizer->new(
@@ -259,7 +259,7 @@ sub shuffle_slice {
 
 sub fake_int_mod {
 
-    # This subroutie was built because fake_int did not respond to srand
+    # This subroutine was built because fake_int did not respond to srand
     my ( $low, $high ) = @_;
     my $range = $high - $low;
     return int( rand($range) ) + 1;
