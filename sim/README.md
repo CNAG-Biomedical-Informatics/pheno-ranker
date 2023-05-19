@@ -8,19 +8,20 @@ create\_random\_bff\_pxf.pl \[-options\]
 
      Options:
 
+       -f|format                      Format [>bff|pxf]
+       -n|number                      Number of individuals
        -diseases                      Number of [1]
        -phenotypicFeatures            IDEM
        -treatments                    IDEM
-       -max-diseases                  To narrow the selection to N first array elements
-       -max-phenotypicFeatures        IDEM
-       -max-treatments                IDEM
-       -o                             Output file [individuals.json]
-
+       -max-diseases-pool             To narrow the selection to N first array elements
+       -max-phenotypicFeatures-pool   IDEM
+       -max-treatments-pool           IDEM
+       -o|output                      Output file [individuals.json]
+       -external-ontologies           YAML file with ontologies for diseases, phenotypicFeatures and treatments
+       -random-seed                   Initializes pseudorandom number sequences for reproducible results (int)
 
        -debug                         Print debugging (from 1 to 5, being 5 max)
-       -f                             Format [>bff|pxf]
        -h|help                        Brief help message
-       -n                             Number of individuals
        -man                           Full documentation
        -v|verbose                     Verbosity on
        -V|version                     Print version

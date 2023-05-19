@@ -19,52 +19,65 @@ use warnings;
 use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 
-my $format             = 'bff';
-my $number             = 100;
-my $out_file           = 'individuals.json';
-my $phenotypicFeatures = 1;
-my $diseases           = 1;
-my $treatments         = 1;
-my $VERSION            = '1.0.0';
+##### Main #####
+randomize_ga4gh();
+################
+exit;
 
-# Reading arguments
-GetOptions(
-    'format|f=s'                    => \$format,                            # string
-    'n=i'                           => \$number,                            # string
-    'o=s'                           => \$out_file,                          # string
-    'phenotypicFeatures=i'          => \$phenotypicFeatures,                # integer
-    'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,    # integer
-    'diseases=i'                    => \$diseases,                          # integer
-    'max-diseases-pool=i'           => \my $max_diseases_pool,              # integer
-    'treatments=i'                  => \$treatments,                        # integer
-    'max-treatments-pool=i'         => \my $max_treatments_pool,            # integer
-    'random-seed=i'                 => \my $random_seed,                    # integer
-    'help|?'                        => \my $help,                           # flag
-    'man'                           => \my $man,                            # flag
-    'debug=i'                       => \my $debug,                          # integer
-    'verbose|'                      => \my $verbose,                        # flag
-    'version|V' => sub { print "$0 Version $VERSION\n"; exit; }
-) or pod2usage(2);
-pod2usage(1)                              if $help;
-pod2usage( -verbose => 2, -exitval => 0 ) if $man;
+sub randomize_ga4gh {
 
-# Set seed if defined
-srand($random_seed) if defined $random_seed; # user can set it to 0
+    my $format             = 'bff';
+    my $number             = 100;
+    my $output             = 'individuals.json';
+    my $phenotypicFeatures = 1;
+    my $diseases           = 1;
+    my $treatments         = 1;
+    my $VERSION            = '1.0.0';
 
-# Create object
-my $randomize = Randomizer->new(
-    {
-        phenotypicFeatures          => $phenotypicFeatures,
-        diseases                    => $diseases,
-        treatments                  => $treatments,
-        max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
-        max_diseases_pool           => $max_diseases_pool,
-        max_treatments_pool         => $max_treatments_pool
-    }
-);
+    # Reading arguments
+    GetOptions(
+        'format|f=s'                    => \$format,                           # string
+        'number|n=i'                    => \$number,                           # string
+        'output|o=s'                    => \$output,                           # string
+        'phenotypicFeatures=i'          => \$phenotypicFeatures,               # integer
+        'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,   # integer
+        'diseases=i'                    => \$diseases,                         # integer
+        'max-diseases-pool=i'           => \my $max_diseases_pool,             # integer
+        'treatments=i'                  => \$treatments,                       # integer
+        'max-treatments-pool=i'         => \my $max_treatments_pool,           # integer
+        'random-seed=i'                 => \my $random_seed,                   # integer
+        'external-ontologies=s'         => \my $ext_ontologies,                # string
+        'help|?'                        => \my $help,                          # flag
+        'man'                           => \my $man,                           # flag
+        'debug=i'                       => \my $debug,                         # integer
+        'verbose|'                      => \my $verbose,                       # flag
+        'version|V' => sub { print "$0 Version $VERSION\n"; exit; }
+    ) or pod2usage(2);
+    pod2usage(1)                              if $help;
+    pod2usage( -verbose => 2, -exitval => 0 ) if $man;
 
-# Run method
-$randomize->run;
+    # Create object
+    my $randomize = Randomizer->new(
+        {
+            format                      => $format,
+            number                      => $number,
+            output                      => $output,
+            phenotypicFeatures          => $phenotypicFeatures,
+            diseases                    => $diseases,
+            treatments                  => $treatments,
+            max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
+            max_diseases_pool           => $max_diseases_pool,
+            max_treatments_pool         => $max_treatments_pool,
+            random_seed                 => $random_seed,
+            ext_ontologies              => $ext_ontologies,
+            debug                       => $debug,
+            verbose                     => $verbose
+        }
+    );
+
+    # Run method
+    $randomize->run;
+}
 
 package Randomizer;
 
@@ -91,11 +104,24 @@ sub new {
 
 sub run {
 
-    my $self = shift;
-    my %func = (
+    my $self        = shift;
+    my $number      = $self->{number};
+    my $format      = $self->{format};
+    my $output      = $self->{output};
+    my $random_seed = $self->{random_seed};
+    my %func        = (
         bff => \&bff_generator,
         pxf => \&pxf_generator
     );
+
+    # Set seed if defined
+    srand($random_seed) if defined $random_seed;    # user can set it to 0
+
+    # Load external ontologies file is present
+    $self->{ontologies_data} =
+      $self->{ext_ontologies}
+      ? json_validate( $self->{ext_ontologies} )
+      : undef;                                      # setter
 
     #########
     # START #
@@ -112,7 +138,7 @@ sub run {
     #p $json_data;
 
     # Serialize the data and write
-    write_json( { filepath => $out_file, data => $json_data } );
+    write_json( { filepath => $output, data => $json_data } );
 }
 
 sub write_json {
@@ -121,7 +147,7 @@ sub write_json {
     my $file      = $arg->{filepath};
     my $json_data = $arg->{data};
 
-    # Note that canonical DOES not match the order of nsort from Sort:.Naturally
+    # Note that canonical DOES not match the order of nsort from Sort::Naturally
     my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
     path($file)->spew_utf8($json);
     return 1;
@@ -130,16 +156,8 @@ sub write_json {
 sub pxf_generator {
 
     my ( $id, $self ) = @_;
-    my $n_pF               = $self->{phenotypicFeatures};
-    my $n_d                = $self->{diseases};
-    my $n_t                = $self->{treatments};
-    my $max_pF             = $self->{max_phenotypicFeatures_pool};
-    my $max_d              = $self->{max_diseases_pool};
-    my $max_t              = $self->{max_treatments_pool};
-    my $phenotypicFeatures = phenotypicFeatures( 'pxf', $n_pF, $max_pF );
-    my $diseases           = diseases( 'pxf', $n_d, $max_d );
-    my $treatments         = treatments( 'pxf', $n_t, $max_t );
-    my $pxf                = fake_hash(
+    my $hash = load_ontologies($self);
+    my $pxf  = fake_hash(
         {
             id      => "Phenopacket_" . $id,
             subject => {
@@ -150,9 +168,9 @@ sub pxf_generator {
                 },
                 sex => fake_pick_mod( [ 'MALE', 'FEMALE' ] )
             },
-            phenotypicFeatures => $phenotypicFeatures,
-            diseases           => $diseases,
-            medicalActions     => $treatments
+            diseases           => $hash->{diseases},
+            phenotypicFeatures => $hash->{phenotypicFeatures},
+            medicalActions     => $hash->{treatments}
         }
     );
     return $pxf->();
@@ -161,17 +179,8 @@ sub pxf_generator {
 sub bff_generator {
 
     my ( $id, $self ) = @_;
-    my $n_pF               = $self->{phenotypicFeatures};
-    my $n_d                = $self->{diseases};
-    my $n_t                = $self->{treatments};
-    my $max_pF             = $self->{max_phenotypicFeatures_pool};
-    my $max_d              = $self->{max_diseases_pool};
-    my $max_t              = $self->{max_treatments_pool};
-    my $phenotypicFeatures = phenotypicFeatures( 'bff', $n_pF, $max_pF );
-    my $diseases           = diseases( 'bff', $n_d, $max_d );
-    my $treatments         = treatments( 'bff', $n_t, $max_t );
-
-    my $bff = fake_hash(
+    my $hash = load_ontologies($self);
+    my $bff  = fake_hash(
         {
             id        => "Beacon_" . $id,
             ethnicity => fake_pick_mod($ethnicity_array),
@@ -181,9 +190,11 @@ sub bff_generator {
                     { id => "NCIT:C16576", label => "Female" }
                 ]
             ),
-            phenotypicFeatures => $phenotypicFeatures,
-            diseases           => $diseases,
-            treatments         => $treatments
+            diseases           => $hash->{diseases},
+            phenotypicFeatures => $hash->{phenotypicFeatures},
+
+            treatments => $hash->{treatments}
+
         }
     );
     return $bff->();
@@ -191,10 +202,10 @@ sub bff_generator {
 
 sub phenotypicFeatures {
 
-    my ( $format, $n, $max ) = @_;
+    my ( $format, $ont_array, $n, $max ) = @_;
     my $type           = $format eq 'bff' ? 'featureType' : 'type';
     my $onset          = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
-    my $shuffled_slice = shuffle_slice( $max, $hpo_array );
+    my $shuffled_slice = shuffle_slice( $max, $ont_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
@@ -213,10 +224,10 @@ sub phenotypicFeatures {
 
 sub diseases {
 
-    my ( $format, $n, $max ) = @_;
+    my ( $format, $ont_array, $n, $max ) = @_;
     my $type           = $format eq 'bff' ? 'diseaseCode' : 'term';
     my $onset          = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
-    my $shuffled_slice = shuffle_slice( $max, $omim_array );
+    my $shuffled_slice = shuffle_slice( $max, $ont_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
@@ -235,8 +246,8 @@ sub diseases {
 
 sub treatments {
 
-    my ( $format, $n, $max ) = @_;
-    my $shuffled_slice = shuffle_slice( $max, $rxnorm_array );
+    my ( $format, $ont_array, $n, $max ) = @_;
+    my $shuffled_slice = shuffle_slice( $max, $ont_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
@@ -245,6 +256,37 @@ sub treatments {
           : { treatment     => { agent => $shuffled_slice->[$i] } };
     }
     return $array;
+}
+
+sub load_ontologies {
+
+    my $self = shift;
+
+    my %func = (
+        diseases           => \&diseases,
+        phenotypicFeatures => \&phenotypicFeatures,
+        treatments         => \&treatments
+    );
+    my %ont = (
+        diseases           => $omim_array,
+        phenotypicFeatures => $hpo_array,
+        treatments         => $rxnorm_array
+    );
+
+    my %hash;
+    for my $item (qw/diseases phenotypicFeatures treatments/) {
+        my $ont_array =
+          exists $self->{ontologies_data}{$item}
+          ? $self->{ontologies_data}{$item}
+          : $ont{$item};
+
+        # format, ont_array, n, max
+        $hash{$item} = $func{$item}->(
+            $self->{format}, $ont_array, $self->{$item},
+            $self->{ 'max_' . $item . '_pool' }
+        );
+    }
+    return \%hash;
 }
 
 sub shuffle_slice {
@@ -273,6 +315,70 @@ sub fake_pick_mod {
     return $array->[ int( rand(@$array) ) ];
 }
 
+sub json_validate {
+
+    my $file   = shift;
+    my $data   = read_yaml($file);
+    my $schema = {
+        type       => "object",
+        properties => {
+            diseases           => { '$ref' => '#/$defs/array' },
+            phenotypicFeatures => { '$ref' => '#/$defs/array' },
+            treatments         => { '$ref' => '#/$defs/array' }
+        },
+        '$defs' => {
+            array => {
+                type  => "array",
+                items => { '$ref' => '#/$defs/item' }
+            },
+            item => {
+                type       => "object",
+                required   => [ "id", "label" ],
+                properties => {
+                    id => { type => "string", pattern => qq/^\\w[^:]+:.+\$/ },
+                    label => { type => "string" }
+                }
+            }
+        }
+    };
+
+    # Load at runtime
+    require JSON::Validator;
+
+    # Create object and load schema
+    my $jv = JSON::Validator->new;
+
+    # Load schema in object
+    $jv->schema($schema);
+
+    # Validate data
+    my @errors = $jv->validate($data);
+
+    # Show error if any
+    say_errors( \@errors ) and die if @errors;
+
+    # return data if ok
+    return $data;
+
+}
+
+sub say_errors {
+
+    my $errors = shift;
+    if ( @{$errors} ) {
+        say join "\n", @{$errors};
+    }
+    return 1;
+}
+
+sub read_yaml {
+
+    # Load at runtime
+    require YAML::XS;
+    YAML::XS->import('LoadFile');
+    return LoadFile(shift);    # Decode to Perl data structure
+}
+
 1;
 
 =head1 NAME
@@ -286,15 +392,16 @@ create_random_bff_pxf.pl [-options]
 
      Options:
 
-       -f                             Format [>bff|pxf]
-       -n                             Number of individuals
+       -f|format                      Format [>bff|pxf]
+       -n|number                      Number of individuals
        -diseases                      Number of [1]
        -phenotypicFeatures            IDEM
        -treatments                    IDEM
        -max-diseases-pool             To narrow the selection to N first array elements
        -max-phenotypicFeatures-pool   IDEM
        -max-treatments-pool           IDEM
-       -o                             Output file [individuals.json]
+       -o|output                      Output file [individuals.json]
+       -external-ontologies           YAML file with ontologies for diseases, phenotypicFeatures and treatments
        -random-seed                   Initializes pseudorandom number sequences for reproducible results (int)
 
        -debug                         Print debugging (from 1 to 5, being 5 max)

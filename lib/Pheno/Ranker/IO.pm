@@ -12,7 +12,7 @@ use JSON::XS;
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment read_json read_yaml write_json array2object io_yaml_or_json);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object);
 use constant DEVEL_MODE => 0;
 
 #########################
