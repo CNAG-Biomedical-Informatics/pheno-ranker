@@ -11,3 +11,4 @@ requires 'Statistics::Descriptive';
 
 # sim
 requires 'Data::Fake';
+requires 'JSON::Validator';

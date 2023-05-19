@@ -3,3 +3,4 @@
 requires 'JSON::XS';
 requires 'Path::Tiny';
 requires 'Data::Fake';
+requires 'JSON::Validator';
