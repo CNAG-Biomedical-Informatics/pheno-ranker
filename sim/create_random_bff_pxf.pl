@@ -120,7 +120,7 @@ sub run {
     # Load external ontologies file is present
     $self->{ontologies_data} =
       $self->{ext_ontologies}
-      ? json_validate( $self->{ext_ontologies} )
+      ? validate_json( $self->{ext_ontologies} )
       : undef;                                      # setter
 
     #########
@@ -315,11 +315,12 @@ sub fake_pick_mod {
     return $array->[ int( rand(@$array) ) ];
 }
 
-sub json_validate {
+sub validate_json {
 
     my $file   = shift;
     my $data   = read_yaml($file);
     my $schema = {
+        '$schema' => 'http://json-schema.org/draft-07/schema#',
         type       => "object",
         properties => {
             diseases           => { '$ref' => '#/$defs/array' },

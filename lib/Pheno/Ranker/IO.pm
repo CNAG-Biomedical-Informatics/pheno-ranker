@@ -7,12 +7,13 @@ use feature qw(say);
 use Path::Tiny;
 use File::Basename;
 use List::Util qw(any);
-use YAML::XS qw(LoadFile DumpFile);
+use YAML::XS   qw(LoadFile DumpFile);
 use JSON::XS;
+
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -70,8 +71,8 @@ sub read_json {
 
     my $file = shift;
 
-# NB: hp.json is non-UTF8
-# malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
+    # NB: hp.json is non-UTF8
+    # malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
     my $str =
       $file =~ /hp\.json/ ? path($file)->slurp : path($file)->slurp_utf8;
     return decode_json($str);    # Decode to Perl data structure
@@ -119,4 +120,54 @@ sub array2object {
     }
     return $data;
 }
+
+sub validate_json {
+
+    my $file = shift;
+    my $data = ( $file && -f $file ) ? read_yaml($file) : undef;
+
+    # Premature return with undef
+    return undef unless defined $data;
+
+    # schema for the weights file
+    my $schema = {
+        '$schema'           => 'http://json-schema.org/draft-07/schema#',
+        'type'              => 'object',
+        'patternProperties' => {
+            '^\w+[.:](\w+[.:])*\w+$' => {
+                'type' => 'integer',
+            },
+        },
+        'additionalProperties' => JSON::XS::false,
+    };
+
+    # Load at runtime
+    require JSON::Validator;
+
+    # Create object and load schema
+    my $jv = JSON::Validator->new;
+
+    # Load schema in object
+    $jv->schema($schema);
+
+    # Validate data
+    my @errors = $jv->validate($data);
+
+    # Show error if any
+    say_errors( \@errors ) and die if @errors;
+
+    # return data if ok
+    return $data;
+
+}
+
+sub say_errors {
+
+    my $errors = shift;
+    if ( @{$errors} ) {
+        say join "\n", @{$errors};
+    }
+    return 1;
+}
+
 1;

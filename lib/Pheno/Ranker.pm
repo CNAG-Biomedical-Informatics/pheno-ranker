@@ -113,8 +113,7 @@ sub run {
 
     # We assing weights if <--w>
     # NB: The user can exclude variables by using variable: 0
-    my $weight =
-      ( $weights_file && -f $weights_file ) ? read_yaml($weights_file) : undef;
+    my $weight = validate_json($weights_file);
 
     # Now we load $hpo_nodes, $hpo_edges if --hpo
     # NB: we load them within $self to minimize the #args

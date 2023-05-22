@@ -8,7 +8,10 @@ requires 'Hash::Fold';
 requires 'Sort::Naturally';
 requires 'Math::CDF';
 requires 'Statistics::Descriptive';
+requires 'JSON::Validator';
+
+# t
+requires 'Test::Exception';
 
 # sim
 requires 'Data::Fake';
-requires 'JSON::Validator';
