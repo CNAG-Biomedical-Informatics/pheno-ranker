@@ -125,11 +125,9 @@ sub compare_and_rank {
     # Start loop
     for my $key (
         sort {
-            $sort_by eq 'jaccard'           #
-              ? $score->{$b}{$sort_by}
-              <=> $score->{$a}{$sort_by}    # 1 to 0 (similarity)
-              : $score->{$a}{$sort_by}
-              <=> $score->{$b}{$sort_by}    # 0 to N (distance)
+            $sort_by eq 'jaccard'                                    #
+              ? $score->{$b}{$sort_by} <=> $score->{$a}{$sort_by}    # 1 to 0 (similarity)
+              : $score->{$a}{$sort_by} <=> $score->{$b}{$sort_by}    # 0 to N (distance)
         } keys %$score
       )
     {
@@ -140,10 +138,10 @@ sub compare_and_rank {
         my ( $n_00, $alignment ) =
           create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
 
-     # *** IMPORTANT ***
-     # The LENGTH of the alignment is based on the #variables in the REF-COHORT
-     # Compute estimated av and dev for binary_string of L = length_align - n_00
-     # Corrected length_align L = length_align - n_00
+        # *** IMPORTANT ***
+        # The LENGTH of the alignment is based on the #variables in the REF-COHORT
+        # Compute estimated av and dev for binary_string of L = length_align - n_00
+        # Corrected length_align L = length_align - n_00
         my $length_align_corrected = $length_align - $n_00;
         ( $stat->{hamming_stats}{mean_rnd}, $stat->{hamming_stats}{sd_rnd} ) =
           estimate_hamming_stats($length_align_corrected);
@@ -391,7 +389,7 @@ sub remap_hash {
 
     # *** IMPORTANT ***
     # The user may include a term that:
-    # - may not exist in any individual 
+    # - may not exist in any individual
     # - does not exist in some individuals
     # If the term does not exist in a invidual
     #  - a) -include-terms included ANOTHER TERM THAT EXISTS
@@ -437,17 +435,17 @@ sub remap_hash {
         # Discard undefined
         next unless defined $hash->{$key};
 
-# Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
-# Some can be "rescued" by adding the ontology as ($1)
-# NB1: We discard _labels too!!
-# NB2: info|metaData are always discarded
+        # Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
+        # Some can be "rescued" by adding the ontology as ($1)
+        # NB1: We discard _labels too!!
+        # NB2: info|metaData are always discarded
 
         next
           if $key =~
 m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
 
         # The user can turn on age related values
-        next if ( $key =~ m/age|onset/i && !$self->{age} ); # $self->{age} [0|1]
+        next if ( $key =~ m/age|onset/i && !$self->{age} );    # $self->{age} [0|1]
 
         # Load values
         my $val = $hash->{$key};
@@ -472,9 +470,9 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
-   # Assign weights
-   # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
-   # NB: We don't warn if it does not exists, just assign 1
+        # Assign weights
+        # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
+        # NB: We don't warn if it does not exists, just assign 1
         $out_hash->{$tmp_key} =
           exists $weight->{$tmp_key} ? $weight->{$tmp_key} : 1;
 
@@ -509,21 +507,20 @@ sub add_hpo_ascendants {
         $copy_parent_id = $1;
         $copy_parent_id =~ tr/_/:/;
 
-# *** IMPORTANT ***
-# We cannot add any label to the ascendants, otherwise they will
-# not be matched by an indv down the tree
-# Myopia
-# Mild Myopia
-# We want that 'Mild Myopia' matches 'Myopia', thus we can not add a label from 'Mild Myopia'
-# Use the labels only for debug
+        # *** IMPORTANT ***
+        # We cannot add any label to the ascendants, otherwise they will
+        # not be matched by an indv down the tree
+        # Myopia
+        # Mild Myopia
+        # We want that 'Mild Myopia' matches 'Myopia', thus we can not add a label from 'Mild Myopia'
+        # Use the labels only for debug
         my $asc_key = DEVEL_MODE ? $key . '.HPO_asc_DEBUG_ONLY' : $key;
         $asc_key =~ s/HP:$ontology/$copy_parent_id/g;
         push @ascendants, $asc_key;
 
         # We finally add the label to %nomenclature
-        my $hpo_asc_str = $hpo_url
-          . $copy_parent_id;    # 'http://purl.obolibrary.org/obo/HP_HP:0000539
-        $hpo_asc_str =~ s/HP://;    # 0000539
+        my $hpo_asc_str = $hpo_url . $copy_parent_id;    # 'http://purl.obolibrary.org/obo/HP_HP:0000539
+        $hpo_asc_str =~ s/HP://;                         # 0000539
         $nomenclature{$asc_key} = $nodes->{$hpo_asc_str}{lbl};
     }
     return \@ascendants;
@@ -574,20 +571,20 @@ sub parse_hpo_json {
 
     my $data = shift;
 
-# The <hp.json> file is a structured representation of the Human Phenotype Ontology (HPO) in JSON format.
-# The HPO is structured into a directed acyclic graph (DAG)
-# Here's a brief overview of the structure of the hpo.json file:
-# - graphs: This key contains an array of ontology graphs. In the case of HPO, there is only one graph. The graph has two main keys:
-# - nodes: An array of objects, each representing an HPO term. Each term object has the following keys:
-# - id: The identifier of the term (e.g., "HP:0000118").
-# - lbl: The label (name) of the term (e.g., "Phenotypic abnormality").
-# - meta: Metadata associated with the term, including definition, synonyms, and other information.
-# - type: The type of the term, usually "CLASS".
-# - edges: An array of objects, each representing a relationship between two HPO terms. Each edge object has the following keys:
-# - sub: The subject (child) term ID (e.g., "HP:0000924").
-# - obj: The object (parent) term ID (e.g., "HP:0000118").
-# - pred: The predicate that describes the relationship between the subject and object terms, typically "is_a" in HPO.
-# - meta: This key contains metadata about the HPO ontology as a whole, such as version information, description, and other details.
+    # The <hp.json> file is a structured representation of the Human Phenotype Ontology (HPO) in JSON format.
+    # The HPO is structured into a directed acyclic graph (DAG)
+    # Here's a brief overview of the structure of the hpo.json file:
+    # - graphs: This key contains an array of ontology graphs. In the case of HPO, there is only one graph. The graph has two main keys:
+    # - nodes: An array of objects, each representing an HPO term. Each term object has the following keys:
+    # - id: The identifier of the term (e.g., "HP:0000118").
+    # - lbl: The label (name) of the term (e.g., "Phenotypic abnormality").
+    # - meta: Metadata associated with the term, including definition, synonyms, and other information.
+    # - type: The type of the term, usually "CLASS".
+    # - edges: An array of objects, each representing a relationship between two HPO terms. Each edge object has the following keys:
+    # - sub: The subject (child) term ID (e.g., "HP:0000924").
+    # - obj: The object (parent) term ID (e.g., "HP:0000118").
+    # - pred: The predicate that describes the relationship between the subject and object terms, typically "is_a" in HPO.
+    # - meta: This key contains metadata about the HPO ontology as a whole, such as version information, description, and other details.
 
     my $graph = $data->{graphs}->[0];
     my %nodes = map { $_->{id} => $_ } @{ $graph->{nodes} };

@@ -12,21 +12,23 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Options:
        -age                           Include age-related variables [>no-age|age]
-       -debug                         Print debugging (from 1 to 5, being 5 max)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
-       -h|help                        Brief help message
-       -hpo                           Include HPO ascendant terms (if present)
+       -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
-       -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
-       -man                           Full documentation
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -no-color                      Don't print colors to STDOUT [>color|no-color]
        -o                             Output file [matrix.txt]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
+       -w|weights                     YAML file with weights
+
+     Generic Options:
+       -debug                         Print debugging (from 1 to 5, being 5 max)
+       -h|help                        Brief help message
+       -log                           Save log file (JSON). If no argument is given then the log is named [pheno-ranker-log.json]
+       -man                           Full documentation
+       -no-color                      Don't print colors to STDOUT [>color|no-color]
        -v|verbose                     Verbosity on
        -V|version                     Print version
-       -w|weights                     YAML file with weights
 
 # DESCRIPTION
 

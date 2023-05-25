@@ -30,7 +30,7 @@ my @beacon_v2_terms =
 my @phenopackets_v2_terms =
   qw(id subject phenotypicFeatures measurements biosamples interpretations diseases medicalActions files metaData);
 my $allowed_terms =
-  ArrayRef [ Enum [ @beacon_v2_terms, @phenopackets_v2_terms ] ]; # The error appears twice
+  ArrayRef [ Enum [ @beacon_v2_terms, @phenopackets_v2_terms ] ];    # The error appears twice
 
 ############################################
 # Start declaring attributes for the class #
@@ -72,7 +72,7 @@ has [qw /include_terms exclude_terms/] =>
   ( default => sub { [] }, is => 'ro', isa => $allowed_terms );
 
 has [
-    qw/reference_file target_file weights_file out_file hpo align align_file export log verbose age/
+    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_file export log verbose age/
 ] => ( is => 'ro' );
 
 #has [qw /data method /] => ( is => 'rw' );
@@ -88,17 +88,17 @@ sub run {
     #print Dumper $self and die;
 
     # Load variables
-    my $reference_file = $self->{reference_file};
-    my $target_file    = $self->{target_file};
-    my $weights_file   = $self->{weights_file};
-    my $export         = $self->{export};
-    my $hpo            = $self->{hpo};
-    my $hpo_file       = $self->{hpo_file};
-    my $align          = $self->{align};
-    my $align_file     = $self->{align_file};
-    my $out_file       = $self->{out_file};
-    my $max_out        = $self->{max_out};
-    my $sort_by        = $self->{sort_by};
+    my $reference_file         = $self->{reference_file};
+    my $target_file            = $self->{target_file};
+    my $weights_file           = $self->{weights_file};
+    my $export                 = $self->{export};
+    my $include_hpo_ascendants = $self->{include_hpo_ascendants};
+    my $hpo_file               = $self->{hpo_file};
+    my $align                  = $self->{align};
+    my $align_file             = $self->{align_file};
+    my $out_file               = $self->{out_file};
+    my $max_out                = $self->{max_out};
+    my $sort_by                = $self->{sort_by};
 
     # Load JSON file as Perl data structure
     my $ref_data = io_yaml_or_json(
@@ -109,18 +109,19 @@ sub run {
     );
 
     # We have to check if we have BFF or PXF
-    add_attribute($self, 'format', check_format($ref_data)); # setter via sub
+    add_attribute( $self, 'format', check_format($ref_data) );    # setter via sub
 
     # We assing weights if <--w>
     # NB: The user can exclude variables by using variable: 0
     my $weight = validate_json($weights_file);
 
-    # Now we load $hpo_nodes, $hpo_edges if --hpo
+    # Now we load $hpo_nodes, $hpo_edges if --include_hpo_ascendants
     # NB: we load them within $self to minimize the #args
     my $nodes = my $edges = undef;
-    ( $nodes, $edges ) = parse_hpo_json( read_json($hpo_file) ) if $hpo;
-    $self->{nodes} = $nodes; # setter
-    $self->{edges} = $edges; # setter
+    ( $nodes, $edges ) = parse_hpo_json( read_json($hpo_file) )
+      if $include_hpo_ascendants;
+    $self->{nodes} = $nodes;    # setter
+    $self->{edges} = $edges;    # setter
 
     # First we create:
     # - $glob_hash => hash with all the COHORT keys possible
@@ -144,7 +145,8 @@ sub run {
 
     # Perform patient-to-cohort comparison and rank if <--t>
     if ($target_file) {
-        my $tar_data = array2object(io_yaml_or_json({ filepath => $target_file, mode => 'read' }));
+        my $tar_data = array2object(
+            io_yaml_or_json( { filepath => $target_file, mode => 'read' } ) );
 
         # The target file has to have $_->{id} otherwise die
         die
@@ -156,15 +158,15 @@ sub run {
 
         # Now we load the rest of the hashes
         my $tar_hash = {
-            $tar_data_id  => remap_hash(
+            $tar_data_id => remap_hash(
                 {
-                    hash         => $tar_data,
-                    weight       => $weight,
-                    self         => $self
+                    hash   => $tar_data,
+                    weight => $weight,
+                    self   => $self
                 }
             )
         };
-       
+
         # *** IMPORTANT ***
         # The target binary is created from matches to $glob_hash
         # Thus, it does not include variables ONLY present in TARGET
@@ -204,8 +206,8 @@ sub run {
 
 sub add_attribute {
 
-    #  Bypassing the encapsulation provided by Moo 
-    my ($self, $name, $value) = @_;
+    #  Bypassing the encapsulation provided by Moo
+    my ( $self, $name, $value ) = @_;
     $self->{$name} = $value;
     return 1;
 }
