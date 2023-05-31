@@ -34,11 +34,11 @@ exit;
 sub pheno_ranker {
 
     # Defining a few variables
-    my $out_file   = 'matrix.txt';
-    my $align_file = 'alignment.txt';
-    my $log_file   = 'pheno-ranker-log.json';
-    my $color       = 1;
-    my $age         = 0;
+    my $out_file       = 'matrix.txt';
+    my $align_basename = 'alignment';
+    my $log_file       = 'pheno-ranker-log.json';
+    my $color          = 1;
+    my $age            = 0;
 
     # Reading arguments
     GetOptions(
@@ -49,7 +49,7 @@ sub pheno_ranker {
         'max-out:i'              => \my $max_out,                              # integer
         'include-hpo-ascendants' => \my $include_hpo_ascendants,               # flag
         'export|e'               => \my $export,                               # flag
-        'align|a:s'              => \my $align,                                # opt-string (defined)
+        'align:s'                => \my $align,                                # opt-string (defined)
         'sort-by=s'              => \my $sort_by,                              # string
         'include-terms=s{1,11}'  => \my @include_terms,                        # array
         'exclude-terms=s{1,11}'  => \my @exclude_terms,                        # array
@@ -81,23 +81,23 @@ sub pheno_ranker {
 
     # Load data as hashref
     my $data = {
-        reference_file => $reference_file,
-        target_file    => $target_file,
-        weights_file   => $weights_file,
-        include_hpo_ascendants            => $include_hpo_ascendants,
-        hpo_file       => undef,
-        align          => $align,
-        align_file     => $align_file,
-        export         => $export,
-        out_file       => $out_file,
-        max_out        => $max_out,
-        sort_by        => $sort_by,
-        include_terms  => \@include_terms,
-        exclude_terms  => \@exclude_terms,
-        age            => $age,
-        log            => $log,
-        debug          => $debug,
-        verbose        => $verbose
+        reference_file         => $reference_file,
+        target_file            => $target_file,
+        weights_file           => $weights_file,
+        include_hpo_ascendants => $include_hpo_ascendants,
+        hpo_file               => undef,
+        align                  => $align,
+        align_basename         => $align_basename,
+        export                 => $export,
+        out_file               => $out_file,
+        max_out                => $max_out,
+        sort_by                => $sort_by,
+        include_terms          => \@include_terms,
+        exclude_terms          => \@exclude_terms,
+        age                    => $age,
+        log                    => $log,
+        debug                  => $debug,
+        verbose                => $verbose
     };
 
     # Create object
@@ -171,6 +171,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
      Options:
        -age                           Include age-related variables [>no-age|age]
+       -align                         Include alignment file(s). If no argument is given the file will be named [alignment.*]
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)

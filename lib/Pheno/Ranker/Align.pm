@@ -117,6 +117,8 @@ sub compare_and_rank {
     my %info;
     my $length_align = length($str2);
     my $weight_bool  = $weight ? 'True' : 'False';
+    my @dataframe = join ';', 'Id', sort keys %{$glob_hash};
+    push @dataframe, join ';', qq/T|$tar/, (split //, $str2);
 
     # Sort %score by value and load results
     my $count = 1;
@@ -138,6 +140,9 @@ sub compare_and_rank {
         my ( $n_00, $alignment ) =
           create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
 
+        # Add data to dataframe
+        push @dataframe, join ';',qq/R|$key/,(split//,$ref_binary_hash->{$key});
+        
         # *** IMPORTANT ***
         # The LENGTH of the alignment is based on the #variables in the REF-COHORT
         # Compute estimated av and dev for binary_string of L = length_align - n_00
@@ -234,7 +239,7 @@ sub compare_and_rank {
         $count++;
         last if $count == $max_out;
     }
-    return \@results, \%info, \@alignments;
+    return \@results, \%info, \@alignments, \@dataframe;
 }
 
 sub create_alignment {

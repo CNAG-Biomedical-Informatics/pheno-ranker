@@ -72,7 +72,7 @@ has [qw /include_terms exclude_terms/] =>
   ( default => sub { [] }, is => 'ro', isa => $allowed_terms );
 
 has [
-    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_file export log verbose age/
+    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
 
 #has [qw /data method /] => ( is => 'rw' );
@@ -95,7 +95,7 @@ sub run {
     my $include_hpo_ascendants = $self->{include_hpo_ascendants};
     my $hpo_file               = $self->{hpo_file};
     my $align                  = $self->{align};
-    my $align_file             = $self->{align_file};
+    my $align_basename             = $self->{align_basename};
     my $out_file               = $self->{out_file};
     my $max_out                = $self->{max_out};
     my $sort_by                = $self->{sort_by};
@@ -172,7 +172,7 @@ sub run {
         # Thus, it does not include variables ONLY present in TARGET
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
-        my ( $results_rank, $results_align, $alignments_array ) =
+        my ( $results_rank, $results_align, $alignment_ascii, $alignment_dataframe ) =
           compare_and_rank(
             {
                 glob_hash       => $glob_hash,
@@ -187,7 +187,7 @@ sub run {
         say join "\n", @$results_rank;
 
         # Write TXT for alignment
-        write_alignment( $align ? $align : $align_file, $alignments_array )
+        write_alignment( $align ? $align : $align_basename, $alignment_ascii, $alignment_dataframe )
           if defined $align;
 
         # Load keys into hash if <--e>

@@ -32,12 +32,17 @@ sub serialize_hashes {
 
 sub write_alignment {
 
-    my ( $output, $array ) = @_;
+    my ( $basename, $alignment_ascii, $alignment_dataframe ) = @_;
 
+    my %hash = ( '.txt' =>  $alignment_ascii, '.csv' => $alignment_dataframe);
     # Watch out for RAM usage!!!
-    open( my $fh, ">", $output );
-    print $fh join "\n", @$array;
-    close $fh;
+    for my $key (keys %hash ) { 
+        my $output = $basename . $key;
+        open( my $fh, ">", $output );
+        print $fh join "\n", @{$hash{$key}};
+        print $fh "\n";
+        close $fh;
+    }
 }
 
 sub io_yaml_or_json {
