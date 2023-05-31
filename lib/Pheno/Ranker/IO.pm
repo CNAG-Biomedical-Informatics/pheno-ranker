@@ -32,9 +32,9 @@ sub serialize_hashes {
 
 sub write_alignment {
 
-    my ( $basename, $alignment_ascii, $alignment_dataframe ) = @_;
+    my ( $basename, $alignment_ascii, $alignment_dataframe, $alignment_target ) = @_;
 
-    my %hash = ( '.txt' =>  $alignment_ascii, '.csv' => $alignment_dataframe);
+    my %hash = ( '.txt' =>  $alignment_ascii, '.csv' => $alignment_dataframe, '.target.csv' => $alignment_target );
     # Watch out for RAM usage!!!
     for my $key (keys %hash ) { 
         my $output = $basename . $key;

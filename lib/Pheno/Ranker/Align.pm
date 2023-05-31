@@ -113,12 +113,14 @@ sub compare_and_rank {
     );
     my $header  = join "\t", @headers;
     my @results = $header;
-    my @alignments;
+    my @alignments_ascii;
+    my @alignments_csv = 'REF;indicator;;weight;hamming-distance;json-path';
     my %info;
     my $length_align = length($str2);
     my $weight_bool  = $weight ? 'True' : 'False';
     my @dataframe = join ';', 'Id', sort keys %{$glob_hash};
     push @dataframe, join ';', qq/T|$tar/, (split //, $str2);
+    my $alignment_str_csv;
 
     # Sort %score by value and load results
     my $count = 1;
@@ -136,13 +138,11 @@ sub compare_and_rank {
 
         say "$count: Creating alignment <id:$key>" if $self->{verbose};
 
-        # Create ASCII alignemnt
-        my ( $n_00, $alignment ) =
-          create_alignment( $ref_binary_hash->{$key}, $str2, $glob_hash );
+        # Create ASCII alignment
+        # NB: We need it here to get $n_00
+        my ( $n_00, $alignment_str_ascii, $alignment_arr_csv   ) = 
+          create_alignment( $key, $ref_binary_hash->{$key}, $str2, $glob_hash );
 
-        # Add data to dataframe
-        push @dataframe, join ';',qq/R|$key/,(split//,$ref_binary_hash->{$key});
-        
         # *** IMPORTANT ***
         # The LENGTH of the alignment is based on the #variables in the REF-COHORT
         # Compute estimated av and dev for binary_string of L = length_align - n_00
@@ -210,9 +210,16 @@ sub compare_and_rank {
         # To save memory only load if --align
         if ( defined $align ) {
 
-            # Add all of the above to @alignments
+            # Add all of the above to @alignments_ascii
             my $sep = ('-') x 80;
-            push @alignments, qq/#$header\n$tmp_str\n$sep\n$$alignment/;
+            push @alignments_ascii, qq/#$header\n$tmp_str\n$sep\n$$alignment_str_ascii/;
+
+             # Add all of the above to @alignments_csv
+            push @alignments_csv, @$alignment_arr_csv;
+
+          # Add data to dataframe
+        push @dataframe, join ';',qq/R|$key/,(split//,$ref_binary_hash->{$key});
+
 
             # Add values to info
             $info{$key} = {
@@ -232,19 +239,21 @@ sub compare_and_rank {
                 jaccard_p_value         => $jaccard_p_value_from_z_score,
                 jaccard_distance        => 1 - $score->{$key}{jaccard},
                 format                  => $self->{format},
-                alignment               => $$alignment,
+                alignment               => $$alignment_str_ascii,
             };
+
         }
 
         $count++;
         last if $count == $max_out;
     }
-    return \@results, \%info, \@alignments, \@dataframe;
+    
+    return \@results, \%info, \@alignments_ascii, \@dataframe, \@alignments_csv;
 }
 
 sub create_alignment {
 
-    my ( $binary_string1, $binary_string2, $glob_hash ) = @_;
+    my ( $ref_key, $binary_string1, $binary_string2, $glob_hash ) = @_;
 
     my $length1 = length($binary_string1);
     my $length2 = length($binary_string2);
@@ -255,7 +264,8 @@ sub create_alignment {
     # Expand array to have weights as N-elements
     my $recreated_array = recreate_array($glob_hash);
 
-    my $out          = "REF -- TAR\n";
+    my $out_ascii          = "REF -- TAR\n";
+    my @out_csv;
     my $cum_distance = 0;
     my $n_00         = 0;
     for ( my $i = 0 ; $i < $length1 ; $i++ ) {
@@ -269,25 +279,26 @@ sub create_alignment {
         $cum_distance += $glob_hash->{$key} if $char1 ne $char2;
         my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
         my $distance            = $char1 eq $char2 ? 0 : $glob_hash->{$key};
-        $distance = sprintf( "%3d", $distance );
+        my $distance_pretty = sprintf( "%3d", $distance );
         my $nomenclature =
           exists $nomenclature{$key} ? $key . qq/ ($nomenclature{$key})/ : $key;
 
         # w = weight, d = distance, cd = cumul distance
         my %format = (
-            '11' =>
-qq/$char1 ----- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/,
-            '10' =>
-qq/$char1 xxx-- $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/,
-            '01' =>
-qq/$char1 --xxx $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/,
-            '00' =>
-qq/$char1       $char2 | (w:$val|d:$distance|cd:$cum_distance_pretty|) $nomenclature/
+            '11' => '-----',
+            '10' => 'xxx--',
+            '01' => '--xxx',
+            '00' => '     '
         );
-        $out .= $format{ $char1 . $char2 } . "\n";
+        $out_ascii .= qq/$char1 $format{ $char1 . $char2 } $char2 | (w:$val|d:$distance_pretty|cd:$cum_distance_pretty|) $nomenclature\n/;
+        push @out_csv , qq/$ref_key;$char1;$format{ $char1 . $char2 };$char2;$glob_hash->{$key};$distance;$nomenclature/;
 
+       #REF(107:week_0_arm_1);indicator;TAR(125:week_0_arm_1);weight;hamming-distance;json-path
+       #0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P16Y
+       #0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P24Y
+       #1;-----;1;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P39Y
     }
-    return $n_00, \$out;
+    return $n_00, \$out_ascii, \@out_csv;
 }
 
 sub recreate_array {

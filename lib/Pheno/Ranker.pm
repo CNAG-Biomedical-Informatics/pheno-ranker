@@ -172,7 +172,7 @@ sub run {
         # Thus, it does not include variables ONLY present in TARGET
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
-        my ( $results_rank, $results_align, $alignment_ascii, $alignment_dataframe ) =
+        my ( $results_rank, $results_align, $alignment_ascii, $alignment_dataframe, $alignment_json ) =
           compare_and_rank(
             {
                 glob_hash       => $glob_hash,
@@ -187,7 +187,7 @@ sub run {
         say join "\n", @$results_rank;
 
         # Write TXT for alignment
-        write_alignment( $align ? $align : $align_basename, $alignment_ascii, $alignment_dataframe )
+        write_alignment( $align ? $align : $align_basename, $alignment_ascii, $alignment_dataframe, $alignment_json )
           if defined $align;
 
         # Load keys into hash if <--e>
