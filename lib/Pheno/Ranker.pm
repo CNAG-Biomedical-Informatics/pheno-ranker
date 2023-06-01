@@ -9,7 +9,7 @@ use File::Basename        qw(dirname);
 use Cwd                   qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
-use Types::Standard qw(Str Int Num Enum ArrayRef Undef);
+use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
@@ -65,13 +65,11 @@ has [qw /include_terms exclude_terms/] => (
     default => sub { [] },
 );
 
-has exclude_properties_regex => ( lazy => 1, is => 'ro', isa => Str);
-
 has [
     qw/reference_file target_file weights_file config_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
 
-#has [qw /config/] => (  is => 'rw' );
+has [qw /config/] => (  is => 'rw', isa => HashRef );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
 #. ( default => undef, is => 'ro' );
@@ -84,7 +82,8 @@ has [
 sub BUILD {
 
     my $self = shift;
-    $self->{exclude_properties_regex} = $config->{exclude_properties_regex} # setter; 
+    $self->{primary_key} = $config->{primary_key}; # setter; 
+    $self->{exclude_properties_regex} = $config->{exclude_properties_regex}; # setter
 }
 
 sub run {
@@ -105,6 +104,7 @@ sub run {
     my $out_file               = $self->{out_file};
     my $max_out                = $self->{max_out};
     my $sort_by                = $self->{sort_by};
+    my $primary_key            = $self->{primary_key};
 
     # Load JSON file as Perl data structure
     my $ref_data = io_yaml_or_json(
@@ -154,13 +154,13 @@ sub run {
         my $tar_data = array2object(
             io_yaml_or_json( { filepath => $target_file, mode => 'read' } ) );
 
-        # The target file has to have $_->{id} otherwise die
+        # The target file has to have $_->{$primary_key} otherwise die
         die
 "Sorry, <$target_file> does not contain <id> term and it's mandatory\n"
-          unless exists $tar_data->{id};
+          unless exists $tar_data->{$primary_key};
 
-        # We store {id} as a variable as it might be deleted from $tar_data (--excluded-terms id)
-        my $tar_data_id = $tar_data->{id};
+        # We store {primary_key} as a variable as it might be deleted from $tar_data (--excluded-terms id)
+        my $tar_data_id = $tar_data->{$primary_key};
 
         # Now we load the rest of the hashes
         my $tar_hash = {
