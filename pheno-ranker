@@ -20,11 +20,15 @@ use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Data::Dumper;
 use Sys::Hostname;
+use File::Spec::Functions qw(catdir catfile);
 use POSIX           qw(strftime);
 use Term::ANSIColor qw(:constants);
 use FindBin         qw($Bin);
 use lib "$Bin/lib";
 use Pheno::Ranker qw($VERSION write_json);
+
+# Define global variable
+our $config_file    = catfile($Bin, 'conf/config.yaml');
 
 ##### Main #####
 pheno_ranker();
@@ -53,6 +57,7 @@ sub pheno_ranker {
         'sort-by=s'              => \my $sort_by,                              # string
         'include-terms=s{1,11}'  => \my @include_terms,                        # array
         'exclude-terms=s{1,11}'  => \my @exclude_terms,                        # array
+        'config=s'               => \$config_file,                             # string
         'age!'                   => \$age,                                     # flag
         'help|?'                 => \my $help,                                 # flag
         'log:s'                  => \my $log,                                  # opt-string (defined)
@@ -64,6 +69,10 @@ sub pheno_ranker {
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
+    pod2usage(
+        -message => "Please specify a valid config file for --config\n",
+        -exitval => 1
+    ) unless -f $config_file;
     pod2usage(
         -message => "Please specify a valid reference-cohort for -r\n",
         -exitval => 1
@@ -94,6 +103,7 @@ sub pheno_ranker {
         sort_by                => $sort_by,
         include_terms          => \@include_terms,
         exclude_terms          => \@exclude_terms,
+        config_file            => $config_file,
         age                    => $age,
         log                    => $log,
         debug                  => $debug,
@@ -171,7 +181,8 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
      Options:
        -age                           Include age-related variables [>no-age|age]
-       -align                         Include alignment file(s). If no argument is given the file will be named [alignment.*]
+       -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
+       -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)

@@ -32,14 +32,22 @@ sub serialize_hashes {
 
 sub write_alignment {
 
-    my ( $basename, $alignment_ascii, $alignment_dataframe, $alignment_target ) = @_;
+    my $arg       = shift;
+    my $basename  = $arg->{align};
+    my $ascii     = $arg->{ascii};
+    my $dataframe = $arg->{dataframe};
+    my $csv       = $arg->{csv};
+    my %hash      = (
+        '.txt'        => $ascii,
+        '.csv'        => $dataframe,
+        '.target.csv' => $csv
+    );
 
-    my %hash = ( '.txt' =>  $alignment_ascii, '.csv' => $alignment_dataframe, '.target.csv' => $alignment_target );
     # Watch out for RAM usage!!!
-    for my $key (keys %hash ) { 
+    for my $key ( keys %hash ) {
         my $output = $basename . $key;
         open( my $fh, ">", $output );
-        print $fh join "\n", @{$hash{$key}};
+        print $fh join "\n", @{ $hash{$key} };
         print $fh "\n";
         close $fh;
     }
@@ -76,8 +84,8 @@ sub read_json {
 
     my $file = shift;
 
-    # NB: hp.json is non-UTF8
-    # malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
+# NB: hp.json is non-UTF8
+# malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
     my $str =
       $file =~ /hp\.json/ ? path($file)->slurp : path($file)->slurp_utf8;
     return decode_json($str);    # Decode to Perl data structure

@@ -84,15 +84,15 @@ sub compare_and_rank {
     my $stat;
 
     my ($tar) = keys %{$tar_binary_hash};
-    my $str2 = $tar_binary_hash->{$tar};
+    my $tar_str = $tar_binary_hash->{$tar};
 
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
-        my $str1 = $ref_binary_hash->{$key};
+        my $ref_str = $ref_binary_hash->{$key};
         say "Comparing <id:$key> --- <id:$tar>" if $self->{verbose};
-        say "REF:$str1\nTAR:$str2\n"
+        say "REF:$ref_str\nTAR:$tar_str\n"
           if ( defined $self->{debug} && $self->{debug} > 1 );
-        $score->{$key}{hamming} = hd_fast( $str1, $str2 );
-        $score->{$key}{jaccard} = jaccard_similarity( $str1, $str2 );
+        $score->{$key}{hamming} = hd_fast( $ref_str, $tar_str );
+        $score->{$key}{jaccard} = jaccard_similarity( $ref_str, $tar_str );
 
         # Add values
         push @{ $stat->{hamming_data} }, $score->{$key}{hamming};
@@ -113,13 +113,14 @@ sub compare_and_rank {
     );
     my $header  = join "\t", @headers;
     my @results = $header;
-    my @alignments_ascii;
-    my @alignments_csv = 'REF;indicator;;weight;hamming-distance;json-path';
     my %info;
-    my $length_align = length($str2);
+    my $length_align = length($tar_str);
     my $weight_bool  = $weight ? 'True' : 'False';
+    my @alignments_ascii;
+    my @alignments_csv =
+      'id;ref;indicator;tar;weight;hamming-distance;json-path';
     my @dataframe = join ';', 'Id', sort keys %{$glob_hash};
-    push @dataframe, join ';', qq/T|$tar/, (split //, $str2);
+    push @dataframe, join ';', qq/T|$tar/, ( split //, $tar_str );  # Add Target
     my $alignment_str_csv;
 
     # Sort %score by value and load results
@@ -129,9 +130,11 @@ sub compare_and_rank {
     # Start loop
     for my $key (
         sort {
-            $sort_by eq 'jaccard'                                    #
-              ? $score->{$b}{$sort_by} <=> $score->{$a}{$sort_by}    # 1 to 0 (similarity)
-              : $score->{$a}{$sort_by} <=> $score->{$b}{$sort_by}    # 0 to N (distance)
+            $sort_by eq 'jaccard'           #
+              ? $score->{$b}{$sort_by}
+              <=> $score->{$a}{$sort_by}    # 1 to 0 (similarity)
+              : $score->{$a}{$sort_by}
+              <=> $score->{$b}{$sort_by}    # 0 to N (distance)
         } keys %$score
       )
     {
@@ -140,13 +143,20 @@ sub compare_and_rank {
 
         # Create ASCII alignment
         # NB: We need it here to get $n_00
-        my ( $n_00, $alignment_str_ascii, $alignment_arr_csv   ) = 
-          create_alignment( $key, $ref_binary_hash->{$key}, $str2, $glob_hash );
+        my ( $n_00, $alignment_str_ascii, $alignment_arr_csv ) =
+          create_alignment(
+            {
+                ref_key   => $key,
+                ref_str   => $ref_binary_hash->{$key},
+                tar_str   => $tar_str,
+                glob_hash => $glob_hash
+            }
+          );
 
-        # *** IMPORTANT ***
-        # The LENGTH of the alignment is based on the #variables in the REF-COHORT
-        # Compute estimated av and dev for binary_string of L = length_align - n_00
-        # Corrected length_align L = length_align - n_00
+     # *** IMPORTANT ***
+     # The LENGTH of the alignment is based on the #variables in the REF-COHORT
+     # Compute estimated av and dev for binary_string of L = length_align - n_00
+     # Corrected length_align L = length_align - n_00
         my $length_align_corrected = $length_align - $n_00;
         ( $stat->{hamming_stats}{mean_rnd}, $stat->{hamming_stats}{sd_rnd} ) =
           estimate_hamming_stats($length_align_corrected);
@@ -212,14 +222,15 @@ sub compare_and_rank {
 
             # Add all of the above to @alignments_ascii
             my $sep = ('-') x 80;
-            push @alignments_ascii, qq/#$header\n$tmp_str\n$sep\n$$alignment_str_ascii/;
+            push @alignments_ascii,
+              qq/#$header\n$tmp_str\n$sep\n$$alignment_str_ascii/;
 
-             # Add all of the above to @alignments_csv
+            # Add all of the above to @alignments_csv
             push @alignments_csv, @$alignment_arr_csv;
 
-          # Add data to dataframe
-        push @dataframe, join ';',qq/R|$key/,(split//,$ref_binary_hash->{$key});
-
+            # Add data to dataframe
+            push @dataframe, join ';', qq/R|$key/,
+              ( split //, $ref_binary_hash->{$key} );
 
             # Add values to info
             $info{$key} = {
@@ -229,7 +240,7 @@ sub compare_and_rank {
                 reference_id            => $key,
                 target_id               => $tar,
                 reference_binary_string => $ref_binary_hash->{$key},
-                target_binary_string    => $str2,
+                target_binary_string    => $tar_str,
                 alignment_length        => $length_align_corrected,
                 hamming_distance        => $score->{$key}{hamming},
                 hamming_z_score         => $hamming_z_score,
@@ -247,24 +258,28 @@ sub compare_and_rank {
         $count++;
         last if $count == $max_out;
     }
-    
+
     return \@results, \%info, \@alignments_ascii, \@dataframe, \@alignments_csv;
 }
 
 sub create_alignment {
 
-    my ( $ref_key, $binary_string1, $binary_string2, $glob_hash ) = @_;
+    my $arg            = shift;
+    my $ref_key        = $arg->{ref_key};
+    my $binary_string1 = $arg->{ref_str};
+    my $binary_string2 = $arg->{tar_str};
+    my $glob_hash      = $arg->{glob_hash};
+    my $length1        = length($binary_string1);
+    my $length2        = length($binary_string2);
 
-    my $length1 = length($binary_string1);
-    my $length2 = length($binary_string2);
-
+    # Check that l1 = l2
     die "The binary strings must have the same length"
       if ( $length1 != $length2 );
 
     # Expand array to have weights as N-elements
     my $recreated_array = recreate_array($glob_hash);
 
-    my $out_ascii          = "REF -- TAR\n";
+    my $out_ascii = "REF -- TAR\n";
     my @out_csv;
     my $cum_distance = 0;
     my $n_00         = 0;
@@ -279,7 +294,7 @@ sub create_alignment {
         $cum_distance += $glob_hash->{$key} if $char1 ne $char2;
         my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
         my $distance            = $char1 eq $char2 ? 0 : $glob_hash->{$key};
-        my $distance_pretty = sprintf( "%3d", $distance );
+        my $distance_pretty     = sprintf( "%3d", $distance );
         my $nomenclature =
           exists $nomenclature{$key} ? $key . qq/ ($nomenclature{$key})/ : $key;
 
@@ -290,13 +305,15 @@ sub create_alignment {
             '01' => '--xxx',
             '00' => '     '
         );
-        $out_ascii .= qq/$char1 $format{ $char1 . $char2 } $char2 | (w:$val|d:$distance_pretty|cd:$cum_distance_pretty|) $nomenclature\n/;
-        push @out_csv , qq/$ref_key;$char1;$format{ $char1 . $char2 };$char2;$glob_hash->{$key};$distance;$nomenclature/;
+        $out_ascii .=
+qq/$char1 $format{ $char1 . $char2 } $char2 | (w:$val|d:$distance_pretty|cd:$cum_distance_pretty|) $nomenclature\n/;
+        push @out_csv,
+qq/$ref_key;$char1;$format{ $char1 . $char2 };$char2;$glob_hash->{$key};$distance;$nomenclature/;
 
-       #REF(107:week_0_arm_1);indicator;TAR(125:week_0_arm_1);weight;hamming-distance;json-path
-       #0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P16Y
-       #0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P24Y
-       #1;-----;1;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P39Y
+#REF(107:week_0_arm_1);indicator;TAR(125:week_0_arm_1);weight;hamming-distance;json-path
+#0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P16Y
+#0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P24Y
+#1;-----;1;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P39Y
     }
     return $n_00, \$out_ascii, \@out_csv;
 }
@@ -322,14 +339,15 @@ sub recreate_array {
 sub create_glob_and_ref_hashes {
 
     my ( $array, $weight, $self ) = @_;
+    my $primary_key = $self->{primary_key};
     my $glob_hash = {};
     my $ref_hash_flattened;
 
     for my $i ( @{$array} ) {
 
-        # For consistency, we obtain the id for both BFF/PXF
+        # For consistency, we obtain the primary_key for both BFF/PXF
         # from $_->{id} (not from subject.id)
-        my $id = $i->{id};
+        my $id = $i->{$primary_key};
         say "Flattening and remapping <id:$id> ..." if $self->{verbose};
         my $ref_hash = remap_hash(
             {
@@ -451,17 +469,16 @@ sub remap_hash {
         # Discard undefined
         next unless defined $hash->{$key};
 
-        # Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
-        # Some can be "rescued" by adding the ontology as ($1)
-        # NB1: We discard _labels too!!
-        # NB2: info|metaData are always discarded
+# Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
+# Some can be "rescued" by adding the ontology as ($1)
+# NB1: We discard _labels too!!
+# NB2: info|metaData are always discarded
 
-        next
-          if $key =~
-m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure/;
+        my $regex = $self->{exclude_properties_regex};
+        next if $key =~ m/$regex/;
 
         # The user can turn on age related values
-        next if ( $key =~ m/age|onset/i && !$self->{age} );    # $self->{age} [0|1]
+        next if ( $key =~ m/age|onset/i && !$self->{age} ); # $self->{age} [0|1]
 
         # Load values
         my $val = $hash->{$key};
@@ -486,9 +503,9 @@ m/info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dat
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
-        # Assign weights
-        # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
-        # NB: We don't warn if it does not exists, just assign 1
+   # Assign weights
+   # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
+   # NB: We don't warn if it does not exists, just assign 1
         $out_hash->{$tmp_key} =
           exists $weight->{$tmp_key} ? $weight->{$tmp_key} : 1;
 
@@ -523,20 +540,21 @@ sub add_hpo_ascendants {
         $copy_parent_id = $1;
         $copy_parent_id =~ tr/_/:/;
 
-        # *** IMPORTANT ***
-        # We cannot add any label to the ascendants, otherwise they will
-        # not be matched by an indv down the tree
-        # Myopia
-        # Mild Myopia
-        # We want that 'Mild Myopia' matches 'Myopia', thus we can not add a label from 'Mild Myopia'
-        # Use the labels only for debug
+# *** IMPORTANT ***
+# We cannot add any label to the ascendants, otherwise they will
+# not be matched by an indv down the tree
+# Myopia
+# Mild Myopia
+# We want that 'Mild Myopia' matches 'Myopia', thus we can not add a label from 'Mild Myopia'
+# Use the labels only for debug
         my $asc_key = DEVEL_MODE ? $key . '.HPO_asc_DEBUG_ONLY' : $key;
         $asc_key =~ s/HP:$ontology/$copy_parent_id/g;
         push @ascendants, $asc_key;
 
         # We finally add the label to %nomenclature
-        my $hpo_asc_str = $hpo_url . $copy_parent_id;    # 'http://purl.obolibrary.org/obo/HP_HP:0000539
-        $hpo_asc_str =~ s/HP://;                         # 0000539
+        my $hpo_asc_str = $hpo_url
+          . $copy_parent_id;    # 'http://purl.obolibrary.org/obo/HP_HP:0000539
+        $hpo_asc_str =~ s/HP://;    # 0000539
         $nomenclature{$asc_key} = $nodes->{$hpo_asc_str}{lbl};
     }
     return \@ascendants;
@@ -587,20 +605,20 @@ sub parse_hpo_json {
 
     my $data = shift;
 
-    # The <hp.json> file is a structured representation of the Human Phenotype Ontology (HPO) in JSON format.
-    # The HPO is structured into a directed acyclic graph (DAG)
-    # Here's a brief overview of the structure of the hpo.json file:
-    # - graphs: This key contains an array of ontology graphs. In the case of HPO, there is only one graph. The graph has two main keys:
-    # - nodes: An array of objects, each representing an HPO term. Each term object has the following keys:
-    # - id: The identifier of the term (e.g., "HP:0000118").
-    # - lbl: The label (name) of the term (e.g., "Phenotypic abnormality").
-    # - meta: Metadata associated with the term, including definition, synonyms, and other information.
-    # - type: The type of the term, usually "CLASS".
-    # - edges: An array of objects, each representing a relationship between two HPO terms. Each edge object has the following keys:
-    # - sub: The subject (child) term ID (e.g., "HP:0000924").
-    # - obj: The object (parent) term ID (e.g., "HP:0000118").
-    # - pred: The predicate that describes the relationship between the subject and object terms, typically "is_a" in HPO.
-    # - meta: This key contains metadata about the HPO ontology as a whole, such as version information, description, and other details.
+# The <hp.json> file is a structured representation of the Human Phenotype Ontology (HPO) in JSON format.
+# The HPO is structured into a directed acyclic graph (DAG)
+# Here's a brief overview of the structure of the hpo.json file:
+# - graphs: This key contains an array of ontology graphs. In the case of HPO, there is only one graph. The graph has two main keys:
+# - nodes: An array of objects, each representing an HPO term. Each term object has the following keys:
+# - id: The identifier of the term (e.g., "HP:0000118").
+# - lbl: The label (name) of the term (e.g., "Phenotypic abnormality").
+# - meta: Metadata associated with the term, including definition, synonyms, and other information.
+# - type: The type of the term, usually "CLASS".
+# - edges: An array of objects, each representing a relationship between two HPO terms. Each edge object has the following keys:
+# - sub: The subject (child) term ID (e.g., "HP:0000924").
+# - obj: The object (parent) term ID (e.g., "HP:0000118").
+# - pred: The predicate that describes the relationship between the subject and object terms, typically "is_a" in HPO.
+# - meta: This key contains metadata about the HPO ontology as a whole, such as version information, description, and other details.
 
     my $graph = $data->{graphs}->[0];
     my %nodes = map { $_->{id} => $_ } @{ $graph->{nodes} };

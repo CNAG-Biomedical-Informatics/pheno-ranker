@@ -18,19 +18,16 @@ use Exporter 'import';
 our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
+$Data::Dumper::Sortkeys = 1;
 our $VERSION  = '1.0.0';
 our $lib_path = dirname( abs_path(__FILE__) );
-
-$Data::Dumper::Sortkeys = 1;
 use constant DEVEL_MODE => 0;
 
-# Module variables
-my @beacon_v2_terms =
-  qw(diseases ethnicity exposures geographicOrigin id info interventionsOrProcedures karyotypicSex measures pedigrees phenotypicFeatures sex treatments);
-my @phenopackets_v2_terms =
-  qw(id subject phenotypicFeatures measurements biosamples interpretations diseases medicalActions files metaData);
-my $allowed_terms =
-  ArrayRef [ Enum [ @beacon_v2_terms, @phenopackets_v2_terms ] ];    # The error appears twice
+# Read and load config file
+my $config = read_yaml( catfile( $lib_path, "../../conf/config.yaml" ) );
+my $config_sort_by       = $config->{sort_by};
+my $config_max_out       = $config->{max_out};
+my $config_allowed_terms = ArrayRef [ Enum $config->{allowed_terms} ];    # The error appears twice
 
 ############################################
 # Start declaring attributes for the class #
@@ -38,24 +35,22 @@ my $allowed_terms =
 
 # Complex defaults here
 has sort_by => (
-
-    default => 'hamming',
+    default => $config_sort_by,
     is      => 'ro',
-    coerce  => sub { $_[0] // 'hamming' },
+    coerce  => sub { $_[0] // $config_sort_by },
     isa     => Enum [qw(hamming jaccard)]
 );
 
 has max_out => (
-    default => 50,                    # Limit to speed up runtime
+    default => $config_max_out,                    # Limit to speed up runtime
     is      => 'ro',
-    coerce  => sub { $_[0] // 50 },
+    coerce  => sub { $_[0] // $config_max_out },
     isa     => Int
 );
 
 has hpo_file => (
-
-    hpo_file => catfile( $lib_path, '../../db/hp.json' ),
-    coerce   => sub {
+    default => catfile( $lib_path, '../../db/hp.json' ),
+    coerce  => sub {
         $_[0] // catfile( $lib_path, '../../db/hp.json' );
     },
     is  => 'ro',
@@ -63,23 +58,34 @@ has hpo_file => (
 );
 
 # Miscellanea atributes here
+has [qw /include_terms exclude_terms/] => (
+    is      => 'ro',
+    lazy    => 1,
+    isa     => $config_allowed_terms,
+    default => sub { [] },
+);
+
+has exclude_properties_regex => ( lazy => 1, is => 'ro', isa => Str);
+
+has [
+    qw/reference_file target_file weights_file config_file out_file include_hpo_ascendants align align_basename export log verbose age/
+] => ( is => 'ro' );
+
+#has [qw /config/] => (  is => 'rw' );
+
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
 #. ( default => undef, is => 'ro' );
 
 #has [qw /stream ohdsi_db/] => ( default => 0, is => 'ro' );
 
-has [qw /include_terms exclude_terms/] =>
-  ( default => sub { [] }, is => 'ro', isa => $allowed_terms );
-
-has [
-    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
-] => ( is => 'ro' );
-
-#has [qw /data method /] => ( is => 'rw' );
-
 ##########################################
 # End declaring attributes for the class #
-##########################################
+
+sub BUILD {
+
+    my $self = shift;
+    $self->{exclude_properties_regex} = $config->{exclude_properties_regex} # setter; 
+}
 
 sub run {
 
@@ -95,7 +101,7 @@ sub run {
     my $include_hpo_ascendants = $self->{include_hpo_ascendants};
     my $hpo_file               = $self->{hpo_file};
     my $align                  = $self->{align};
-    my $align_basename             = $self->{align_basename};
+    my $align_basename         = $self->{align_basename};
     my $out_file               = $self->{out_file};
     my $max_out                = $self->{max_out};
     my $sort_by                = $self->{sort_by};
@@ -172,8 +178,11 @@ sub run {
         # Thus, it does not include variables ONLY present in TARGET
         my $tar_binary_hash =
           create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
-        my ( $results_rank, $results_align, $alignment_ascii, $alignment_dataframe, $alignment_json ) =
-          compare_and_rank(
+        my (
+            $results_rank,        $results_align, $alignment_ascii,
+            $alignment_dataframe, $alignment_csv
+          )
+          = compare_and_rank(
             {
                 glob_hash       => $glob_hash,
                 ref_binary_hash => $ref_binary_hash,
@@ -187,8 +196,14 @@ sub run {
         say join "\n", @$results_rank;
 
         # Write TXT for alignment
-        write_alignment( $align ? $align : $align_basename, $alignment_ascii, $alignment_dataframe, $alignment_json )
-          if defined $align;
+        write_alignment(
+            {
+                align     => $align ? $align : $align_basename,
+                ascii     => $alignment_ascii,
+                dataframe => $alignment_dataframe,
+                csv       => $alignment_csv
+            }
+        ) if defined $align;
 
         # Load keys into hash if <--e>
         if ($export) {
@@ -200,6 +215,7 @@ sub run {
     }
 
     # Dump to JSON if <--export>
+    # NB: Must work for -r and -t
     serialize_hashes($hash2serialize) if $export;
 
 }
