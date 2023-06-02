@@ -9,7 +9,8 @@ use File::Basename        qw(dirname);
 use Cwd                   qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
-use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef);
+use Types::Standard qw(Str Int Num Enum ArrayRef Undef);
+use List::Util      qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
@@ -23,17 +24,35 @@ our $VERSION  = '1.0.0';
 our $lib_path = dirname( abs_path(__FILE__) );
 use constant DEVEL_MODE => 0;
 
-# Read and load config file
-my $config = read_yaml( catfile( $lib_path, "../../conf/config.yaml" ) );
-my $config_sort_by       = $config->{sort_by};
-my $config_max_out       = $config->{max_out};
-my $config_allowed_terms = ArrayRef [ Enum $config->{allowed_terms} ];    # The error appears twice
+# Define types
+my $config;
+my $config_sort_by;
+my $config_max_out;
+
+#my $config_allowed_terms;
 
 ############################################
 # Start declaring attributes for the class #
 ############################################
 
 # Complex defaults here
+has 'config_file' => (
+    default => catfile( $lib_path, '../../conf/config.yaml' ),
+    coerce  => sub {
+        $_[0] // catfile( $lib_path, '../../conf/config.yaml' );
+    },
+    is      => 'ro',
+    isa     => sub { die "$_[0] is not a valid file" unless -e $_[0] },
+    trigger => sub {
+        my ( $self, $config_file ) = @_;
+        $config         = read_yaml($config_file);
+        $config_sort_by = $config->{sort_by};
+        $config_max_out = $config->{max_out};
+
+        #$config_allowed_terms = ArrayRef [ Enum $config->{allowed_terms} ];
+    }
+);
+
 has sort_by => (
     default => $config_sort_by,
     is      => 'ro',
@@ -54,22 +73,33 @@ has hpo_file => (
         $_[0] // catfile( $lib_path, '../../db/hp.json' );
     },
     is  => 'ro',
-    isa => Str
+    isa => sub { die "$_[0] is not a valid file" unless -e $_[0] },
 );
 
-# Miscellanea atributes here
 has [qw /include_terms exclude_terms/] => (
-    is      => 'ro',
-    lazy    => 1,
-    isa     => $config_allowed_terms,
+    is   => 'ro',
+    lazy => 1,
+
+    #isa     =>  ArrayRef [Enum $config->{allowed_terms}], # It's created at compile time and we don't have $config->{allowed_terms}
+    isa => sub {
+        my $value = shift;
+        die "<--include_terms> and <--exclude_terms> must be an array ref"
+          unless ref $value eq 'ARRAY';
+        die
+qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n/,
+          ( join ',', @{ $config->{allowed_terms} } ), "\n"
+          unless all {
+            my $term = $_;
+            grep { $_ eq $term } @{ $config->{allowed_terms} }
+          } @$value;
+    },
     default => sub { [] },
 );
 
+# Miscellanea atributes here
 has [
-    qw/reference_file target_file weights_file config_file out_file include_hpo_ascendants align align_basename export log verbose age/
+    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
-
-has [qw /config/] => (  is => 'rw', isa => HashRef );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
 #. ( default => undef, is => 'ro' );
@@ -78,12 +108,16 @@ has [qw /config/] => (  is => 'rw', isa => HashRef );
 
 ##########################################
 # End declaring attributes for the class #
+##########################################
 
 sub BUILD {
 
+    # BUILD: is an instance method that is called after the object has been constructed but before it is returned to the caller.
+    # BUILDARGS is a class method that is responsible for processing the arguments passed to the constructor (new) and returning a hash reference of attributes that will be used to initialize the object.
     my $self = shift;
-    $self->{primary_key} = $config->{primary_key}; # setter; 
-    $self->{exclude_properties_regex} = $config->{exclude_properties_regex}; # setter
+    $self->{primary_key}              = $config->{primary_key} // 'id';       # setter;
+    $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
+      // '';                                                                  # setter
 }
 
 sub run {
@@ -105,6 +139,11 @@ sub run {
     my $max_out                = $self->{max_out};
     my $sort_by                = $self->{sort_by};
     my $primary_key            = $self->{primary_key};
+
+    # die if --align dir does not exist
+    my $directory = defined $align ? dirname($align) : '.'; 
+    die "Directory <$directory> does not exist (used with --align)\n"
+      unless -d $directory;
 
     # Load JSON file as Perl data structure
     my $ref_data = io_yaml_or_json(
@@ -137,7 +176,7 @@ sub run {
 
     # Second we peform one-hot encoding for each individual
     my $ref_binary_hash =
-      create_weigthted_binary_digit_string( $glob_hash, $ref_hash );
+      create_binary_digit_string( $glob_hash, $ref_hash );
 
     # Hases to be serialized to JSON if <--export>
     my $hash2serialize = {
@@ -177,7 +216,7 @@ sub run {
         # The target binary is created from matches to $glob_hash
         # Thus, it does not include variables ONLY present in TARGET
         my $tar_binary_hash =
-          create_weigthted_binary_digit_string( $glob_hash, $tar_hash );
+          create_binary_digit_string( $glob_hash, $tar_hash );
         my (
             $results_rank,        $results_align, $alignment_ascii,
             $alignment_dataframe, $alignment_csv

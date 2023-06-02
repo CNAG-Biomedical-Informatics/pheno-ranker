@@ -14,7 +14,7 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(check_format intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes remap_hash create_weigthted_binary_digit_string parse_hpo_json);
+  qw(check_format intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes remap_hash create_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
 
@@ -41,22 +41,49 @@ sub intra_cohort_comparison {
 
     # NB: It's a symmetric matrix so we could just compute
     #     triangle. However,  R needs the whole matrix
-    #     Hammind distance is very fast, but
-    #     I will re-implement if time becomes a bottleneck
+
+    # Initialize the 2D matrix
+    my @matrix;
 
     # I elements
-    for my $i (@sorted_keys_ref_binary_hash) {
-        say "Calculating <$i> against the cohort..." if $self->{verbose};
-        my $str1 = $ref_binary_hash->{$i};
-        print $fh "$i\t";
+    for my $i ( 0 .. $#sorted_keys_ref_binary_hash ) {
+        say "Calculating <"
+          . $sorted_keys_ref_binary_hash[$i]
+          . "> against the cohort..."
+          if $self->{verbose};
+        my $str1 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$i] }
+          {binary_digit_string_weighted};
+        print $fh $sorted_keys_ref_binary_hash[$i] . "\t";
 
         # J elements
-        for my $j (@sorted_keys_ref_binary_hash) {
-            my $str2 = $ref_binary_hash->{$j};
-            print $fh hd_fast( $str1, $str2 ), "\t";
+        for my $j ( 0 .. $#sorted_keys_ref_binary_hash ) {
+            my $str2 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
+              {binary_digit_string_weighted};
+            my $distance;
+
+            if ( $j < $i ) {
+
+                # Use the distance from the lower triangle
+                $distance = $matrix[$j][$i];
+            }
+            elsif ( $j == $i ) {
+                $distance = 0;    # Diagonal element
+            }
+            else {
+                # Compute the distance and store it in the matrix
+                $distance = hd_fast( $str1, $str2 );
+                $matrix[$i][$j] = $distance;
+            }
+
+            # Fill out the other triangle
+            $matrix[$j][$i] = $distance;
+
+            print $fh $distance . "\t";
         }
+
         print $fh "\n";
     }
+
     close $fh;
     say "Matrix saved to <$out_file>" if ( $self->{debug} || $self->{verbose} );
     return 1;
@@ -83,16 +110,23 @@ sub compare_and_rank {
     # Hash for stats
     my $stat;
 
+    # Load TAR binary string
     my ($tar) = keys %{$tar_binary_hash};
-    my $tar_str = $tar_binary_hash->{$tar};
+    my $tar_str_weighted =
+      $tar_binary_hash->{$tar}{binary_digit_string_weighted};
 
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
-        my $ref_str = $ref_binary_hash->{$key};
+
+        # Load REF binary string
+        my $ref_str_weighted =
+          $ref_binary_hash->{$key}{binary_digit_string_weighted};
         say "Comparing <id:$key> --- <id:$tar>" if $self->{verbose};
-        say "REF:$ref_str\nTAR:$tar_str\n"
+        say "REF:$ref_str_weighted\nTAR:$tar_str_weighted\n"
           if ( defined $self->{debug} && $self->{debug} > 1 );
-        $score->{$key}{hamming} = hd_fast( $ref_str, $tar_str );
-        $score->{$key}{jaccard} = jaccard_similarity( $ref_str, $tar_str );
+        $score->{$key}{hamming} =
+          hd_fast( $ref_str_weighted, $tar_str_weighted );
+        $score->{$key}{jaccard} =
+          jaccard_similarity( $ref_str_weighted, $tar_str_weighted );
 
         # Add values
         push @{ $stat->{hamming_data} }, $score->{$key}{hamming};
@@ -114,13 +148,14 @@ sub compare_and_rank {
     my $header  = join "\t", @headers;
     my @results = $header;
     my %info;
-    my $length_align = length($tar_str);
+    my $length_align = length($tar_str_weighted);
     my $weight_bool  = $weight ? 'True' : 'False';
     my @alignments_ascii;
     my @alignments_csv =
       'id;ref;indicator;tar;weight;hamming-distance;json-path';
     my @dataframe = join ';', 'Id', sort keys %{$glob_hash};
-    push @dataframe, join ';', qq/T|$tar/, ( split //, $tar_str );  # Add Target
+    push @dataframe, join ';', qq/T|$tar/,
+      ( split //, $tar_binary_hash->{$tar}{binary_digit_string} );  # Add Target
     my $alignment_str_csv;
 
     # Sort %score by value and load results
@@ -146,10 +181,11 @@ sub compare_and_rank {
         my ( $n_00, $alignment_str_ascii, $alignment_arr_csv ) =
           create_alignment(
             {
-                ref_key   => $key,
-                ref_str   => $ref_binary_hash->{$key},
-                tar_str   => $tar_str,
-                glob_hash => $glob_hash
+                ref_key          => $key,
+                ref_str_weighted =>
+                  $ref_binary_hash->{$key}{binary_digit_string_weighted},
+                tar_str_weighted => $tar_str_weighted,
+                glob_hash        => $glob_hash
             }
           );
 
@@ -230,7 +266,7 @@ sub compare_and_rank {
 
             # Add data to dataframe
             push @dataframe, join ';', qq/R|$key/,
-              ( split //, $ref_binary_hash->{$key} );
+              ( split //, $ref_binary_hash->{$key}{binary_digit_string} );
 
             # Add values to info
             $info{$key} = {
@@ -239,18 +275,24 @@ sub compare_and_rank {
                 : JSON::XS::false,
                 reference_id            => $key,
                 target_id               => $tar,
-                reference_binary_string => $ref_binary_hash->{$key},
-                target_binary_string    => $tar_str,
-                alignment_length        => $length_align_corrected,
-                hamming_distance        => $score->{$key}{hamming},
-                hamming_z_score         => $hamming_z_score,
-                hamming_p_value         => $hamming_p_value_from_z_score,
-                jaccard_similarity      => $score->{$key}{jaccard},
-                jaccard_z_score         => $jaccard_z_score,
-                jaccard_p_value         => $jaccard_p_value_from_z_score,
-                jaccard_distance        => 1 - $score->{$key}{jaccard},
-                format                  => $self->{format},
-                alignment               => $$alignment_str_ascii,
+                reference_binary_string =>
+                  $ref_binary_hash->{$key}{binary_digit_string},
+                target_binary_string =>
+                  $tar_binary_hash->{$key}{binary_digit_string},
+                reference_binary_string_weighted =>
+                  $ref_binary_hash->{$key}{binary_digit_string_weighted},
+                target_binary_string_weighted =>
+                  $tar_binary_hash->{$key}{binary_digit_string_weighted},
+                alignment_length   => $length_align_corrected,
+                hamming_distance   => $score->{$key}{hamming},
+                hamming_z_score    => $hamming_z_score,
+                hamming_p_value    => $hamming_p_value_from_z_score,
+                jaccard_similarity => $score->{$key}{jaccard},
+                jaccard_z_score    => $jaccard_z_score,
+                jaccard_p_value    => $jaccard_p_value_from_z_score,
+                jaccard_distance   => 1 - $score->{$key}{jaccard},
+                format             => $self->{format},
+                alignment          => $$alignment_str_ascii,
             };
 
         }
@@ -266,8 +308,8 @@ sub create_alignment {
 
     my $arg            = shift;
     my $ref_key        = $arg->{ref_key};
-    my $binary_string1 = $arg->{ref_str};
-    my $binary_string2 = $arg->{tar_str};
+    my $binary_string1 = $arg->{ref_str_weighted};
+    my $binary_string2 = $arg->{tar_str_weighted};
     my $glob_hash      = $arg->{glob_hash};
     my $length1        = length($binary_string1);
     my $length2        = length($binary_string2);
@@ -279,6 +321,7 @@ sub create_alignment {
     # Expand array to have weights as N-elements
     my $recreated_array = recreate_array($glob_hash);
 
+    # Initialize some variables
     my $out_ascii = "REF -- TAR\n";
     my @out_csv;
     my $cum_distance = 0;
@@ -340,7 +383,7 @@ sub create_glob_and_ref_hashes {
 
     my ( $array, $weight, $self ) = @_;
     my $primary_key = $self->{primary_key};
-    my $glob_hash = {};
+    my $glob_hash   = {};
     my $ref_hash_flattened;
 
     for my $i ( @{$array} ) {
@@ -475,7 +518,9 @@ sub remap_hash {
 # NB2: info|metaData are always discarded
 
         my $regex = $self->{exclude_properties_regex};
-        next if $key =~ m/$regex/;
+        next
+          if ( $regex && $key =~ m/$regex/ )
+          ;    # $regex has to be defined and be != ''
 
         # The user can turn on age related values
         next if ( $key =~ m/age|onset/i && !$self->{age} ); # $self->{age} [0|1]
@@ -575,7 +620,7 @@ sub add_id2key {
     return $key;
 }
 
-sub create_weigthted_binary_digit_string {
+sub create_binary_digit_string {
 
     my ( $glob_hash, $cmp_hash ) = @_;
     my $out_hash;
@@ -586,17 +631,20 @@ sub create_weigthted_binary_digit_string {
     my @sorted_keys_glob_hash = sort keys %{$glob_hash};
 
     # IDs of each indidividual
-    for my $key1 ( keys %{$cmp_hash} ) {    # no need to sort
+    for my $individual_id ( keys %{$cmp_hash} ) {    # no need to sort
 
         # One-hot encoding = Representing categorical data as numerical
-        my $binary_str = '';
-        for my $key2 (@sorted_keys_glob_hash) {
-
-            my $ones  = (1) x $glob_hash->{$key2};
-            my $zeros = (0) x $glob_hash->{$key2};
-            $binary_str .= exists $cmp_hash->{$key1}{$key2} ? $ones : $zeros;
+        my ( $binary_str, $binary_str_weighted ) = ('') x 2;
+        for my $key (@sorted_keys_glob_hash) {
+            my $ones  = (1) x $glob_hash->{$key};
+            my $zeros = (0) x $glob_hash->{$key};
+            $binary_str .= exists $cmp_hash->{$individual_id}{$key} ? 1 : 0;
+            $binary_str_weighted .=
+              exists $cmp_hash->{$individual_id}{$key} ? $ones : $zeros;
         }
-        $out_hash->{$key1} = $binary_str;
+        $out_hash->{$individual_id}{binary_digit_string} = $binary_str;
+        $out_hash->{$individual_id}{binary_digit_string_weighted} =
+          $binary_str_weighted;
     }
     return $out_hash;
 }

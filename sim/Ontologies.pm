@@ -5,6 +5,7 @@ use warnings;
 use Exporter 'import';
 our @EXPORT_OK = qw( $hpo_array $omim_array $rxnorm_array $ethnicity_array);
 
+# Hard-coded for the sake of speed
 # 100 random entries
 our $hpo_array = [
     { id => 'HP:0000020', label => 'Urinary incontinence' },

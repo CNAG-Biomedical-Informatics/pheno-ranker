@@ -20,7 +20,8 @@ for my $err ( keys %err ) {
     my $ranker = Pheno::Ranker->new(
         {
             reference_file => 't/individuals.json',
-            weights_file   => qq(t/weights_err$err.yaml)
+            weights_file   => qq(t/weights_err$err.yaml),
+            config_file => undef
         }
     );
     dies_ok { $ranker->run }
