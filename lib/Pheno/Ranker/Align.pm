@@ -151,12 +151,29 @@ sub compare_and_rank {
     my $length_align = length($tar_str_weighted);
     my $weight_bool  = $weight ? 'True' : 'False';
     my @alignments_ascii;
+    my $alignment_str_csv;
     my @alignments_csv =
       'id;ref;indicator;tar;weight;hamming-distance;json-path';
-    my @dataframe = join ';', 'Id', sort keys %{$glob_hash};
+
+    # The dataframe will have two header lines
+    my @sort_keys_glob_hash = sort keys %{$glob_hash};
+    my @labels = map { exists $nomenclature{$_} ? $nomenclature{$_} : $_ }
+      @sort_keys_glob_hash;
+
+    # Die if #elements in arrays differ
+    die "Mismatch between variables and labels"
+      if @sort_keys_glob_hash != @labels;
+
+    # Labels
+    # NB: there is a comma in 'Serum Glutamic Pyruvic Transaminase, CTCAE'
+    my @dataframe = join ';', 'Id', @labels;
+
+    # Variables (json path)
+    push @dataframe, join ';', 'Id', @sort_keys_glob_hash;
+
+    # 0/1
     push @dataframe, join ';', qq/T|$tar/,
       ( split //, $tar_binary_hash->{$tar}{binary_digit_string} );  # Add Target
-    my $alignment_str_csv;
 
     # Sort %score by value and load results
     my $count = 1;
