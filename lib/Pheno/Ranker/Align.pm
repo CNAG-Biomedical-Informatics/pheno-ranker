@@ -152,8 +152,7 @@ sub compare_and_rank {
     my $weight_bool  = $weight ? 'True' : 'False';
     my @alignments_ascii;
     my $alignment_str_csv;
-    my @alignments_csv =
-      'id;ref;indicator;tar;weight;hamming-distance;json-path';
+    my @alignments_csv = join ';', qw/id ref indicator tar weight hamming-distance json-path label/;
 
     # The dataframe will have two header lines
     # *** IMPORTANT ***
