@@ -98,7 +98,7 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
 
 # Miscellanea atributes here
 has [
-    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
+    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename mode export log verbose age/
 ] => ( is => 'ro' );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
@@ -137,11 +137,12 @@ sub run {
     my $align_basename         = $self->{align_basename};
     my $out_file               = $self->{out_file};
     my $max_out                = $self->{max_out};
+    my $mode                   = $self->{mode};
     my $sort_by                = $self->{sort_by};
     my $primary_key            = $self->{primary_key};
 
     # die if --align dir does not exist
-    my $directory = defined $align ? dirname($align) : '.'; 
+    my $directory = defined $align ? dirname($align) : '.';
     die "Directory <$directory> does not exist (used with --align)\n"
       unless -d $directory;
 
@@ -168,6 +169,33 @@ sub run {
     $self->{nodes} = $nodes;    # setter
     $self->{edges} = $edges;    # setter
 
+    # *** IMPORTANT ***
+    # We have three modes:
+    # 1 - intra-cohort (default)
+    # 2 - inter-cohort (assigned by the user)
+    # 3 - patient (assigned automatically if -t and no inter-cohort)
+ 
+    # In <inter-cohort> we join both icohorts into one but we change the id
+    if ( $mode eq 'inter-cohort' ) {
+        die "$target_file does not exist\n" unless -f $target_file;
+
+        # local $tar_data is for cohort
+        my $tar_data = io_yaml_or_json(
+            {
+                filepath => $target_file,
+                mode     => 'read'
+            }
+        );
+
+        # Set $target_file to undef (see below)
+        $target_file = undef;
+
+        # Load $ref_data with the renamed invididuals
+        $ref_data = rename_primary_key(
+            { ref => $ref_data, tar => $tar_data, primary_key => $primary_key }
+        );
+    }
+
     # First we create:
     # - $glob_hash => hash with all the COHORT keys possible
     # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
@@ -175,8 +203,7 @@ sub run {
       create_glob_and_ref_hashes( $ref_data, $weight, $self );
 
     # Second we peform one-hot encoding for each individual
-    my $ref_binary_hash =
-      create_binary_digit_string( $glob_hash, $ref_hash );
+    my $ref_binary_hash = create_binary_digit_string( $glob_hash, $ref_hash );
 
     # Hases to be serialized to JSON if <--export>
     my $hash2serialize = {
@@ -185,11 +212,13 @@ sub run {
         ref_binary_hash => $ref_binary_hash
     };
 
-    # Perform intra-cohort comparison if <--r>
-    intra_cohort_comparison( $ref_binary_hash, $self ) unless $target_file;
+    # Perform cohort comparison
+    cohort_comparison( $ref_binary_hash, $self ) unless $target_file;
 
-    # Perform patient-to-cohort comparison and rank if <--t>
-    if ($target_file) {
+    # Perform patient-to-cohort comparison and rank
+    if ( $mode ne 'inter-cohort' && $target_file ) {
+
+        # local $tar_data is for patient
         my $tar_data = array2object(
             io_yaml_or_json( { filepath => $target_file, mode => 'read' } ) );
 
@@ -265,5 +294,36 @@ sub add_attribute {
     my ( $self, $name, $value ) = @_;
     $self->{$name} = $value;
     return 1;
+}
+
+sub rename_primary_key {
+
+    my $arg         = shift;
+    my $ref_data    = $arg->{ref};
+    my $tar_data    = $arg->{tar};
+    my $primary_key = $arg->{primary_key};
+
+    # NB: For is a bit faster than map
+    for my $item (@$ref_data) {
+        $item->{$primary_key} = 'R_' . $item->{$primary_key};
+    }
+
+    # ARRAY
+    if ( ref $tar_data eq ref [] ) {
+
+        for my $item (@$tar_data) {
+            $item->{$primary_key} = 'T_' . $item->{$primary_key};
+            push @$ref_data, $item;
+        }
+    }
+
+    # Object
+    else {
+
+        $tar_data->{$primary_key} = 'T_' . $tar_data->{$primary_key};
+        push @$ref_data, $tar_data;
+    }
+
+    return $ref_data;
 }
 1;

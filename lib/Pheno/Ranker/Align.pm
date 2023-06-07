@@ -14,7 +14,7 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(check_format intra_cohort_comparison compare_and_rank create_alignment recreate_array create_glob_and_ref_hashes remap_hash create_binary_digit_string parse_hpo_json);
+  qw(check_format cohort_comparison compare_and_rank create_glob_and_ref_hashes remap_hash create_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
 
@@ -26,7 +26,7 @@ sub check_format {
     return exists $data->[0]{subject} ? 'PXF' : 'BFF';
 }
 
-sub intra_cohort_comparison {
+sub cohort_comparison {
 
     my ( $ref_binary_hash, $self ) = @_;
     my $out_file                    = $self->{out_file};
@@ -156,6 +156,9 @@ sub compare_and_rank {
       'id;ref;indicator;tar;weight;hamming-distance;json-path';
 
     # The dataframe will have two header lines
+    # *** IMPORTANT ***
+    # nsort does not yield same results as canonical from JSON::XS
+    # NB: we're sorting here and in create_binary_digit_string()
     my @sort_keys_glob_hash = sort keys %{$glob_hash};
     my @labels = map { exists $nomenclature{$_} ? $nomenclature{$_} : $_ }
       @sort_keys_glob_hash;
@@ -201,8 +204,10 @@ sub compare_and_rank {
                 ref_key          => $key,
                 ref_str_weighted =>
                   $ref_binary_hash->{$key}{binary_digit_string_weighted},
-                tar_str_weighted => $tar_str_weighted,
-                glob_hash        => $glob_hash
+                tar_str_weighted      => $tar_str_weighted,
+                glob_hash             => $glob_hash,
+                sorted_keys_glob_hash => \@sort_keys_glob_hash,
+                labels                => \@labels
             }
           );
 
@@ -323,40 +328,57 @@ sub compare_and_rank {
 
 sub create_alignment {
 
-    my $arg            = shift;
-    my $ref_key        = $arg->{ref_key};
-    my $binary_string1 = $arg->{ref_str_weighted};
-    my $binary_string2 = $arg->{tar_str_weighted};
-    my $glob_hash      = $arg->{glob_hash};
-    my $length1        = length($binary_string1);
-    my $length2        = length($binary_string2);
+    # NB: The alignment will use the weighted string
+    my $arg                   = shift;
+    my $ref_key               = $arg->{ref_key};
+    my $binary_string1        = $arg->{ref_str_weighted};
+    my $binary_string2        = $arg->{tar_str_weighted};
+    my $sorted_keys_glob_hash = $arg->{sorted_keys_glob_hash};
+    my $labels                = $arg->{labels};
+    my $glob_hash             = $arg->{glob_hash};
+    my $length1               = length($binary_string1);
+    my $length2               = length($binary_string2);
 
     # Check that l1 = l2
     die "The binary strings must have the same length"
       if ( $length1 != $length2 );
 
     # Expand array to have weights as N-elements
-    my $recreated_array = recreate_array($glob_hash);
+    my $recreated_array = recreate_array( $glob_hash, $sorted_keys_glob_hash );
 
     # Initialize some variables
     my $out_ascii = "REF -- TAR\n";
     my @out_csv;
     my $cum_distance = 0;
     my $n_00         = 0;
-    for ( my $i = 0 ; $i < $length1 ; $i++ ) {
 
+    # For loop with 2 variables
+    # i index for weighted
+    # j the number of variables
+    my ( $i, $j ) = ( 0, 0 );
+    for ( $i = 0 ; $i < $length1 ; $i++, $j++ ) {
+
+        # Load key and value
+        my $key = $recreated_array->[$i];
+        my $val = sprintf( "%3d", $glob_hash->{$key} );
+
+        # We have to keep track with $j
+        my $sorted_key = $sorted_keys_glob_hash->[$j];
+        my $label      = $labels->[$j];
+
+        # Load chars
         my $char1 = substr( $binary_string1, $i, 1 );
         my $char2 = substr( $binary_string2, $i, 1 );
         $n_00++ if ( $char1 == 0 && $char2 == 0 );
-        my $key = $recreated_array->[$i];
-        my $val = sprintf( "%3d", $glob_hash->{$key} );
+
+        # Correct $i index by adding weights
         $i = $i + $glob_hash->{$key} - 1;
+
+        # Load metrics
         $cum_distance += $glob_hash->{$key} if $char1 ne $char2;
         my $cum_distance_pretty = sprintf( "%3d", $cum_distance );
         my $distance            = $char1 eq $char2 ? 0 : $glob_hash->{$key};
         my $distance_pretty     = sprintf( "%3d", $distance );
-        my $nomenclature =
-          exists $nomenclature{$key} ? $key . qq/ ($nomenclature{$key})/ : $key;
 
         # w = weight, d = distance, cd = cumul distance
         my %format = (
@@ -366,9 +388,9 @@ sub create_alignment {
             '00' => '     '
         );
         $out_ascii .=
-qq/$char1 $format{ $char1 . $char2 } $char2 | (w:$val|d:$distance_pretty|cd:$cum_distance_pretty|) $nomenclature\n/;
+qq/$char1 $format{ $char1 . $char2 } $char2 | (w:$val|d:$distance_pretty|cd:$cum_distance_pretty|) $sorted_key ($label)\n/;
         push @out_csv,
-qq/$ref_key;$char1;$format{ $char1 . $char2 };$char2;$glob_hash->{$key};$distance;$nomenclature/;
+qq/$ref_key;$char1;$format{ $char1 . $char2 };$char2;$glob_hash->{$key};$distance;$sorted_key;$label/;
 
 #REF(107:week_0_arm_1);indicator;TAR(125:week_0_arm_1);weight;hamming-distance;json-path
 #0;;0;1;0;diseases.ageOfOnset.ageRange.end.iso8601duration.P16Y
@@ -380,20 +402,14 @@ qq/$ref_key;$char1;$format{ $char1 . $char2 };$char2;$glob_hash->{$key};$distanc
 
 sub recreate_array {
 
-    my $glob_hash = shift;
-
-    # *** IMPORTANT ***
-    # nsort does not yield same results as canonical from JSON::XS
-    my @sorted_keys_glob_hash = sort keys %{$glob_hash};
+    my ( $glob_hash, $sorted_keys_glob_hash ) = @_;
     my @recreated_array;
-
-    foreach my $key (@sorted_keys_glob_hash) {
+    foreach my $key (@$sorted_keys_glob_hash) {
         for ( my $i = 0 ; $i < $glob_hash->{$key} ; $i++ ) {
             push @recreated_array, $key;
         }
     }
     return \@recreated_array;
-
 }
 
 sub create_glob_and_ref_hashes {

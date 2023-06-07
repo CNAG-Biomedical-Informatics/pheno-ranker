@@ -39,6 +39,7 @@ sub pheno_ranker {
     my $align_basename = 'alignment';
     my $log_file       = 'pheno-ranker-log.json';
     my $color          = 1;
+    my $mode           = 'intra-cohort';
     my $age            = 0;
 
     # Reading arguments
@@ -54,7 +55,8 @@ sub pheno_ranker {
         'sort-by=s'              => \my $sort_by,                              # string
         'include-terms=s{1,11}'  => \my @include_terms,                        # array
         'exclude-terms=s{1,11}'  => \my @exclude_terms,                        # array
-        'config=s'               => \my $config_file,                             # string
+        'config=s'               => \my $config_file,                          # string
+        'mode|m=s'               => \$mode,                                    # string
         'age!'                   => \$age,                                     # flag
         'help|?'                 => \my $help,                                 # flag
         'log:s'                  => \my $log,                                  # opt-string (defined)
@@ -97,7 +99,8 @@ sub pheno_ranker {
         include_terms          => \@include_terms,
         exclude_terms          => \@exclude_terms,
         config_file            => $config_file,
-        age                    => $age,
+        age                    => $age, # Solution, use ageRange in PXF/BFF, measures' values more difficult
+        mode                   => $mode,
         log                    => $log,
         debug                  => $debug,
         verbose                => $verbose
@@ -169,8 +172,8 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
      Arguments:                       
-       -r|reference-file              BFF/PXF file (JSON|YAML array)
-       -t|target-file                 BFF/PXF file (JSON|YAML object or array with 1 object)
+       -r|reference                   BFF/PXF file (JSON|YAML array)
+       -t|target                      BFF/PXF file (JSON|YAML array or object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]
@@ -181,6 +184,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -max-out                       Print only N of comparisons (used with --t)  [50]
+       -m|mode                        Mode of operation [>intra-cohort
        -o                             Output file [matrix.txt]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -w|weights                     YAML file with weights
@@ -217,27 +221,38 @@ pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PX
 
 =head1 HOW TO RUN PHENO-RANKER
 
-For executing pheno-ranker you will need:
+For executing pheno-ranker you will need a PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
 
-=over
+There are three modes of operation:
 
-=item Input file(s):
-      
-A PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object. 
+=over 4
 
-If no C<--t> argument is provided then it will compute intra-cohort comparison only. If C<--t> argument is provided then the target JSON will be compared against the C<-r> reference cohort.
+=item Intra-cohort:
+ 
+With C<--r> argument
 
+=item Patient:
+
+WIth C<-r> reference cohort and C<--t> patient data 
+
+=item Inter-cohort:
+
+With C<--r> argument for reference cohort and C<--t> for the target cohort and the flag --mode inter-cohort
+   
 =back
 
 B<Examples:>
 
- $ ./pheno-ranker -r phenopackets.json  # intra-cohort
+ $ ./pheno-ranker -r phenopackets.json  # mode intra-cohort
 
- $ ./pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
+ $ ./pheno-ranker -r phenopackets.yaml -o my_matrix.txt # mode intra-cohort
 
- $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
+ $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # mode intra-cohort with weights
 
- $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # patient-cohort
+ $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
+
+ $ $path/pheno-ranker -r individuals.json -t others.yaml --mode inter-cohort # mode inter-cohort
+
 
 =head2 COMMON ERRORS AND SOLUTIONS
 

@@ -139,7 +139,7 @@ sub validate_json {
     my $file = shift;
     my $data = ( $file && -f $file ) ? read_yaml($file) : undef;
 
-    # Premature return with undef
+    # Premature return with undef if the file does not exist
     return undef unless defined $data;
 
     # schema for the weights file
