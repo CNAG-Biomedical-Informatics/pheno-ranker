@@ -21,9 +21,9 @@ use Pod::Usage;
 use Data::Dumper;
 use Sys::Hostname;
 use File::Spec::Functions qw(catdir catfile);
-use POSIX           qw(strftime);
-use Term::ANSIColor qw(:constants);
-use FindBin         qw($Bin);
+use POSIX                 qw(strftime);
+use Term::ANSIColor       qw(:constants);
+use FindBin               qw($Bin);
 use lib "$Bin/lib";
 use Pheno::Ranker qw($VERSION write_json);
 
@@ -47,7 +47,7 @@ sub pheno_ranker {
         'target|t=s'             => \my $target_file,                          # string
         'weights|w=s'            => \my $weights_file,                         # string
         'cohorts=s{1,}'          => \my @cohort_files,                         # array
-        'append-suffixes=s{1,}'   => \my @append_suffixes,                      # array
+        'append-prefixes=s{1,}'  => \my @append_prefixes,                      # array
         'o=s'                    => \$out_file,                                # string
         'max-out:i'              => \my $max_out,                              # integer
         'include-hpo-ascendants' => \my $include_hpo_ascendants,               # flag
@@ -69,9 +69,10 @@ sub pheno_ranker {
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
     pod2usage(
-        -message => "Please specify a reference-cohort wth <--r> OR valid cohors with <--cohorts>\n",
+        -message =>
+"Please specify a reference-cohort with <--r> OR valid cohorts with <--cohorts>\n",
         -exitval => 1
-    ) unless ($reference_file || @cohort_files);
+    ) unless ( $reference_file || @cohort_files );
 
     # Turning color off if argument <--no-color>
     $ENV{'ANSI_COLORS_DISABLED'} = 1 unless $color;
@@ -100,8 +101,8 @@ sub pheno_ranker {
         include_terms          => \@include_terms,
         exclude_terms          => \@exclude_terms,
         config_file            => $config_file,
-        age                    => $age, # Solution, use ageRange in PXF/BFF, measures' values more difficult
-        append_suffixes        => \@append_suffixes,
+        age                    => $age,                      # Solution, use ageRange in PXF/BFF, measures' values more difficult
+        append_prefixes        => \@append_prefixes,
         log                    => $log,
         debug                  => $debug,
         verbose                => $verbose
@@ -180,7 +181,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
      Options:
        -age                           Include age-related variables [>no-age|age]
        -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
-       -append-suffixes               The suffixes to be added to the primary_key of objects in each cohort file [C]
+       -append-prefixes               The prefixes to be added to the primary_key of objects in each cohort file [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
@@ -239,7 +240,7 @@ WIth C<-r> reference cohort and C<--t> patient data
 
 =item Inter-cohort:
 
-With C<--r> argument for reference cohort and C<--t> for the target cohort and the flag --mode inter-cohort
+With C<--cohorts> and a list of teh cohort files
    
 =back
 
@@ -253,7 +254,7 @@ B<Examples:>
 
  $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
 
- $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-suffixes R T  # mode inter-cohort
+ $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-prefixes R T  # mode inter-cohort
 
 
 =head2 COMMON ERRORS AND SOLUTIONS

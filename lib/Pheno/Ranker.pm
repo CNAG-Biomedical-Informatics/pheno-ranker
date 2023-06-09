@@ -101,7 +101,7 @@ has [
     qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
 
-has [qw /append_suffixes cohort_files/] =>
+has [qw /append_prefixes cohort_files/] =>
   ( default => sub { [] }, is => 'ro' );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
@@ -121,10 +121,10 @@ sub BUILD {
       // '';                                                                  # setter
 
     # Check that we have the right numbers of array elements
-    if ( defined $self->{append_suffixes} ) {
+    if ( defined $self->{append_prefixes} ) {
         die
-"Numbers of items in <--cohorts> and <--append-suffixes> don't match!\n"
-          unless @{ $self->{cohort_files} } == @{ $self->{append_suffixes} };
+"Numbers of items in <--cohorts> and <--append-prefixes> don't match!\n"
+          unless @{ $self->{cohort_files} } == @{ $self->{append_prefixes} };
     }
 }
 
@@ -145,7 +145,7 @@ sub run {
     my $align_basename         = $self->{align_basename};
     my $out_file               = $self->{out_file};
     my $cohort_files           = $self->{cohort_files};
-    my $append_suffixes        = $self->{append_suffixes};
+    my $append_prefixes        = $self->{append_prefixes};
     my $max_out                = $self->{max_out};
     my $sort_by                = $self->{sort_by};
     my $primary_key            = $self->{primary_key};
@@ -212,7 +212,7 @@ sub run {
         $ref_data = rename_primary_key(
             {
                 ref_data        => $ref_data,
-                append_suffixes => $append_suffixes,
+                append_prefixes => $append_prefixes,
                 primary_key     => $primary_key
             }
         );
@@ -337,7 +337,7 @@ sub rename_primary_key {
 
     my $arg             = shift;
     my $ref_data        = $arg->{ref_data};
-    my $append_suffixes = $arg->{append_suffixes};
+    my $append_prefixes = $arg->{append_prefixes};
     my $primary_key     = $arg->{primary_key};
 
     # NB: for is a bit faster than map
@@ -347,23 +347,23 @@ sub rename_primary_key {
     my $data;
     for my $item (@$ref_data) {
 
-        my $suffix =
-            $append_suffixes->[ $count - 1 ]
-          ? $append_suffixes->[ $count - 1 ] . '_'
+        my $prefix =
+            $append_prefixes->[ $count - 1 ]
+          ? $append_prefixes->[ $count - 1 ] . '_'
           : 'C' . $count . '_';
 
         # ARRAY
         if ( ref $item eq ref [] ) {
             for my $individual (@$item) {
                 $individual->{$primary_key} =
-                  $suffix . $individual->{$primary_key};
+                  $prefix . $individual->{$primary_key};
                 push @$data, $individual;
             }
         }
 
         # Object
         else {
-            $item->{$primary_key} = $suffix . $item->{$primary_key};
+            $item->{$primary_key} = $prefix . $item->{$primary_key};
             push @$data, $item;
         }
         $count++;

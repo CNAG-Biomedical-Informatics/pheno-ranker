@@ -14,7 +14,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
      Options:
        -age                           Include age-related variables [>no-age|age]
        -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
-       -append-suffixes               The suffixes to be added to the primary_key of objects in each cohort file [C]
+       -append-prefixes               The prefixes to be added to the primary_key of objects in each cohort file [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
@@ -70,7 +70,7 @@ There are three modes of operation:
 
 - Inter-cohort:
 
-    With `--r` argument for reference cohort and `--t` for the target cohort and the flag --mode inter-cohort
+    With `--cohorts` and a list of teh cohort files
 
 **Examples:**
 
@@ -82,7 +82,7 @@ There are three modes of operation:
 
     $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
 
-    $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-suffixes R T  # mode inter-cohort
+    $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-prefixes R T  # mode inter-cohort
 
 ## COMMON ERRORS AND SOLUTIONS
 
