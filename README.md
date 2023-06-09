@@ -9,17 +9,18 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
      Arguments:                       
        -r|reference                   BFF/PXF file (JSON|YAML array)
        -t|target                      BFF/PXF file (JSON|YAML array or object)
+       -cohorts                       BFF/PXF files (JSON|YAML array or object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]
        -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
+       -append-suffixes               The suffixes to be added to the primary_key of objects in each cohort file [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -m|mode                        Mode of operation [>intra-cohort|inter-cohort]
        -o                             Output file [matrix.txt]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -w|weights                     YAML file with weights
@@ -81,7 +82,7 @@ There are three modes of operation:
 
     $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
 
-    $ $path/pheno-ranker -r individuals.json -t others.yaml --mode inter-cohort # mode inter-cohort
+    $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-suffixes R T  # mode inter-cohort
 
 ## COMMON ERRORS AND SOLUTIONS
 

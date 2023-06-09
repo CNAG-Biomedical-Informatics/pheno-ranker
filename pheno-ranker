@@ -39,7 +39,6 @@ sub pheno_ranker {
     my $align_basename = 'alignment';
     my $log_file       = 'pheno-ranker-log.json';
     my $color          = 1;
-    my $mode           = 'intra-cohort';
     my $age            = 0;
 
     # Reading arguments
@@ -47,6 +46,8 @@ sub pheno_ranker {
         'reference|r=s'          => \my $reference_file,                       # string
         'target|t=s'             => \my $target_file,                          # string
         'weights|w=s'            => \my $weights_file,                         # string
+        'cohorts=s{1,}'          => \my @cohort_files,                         # array
+        'append-suffixes=s{1,}'   => \my @append_suffixes,                      # array
         'o=s'                    => \$out_file,                                # string
         'max-out:i'              => \my $max_out,                              # integer
         'include-hpo-ascendants' => \my $include_hpo_ascendants,               # flag
@@ -56,7 +57,6 @@ sub pheno_ranker {
         'include-terms=s{1,11}'  => \my @include_terms,                        # array
         'exclude-terms=s{1,11}'  => \my @exclude_terms,                        # array
         'config=s'               => \my $config_file,                          # string
-        'mode|m=s'               => \$mode,                                    # string
         'age!'                   => \$age,                                     # flag
         'help|?'                 => \my $help,                                 # flag
         'log:s'                  => \my $log,                                  # opt-string (defined)
@@ -69,9 +69,9 @@ sub pheno_ranker {
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
     pod2usage(
-        -message => "Please specify a valid reference-cohort for -r\n",
+        -message => "Please specify a reference-cohort wth <--r> OR valid cohors with <--cohorts>\n",
         -exitval => 1
-    ) unless $reference_file;
+    ) unless ($reference_file || @cohort_files);
 
     # Turning color off if argument <--no-color>
     $ENV{'ANSI_COLORS_DISABLED'} = 1 unless $color;
@@ -87,6 +87,7 @@ sub pheno_ranker {
     my $data = {
         reference_file         => $reference_file,
         target_file            => $target_file,
+        cohort_files           => \@cohort_files,
         weights_file           => $weights_file,
         include_hpo_ascendants => $include_hpo_ascendants,
         hpo_file               => undef,
@@ -100,7 +101,7 @@ sub pheno_ranker {
         exclude_terms          => \@exclude_terms,
         config_file            => $config_file,
         age                    => $age, # Solution, use ageRange in PXF/BFF, measures' values more difficult
-        mode                   => $mode,
+        append_suffixes        => \@append_suffixes,
         log                    => $log,
         debug                  => $debug,
         verbose                => $verbose
@@ -174,17 +175,18 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
      Arguments:                       
        -r|reference                   BFF/PXF file (JSON|YAML array)
        -t|target                      BFF/PXF file (JSON|YAML array or object)
+       -cohorts                       BFF/PXF files (JSON|YAML array or object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]
        -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
+       -append-suffixes               The suffixes to be added to the primary_key of objects in each cohort file [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -m|mode                        Mode of operation [>intra-cohort|inter-cohort]
        -o                             Output file [matrix.txt]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -w|weights                     YAML file with weights
@@ -251,7 +253,7 @@ B<Examples:>
 
  $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
 
- $ $path/pheno-ranker -r individuals.json -t others.yaml --mode inter-cohort # mode inter-cohort
+ $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-suffixes R T  # mode inter-cohort
 
 
 =head2 COMMON ERRORS AND SOLUTIONS
