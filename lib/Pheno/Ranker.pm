@@ -121,7 +121,7 @@ sub BUILD {
       // '';                                                                  # setter
 
     # Check that we have the right numbers of array elements
-    if ( defined $self->{append_prefixes} ) {
+    if ( @{$self->{append_prefixes}} ) {
         die
 "Numbers of items in <--cohorts> and <--append-prefixes> don't match!\n"
           unless @{ $self->{cohort_files} } == @{ $self->{append_prefixes} };

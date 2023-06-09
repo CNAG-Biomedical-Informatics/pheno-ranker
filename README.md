@@ -70,7 +70,7 @@ There are three modes of operation:
 
 - Inter-cohort:
 
-    With `--cohorts` and a list of teh cohort files
+    With `--cohorts` and a list of the cohort files
 
 **Examples:**
 

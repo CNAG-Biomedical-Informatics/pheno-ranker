@@ -240,7 +240,7 @@ WIth C<-r> reference cohort and C<--t> patient data
 
 =item Inter-cohort:
 
-With C<--cohorts> and a list of teh cohort files
+With C<--cohorts> and a list of the cohort files
    
 =back
 
