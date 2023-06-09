@@ -98,13 +98,14 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
 
 # Miscellanea atributes here
 has [
-    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename mode export log verbose age/
+    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
+
+has [qw /append_suffixes cohort_files/] =>
+  ( default => sub { [] }, is => 'ro' );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
 #. ( default => undef, is => 'ro' );
-
-#has [qw /stream ohdsi_db/] => ( default => 0, is => 'ro' );
 
 ##########################################
 # End declaring attributes for the class #
@@ -118,6 +119,13 @@ sub BUILD {
     $self->{primary_key}              = $config->{primary_key} // 'id';       # setter;
     $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
       // '';                                                                  # setter
+
+    # Check that we have the right numbers of array elements
+    if ( defined $self->{append_suffixes} ) {
+        die
+"Numbers of items in <--cohorts> and <--append-suffixes> don't match!\n"
+          unless @{ $self->{cohort_files} } == @{ $self->{append_suffixes} };
+    }
 }
 
 sub run {
@@ -136,8 +144,9 @@ sub run {
     my $align                  = $self->{align};
     my $align_basename         = $self->{align_basename};
     my $out_file               = $self->{out_file};
+    my $cohort_files           = $self->{cohort_files};
+    my $append_suffixes        = $self->{append_suffixes};
     my $max_out                = $self->{max_out};
-    my $mode                   = $self->{mode};
     my $sort_by                = $self->{sort_by};
     my $primary_key            = $self->{primary_key};
 
@@ -145,17 +154,6 @@ sub run {
     my $directory = defined $align ? dirname($align) : '.';
     die "Directory <$directory> does not exist (used with --align)\n"
       unless -d $directory;
-
-    # Load JSON file as Perl data structure
-    my $ref_data = io_yaml_or_json(
-        {
-            filepath => $reference_file,
-            mode     => 'read'
-        }
-    );
-
-    # We have to check if we have BFF or PXF
-    add_attribute( $self, 'format', check_format($ref_data) );    # setter via sub
 
     # We assing weights if <--w>
     # NB: The user can exclude variables by using variable: 0
@@ -169,32 +167,63 @@ sub run {
     $self->{nodes} = $nodes;    # setter
     $self->{edges} = $edges;    # setter
 
-    # *** IMPORTANT ***
-    # We have three modes:
-    # 1 - intra-cohort (default)
-    # 2 - inter-cohort (assigned by the user)
-    # 3 - patient (assigned automatically if -t and no inter-cohort)
- 
-    # In <inter-cohort> we join both icohorts into one but we change the id
-    if ( $mode eq 'inter-cohort' ) {
-        die "$target_file does not exist\n" unless -f $target_file;
+    ###############################
+    # START READING -r | -cohorts #
+    ###############################
 
-        # local $tar_data is for cohort
-        my $tar_data = io_yaml_or_json(
+    # *** IMPORTANT ***
+    # We have three modes of operation:
+    # 1 - intra-cohort (--r)
+    # 2 - inter-cohort (--c)
+    # 3 - patient (assigned automatically if -t and no inter-cohort
+
+    my $ref_data = undef;
+
+    if ($reference_file) {
+
+        # Load JSON file as Perl data structure
+        $ref_data = io_yaml_or_json(
             {
-                filepath => $target_file,
+                filepath => $reference_file,
                 mode     => 'read'
             }
         );
+    }
 
-        # Set $target_file to undef (see below)
-        $target_file = undef;
+    # In <inter-cohort> we join --cohorts into one but we change the id
+    if ( @{$cohort_files} ) {
+
+        # *** IMPORTANT ***
+        # Re-using $ref_data to save memory
+        # Ref array where each element is the content of the file (e.g, [] or {})
+
+        for my $cohort_file ( @{$cohort_files} ) {
+            die "$cohort_file does not exist\n" unless -f $cohort_file;
+            push @$ref_data,
+              io_yaml_or_json(
+                {
+                    filepath => $cohort_file,
+                    mode     => 'read'
+                }
+              );
+        }
 
         # Load $ref_data with the renamed invididuals
         $ref_data = rename_primary_key(
-            { ref => $ref_data, tar => $tar_data, primary_key => $primary_key }
+            {
+                ref_data        => $ref_data,
+                append_suffixes => $append_suffixes,
+                primary_key     => $primary_key
+            }
         );
     }
+
+    ##############################
+    # ENDT READING -r | -cohorts #
+    ##############################
+
+    # We have to check if we have ####BFF or PXF
+    add_attribute( $self, 'format', check_format($ref_data) );    # setter via sub
 
     # First we create:
     # - $glob_hash => hash with all the COHORT keys possible
@@ -215,12 +244,20 @@ sub run {
     # Perform cohort comparison
     cohort_comparison( $ref_binary_hash, $self ) unless $target_file;
 
-    # Perform patient-to-cohort comparison and rank
-    if ( $mode ne 'inter-cohort' && $target_file ) {
+    # Perform patient-to-cohort comparison and rank if (-t)
+    if ($target_file) {
+
+        ####################
+        # START READING -t #
+        ####################
 
         # local $tar_data is for patient
         my $tar_data = array2object(
             io_yaml_or_json( { filepath => $target_file, mode => 'read' } ) );
+
+        ##################
+        # END READING -t #
+        ##################
 
         # The target file has to have $_->{$primary_key} otherwise die
         die
@@ -298,32 +335,40 @@ sub add_attribute {
 
 sub rename_primary_key {
 
-    my $arg         = shift;
-    my $ref_data    = $arg->{ref};
-    my $tar_data    = $arg->{tar};
-    my $primary_key = $arg->{primary_key};
+    my $arg             = shift;
+    my $ref_data        = $arg->{ref_data};
+    my $append_suffixes = $arg->{append_suffixes};
+    my $primary_key     = $arg->{primary_key};
 
-    # NB: For is a bit faster than map
+    # NB: for is a bit faster than map
+    my $count = 1;
+
+    # We have to load into a new array data
+    my $data;
     for my $item (@$ref_data) {
-        $item->{$primary_key} = 'R_' . $item->{$primary_key};
-    }
 
-    # ARRAY
-    if ( ref $tar_data eq ref [] ) {
+        my $suffix =
+            $append_suffixes->[ $count - 1 ]
+          ? $append_suffixes->[ $count - 1 ] . '_'
+          : 'C' . $count . '_';
 
-        for my $item (@$tar_data) {
-            $item->{$primary_key} = 'T_' . $item->{$primary_key};
-            push @$ref_data, $item;
+        # ARRAY
+        if ( ref $item eq ref [] ) {
+            for my $individual (@$item) {
+                $individual->{$primary_key} =
+                  $suffix . $individual->{$primary_key};
+                push @$data, $individual;
+            }
         }
+
+        # Object
+        else {
+            $item->{$primary_key} = $suffix . $item->{$primary_key};
+            push @$data, $item;
+        }
+        $count++;
     }
 
-    # Object
-    else {
-
-        $tar_data->{$primary_key} = 'T_' . $tar_data->{$primary_key};
-        push @$ref_data, $tar_data;
-    }
-
-    return $ref_data;
+    return $data;
 }
 1;
