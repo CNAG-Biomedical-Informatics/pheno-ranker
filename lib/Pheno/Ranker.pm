@@ -98,10 +98,10 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
 
 # Miscellanea atributes here
 has [
-    qw/reference_file target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
+    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
 
-has [qw /append_prefixes cohort_files/] =>
+has [qw /append_prefixes reference_files/] =>
   ( default => sub { [] }, is => 'ro' );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
@@ -121,10 +121,15 @@ sub BUILD {
       // '';                                                                  # setter
 
     # Check that we have the right numbers of array elements
-    if ( @{$self->{append_prefixes}} ) {
-        die
-"Numbers of items in <--cohorts> and <--append-prefixes> don't match!\n"
-          unless @{ $self->{cohort_files} } == @{ $self->{append_prefixes} };
+    if ( @{ $self->{append_prefixes} } ) {
+
+        # die if used without $self->{append_prefixes}
+        die "<--append_prefixes> needs at least 2 cohort files!\n"
+          unless @{ $self->{reference_files} } > 1;
+
+        # die if #cohorts and #append-prefixes don't match
+        die "Numbers of items in <--r> and <--append-prefixes> don't match!\n"
+          unless @{ $self->{reference_files} } == @{ $self->{append_prefixes} };
     }
 }
 
@@ -135,7 +140,7 @@ sub run {
     #print Dumper $self and die;
 
     # Load variables
-    my $reference_file         = $self->{reference_file};
+    my $reference_files        = $self->{reference_files};
     my $target_file            = $self->{target_file};
     my $weights_file           = $self->{weights_file};
     my $export                 = $self->{export};
@@ -173,50 +178,35 @@ sub run {
 
     # *** IMPORTANT ***
     # We have three modes of operation:
-    # 1 - intra-cohort (--r)
-    # 2 - inter-cohort (--c)
-    # 3 - patient (assigned automatically if -t and no inter-cohort
+    # 1 - intra-cohort (--r) a.json
+    # 2 - inter-cohort (--r) a.json b.json c.json
+    # 3 - patient (assigned automatically if -t)
 
-    my $ref_data = undef;
-
-    if ($reference_file) {
+    # *** IMPORTANT ***
+    # $ref_data is an array array where each element is the content of the file (e.g, [] or {})
+    my $ref_data = [];
+    for my $cohort_file ( @{$reference_files} ) {
+        die "$cohort_file does not exist\n" unless -f $cohort_file;
 
         # Load JSON file as Perl data structure
-        $ref_data = io_yaml_or_json(
+        push @$ref_data,
+          io_yaml_or_json(
             {
-                filepath => $reference_file,
+                filepath => $cohort_file,
                 mode     => 'read'
             }
-        );
+          );
     }
 
     # In <inter-cohort> we join --cohorts into one but we change the id
-    if ( @{$cohort_files} ) {
-
-        # *** IMPORTANT ***
-        # Re-using $ref_data to save memory
-        # Ref array where each element is the content of the file (e.g, [] or {})
-
-        for my $cohort_file ( @{$cohort_files} ) {
-            die "$cohort_file does not exist\n" unless -f $cohort_file;
-            push @$ref_data,
-              io_yaml_or_json(
-                {
-                    filepath => $cohort_file,
-                    mode     => 'read'
-                }
-              );
+    # NB: Re-using $ref_data to save memory
+    $ref_data = append_and_rename_primary_key(
+        {
+            ref_data        => $ref_data,
+            append_prefixes => $append_prefixes,
+            primary_key     => $primary_key
         }
-
-        # Load $ref_data with the renamed invididuals
-        $ref_data = rename_primary_key(
-            {
-                ref_data        => $ref_data,
-                append_prefixes => $append_prefixes,
-                primary_key     => $primary_key
-            }
-        );
-    }
+    );
 
     ##############################
     # ENDT READING -r | -cohorts #
@@ -333,12 +323,15 @@ sub add_attribute {
     return 1;
 }
 
-sub rename_primary_key {
+sub append_and_rename_primary_key {
 
     my $arg             = shift;
     my $ref_data        = $arg->{ref_data};
     my $append_prefixes = $arg->{append_prefixes};
     my $primary_key     = $arg->{primary_key};
+
+    # Premature return if @$ref_data == 1
+    return $ref_data->[0] if @$ref_data == 1;
 
     # NB: for is a bit faster than map
     my $count = 1;
@@ -366,6 +359,8 @@ sub rename_primary_key {
             $item->{$primary_key} = $prefix . $item->{$primary_key};
             push @$data, $item;
         }
+
+        # Add $count
         $count++;
     }
 

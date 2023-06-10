@@ -30,12 +30,16 @@ sub cohort_comparison {
 
     my ( $ref_binary_hash, $self ) = @_;
     my $out_file                    = $self->{out_file};
-    my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
 
     say "Performing INTRA-COHORT comparison"
       if ( $self->{debug} || $self->{verbose} );
 
+    # *** IMPORTANT ***
+    # The ids/cohorts are naturally sorted (it won't match --append-prefixes!!!)
+    my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
+
     # Print to  $out_file
+    #
     open( my $fh, ">", $out_file );
     say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 

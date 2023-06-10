@@ -2,7 +2,7 @@
 #
 #   A script that ranks individuals against a cohort (BFF)
 #
-#   Last Modified: Apr/18/2023
+#   Last Modified: Jun/10/2023
 #
 #   Version 1.0.0
 #
@@ -43,10 +43,9 @@ sub pheno_ranker {
 
     # Reading arguments
     GetOptions(
-        'reference|r=s'          => \my $reference_file,                       # string
+        'reference|r=s{1,}'      => \my @reference_files,                      # array
         'target|t=s'             => \my $target_file,                          # string
         'weights|w=s'            => \my $weights_file,                         # string
-        'cohorts=s{1,}'          => \my @cohort_files,                         # array
         'append-prefixes=s{1,}'  => \my @append_prefixes,                      # array
         'o=s'                    => \$out_file,                                # string
         'max-out:i'              => \my $max_out,                              # integer
@@ -69,10 +68,9 @@ sub pheno_ranker {
     pod2usage(1)                              if $help;
     pod2usage( -verbose => 2, -exitval => 0 ) if $man;
     pod2usage(
-        -message =>
-"Please specify a reference-cohort with <--r> OR valid cohorts with <--cohorts>\n",
+        -message => "Please specify a reference-cohort(s) with <--r>\n",
         -exitval => 1
-    ) unless ( $reference_file || @cohort_files );
+    ) unless @reference_files;
 
     # Turning color off if argument <--no-color>
     $ENV{'ANSI_COLORS_DISABLED'} = 1 unless $color;
@@ -86,9 +84,8 @@ sub pheno_ranker {
 
     # Load data as hashref
     my $data = {
-        reference_file         => $reference_file,
+        reference_file         => \@reference_files,
         target_file            => $target_file,
-        cohort_files           => \@cohort_files,
         weights_file           => $weights_file,
         include_hpo_ascendants => $include_hpo_ascendants,
         hpo_file               => undef,
@@ -154,7 +151,7 @@ sub program_header {
     my $VERSION = shift;
     my $str     = <<EOF;
 ****************************************
-*    Rank against cohort (BFF/PXF)     *
+*   Rank against cohort(s) (BFF/PXF)   *
 *          - PHENO-RANKER -            *
 *          Version: $VERSION              *
 *      (C) 2023 Manuel Rueda, PhD      *
@@ -174,14 +171,13 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
      Arguments:                       
-       -r|reference                   BFF/PXF file (JSON|YAML array)
-       -t|target                      BFF/PXF file (JSON|YAML array or object)
-       -cohorts                       BFF/PXF files (JSON|YAML array or object)
+       -r|reference                   BFF/PXF file (JSON|YAML array or object)
+       -t|target                      BFF/PXF file (JSON|YAML object or array of 1 object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]
        -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
-       -append-prefixes               The prefixes to be added to the primary_key of objects in each cohort file [C]
+       -append-prefixes               The prefixes to be added to the primary_key of individuals when #cohorts >= 2 [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
@@ -204,11 +200,11 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
 =head1 DESCRIPTION
 
-pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+pheno-ranker: A script that performs semantic similarity in JSON files (e.g., BFF/PXF)
 
 =head1 SUMMARY
 
-pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PXF file against a BFF/PXF cohort
+pheno-ranker: A script that performs semantic similarity in JSON files (e.g., BFF/PXF)
 
 =head1 INSTALLATION
 
@@ -224,7 +220,7 @@ pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PX
 
 =head1 HOW TO RUN PHENO-RANKER
 
-For executing pheno-ranker you will need a PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
+For executing pheno-ranker you will need a PXF/BFF file(s) in JSON|YAML format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
 
 There are three modes of operation:
 
@@ -232,16 +228,16 @@ There are three modes of operation:
 
 =item Intra-cohort:
  
-With C<--r> argument
-
-=item Patient:
-
-WIth C<-r> reference cohort and C<--t> patient data 
+With C<--r> argument and 1 cohort.
 
 =item Inter-cohort:
 
-With C<--cohorts> and a list of the cohort files
-   
+With C<--r> and multiple cohort files. It can be used in combination with C<--append-prefixes> to add prefixes to each individual id.
+
+=item Patient:
+
+With C<-r> reference cohort(s) and C<--t> patient data.
+
 =back
 
 B<Examples:>
@@ -252,9 +248,9 @@ B<Examples:>
 
  $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # mode intra-cohort with weights
 
- $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
+ $ $path/pheno-ranker -r individuals.json others.yaml --append-prefixes CANCER CONTROL  # mode inter-cohort
 
- $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-prefixes R T  # mode inter-cohort
+ $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
 
 
 =head2 COMMON ERRORS AND SOLUTIONS

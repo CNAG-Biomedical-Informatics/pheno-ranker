@@ -7,14 +7,13 @@ pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF coho
 pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Arguments:                       
-       -r|reference                   BFF/PXF file (JSON|YAML array)
-       -t|target                      BFF/PXF file (JSON|YAML array or object)
-       -cohorts                       BFF/PXF files (JSON|YAML array or object)
+       -r|reference                   BFF/PXF file (JSON|YAML array or object)
+       -t|target                      BFF/PXF file (JSON|YAML object or array of 1 object)
 
      Options:
        -age                           Include age-related variables [>no-age|age]
        -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
-       -append-prefixes               The prefixes to be added to the primary_key of objects in each cohort file [C]
+       -append-prefixes               The prefixes to be added to the primary_key of individuals when #cohorts >= 2 [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
        -e|export                      Export miscellanea JSON files
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
@@ -36,11 +35,11 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
 # DESCRIPTION
 
-pheno-ranker: A script that compares a given BFF/PXF file against a BFF/PXF cohort
+pheno-ranker: A script that performs semantic similarity in JSON files (e.g., BFF/PXF)
 
 # SUMMARY
 
-pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PXF file against a BFF/PXF cohort
+pheno-ranker: A script that performs semantic similarity in JSON files (e.g., BFF/PXF)
 
 # INSTALLATION
 
@@ -56,21 +55,21 @@ pheno-ranker: A script that compares and ranks (by dissimilarity) a given BFF/PX
 
 # HOW TO RUN PHENO-RANKER
 
-For executing pheno-ranker you will need a PXF or BFF file(s) in JSON format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
+For executing pheno-ranker you will need a PXF/BFF file(s) in JSON|YAML format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
 
 There are three modes of operation:
 
 - Intra-cohort:
 
-    With `--r` argument
-
-- Patient:
-
-    WIth `-r` reference cohort and `--t` patient data 
+    With `--r` argument and 1 cohort.
 
 - Inter-cohort:
 
-    With `--cohorts` and a list of the cohort files
+    With `--r` and multiple cohort files. It can be used in combination with `--append-prefixes` to add prefixes to each individual id.
+
+- Patient:
+
+    With `-r` reference cohort(s) and `--t` patient data.
 
 **Examples:**
 
@@ -80,9 +79,9 @@ There are three modes of operation:
 
     $ ./pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # mode intra-cohort with weights
 
-    $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
+    $ $path/pheno-ranker -r individuals.json others.yaml --append-prefixes CANCER CONTROL  # mode inter-cohort
 
-    $ $path/pheno-ranker -cohorts individuals.json others.yaml --append-prefixes R T  # mode inter-cohort
+    $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
 
 ## COMMON ERRORS AND SOLUTIONS
 
