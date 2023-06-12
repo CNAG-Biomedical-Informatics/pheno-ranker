@@ -29,7 +29,7 @@ sub check_format {
 sub cohort_comparison {
 
     my ( $ref_binary_hash, $self ) = @_;
-    my $out_file                    = $self->{out_file};
+    my $out_file = $self->{out_file};
 
     say "Performing INTRA-COHORT comparison"
       if ( $self->{debug} || $self->{verbose} );
@@ -156,7 +156,8 @@ sub compare_and_rank {
     my $weight_bool  = $weight ? 'True' : 'False';
     my @alignments_ascii;
     my $alignment_str_csv;
-    my @alignments_csv = join ';', qw/id ref indicator tar weight hamming-distance json-path label/;
+    my @alignments_csv = join ';',
+      qw/id ref indicator tar weight hamming-distance json-path label/;
 
     # The dataframe will have two header lines
     # *** IMPORTANT ***

@@ -76,6 +76,15 @@ has hpo_file => (
     isa => sub { die "$_[0] is not a valid file" unless -e $_[0] },
 );
 
+has poi_out_dir => (
+    default => catdir('./'),
+    coerce  => sub {
+        $_[0] // catdir('./');
+    },
+    is  => 'ro',
+    isa => sub { die "$_[0] dir does not exist" unless -d $_[0] },
+);
+
 has [qw /include_terms exclude_terms/] => (
     is   => 'ro',
     lazy => 1,
@@ -101,7 +110,7 @@ has [
     qw/target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
 ] => ( is => 'ro' );
 
-has [qw /append_prefixes reference_files/] =>
+has [qw /append_prefixes reference_files patients_of_interest/] =>
   ( default => sub { [] }, is => 'ro' );
 
 #has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
@@ -120,6 +129,11 @@ sub BUILD {
     $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
       // '';                                                                  # setter
 
+    # ************************
+    # Start Miscellanea checks
+    # ************************
+
+    # APPEND_PREFIXES
     # Check that we have the right numbers of array elements
     if ( @{ $self->{append_prefixes} } ) {
 
@@ -131,6 +145,18 @@ sub BUILD {
         die "Numbers of items in <--r> and <--append-prefixes> don't match!\n"
           unless @{ $self->{reference_files} } == @{ $self->{append_prefixes} };
     }
+
+    # PATIENTS-OF-INTEREST
+    if ( @{ $self->{patients_of_interest} } ) {
+
+        # die if used without $self->{append_prefixes}
+        die "<--patients-of-interest> needs to be used with <--r>\n"
+          unless @{ $self->{reference_files} };
+    }
+
+    # **********************
+    # End Miscellanea checks
+    # **********************
 }
 
 sub run {
@@ -154,6 +180,8 @@ sub run {
     my $max_out                = $self->{max_out};
     my $sort_by                = $self->{sort_by};
     my $primary_key            = $self->{primary_key};
+    my $poi                    = $self->{patients_of_interest};
+    my $poi_out_dir            = $self->{poi_out_dir};
 
     # die if --align dir does not exist
     my $directory = defined $align ? dirname($align) : '.';
@@ -207,6 +235,17 @@ sub run {
             primary_key     => $primary_key
         }
     );
+
+    # Write json for $poi if --poi
+    write_poi(
+        {
+            ref_data    => $ref_data,
+            poi         => $poi,
+            poi_out_dir => $poi_out_dir,
+            primary_key => $primary_key,
+            verbose     => $self->{verbose}
+        }
+    ) if @$poi;
 
     ##############################
     # ENDT READING -r | -cohorts #
@@ -330,8 +369,12 @@ sub append_and_rename_primary_key {
     my $append_prefixes = $arg->{append_prefixes};
     my $primary_key     = $arg->{primary_key};
 
-    # Premature return if @$ref_data == 1
-    return $ref_data->[0] if @$ref_data == 1;
+    # Premature return if @$ref_data == 1 (only 1 cohort)
+    # *** IMPORTANT ***
+    # $ref_data->[0] can be ARRAY or HASH
+    # We force HASH to be ARRAY
+    return ref $ref_data->[0] eq ref {} ? [ $ref_data->[0] ] : $ref_data->[0]
+      if @$ref_data == 1;
 
     # NB: for is a bit faster than map
     my $count = 1;

@@ -6,14 +6,15 @@ use autodie;
 use feature qw(say);
 use Path::Tiny;
 use File::Basename;
-use List::Util qw(any);
-use YAML::XS   qw(LoadFile DumpFile);
+use File::Spec::Functions qw(catdir catfile);
+use List::Util            qw(any);
+use YAML::XS              qw(LoadFile DumpFile);
 use JSON::XS;
 
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json write_poi);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -116,6 +117,28 @@ sub write_yaml {
     local $YAML::XS::Boolean = 'JSON::PP';
     DumpFile( $file, $json_data );
     return 1;
+}
+
+sub write_poi {
+
+    my $arg         = shift;
+    my $ref_data    = $arg->{ref_data};
+    my $poi         = $arg->{poi};
+    my $poi_out_dir = $arg->{poi_out_dir};
+    my $primary_key = $arg->{primary_key};
+    my $verbose     = $arg->{verbose};
+    for my $name (@$poi) {
+        my ($match) = grep { $name eq $_->{$primary_key} } @$ref_data;
+        if ($match) {
+            my $out = catfile( $poi_out_dir, "$name.json" );
+            say "Writting <$out>" if $verbose;
+            write_json( { filepath => $out, data => $match } );
+        }
+        else {
+            warn "No individual found for <$name>\n";
+        }
+    }
+    exit;
 }
 
 sub array2object {
