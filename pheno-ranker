@@ -84,7 +84,7 @@ sub pheno_ranker {
 
     # Load data as hashref
     my $data = {
-        reference_file         => \@reference_files,
+        reference_files        => \@reference_files,
         target_file            => $target_file,
         weights_file           => $weights_file,
         include_hpo_ascendants => $include_hpo_ascendants,
