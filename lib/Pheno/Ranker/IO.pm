@@ -135,7 +135,7 @@ sub write_poi {
             write_json( { filepath => $out, data => $match } );
         }
         else {
-            warn "No individual found for <$name>\n";
+            warn "No individual found for <$name>. Are you sure you used the right prefix?\n";
         }
     }
     exit;
