@@ -4,7 +4,7 @@
 #
 #   Last Modified: Jun/12/2023
 #
-#   Version 1.0.0
+#   Version 0.00
 #
 #   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.crg.eu)
 #
@@ -24,7 +24,7 @@ use File::Spec::Functions qw(catdir catfile);
 use POSIX                 qw(strftime);
 use Term::ANSIColor       qw(:constants);
 use FindBin               qw($Bin);
-use lib "$Bin/lib";
+use lib "$Bin/../lib";
 use Pheno::Ranker qw($VERSION write_json);
 
 ##### Main #####
