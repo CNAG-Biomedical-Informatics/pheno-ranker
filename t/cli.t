@@ -7,7 +7,7 @@ use Test::More tests => 3; # Indicate the number of tests you want to run
 use File::Compare;
 
 # The command line script to be tested
-my $script = './pheno-ranker';
+my $script = 'bin/pheno-ranker';
 
 # Input file for the command line script, if needed
 my $input_file = 't/individuals.json';
@@ -70,4 +70,3 @@ system("$script -r $input_file -t $patient_file -w $weights_file | sort -k2 | cu
 # Compare the output_file and the reference_file
 ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
 }
-

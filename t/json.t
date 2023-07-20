@@ -7,7 +7,7 @@ use Test::More tests => 2; # Indicate the number of tests you want to run
 use File::Compare;
 
 # The command line script to be tested
-my $script = './pheno-ranker';
+my $script = 'bin/pheno-ranker';
 
 ##########
 # TEST 1 #
