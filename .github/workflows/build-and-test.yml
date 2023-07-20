@@ -13,10 +13,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-#       os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        os: ['ubuntu-latest']
-#       perl: [ '5.34', '5.32', '5.30' ]
-        perl: [ '5.30']
+        os: ['ubuntu-latest', 'macos-latest']
+        #os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        perl: ['5.34', '5.32', '5.30', '5.28', '5.26']
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -25,13 +24,13 @@ jobs:
         with:
           perl-version: ${{ matrix.perl }}
       - run: perl -V
-      - run: cpanm --installdeps .
+      - run: cpanm -n --installdeps .
       - run: prove -l t
-      - name: Run tests (with coverage)
-        if: ${{ matrix.perl }} == '5.30'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          perl Makefile.PL
-          cpanm -n Devel::Cover::Report::Coveralls
-          cover -test -report Coveralls
+#      - name: Run tests (with coverage)
+#        if: ${{ matrix.perl }} == '5.30'
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          perl Makefile.PL
+#          cpanm -n Devel::Cover::Report::Coveralls
+#          cover -test -report Coveralls
