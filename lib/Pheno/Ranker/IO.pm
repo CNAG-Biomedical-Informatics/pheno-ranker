@@ -171,7 +171,7 @@ sub validate_json {
         '$schema'           => 'http://json-schema.org/draft-07/schema#',
         'type'              => 'object',
         'patternProperties' => {
-            '^\w+[.:](\w+[.:])*\w+$' => {
+            '^\w+([.:\w]*\w+)?$' => {
                 'type' => 'integer',
             },
         },

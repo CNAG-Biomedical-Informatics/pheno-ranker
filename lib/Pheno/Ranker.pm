@@ -278,7 +278,7 @@ sub run {
         glob_hash       => $glob_hash,
         ref_hash        => $ref_hash,
         ref_binary_hash => $ref_binary_hash,
-        coverage_stats_hash => $coverage_stats
+        coverage_stats => $coverage_stats
     };
 
     # Perform cohort comparison

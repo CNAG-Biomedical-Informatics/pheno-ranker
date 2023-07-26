@@ -586,11 +586,30 @@ sub remap_hash {
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
-   # Assign weights
+   ##################
+   # Assign weights #
+   ##################
    # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
-   # NB: We don't warn if it does not exists, just assign 1
+   # NB: We don't warn if it does not exist, just assign 1
+   # *** IMPORTANT *** 07-26-2023
+   # We allow for assigning weights by TERM (e.g., 1D)
+   # but variable level takes precedence
+        my $tmp_key_at_term_level = ( split /\./, $tmp_key )[0];
+
+         # ORDER MATTERS !!!!
         $out_hash->{$tmp_key} =
-          exists $weight->{$tmp_key} ? $weight->{$tmp_key} : 1;
+
+           # VARIABLE LEVEL
+          exists $weight->{$tmp_key}
+          ? $weight->{$tmp_key}
+
+          # TERM LEVEL
+          exists $weight->{$tmp_key_at_term_level}
+          ? $weight->{$tmp_key_at_term_level}
+          :
+
+          # NO WEIGHT
+          : 1;
 
         # Finally we load the Nomenclature hash
         my $label = $key;
