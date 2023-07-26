@@ -503,13 +503,14 @@ sub remap_hash {
 
     # *** IMPORTANT ***
     # The user may include a term that:
-    # - may not exist in any individual
-    # - does not exist in some individuals
+    # A - may not exist in any individual
+    # B - does not exist in some individuals
     # If the term does not exist in a invidual
-    #  - a) -include-terms included ANOTHER TERM THAT EXISTS
+    #  - a) -include-terms contains ANOTHER TERM THAT EXISTS
     #        %$hash will contain keys => OK
     #  - b) -include-terms only includes the term/terms not present
     #        %$hash  = 0 , then we return {}, to avoid trouble w/ Fold.pm
+    #print Dumper $hash;
     return {} unless %$hash;
 
     # A bit more pruning plus collapsing
@@ -596,7 +597,10 @@ sub remap_hash {
         $label =~ s/id/label/;
         $nomenclature{$tmp_key} = $hash->{$label} if defined $hash->{$label};
     }
-    return $out_hash;
+
+    # *** IMPORTANT ***
+    # We have to return an object {} when undef
+    return $out_hash // {};
 }
 
 sub add_hpo_ascendants {

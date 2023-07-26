@@ -20,7 +20,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION  = '1.0.0';
+our $VERSION  = '0.00';
 our $lib_path = dirname( abs_path(__FILE__) );
 use constant DEVEL_MODE => 0;
 
@@ -236,7 +236,15 @@ sub run {
         }
     );
 
-    # Write json for $poi if --poi
+    ##############################
+    # ENDT READING -r | -cohorts #
+    ##############################
+
+    #-------------------------------
+    # Write json for $poi if --poi |
+    #-------------------------------
+    # *** IMPORTANT ***
+    # It will exit when done (dry-run)
     write_poi(
         {
             ref_data    => $ref_data,
@@ -245,11 +253,13 @@ sub run {
             primary_key => $primary_key,
             verbose     => $self->{verbose}
         }
-    ) if @$poi;
+      )
+      and exit
+      if @$poi;
 
-    ##############################
-    # ENDT READING -r | -cohorts #
-    ##############################
+    # We will process $ref_data to get stats on coverage
+    my $coverage_stats = coverage_stats($ref_data);
+
 
     # We have to check if we have ####BFF or PXF
     add_attribute( $self, 'format', check_format($ref_data) );    # setter via sub
@@ -267,7 +277,8 @@ sub run {
     my $hash2serialize = {
         glob_hash       => $glob_hash,
         ref_hash        => $ref_hash,
-        ref_binary_hash => $ref_binary_hash
+        ref_binary_hash => $ref_binary_hash,
+        coverage_stats_hash => $coverage_stats
     };
 
     # Perform cohort comparison

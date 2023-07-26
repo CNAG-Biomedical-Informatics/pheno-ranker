@@ -128,8 +128,9 @@ sub write_log {
 
     my ( $log, $data, $VERSION ) = @_;
 
-    # NB: We will use anonymous (no effect on $data)
-    chomp( my $ncpuhost = qx{/usr/bin/nproc} ) // 1;
+    # NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
+    chomp( my $os = qx{uname} );
+    chomp( my $ncpuhost = $os eq 'Darwin' ? qx{/usr/sbin/sysctl -n hw.logicalcpu} : qx{/usr/bin/nproc} // 1 );
 
     my $info = {
         date     => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
@@ -137,7 +138,7 @@ sub write_log {
         hostname => hostname,
         id       => time . substr( "00000$$", -5 ),                   # string
         version  => $VERSION,
-        user     => $ENV{LOGNAME} || $ENV{USER} || getpwuid($<)
+        user     =>  $ENV{'LOGNAME'} || $ENV{'USER'} || $ENV{'USERNAME'}
     };
 
     # Saving file

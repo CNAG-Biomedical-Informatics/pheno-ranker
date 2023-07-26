@@ -14,7 +14,7 @@ use JSON::XS;
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json write_poi);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json write_poi coverage_stats);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -135,10 +135,11 @@ sub write_poi {
             write_json( { filepath => $out, data => $match } );
         }
         else {
-            warn "No individual found for <$name>. Are you sure you used the right prefix?\n";
+            warn
+"No individual found for <$name>. Are you sure you used the right prefix?\n";
         }
     }
-    exit;
+    return 1;
 }
 
 sub array2object {
@@ -204,6 +205,19 @@ sub say_errors {
         say join "\n", @{$errors};
     }
     return 1;
+}
+
+sub coverage_stats {
+
+    use Data::Dumper;
+    my $data     = shift;
+    my $coverage = {};
+    for my $item (@$data) {
+        for my $key ( keys %$item ) {
+            $coverage->{$key}++;
+        }
+    }
+    return { cohort_size => scalar @$data, coverage_terms => $coverage };
 }
 
 1;

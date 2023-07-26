@@ -1,5 +1,5 @@
 <p align="left">
-  <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker"><img src="https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/docs/img/PR-logo.png" width="500" alt="Pheno-Ranker"></a>
+  <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker"><img src="https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/docs/img/PR-logo.png" width="400" alt="Pheno-Ranker"></a>
 </p>
 <p align="center">
     <em>Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond</em>
