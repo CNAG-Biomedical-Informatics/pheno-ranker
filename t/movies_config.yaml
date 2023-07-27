@@ -10,3 +10,6 @@ primary_key: title
 
 # Set the allowed terms / properties
 allowed_terms: [country,genre,year]
+
+# Set the maximum numbers to variables to be used (if more they will randomized)
+max_number_var: 1000

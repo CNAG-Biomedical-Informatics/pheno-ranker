@@ -49,6 +49,7 @@ sub pheno_ranker {
         'append-prefixes=s{1,}'          => \my @append_prefixes,           # array
         'o=s'                            => \$out_file,                     # string
         'max-out:i'                      => \my $max_out,                   # integer
+        'max-number-var:i'               => \my $max_number_var,            # integer
         'include-hpo-ascendants'         => \my $include_hpo_ascendants,    # flag
         'export|e'                       => \my $export,                    # flag
         'align:s'                        => \my $align,                     # opt-string (defined)
@@ -96,6 +97,7 @@ sub pheno_ranker {
         export                 => $export,
         out_file               => $out_file,
         max_out                => $max_out,
+        max_number_var         => $max_number_var,
         sort_by                => $sort_by,
         patients_of_interest   => \@patients_of_interest,
         poi_out_dir            => $poi_out_dir,
@@ -188,6 +190,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
+       -max-number-var                Maximum number of variables to be used in binary string [10000]
        -max-out                       Print only N of comparisons (used with --t)  [50]
        -o                             Output file [matrix.txt]
        -poi|patients-of-interest      Export JSON files for the selected individual ids (dry-run)

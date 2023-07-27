@@ -25,9 +25,7 @@ our $lib_path = dirname( abs_path(__FILE__) );
 use constant DEVEL_MODE => 0;
 
 # Define types
-my $config;
-my $config_sort_by;
-my $config_max_out;
+my ( $config, $config_sort_by, $config_max_out, $config_max_number_var );
 
 #my $config_allowed_terms;
 
@@ -45,9 +43,10 @@ has 'config_file' => (
     isa     => sub { die "$_[0] is not a valid file" unless -e $_[0] },
     trigger => sub {
         my ( $self, $config_file ) = @_;
-        $config         = read_yaml($config_file);
-        $config_sort_by = $config->{sort_by};
-        $config_max_out = $config->{max_out};
+        $config                = read_yaml($config_file);
+        $config_sort_by        = $config->{sort_by};
+        $config_max_out        = $config->{max_out};
+        $config_max_number_var = $config->{max_number_var};
 
         #$config_allowed_terms = ArrayRef [ Enum $config->{allowed_terms} ];
     }
@@ -64,6 +63,13 @@ has max_out => (
     default => $config_max_out,                    # Limit to speed up runtime
     is      => 'ro',
     coerce  => sub { $_[0] // $config_max_out },
+    isa     => Int
+);
+
+has max_number_var => (
+    default => $config_max_number_var,
+    is      => 'ro',
+    coerce  => sub { $_[0] // $config_max_number_var },
     isa     => Int
 );
 
@@ -260,7 +266,6 @@ sub run {
     # We will process $ref_data to get stats on coverage
     my $coverage_stats = coverage_stats($ref_data);
 
-
     # We have to check if we have ####BFF or PXF
     add_attribute( $self, 'format', check_format($ref_data) );    # setter via sub
 
@@ -270,6 +275,12 @@ sub run {
     my ( $glob_hash, $ref_hash ) =
       create_glob_and_ref_hashes( $ref_data, $weight, $self );
 
+    # Limit the number of variables if > $self-{max_number_var}
+    # *** IMPORTANT ***
+    # Change only performed in $glob_hash
+    $glob_hash = randomize_variables( $glob_hash, $self->{max_number_var} )
+      if keys %$glob_hash > $self->{max_number_var};
+
     # Second we peform one-hot encoding for each individual
     my $ref_binary_hash = create_binary_digit_string( $glob_hash, $ref_hash );
 
@@ -278,7 +289,7 @@ sub run {
         glob_hash       => $glob_hash,
         ref_hash        => $ref_hash,
         ref_binary_hash => $ref_binary_hash,
-        coverage_stats => $coverage_stats
+        coverage_stats  => $coverage_stats
     };
 
     # Perform cohort comparison

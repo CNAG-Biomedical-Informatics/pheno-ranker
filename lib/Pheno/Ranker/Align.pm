@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use autodie;
 use feature    qw(say);
-use List::Util qw(any);
+use List::Util qw(any shuffle);
 
 #use List::MoreUtils qw(duplicates);
 use Data::Dumper;
@@ -14,7 +14,7 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(check_format cohort_comparison compare_and_rank create_glob_and_ref_hashes remap_hash create_binary_digit_string parse_hpo_json);
+  qw(check_format cohort_comparison compare_and_rank create_glob_and_ref_hashes randomize_variables remap_hash create_binary_digit_string parse_hpo_json);
 
 use constant DEVEL_MODE => 0;
 
@@ -445,6 +445,21 @@ sub create_glob_and_ref_hashes {
     return ( $glob_hash, $ref_hash_flattened );
 }
 
+sub randomize_variables {
+
+    my ( $glob_hash, $max ) = @_;
+
+    # Randomize
+    my @items = ( shuffle keys %$glob_hash )[ 0 .. $max - 1 ];
+
+    # Create a new hash with a hash slice
+    my %new_glob_hash;
+    @new_glob_hash{@items} = @{$glob_hash}{@items};
+
+    # return reference
+    return \%new_glob_hash;
+}
+
 sub prune_excluded_included {
 
     my ( $hash, $self ) = @_;
@@ -485,6 +500,11 @@ sub undef_excluded_phenotypicFeatures {
         map { $_ = $_->{excluded} ? undef : $_ }
           @{ $hash->{phenotypicFeatures} };
     }
+
+    # *** IMPORTANT ***
+    # Because of setting to undef the excludd properties, it can happen that in
+    # the stats file we have phenotypicFeatures = 100% but t hen it turns out
+    # that some individuals have phenotypicFeatures = {} (all excluded)
     return $hash;
 }
 
@@ -586,27 +606,35 @@ sub remap_hash {
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
-   ##################
-   # Assign weights #
-   ##################
+        ##################
+        # Assign weights #
+        ##################
    # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
    # NB: We don't warn if it does not exist, just assign 1
    # *** IMPORTANT *** 07-26-2023
    # We allow for assigning weights by TERM (e.g., 1D)
-   # but variable level takes precedence
-        my $tmp_key_at_term_level = ( split /\./, $tmp_key )[0];
+   # but VARIABLE level takes precedence to TERM
 
-         # ORDER MATTERS !!!!
+        my $tmp_key_at_term_level = $tmp_key;
+
+        # If variable has . then capture $1
+        if ( $tmp_key_at_term_level =~ m/\./ ) {
+
+            # NB: For long str regex is faster than (split /\./, $foo)[0]
+            $tmp_key_at_term_level =~ m/^(\w+)\./;
+            $tmp_key_at_term_level = $1;
+        }
+
+        # ORDER MATTERS !!!!
         $out_hash->{$tmp_key} =
 
-           # VARIABLE LEVEL
+          # VARIABLE LEVEL
           exists $weight->{$tmp_key}
           ? $weight->{$tmp_key}
 
           # TERM LEVEL
-          exists $weight->{$tmp_key_at_term_level}
+          : exists $weight->{$tmp_key_at_term_level}
           ? $weight->{$tmp_key_at_term_level}
-          :
 
           # NO WEIGHT
           : 1;

@@ -45,6 +45,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
+       -max-number-var                Maximum number of variables to be used in binary string [10000]
        -max-out                       Print only N of comparisons (used with --t)  [50]
        -o                             Output file [matrix.txt]
        -poi|patients-of-interest      Export JSON files for the selected individual ids (dry-run)
