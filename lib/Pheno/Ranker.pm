@@ -25,7 +25,7 @@ our $lib_path = dirname( abs_path(__FILE__) );
 use constant DEVEL_MODE => 0;
 
 # Define types
-my ( $config, $config_sort_by, $config_max_out, $config_max_number_var );
+my ( $config, $config_sort_by, $config_max_out, $config_max_number_var, $config_seed );
 
 #my $config_allowed_terms;
 
@@ -44,9 +44,10 @@ has 'config_file' => (
     trigger => sub {
         my ( $self, $config_file ) = @_;
         $config                = read_yaml($config_file);
-        $config_sort_by        = $config->{sort_by};
-        $config_max_out        = $config->{max_out};
-        $config_max_number_var = $config->{max_number_var};
+        $config_sort_by        = $config->{sort_by} // 'hamming';
+        $config_max_out        = $config->{max_out} // 50;
+        $config_max_number_var = $config->{max_number_var} // 10_000;
+        $config_seed = $config->{seed} // 123456789; # Only changeable at config (no --seed)
 
         #$config_allowed_terms = ArrayRef [ Enum $config->{allowed_terms} ];
     }
@@ -70,6 +71,13 @@ has max_number_var => (
     default => $config_max_number_var,
     is      => 'ro',
     coerce  => sub { $_[0] // $config_max_number_var },
+    isa     => Int
+);
+
+has seed => (
+    default => $config_seed,
+    coerce  => sub { $_[0] // $config_seed }, 
+    is      => 'ro',
     isa     => Int
 );
 
@@ -169,7 +177,7 @@ sub run {
 
     my $self = shift;
 
-    #print Dumper $self and die;
+    print Dumper $self and die;
 
     # Load variables
     my $reference_files        = $self->{reference_files};

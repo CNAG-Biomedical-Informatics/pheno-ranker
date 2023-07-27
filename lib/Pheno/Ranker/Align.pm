@@ -447,10 +447,17 @@ sub create_glob_and_ref_hashes {
 
 sub randomize_variables {
 
-    my ( $glob_hash, $max ) = @_;
+    my ( $glob_hash, $self ) = @_;
+    my $max = $self->{max_number_var};
+    my $seed = $self->{seed};
 
-    # Randomize
-    my @items = ( shuffle keys %$glob_hash )[ 0 .. $max - 1 ];
+    # set random seed
+    srand($seed);
+
+    # Randomize 
+    # NB:keys have to be sorted for srand to work!!!!
+    # perl -MList::Util=shuffle -E 'srand 123; say shuffle 1 .. 5'
+    my @items = ( shuffle sort keys %$glob_hash )[ 0 .. $max - 1 ];
 
     # Create a new hash with a hash slice
     my %new_glob_hash;

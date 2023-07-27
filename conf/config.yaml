@@ -14,6 +14,9 @@ allowed_terms: [biosamples,diseases,ethnicity,exposures,files,geographicOrigin,i
 # Set the maximum numbers to variables to be used (if more they will randomized)
 max_number_var: 10000
 
+# Set the seed number to initialize a pseudorandom number generator for max_number_var:
+seed: 123456789 
+
 # Set the regex to discard variables that contain a given patter
 exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure'
 
