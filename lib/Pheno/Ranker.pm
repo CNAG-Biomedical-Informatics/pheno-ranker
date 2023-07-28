@@ -9,7 +9,7 @@ use File::Basename        qw(dirname);
 use Cwd                   qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
-use Types::Standard qw(Str Int Num Enum ArrayRef Undef);
+use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef);
 use List::Util      qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
@@ -24,10 +24,12 @@ our $VERSION  = '0.00';
 our $lib_path = dirname( abs_path(__FILE__) );
 use constant DEVEL_MODE => 0;
 
-# Define types
-my ( $config, $config_sort_by, $config_max_out, $config_max_number_var, $config_seed );
-
-#my $config_allowed_terms;
+# Misc variables
+my (
+    $config_sort_by, $config_max_out, $config_max_number_var,
+    $config_seed,    @config_allowed_terms
+);
+my $default_config_file = catfile( $lib_path, '../../conf/config.yaml' );
 
 ############################################
 # Start declaring attributes for the class #
@@ -35,21 +37,57 @@ my ( $config, $config_sort_by, $config_max_out, $config_max_number_var, $config_
 
 # Complex defaults here
 has 'config_file' => (
-    default => catfile( $lib_path, '../../conf/config.yaml' ),
+    default => $default_config_file,
     coerce  => sub {
-        $_[0] // catfile( $lib_path, '../../conf/config.yaml' );
+        $_[0] // $default_config_file;
     },
     is      => 'ro',
     isa     => sub { die "$_[0] is not a valid file" unless -e $_[0] },
     trigger => sub {
         my ( $self, $config_file ) = @_;
-        $config                = read_yaml($config_file);
-        $config_sort_by        = $config->{sort_by} // 'hamming';
-        $config_max_out        = $config->{max_out} // 50;
-        $config_max_number_var = $config->{max_number_var} // 10_000;
-        $config_seed = $config->{seed} // 123456789; # Only changeable at config (no --seed)
+        my $config = read_yaml($config_file);
 
-        #$config_allowed_terms = ArrayRef [ Enum $config->{allowed_terms} ];
+        #####################
+        # Set config params #
+        #####################
+
+        $config_sort_by        = $config->{sort_by}        // 'hamming';
+        $config_max_out        = $config->{max_out}        // 50;
+        $config_max_number_var = $config->{max_number_var} // 10_000;
+
+        # Validate $config->{allowed_terms}
+        unless ( exists $config->{allowed_terms}
+            && ArrayRef->check( $config->{allowed_terms} )
+            && @{ $config->{allowed_terms} } )
+        {
+            die
+"No <allowed terms> provided or not an array ref at\n$config_file\n";
+        }
+        @config_allowed_terms = @{ $config->{allowed_terms} };
+
+        ###############################
+        # Set config exclusive params #
+        ###############################
+        $config_seed =
+          ( defined $config->{seed} && Int->check( $config->{seed} ) )
+          ? $config->{seed}
+          : 123456789;
+
+        # Set oo $self
+        $self->{primary_key}              = $config->{primary_key} // 'id';    # setter;
+        $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
+          // '';                                                               # setter
+        $self->{array_terms}             = $config->{array_terms}; # To validate
+        $self->{array_regex}             = $config->{array_regex}; # To validate
+
+        # Validate $config->{id_correspondence}
+        unless ( exists $config->{id_correspondence}
+            && HashRef->check( $config->{id_correspondence} ) )
+        {
+            die
+"No <id_correspondence> provided or not a hash ref at\n$config_file\n";
+        }
+       $self->{id_correspondence} = $config->{id_correspondence};
     }
 );
 
@@ -71,13 +109,6 @@ has max_number_var => (
     default => $config_max_number_var,
     is      => 'ro',
     coerce  => sub { $_[0] // $config_max_number_var },
-    isa     => Int
-);
-
-has seed => (
-    default => $config_seed,
-    coerce  => sub { $_[0] // $config_seed }, 
-    is      => 'ro',
     isa     => Int
 );
 
@@ -110,10 +141,10 @@ has [qw /include_terms exclude_terms/] => (
           unless ref $value eq 'ARRAY';
         die
 qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n/,
-          ( join ',', @{ $config->{allowed_terms} } ), "\n"
+          ( join ',', @config_allowed_terms ), "\n"
           unless all {
             my $term = $_;
-            grep { $_ eq $term } @{ $config->{allowed_terms} }
+            grep { $_ eq $term } @config_allowed_terms
           } @$value;
     },
     default => sub { [] },
@@ -139,9 +170,10 @@ sub BUILD {
     # BUILD: is an instance method that is called after the object has been constructed but before it is returned to the caller.
     # BUILDARGS is a class method that is responsible for processing the arguments passed to the constructor (new) and returning a hash reference of attributes that will be used to initialize the object.
     my $self = shift;
-    $self->{primary_key}              = $config->{primary_key} // 'id';       # setter;
-    $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
-      // '';                                                                  # setter
+
+    #$self->{primary_key}              = $config->{primary_key} // 'id';       # setter;
+    #$self->{exclude_properties_regex} = $config->{exclude_properties_regex}
+    #  // '';                                                                  # setter
 
     # ************************
     # Start Miscellanea checks
@@ -177,7 +209,7 @@ sub run {
 
     my $self = shift;
 
-    print Dumper $self and die;
+    #print Dumper $self and die;
 
     # Load variables
     my $reference_files        = $self->{reference_files};
@@ -286,7 +318,7 @@ sub run {
     # Limit the number of variables if > $self-{max_number_var}
     # *** IMPORTANT ***
     # Change only performed in $glob_hash
-    $glob_hash = randomize_variables( $glob_hash, $self->{max_number_var} )
+    $glob_hash = randomize_variables( $glob_hash, $self )
       if keys %$glob_hash > $self->{max_number_var};
 
     # Second we peform one-hot encoding for each individual
@@ -392,51 +424,4 @@ sub add_attribute {
     return 1;
 }
 
-sub append_and_rename_primary_key {
-
-    my $arg             = shift;
-    my $ref_data        = $arg->{ref_data};
-    my $append_prefixes = $arg->{append_prefixes};
-    my $primary_key     = $arg->{primary_key};
-
-    # Premature return if @$ref_data == 1 (only 1 cohort)
-    # *** IMPORTANT ***
-    # $ref_data->[0] can be ARRAY or HASH
-    # We force HASH to be ARRAY
-    return ref $ref_data->[0] eq ref {} ? [ $ref_data->[0] ] : $ref_data->[0]
-      if @$ref_data == 1;
-
-    # NB: for is a bit faster than map
-    my $count = 1;
-
-    # We have to load into a new array data
-    my $data;
-    for my $item (@$ref_data) {
-
-        my $prefix =
-            $append_prefixes->[ $count - 1 ]
-          ? $append_prefixes->[ $count - 1 ] . '_'
-          : 'C' . $count . '_';
-
-        # ARRAY
-        if ( ref $item eq ref [] ) {
-            for my $individual (@$item) {
-                $individual->{$primary_key} =
-                  $prefix . $individual->{$primary_key};
-                push @$data, $individual;
-            }
-        }
-
-        # Object
-        else {
-            $item->{$primary_key} = $prefix . $item->{$primary_key};
-            push @$data, $item;
-        }
-
-        # Add $count
-        $count++;
-    }
-
-    return $data;
-}
 1;

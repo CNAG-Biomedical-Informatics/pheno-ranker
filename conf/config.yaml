@@ -20,6 +20,23 @@ seed: 123456789
 # Set the regex to discard variables that contain a given patter
 exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure'
 
+# Set the path for array properties
+id_correspondence:
+  BFF:
+    measures: 'assayCode.id'
+    treatments: 'treatmentCode.id'
+    exposures: 'exposureCode.id'
+    diseases: 'diseaseCode.id'
+    phenotypicFeatures: 'featureType.id'
+    interventionsOrProcedures: 'procedureCode.id'
+  PXF:
+    medicalActions: 'treatment.agent.id'
+    diseases: 'term.id'
+    phenotypicFeatures: 'type.id'
+    # measures                  => 'assayCode.id',
+    # exposures                 => 'exposureCode.id',
+    # interventionsOrProcedures => 'procedureCode.id'
+
 # Set the regex to perform the subsitition of array elements for
-#array_terms: [measures,treatments,exposures,diseases,phenotypicFeatures,interventionsOrProcedures,medicalActions]
-#array_regex: '^(\w+):(\d+)\.(\S+)'
+array_terms: [measures,treatments,exposures,diseases,phenotypicFeatures,interventionsOrProcedures,medicalActions]
+array_regex: '^(\w+):(\d+)\.(\S+)'

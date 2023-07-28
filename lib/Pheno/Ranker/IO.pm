@@ -14,7 +14,7 @@ use JSON::XS;
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json write_poi coverage_stats);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json write_poi coverage_stats append_and_rename_primary_key);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -218,6 +218,54 @@ sub coverage_stats {
         }
     }
     return { cohort_size => scalar @$data, coverage_terms => $coverage };
+}
+
+sub append_and_rename_primary_key {
+
+    my $arg             = shift;
+    my $ref_data        = $arg->{ref_data};
+    my $append_prefixes = $arg->{append_prefixes};
+    my $primary_key     = $arg->{primary_key};
+
+    # Premature return if @$ref_data == 1 (only 1 cohort)
+    # *** IMPORTANT ***
+    # $ref_data->[0] can be ARRAY or HASH
+    # We force HASH to be ARRAY
+    return ref $ref_data->[0] eq ref {} ? [ $ref_data->[0] ] : $ref_data->[0]
+      if @$ref_data == 1;
+
+    # NB: for is a bit faster than map
+    my $count = 1;
+
+    # We have to load into a new array data
+    my $data;
+    for my $item (@$ref_data) {
+
+        my $prefix =
+            $append_prefixes->[ $count - 1 ]
+          ? $append_prefixes->[ $count - 1 ] . '_'
+          : 'C' . $count . '_';
+
+        # ARRAY
+        if ( ref $item eq ref [] ) {
+            for my $individual (@$item) {
+                $individual->{$primary_key} =
+                  $prefix . $individual->{$primary_key};
+                push @$data, $individual;
+            }
+        }
+
+        # Object
+        else {
+            $item->{$primary_key} = $prefix . $item->{$primary_key};
+            push @$data, $item;
+        }
+
+        # Add $count
+        $count++;
+    }
+
+    return $data;
 }
 
 1;

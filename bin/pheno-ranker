@@ -271,8 +271,8 @@ Then I will do something like this:
   # First I create an alias to simplify invocation (from the host)
   alias pheno-ranker='docker exec -ti pheno-ranker-mount /usr/share/pheno-ranker/bin/pheno-ranker'
 
-  # Now I use the alias to run the command (note that I use the flag --out-dir to specify the output directory)
-  pheno-ranker -ibff /data/individuals.json -opxf pxf.json --out-dir /data
+  # Now I use the alias to run the command (note that I use the flag --o to specify the filepath)
+  pheno-ranker -r /data/individuals.json -o /data/matrix.txt
 
 =head2 Non containerized
 

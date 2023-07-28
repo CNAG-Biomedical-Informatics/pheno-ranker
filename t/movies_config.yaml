@@ -3,3 +3,8 @@ primary_key: title
 
 # Set the allowed terms / properties
 allowed_terms: [country,genre,year]
+
+# Set the path for array properties
+id_correspondence:
+  BFF:
+    phenotypicFeatures: 'genreType.id'
