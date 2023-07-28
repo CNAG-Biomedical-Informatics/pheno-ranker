@@ -1,12 +1,13 @@
 site_name: 'Pheno-Ranker Documentation'
-site_description: 'Pheno-Ranker Toolbox Documentation'
+site_description: 'Pheno-Ranker Documentation'
 site_author: 'Manuel Rueda, PhD'
-copyright: '&copy; Copyright 2022-2023, Manuel Rueda, CNAG'
+copyright: '&copy; Copyright 2023, Manuel Rueda, CNAG'
 repo_name: 'Pheno-Ranker'
 repo_url: https://github.com/mrueda/pheno-ranker
 edit_uri: edit/main/docs/
 
 extra_css: [css/theme_overrides.css]
+extra_javascript: [js/theme_overrides.js]
 
 plugins:
   - search
@@ -56,14 +57,14 @@ nav:
           - PXF: what-is-pxf.md
           - Others: others.md
   - 'Download & Installation': download-and-installation.md
-  - Use:
-      - Command-line interface: use-as-a-command-line-tool.md
-      - Web App uSer interface: inter-cohort-comparsion.md
-      - Module: use-as-a-module.md
+  - Web App User interface: https://convert-pheno.cnag.cat
   - Modes of operation:
-      - Intra-cohort comparison: intra-cohort-comparison.md
-      - Inter-cohort comparison: inter-cohort-comparison.md
-      - Patient-Cohort comparison: patient-cohort-comparison.md
+      - Cohort mode: 
+        - Intra-cohort: intra-cohort-comparison.md
+        - Inter-cohort: inter-cohort-comparison.md
+      - Patient mode: patient-cohort-comparison.md
+  - Utilities:
+      - Data simulator: simulator.md 
   - Help:
       - Tutorial: tutorial.md
       - Google colab: https://colab.research.google.com/drive/1T6F3bLwfZyiYKD6fl1CIxs9vG068RHQ6
@@ -90,7 +91,7 @@ theme:
     toggle:
       icon: material/lightbulb-outline
       name: Switch to dark mode
-  logo: img/CP-logo-grey.png
+  logo: img/PR-logo.png
   icon:
       repo: fontawesome/brands/github-alt 
   features:

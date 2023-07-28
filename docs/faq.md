@@ -2,31 +2,25 @@ Frequently Asked Questions
 
 ## General
 
-??? faq "What does `Convert-Pheno` do?"
+??? faq "What does `Pheno-Ranker` do?"
 
     This tool facilitates the conversion of clinical data between commonly used formats, such as [GA4GH standards](https://www.ga4gh.org), to enable **secure data sharing** and discovery through **semantic interoperability**.
 
     ##### last change 2023-01-05 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-??? faq "Is `Convert-Pheno` free?"
+??? faq "Is `Pheno-Ranker` free?"
 
     Yes. See the [license](https://github.com/mrueda/convert-pheno/blob/main/LICENSE).
 
     ##### last change 2023-01-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-??? faq "Can I use `Convert-Pheno` in _production_ software?"
+??? faq "Can I use `Pheno-Ranker` in _production_ software?"
 
-    Nope. We're working on it as we speak.
+    It's still in Beta so expect some bumps ahead.
 
-    ##### last change 2023-01-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    ##### last change 2023-06-27 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-??? faq "There are multiple [download](download-and-installation.md) options, which one should I choose?"
-
-    We recommend using the [containerized version](https://github.com/cnag-biomedical-informatics/convert-pheno#containerized).
- 
-    ##### last change 2023-01-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
-??? faq "If I use `Convert-Pheno` to convert my data to [Beacon v2 Models](bff.md), does this mean I have a Beacon v2?"
+??? faq "If I use `Pheno-Ranker` to convert my data to [Beacon v2 Models](bff.md), does this mean I have a Beacon v2?"
 
     I am afraid not. Beacon v2 is an [API specification](https://docs.genomebeacons.org), and the [Beacon v2 Models](bff.md) are merely a component of it. In order to _light a Beacon v2_, it is necessary to load the `JSON` files into a **database** and add an an **API** on top. Currently, it is advisable to utilize the [Beacon v2 Reference Implementation](https://b2ri-documentation.readthedocs.io/en/latest) which includes the database, the Beacon v2 API, and other necessary components.
 
@@ -37,11 +31,11 @@ Frequently Asked Questions
       <figcaption>Beacon v2 RI integration</figcaption>
     </figure>
 
-    ##### last change 2023-01-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    ##### last change 2023-06-20 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "What is the difference between Beacon v2 Models and Beacon v2?"
 
-    **Beacon v2** is a specification to build an [API](https://docs.genomebeacons.org). The [Beacon v2 Models](https://docs.genomebeacons.org/models/) define the format for the API's responses to queries regarding biological data. With the help of `Convert-Pheno`, text files ([BFF](bff.md)) that align with this response format can be generated. By doing so, the BFF files can be integrated into a non-SQL database, such as MongoDB, without the API having to perform any additional data transformations internally.
+    **Beacon v2** is a specification to build an [API](https://docs.genomebeacons.org). The [Beacon v2 Models](https://docs.genomebeacons.org/models/) define the format for the API's responses to queries regarding biological data. With the help of `Pheno-Ranker`, text files ([BFF](bff.md)) that align with this response format can be generated. By doing so, the BFF files can be integrated into a non-SQL database, such as MongoDB, without the API having to perform any additional data transformations internally.
 
     ##### last change 2023-02-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
@@ -60,17 +54,19 @@ Frequently Asked Questions
 
     |                | REDCap      | CDISC-ODM  | OMOP-CDM | Phenopackets v2| Beacon v2 Models |
     | -----------    | ----------- | ---------- | -------  | -------------- | -----------------|
-    | Data mapping   | :heavy_check_mark: |  :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-    | Add ontologies | :heavy_check_mark: |  :heavy_check_mark: | `--ohdsi-db` |     |                  |
+    | Data mapping   | ✓ |  ✓ | ✓ | ✓ | ✓ |
+    | Add ontologies | ✓ |  ✓ | `--ohdsi-db` |     |                  |
 
     For _REDCap_ and _CDISC-ODM_ we support:
 
+    * [Athena-OHDSI](https://athena.ohdsi.org/search-terms/start) which includes multiple ontologies, such as _SNOMED, RxNorm or LOINC_
     * [NCI Thesaurus](https://ncithesaurus.nci.nih.gov/ncitbrowser)
     * [ICD-10](https://icd.who.int/browse10)
     * [CDISC](https://www.cdisc.org/standards/terminology/controlled-terminology) (Study Data Tabulation Model Terminology)
-    * [Athena-OHDSI](https://athena.ohdsi.org/search-terms/start) which includes multiple ontologies, such as _SNOMED, RxNorm or LOINC_
+    * [OMIM](https://www.omim.org/) Online Mendelian Inheritance in Man
+    * [HPO](https://hpo.jax.org/app) Human Phenotype Ontology (Note that prefixes are `HP:`, without the `O`)
 
-    ##### last change 2023-03-28 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    ##### last change 2023-07-03 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Are longitudinal data supported?"
 
@@ -86,20 +82,29 @@ Frequently Asked Questions
 
 ??? faq "How are variables that cannot be mapped handled during the conversion process?"
 
-    When converting between different data standards, it is common to encounter situations where some variables cannot be directly mapped to their equivalent in the target standard. In such cases, the original variable is typically stored under the `info` property in the converted file. While Beacon v2 has a flexible schema that allows for this, Phenopackets v2 schema is more restrictive in this regard.
+    During the conversion process, when encountering variables that **cannot be directly mapped** to the target standard, two situations may arise. In the first situation, if the target format allows for additional properties, the variable will be stored under the _info property. This commonly occurs when converting from OMOP-CDM to BFFs. In the second situation, if the variable maps to other entities within Beacon v2 Models, it will be stored within BFF's _info term. An example of this is the storage of _biosample_ information in PXF files.
 
-    ##### last change 2023-03-25 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    ##### last change 2023-06-29 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ## Installation
 
-??? faq "I am installing `Convert-Pheno` from source ([non-containerized version](https://github.com/cnag-biomedical-informatics/convert-pheno#non-containerized)) but I can't make it work. Any suggestions?"
+??? faq "There are multiple [download](download-and-installation.md) options, which one should I choose?"
+
+    We recommend using the [containerized version](https://github.com/CNAG-Biomedical-Informatics/convert-pheno#containerized-recommended-method).
+
+    The reason for this is that you'll get **all functionalities** working **out-of-the-box**.
+
+    ##### last change 2023-06-27 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+
+??? faq "I am installing `Pheno-Ranker` from source ([non-containerized version](https://github.com/cnag-biomedical-informatics/convert-pheno#non-containerized)) but I can't make it work. Any suggestions?"
 
     #### Problems with Python / PyPerler
 
     !!! Failure "About PyPerler installation"
-        Apart from [PypPerler](https://github.com/tkluck/pyperler#quick-install) itself, you may need to install `libperl-dev` to make it work.
+        Apart from [PypPerler](https://github.com/tkluck/pyperler#quick-install) itself, you may need to install `cython3` and `libperl-dev` to make it work.
 
-        `sudo apt-get install libperl-dev`
+        `sudo apt-get install cython3 libperl-dev`
 
 
     ##### last change 2023-01-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)

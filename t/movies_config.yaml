@@ -1,3 +1,6 @@
+# Set the format
+format: MXF
+
 # Set the primary key for the objects
 primary_key: title
 
@@ -6,5 +9,11 @@ allowed_terms: [country,genre,year]
 
 # Set the path for array properties
 id_correspondence:
-  BFF:
-    phenotypicFeatures: 'genreType.id'
+  MXF:
+    genre: genre
+
+# Set the terms which are arrays
+array_terms: [genre]
+
+# Set the regex to perform the substitution in array elements
+array_regex: '^(\w+):(\d+)'

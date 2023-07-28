@@ -1,77 +1,150 @@
 !!! Tip "Google Colab version"
     We created a [Google Colab version](https://colab.research.google.com/drive/1T6F3bLwfZyiYKD6fl1CIxs9vG068RHQ6) of the tutorial. Users can view notebooks shared publicly without sign-in, but you need a google account to execute code.
 
-This page provides brief tutorials on how to perform data conversion by using `Convert-Pheno`**command-line interface**.
+    We also have a local copy of the notebook that can be downloaded from the [repo](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/nb/convert_pheno_cli_tutorial.ipynb). 
+
+This page provides brief tutorials on how to perform data conversion by using `Pheno-Ranker`**command-line interface**.
 
 !!! Info "Note on installation"
-    Before proceeding, ensure that the software is properly installed. In the following instructions, it will be assumed that you have downloaded and installed the [containerized version](https://github.com/cnag-biomedical-informatics/convert-pheno#containerized).
+    Before proceeding, ensure that the software is properly installed. In the following instructions, it will be assumed that you have downloaded and installed the [containerized version](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#containerized-recommended-method).
 
-### How to convert:
+### Moviepackets:
 
-=== "REDCap to Phenopackets v2"
+For the tutorial we will use the format **Moviepackets** to demonstrate the power of `Pheno-Ranker` with any JSON file.
 
-    This section provides a summary of the steps to convert a REDCap project to Phenopackets v2. 
+!!! Question "What is a Moviepacket (MXF) file?"
+    A Moviepacket is an invented format :smile: designed to describe movies, analogous to Phenopackets v2 used for pheno-clinical data.
 
-    * The starting point is to log in to your REDCap system and export the data to CSV format. If you need more information on REDCap, we recommend consulting the comprehensive [documentation](https://confluence.research.cchmc.org/display/CCTSTRED/Cincinnati+REDCap+Resource+Center) provided by the Cincinnati Children's Hospital Medical Center.
 
-    * After exporting the data, you must also download the REDCap dictionary in CSV format. This can be done within REDCap by navigating to `Project Setup/Data Dictionary/Download the current`.
+=== "Intra-catalog comparison"
 
-    * Since REDCap projects are "free-format," a mapping file is necessary to connect REDCap project variables (i.e. fields) to something meaningful for `Convert-Pheno`. This mapping file will be used in the conversion process.
+    Imagine you have a catalog of 25 movies described in JSON format. Each movie has several `properties` (a.k.a. `terms`).
 
-    !!! Question "What is a `Convert-Pheno` mapping file?"
-        A mapping file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON]((https://en.wikipedia.org/wiki/JSON) is also accepted) that connects a set of variables to a format that is understood by `Convert-Pheno`. This file maps your variables to the required **terms** of the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity from the Beacon v2 models, which serves a center model.
+    ```bash
+    [
+      {
+        "title": "TheShawshankRedemption",
+        "genre": [
+          "Drama"
+        ],
+        "year": 1994,
+        "country": "USA",
+        "rating": 9.3
+      },
+      {
+        "title": "TheGodfather",
+        "genre": [
+          "Crime",
+          "Drama"
+        ],
+        "year": 1972,
+        "country": "USA",
+        "rating": 9.2
+      },...
+    ]
+    ```
 
-    ### Creating a mapping file
+    You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. The first thing that we are going to create is a configuration file.
 
-    To create a mapping file, start by reviewing the [example mapping file](https://github.com/cnag-biomedical-informatics/convert-pheno/blob/main/t/redcap2bff/in/redcap_mapping.yaml) provided with the installation. The goal is to replace the contents of such file with those from your REDCap project. The mapping file contains the following types of data:
+    !!! Question "What is a `Pheno-Ranker` configuration file?"
+        A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box` that are [BFF](what-is-bff.md) and [PXF](what-is-pxf.md).
 
-    | Type        | Required    | Required properties | Optional properties |
-    | ----------- | ----------- | ------------------- | ------------------- |
-    | Internal    | `project`   | `id, source, ontology` | ` description` |
-    | Beacon v2 terms   | `diseases, exposures, id, info, interventionsOrProcedures, measures, phenotypicFeatures, sex, treatments` | `fields`| `dict, map, radio, ontology, routesOfAdministration` |
+    ### Creating a configuration file
+
+    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movie_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. The configuration file looks like this:
+
+    ```bash
+    # Set the format
+    format: MXF
+    
+    # Set the primary key for the objects
+    primary_key: title
+    
+    # Set the allowed terms / properties
+    allowed_terms: [country,genre,year]
+    
+    # Set the path for array properties
+    id_correspondence:
+      MXF:
+        genre: genre
+    
+    # Set the terms which are arrays
+    array_terms: [genre]
+    
+    # Set the regex to perform the substitution in array elements
+    array_regex: '^(\w+):(\d+)'
+
+    ```
+
+    In the table below we show information on the configuration file:
+
+    | Format      | Required properties | Optional properties | Pre-configured |
+    | ----------- | ------------------- | ------------------- |  -----  | 
+    | BFF / PXF   | `allowed_terms, id_correspondence, array_terms, array_regex` | `format` | ✓ |
+    | Others      | `format, allowed_terms, id_correspondence, array_terms, array_regex` |  |   |
 
      * These are the properties needeed to map your data to the entity `individuals` in the Beacon v2 Models:
-        - **fields**, is an `array` consisting of the name of the REDCap variables that map to that Beacon v2 term.
-        - **map**, is an `object` in the form of `key: value` that we use to map our Beacon v2 objects to REDCap variables. For instance, you may have a field named `age_first_diagnosis` that it's called `ageOgOnset` on Beacon v2. In this case you will use `ageOfOnset: age_first_diagnosis`.
-        - **dict**, is an `object` in the form of `key: value`. The `key` represents the original variable name in REDCap and the `value` represents the "phrase" that will be used to query a database to find an ontology candidate. For instance, you may have a variable named `cigarettes_days`, but you know that in [NCIT](https://www.ebi.ac.uk/ols/ontologies/ncit) the label is `Average Number Cigarettes Smoked a Day`. In this case you will use `cigarettes_days: Average Number Cigarettes Smoked a Day`.
-        - **radio**, a nested `object` value with specific mappings.
-        - **ontology**, it's an string to define more granularly the ontology for this particular Beacon v2 term. If not present, the script will use that from `project.ontology`.
-        - **routesOfAdministration**, an `array` with specific mappings for `treatments`.
+        - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
+        - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
+        - **id_correspondence**, is a nested `object` that maps the actual JSON path to a given array element. 
+        - **array_terms**, is an `array` to enumerate which properties are arrays.
+        - **array_regex**, it's an `string` to define how the flattened JSON array elements will be renamed.
 
-    !!! Tip "Defining the values in the property `dict`"
-        Before assigning values to `dict` it's important that you think about which ontologies you want to use. The field `project.ontology` defines the ontology for the whole project, but you can also specify a another antology at the Beacon v2 term level. Once you know which ontologies to use, then try searching for such term to get an accorate label for it. For example, if you have chosen `ncit`, you can search for the values within NCIT at [EBI Search](https://www.ebi.ac.uk/ols/ontologies/ncit). `Convert-Pheno` will use these values to retrieve the actual ontology from its internal databases.
+    !!! Tip "Do I need to create a configuration file?"
+        This file only has to be created if you are working with **your own JSON format**. 
 
-    !!! Warning "About text similarity in database searches"
-        `Convert-Pheno` comes with a few pre-configured databases and it will search for ontologies there. Two two types of searches can be performed:
+        If your format is similar to that to Moviepackets just use that file, making sure you change the `allowed_terms` to match yours.
 
-         1. `exact` (default)
+    ### Running `Pheno-Ranker`
 
-             Retrieves only exact matches for a specified 'label'
+    Once you have created the mapping file you can proceed to run `pheno-ranker` with the **command-line interface**. 
 
-         2. `mixed` (needs `--search mixed`)
+    #### Example 1: Let's start by using all terms
 
-             The script will begin by attempting an exact match for 'label', and if it is unsuccessful, it will then conduct a search based on string (phrase) similarity and select the ontology with the highest score. 
-         Example (NCIT ontology): 
+    `bin/pheno-ranker -r t/movies.json --config t/movies_config.yaml`
 
-          Search phrase: **Exercise pain management** with `exact` search.
+    The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
 
-          - exact match: Exercise Pain Management
+    <figure markdown>
+      ![Beacon v2](img/movies1.png){ width="600" }
+      <figcaption> Intra-cohort pairwise comparison</figcaption>
+    </figure>
 
-          Search phrase: **Brain Hemorrhage** with `mixed` search.
+    #### Example 2: Let's cluster by year
 
-          - exact match: NA
+    `bin/pheno-ranker -r t/movies.json --include-terms year --config t/movies_config.yaml`
 
-          - similarity match: Intraventricular Brain Hemorrhage
+    <figure markdown>
+      ![Beacon v2](img/movies2.png){ width="600" }
+      <figcaption> Intra-cohort pairwise comparison</figcaption>
+    </figure>
 
-          `--min-text-similarity-score` sets the minimum value for the Cosine / Sorensen-Dice coefficient. The default value (0.8) is very conservative.
+    #### Example 3: Let's cluster by `genre`
 
-         Note that `mixed` search requires more computational time and its results can be unpredictable. Please use it with caution.
+    `bin/pheno-ranker -r t/movies.json --include-terms genre --config t/movies_config.yaml`
 
-    ### Running `Convert-Pheno`
+    <figure markdown>
+       ![Beacon v2](img/movies2.png){ width="600" }
+       <figcaption> Intra-cohort pairwise comparison</figcaption>
+    </figure>
 
-    Once you have created the mapping file you can proceed to run `convert-pheno` with the **command-line interface**. Please see how [here](redcap.md#redcap-as-input).
+    #### Example 4: Let's apply weights to `genre`
+
+    We will use the file `t/movies_weigths.yaml` that has the following content:
+
+    ```yaml
+    ---
+    genre.Biography: 25
+    ```
+
+    `bin/pheno-ranker -r t/movies.json --include-terms genre --w t/movies_weigths.yaml --config t/movies_config.yaml`
+
+    <figure markdown>
+      ![Beacon v2](img/movies3.png){ width="600" }
+      <figcaption> Intra-cohort pairwise comparison</figcaption>
+    </figure>
  
-=== "OMOP-CDM to Beacon v2 Models"
+=== "Movie recommendations"
 
     This section provides a summary of the steps to convert an OMOP-CDM export to Beacon v2 Models. The starting point is either a PostgreSQL export in the form of `.sql` or `.csv` files. The process is the same for both.
 
@@ -82,16 +155,17 @@ This page provides brief tutorials on how to perform data conversion by using `C
 
     #### Full export 
 
-    In a full export, all ontologies are included in the `CONCEPT` table, thus Convert-Pheno does not need to search any additional databases for ontologies (with a few exceptions). 
+    In a full export, all ontologies are included in the `CONCEPT` table, thus Pheno-Ranker does not need to search any additional databases for ontologies (with a few exceptions). 
 
     #### Partial export
 
-    In a partial export, many ontologies may be missing from the `CONCEPT` table, as a result, `Convert-Pheno` will perform a search on the included **ATHENA-OHDSI** database. To enable this search you should use the flag `--ohdsi-db`.
+    In a partial export, many ontologies may be missing from the `CONCEPT` table, as a result, `Pheno-Ranker` will perform a search on the included **ATHENA-OHDSI** database. To enable this search you should use the flag `--ohdsi-db`.
 
-    ### Running `Convert-Pheno`
+    ### Running `Pheno-Ranker`
 
-    Once you have created the mapping file you can proceed to run `convert-pheno` with the **command-line interface**. Please see how [here](omop-cdm.md#omop-as-input).
+    Once you have created the mapping file you can proceed to run `pheno-ranker` with the **command-line interface**. Please see how [here](omop-cdm.md#omop-as-input).
 
-!!! Question "More questions?"
-    Please take a look to our [Frequently Asked Questions](faq.md).
+
+=== "Inter-catalog comparison"
+
 

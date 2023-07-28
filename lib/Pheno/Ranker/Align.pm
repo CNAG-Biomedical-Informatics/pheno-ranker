@@ -614,11 +614,11 @@ sub remap_hash {
 
           # VARIABLE LEVEL
           exists $weight->{$tmp_key}
-          ? $weight->{$tmp_key}
+          ? $weight->{$tmp_key} + 0 # coerce to number
 
           # TERM LEVEL
           : exists $weight->{$tmp_key_at_term_level}
-          ? $weight->{$tmp_key_at_term_level}
+          ? $weight->{$tmp_key_at_term_level} + 0 # coerce to number
 
           # NO WEIGHT
           : 1;

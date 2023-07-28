@@ -37,6 +37,8 @@ id_correspondence:
     # exposures                 => 'exposureCode.id',
     # interventionsOrProcedures => 'procedureCode.id'
 
-# Set the regex to perform the subsitition of array elements for
+# Set the terms which are arrays
 array_terms: [measures,treatments,exposures,diseases,phenotypicFeatures,interventionsOrProcedures,medicalActions]
+
+# Set the regex to perform the substitution in array elements
 array_regex: '^(\w+):(\d+)\.(\S+)'

@@ -73,21 +73,31 @@ has 'config_file' => (
           ? $config->{seed}
           : 123456789;
 
-        # Set oo $self
+        # Set on $self
         $self->{primary_key}              = $config->{primary_key} // 'id';    # setter;
         $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
           // '';                                                               # setter
-        $self->{array_terms}             = $config->{array_terms}; # To validate
-        $self->{array_regex}             = $config->{array_regex}; # To validate
+        $self->{array_terms} = $config->{array_terms} // ['foo'];              # setter - To validate
+        $self->{array_regex} = $config->{array_regex} // '^(\w+):(\d+)';       # setter - To validate
 
-        # Validate $config->{id_correspondence}
-        unless ( exists $config->{id_correspondence}
-            && HashRef->check( $config->{id_correspondence} ) )
-        {
-            die
+        # Validate $config->{id_correspondence} if we have "real" array_terms
+        if ( $self->{array_terms}[0] ne 'foo' ) {
+            unless ( exists $config->{id_correspondence}
+                && HashRef->check( $config->{id_correspondence} ) )
+            {
+                die
 "No <id_correspondence> provided or not a hash ref at\n$config_file\n";
+            }
+            $self->{id_correspondence} = $config->{id_correspondence};    # setter
+
+            # Validate format if exists and check that has a match in config->{id_correspondence}
+            if ( exists $config->{format} && Str->check( $config->{format} ) ) {
+                die
+"<$config->{format}> does not match any key from <id_correspondence>\n"
+                  unless
+                  exists $config->{id_correspondence}{ $config->{format} };
+            }
         }
-       $self->{id_correspondence} = $config->{id_correspondence};
     }
 );
 
@@ -306,8 +316,9 @@ sub run {
     # We will process $ref_data to get stats on coverage
     my $coverage_stats = coverage_stats($ref_data);
 
-    # We have to check if we have ####BFF or PXF
-    add_attribute( $self, 'format', check_format($ref_data) );    # setter via sub
+    # We have to check if we have BFF|PXF or others unless defined at config
+    add_attribute( $self, 'format', check_format($ref_data) )
+      unless defined $self->{format};    # setter via sub
 
     # First we create:
     # - $glob_hash => hash with all the COHORT keys possible
