@@ -51,8 +51,21 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 
     ### Creating a configuration file
 
-    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movie_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. The configuration file looks like this:
+    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movie_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
 
+    ```bash
+    # Set the format
+    format: MXF # Optional when no array-based properties
+
+    # Set the primary key for the objects
+    primary_key: title
+
+    # Set the allowed terms / properties
+    allowed_terms: [country,genre,year]
+    ```
+
+    But because your data has the term `genre`, which is an `array` the file will look like this:
+    
     ```bash
     # Set the format
     format: MXF
@@ -63,32 +76,34 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
     # Set the allowed terms / properties
     allowed_terms: [country,genre,year]
     
-    # Set the path for array properties
-    id_correspondence:
-      MXF:
-        genre: genre
-    
     # Set the terms which are arrays
     array_terms: [genre]
     
     # Set the regex to perform the substitution in array elements
     array_regex: '^(\w+):(\d+)'
 
+    # Set the path for array properties
+    id_correspondence:
+      MXF:
+        genre: genre
     ```
 
-    In the table below we show information on the configuration file:
+    In the table below we show which parameters are needed depending on the format:
 
     | Format      | Required properties | Optional properties | Pre-configured |
     | ----------- | ------------------- | ------------------- |  -----  | 
-    | BFF / PXF   | `allowed_terms, id_correspondence, array_terms, array_regex` | `format` | ✓ |
-    | Others      | `format, allowed_terms, id_correspondence, array_terms, array_regex` |  |   |
+    | BFF / PXF   | `primary_key, allowed_terms, array_terms, array_regex, id_correspondence` | `format` | ✓ |
+    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, array_regex, id_correspondence` |  |   |
+    | Others (`non-array`) |  `primary_key, allowed_terms` | `format` |   |
+
 
      * These are the properties needeed to map your data to the entity `individuals` in the Beacon v2 Models:
         - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
+        - **primary_key**, the key that will be used as an item identifier.
         - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
-        - **id_correspondence**, is a nested `object` that maps the actual JSON path to a given array element. 
         - **array_terms**, is an `array` to enumerate which properties are arrays.
         - **array_regex**, it's an `string` to define how the flattened JSON array elements will be renamed.
+        - **id_correspondence**, is a nested `object` that maps the actual JSON path to a given array element.
 
     !!! Tip "Do I need to create a configuration file?"
         This file only has to be created if you are working with **your own JSON format**. 

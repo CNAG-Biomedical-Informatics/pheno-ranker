@@ -20,6 +20,12 @@ seed: 123456789
 # Set the regex to discard variables that contain a given patter
 exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure'
 
+# Set the terms which are arrays
+array_terms: [measures,treatments,exposures,diseases,phenotypicFeatures,interventionsOrProcedures,medicalActions]
+
+# Set the regex to perform the substitution in array elements
+array_regex: '^(\w+):(\d+)\.(\S+)'
+
 # Set the path for array properties
 id_correspondence:
   BFF:
@@ -36,9 +42,3 @@ id_correspondence:
     # measures                  => 'assayCode.id',
     # exposures                 => 'exposureCode.id',
     # interventionsOrProcedures => 'procedureCode.id'
-
-# Set the terms which are arrays
-array_terms: [measures,treatments,exposures,diseases,phenotypicFeatures,interventionsOrProcedures,medicalActions]
-
-# Set the regex to perform the substitution in array elements
-array_regex: '^(\w+):(\d+)\.(\S+)'

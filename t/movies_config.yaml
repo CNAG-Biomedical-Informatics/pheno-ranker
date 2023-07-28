@@ -7,13 +7,13 @@ primary_key: title
 # Set the allowed terms / properties
 allowed_terms: [country,genre,year]
 
-# Set the path for array properties
-id_correspondence:
-  MXF:
-    genre: genre
-
 # Set the terms which are arrays
 array_terms: [genre]
 
 # Set the regex to perform the substitution in array elements
 array_regex: '^(\w+):(\d+)'
+
+# Set the path for array properties
+id_correspondence:
+  MXF:
+    genre: genre
