@@ -421,7 +421,7 @@ A script that creates a JSON array of random BFF/PXF
 
 =head1 INSTALLATION
 
- $ cpanm sudo --installdeps .
+ $ cpanm --sudo --installdeps .
 
 =head3 System requirements
 
