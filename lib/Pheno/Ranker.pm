@@ -96,6 +96,7 @@ has 'config_file' => (
 "<$config->{format}> does not match any key from <id_correspondence>\n"
                   unless
                   exists $config->{id_correspondence}{ $config->{format} };
+            $self->{format} = $config->{format};
             }
         }
     }

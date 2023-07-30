@@ -1,6 +1,6 @@
 # NAME
 
-csv2pheno\_ranker: A script that convert a CSV to an input suitable for Pheno-Ranker
+csv2pheno\_ranker: A script to convert a CSV to an input suitable for Pheno-Ranker
 
 # SYNOPSIS
 
@@ -33,7 +33,7 @@ Note that we load all data in memory before dumping the JSON file. If you have a
 
 # SUMMARY
 
-A script that convert a CSV to an input suitable for Pheno-Ranker
+A script to convert a CSV to an input suitable for Pheno-Ranker
 
 # INSTALLATION
 

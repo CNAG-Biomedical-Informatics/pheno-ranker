@@ -248,7 +248,7 @@ sub create_config {
 
 =head1 NAME
 
-csv2pheno_ranker: A script that convert a CSV to an input suitable for Pheno-Ranker
+csv2pheno_ranker: A script to convert a CSV to an input suitable for Pheno-Ranker
 
 =head1 SYNOPSIS
 
@@ -282,7 +282,7 @@ Note that we load all data in memory before dumping the JSON file. If you have a
 
 =head1 SUMMARY
 
-A script that convert a CSV to an input suitable for Pheno-Ranker
+A script to convert a CSV to an input suitable for Pheno-Ranker
 
 =head1 INSTALLATION
 
