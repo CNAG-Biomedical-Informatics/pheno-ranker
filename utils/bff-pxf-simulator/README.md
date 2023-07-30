@@ -1,13 +1,12 @@
 # NAME
 
-create\_random\_bff\_pxf.pl: A script that creates a JSON array of random BFF/PXF
+bff\_pxf\_simulator: A script that creates a JSON array of random BFF/PXF
 
 # SYNOPSIS
 
-create\_random\_bff\_pxf.pl \[-options\]
+bff\_pxf\_simulator \[-options\]
 
      Options:
-
        -f|format                      Format [>bff|pxf]
        -n|number                      Number of individuals
        -diseases                      Number of [1]
@@ -20,6 +19,7 @@ create\_random\_bff\_pxf.pl \[-options\]
        -external-ontologies           YAML file with ontologies for diseases, phenotypicFeatures and treatments
        -random-seed                   Initializes pseudorandom number sequences for reproducible results (int)
 
+     Generic Options;
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -h|help                        Brief help message
        -man                           Full documentation
@@ -36,7 +36,7 @@ A script that creates a JSON array of random BFF/PXF
 
 # INSTALLATION
 
-    $ cpanm sudo --installdeps .
+    $ cpanm --sudo --installdeps .
 
 ### System requirements
 
@@ -52,11 +52,11 @@ The software runs without any argument and assumes defaults. If you want to chan
 
 **Examples:**
 
-    $ ./create_random_bff_pxf.pl -f pxf  # BFF with 100 samples
+    $ ./bff_pxf_simulator -f pxf  # BFF with 100 samples
 
-    $ ./create_random_bff_pxf.pl -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
+    $ ./bff_pxf_simulator -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
 
-    $ ./create_random_bff_pxf.pl -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
+    $ ./bff_pxf_simulator -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
 
 ## COMMON ERRORS AND SOLUTIONS
 

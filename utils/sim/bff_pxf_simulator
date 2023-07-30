@@ -388,7 +388,6 @@ create_random_bff_pxf.pl: A script that creates a JSON array of random BFF/PXF
 
 =head1 SYNOPSIS
 
-
 create_random_bff_pxf.pl [-options]
 
      Options:
@@ -421,7 +420,7 @@ A script that creates a JSON array of random BFF/PXF
 
 =head1 INSTALLATION
 
- $ cpanm sudo --installdeps .
+ $ cpanm --sudo --installdeps .
 
 =head3 System requirements
 
