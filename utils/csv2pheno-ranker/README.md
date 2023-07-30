@@ -7,7 +7,7 @@ csv2pheno\_ranker: A script that convert a CSV to an input suitable for Pheno-Ra
 csv2pheno\_ranker -i &lt;input.csv> \[-options\]
 
      Options:
-       -i|input                       Format [>bff|pxf]
+       -i|input                       CSV file
        -primary-key                   Name of the field that you want to use as identifier (MUST BE NON-ARRAY)
        -sep|separator                 Delimiter character for CSV files [;] e.g., --sep $'\t'
        -set-primary-key               To force inserting a primary key (in case your CSV does not have one). The name will be set with --primary-key
@@ -47,7 +47,7 @@ A script that convert a CSV to an input suitable for Pheno-Ranker
     * 1 core (it only uses one core per job).
     * At least 1GB HDD.
 
-# HOW TO RUN CREATE-RANDOM-BFF-PXF
+# HOW TO RUN CSV2PHENO\_RANKER
 
 The software runs without any argument and assumes defaults. If you want to change some parmeters please take a look to the synopsis
 

@@ -46,7 +46,7 @@ A script that creates a JSON array of random BFF/PXF
     * 1 core (it only uses one core per job).
     * At least 1GB HDD.
 
-# HOW TO RUN CREATE-RANDOM-BFF-PXF
+# HOW TO RUN BFF-PXF-SIMULATOR
 
 The software runs without any argument and assumes defaults. If you want to change some pearmeters please take a look to the synopsis
 
