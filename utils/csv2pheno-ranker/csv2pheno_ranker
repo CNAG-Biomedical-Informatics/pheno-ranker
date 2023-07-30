@@ -152,7 +152,7 @@ sub read_csv {
     my $headers = $csv->getline($fh);
 
     # Get rid of problematic characters on headers
-    map { tr/()//d } @$headers;
+    #map { tr/()//d } @$headers;
 
     # Add $primary_key to headers if $set_primary_key
     push @$headers, $primary_key if $set_primary_key;
