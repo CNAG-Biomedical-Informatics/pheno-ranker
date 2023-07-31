@@ -79,6 +79,7 @@ has 'config_file' => (
           // '';                                                               # setter
         $self->{array_terms} = $config->{array_terms} // ['foo'];              # setter - To validate
         $self->{array_regex} = $config->{array_regex} // '^(\w+):(\d+)';       # setter - To validate
+        $self->{format} = $config->{format};                                   # setter
 
         # Validate $config->{id_correspondence} if we have "real" array_terms
         if ( $self->{array_terms}[0] ne 'foo' ) {
@@ -92,11 +93,9 @@ has 'config_file' => (
 
             # Validate format if exists and check that has a match in config->{id_correspondence}
             if ( exists $config->{format} && Str->check( $config->{format} ) ) {
-                die
-"<$config->{format}> does not match any key from <id_correspondence>\n"
+                die "<$config->{format}> does not match any key from <id_correspondence>\n"
                   unless
                   exists $config->{id_correspondence}{ $config->{format} };
-            $self->{format} = $config->{format};
             }
         }
     }
