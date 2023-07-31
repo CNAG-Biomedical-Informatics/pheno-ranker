@@ -76,7 +76,7 @@ use feature qw(say);
 use Data::Dumper;
 use Path::Tiny;
 use File::Basename;
-use List::Util 'uniq';
+use Scalar::Util qw(looks_like_number);
 use YAML::XS qw(LoadFile DumpFile);
 use JSON::XS;
 use Text::CSV_XS;
@@ -106,7 +106,7 @@ sub run {
     # Write the configuration file as YAML
     my $yaml_file = qq/$path${name}_config.yaml/;
     say "Writting <$yaml_file> " if $self->{verbose};
-    write_yaml( { filepath =>$yaml_file, data => $config } );
+    write_yaml( { filepath => $yaml_file, data => $config } );
 
 }
 
@@ -143,7 +143,7 @@ sub read_csv {
     # Create a Text::CSV object with semicolon as the separator
     my $csv =
       Text::CSV_XS->new(
-        { binary => 1, sep_char => $sep // ';', auto_diag => 1 } );
+        { binary => 1, sep_char => $sep // ',', auto_diag => 1 } );
 
     # Open filehandle
     open my $fh, '<', $input;
@@ -152,7 +152,8 @@ sub read_csv {
     my $headers = $csv->getline($fh);
 
     # Get rid of problematic characters on headers
-    #map { tr/()//d } @$headers;
+    $_ =~ tr/()//d for @$headers;
+    print Dumper $headers;
 
     # Add $primary_key to headers if $set_primary_key
     push @$headers, $primary_key if $set_primary_key;
@@ -161,12 +162,15 @@ sub read_csv {
     # START READING CSV #
     #####################
 
-    my ( @rows, %array, %non_array );
+    my ( @rows, %array, %non_array, %numeric );
     my $count = 1;
     say "Start reading <$input>" if $self->{verbose};
     while ( my $row = $csv->getline($fh) ) {
 
-        say "Reading row $count..." if ( $self->{verbose} && $count % 1_000 == 0 );
+        # Print if verbose
+        say "Reading row $count..."
+          if ( $self->{verbose} && $count % 1_000 == 0 );
+
         # Add id if $set_primary_key
         push @$row, 'PR_' . sprintf( "%08d", $count ) if $set_primary_key;
 
@@ -174,24 +178,34 @@ sub read_csv {
         my %data;
         @data{@$headers} = @$row;
 
-        # Check each field for comma-separated values
-        for my $key ( keys %data ) {
-            if ( $data{$key} =~ /,/ ) {
+        # *** IMPORTANT ***
+        # In some cases we can have arrays and in others nope
+        # To solve it:
+        # a) A posteriori we re-format all array fields to be arrays for each row
+        # b) If the first row was not an array then we don't split by array <==== USED
 
-                # Split comma-separated values into an array
-                $data{$key} = [ split /,/, $data{$key} ];
+        # Check fields ONCE!!!!
+        if ( $count == 1 ) {
+            for my $key ( keys %data ) {
 
-                # *** IMPORTANT ***
-                # In some cases we can have arrays and in others nope
-                # To solve it:
-                # a) A posteriori we re-format all array fields to be arrays for each row
-                # b) If the first row was not an array then we don't split by array
-                $array{$key} = 1;
-            }
-            else {
-                $non_array{$key} = 1;
+                # Check numeric (0/1) 073123 -- NON-USED
+                $numeric{$key} =  looks_like_number($data{$key}) ? 1 : 0;
+
+                # Check array/non-array
+                if ( $data{$key} =~ /,/ ) {
+                    $array{$key} = 1;
+                }
+                else {
+                    $non_array{$key} = 1;
+                }
             }
         }
+
+        # Split array fields (comma-separated values) into an array_ref
+        for my $key ( keys %array ) {
+            $data{$key} = [ split /,/, $data{$key} ];
+        }
+
         push @rows, \%data;
         $count++;
     }
