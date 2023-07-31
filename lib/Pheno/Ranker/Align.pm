@@ -31,7 +31,7 @@ sub cohort_comparison {
     my ( $ref_binary_hash, $self ) = @_;
     my $out_file = $self->{out_file};
 
-    say "Performing INTRA-COHORT comparison"
+    say "Performing COHORT comparison"
       if ( $self->{debug} || $self->{verbose} );
 
     # *** IMPORTANT ***

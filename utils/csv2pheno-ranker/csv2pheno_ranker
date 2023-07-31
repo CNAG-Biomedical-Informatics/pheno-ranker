@@ -253,8 +253,7 @@ sub create_config {
         $config->{id_correspondence} = {
             CSV => [
                 map {
-                    my $val = $_;
-                    $val = { $_ => $_ }
+                    my $val = { $_ => $_ } ; $val
                 } @arrays
             ]
         };
