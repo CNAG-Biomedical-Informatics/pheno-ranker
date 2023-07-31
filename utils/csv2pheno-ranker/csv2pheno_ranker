@@ -45,7 +45,7 @@ sub process_csv {
     pod2usage(
         -message => "Please specify a valid input with --i <file.csv>\n",
         -exitval => 1
-    ) unless ( $input && -f $input );
+    ) unless ( $input && $input =~ m/\.csv/ && -f $input );
     pod2usage(
         -message => "Please specify a --primary-key <my_string>\n",
         -exitval => 1
@@ -77,7 +77,7 @@ use Data::Dumper;
 use Path::Tiny;
 use File::Basename;
 use Scalar::Util qw(looks_like_number);
-use YAML::XS qw(LoadFile DumpFile);
+use YAML::XS     qw(LoadFile DumpFile);
 use JSON::XS;
 use Text::CSV_XS;
 
@@ -188,7 +188,7 @@ sub read_csv {
             for my $key ( keys %data ) {
 
                 # Check numeric (0/1) 073123 -- NON-USED
-                $numeric{$key} =  looks_like_number($data{$key}) ? 1 : 0;
+                $numeric{$key} = looks_like_number( $data{$key} ) ? 1 : 0;
 
                 # Check array/non-array
                 if ( $data{$key} =~ /,/ ) {
@@ -248,10 +248,16 @@ sub create_config {
     if ( scalar @arrays ) {
 
         # NB: Can't use $array more than once in the hash ref below. Need to deref
-        $config->{array_terms}   = [@arrays];
-        $config->{allowed_terms} = [ @non_arrays, @arrays ];
-        $config->{id_correspondence} =
-          { CSV => [ map { $_ = { $_ => $_ } } @arrays ] };
+        $config->{array_terms}       = [@arrays];
+        $config->{allowed_terms}     = [ @non_arrays, @arrays ];
+        $config->{id_correspondence} = {
+            CSV => [
+                map {
+                    my $val = $_;
+                    $val = { $_ => $_ }
+                } @arrays
+            ]
+        };
 
     }
     return $config;

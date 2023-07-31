@@ -7,7 +7,7 @@ use Test::More tests => 3; # Indicate the number of tests you want to run
 use File::Compare;
 
 # The command line script to be tested
-my $script = './sim/create_random_bff_pxf.pl';
+my $script = 'utils/bff-pxf-simulator/bff_pxf_simulator';
 
 ##########
 # TEST 1 #

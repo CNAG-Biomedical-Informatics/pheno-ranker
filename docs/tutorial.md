@@ -93,11 +93,11 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
     | Format      | Required properties | Optional properties | Pre-configured |
     | ----------- | ------------------- | ------------------- |  -----  | 
     | BFF / PXF   | `primary_key, allowed_terms, array_terms, array_regex, id_correspondence` | `format` | ✓ |
-    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, array_regex, id_correspondence` |  |   |
+    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, id_correspondence` | `array_regex` |   |
     | Others (`non-array`) |  `primary_key, allowed_terms` | `format` |   |
 
 
-     * These are the properties needeed to map your data to the entity `individuals` in the Beacon v2 Models:
+     * Where:
         - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
         - **primary_key**, the key that will be used as an item identifier.
         - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
@@ -184,3 +184,16 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 === "Inter-catalog comparison"
 
 
+=== "Timings"
+
+    Expected times:
+
+    | Rows  | Time (Cohort)        | Time (Patient)  |
+    | ---  | ----------- | ---- |
+    | 50 | 0.5s| 0.5s |
+    | 100 | 0.5s| 0.5s |
+    | 500 | 1s| 1s |
+    | 1K | 1s| 1s |
+    | 10K | 1s| 1s |
+    | 100K | 1s| 1s |
+    | 1M   |  |

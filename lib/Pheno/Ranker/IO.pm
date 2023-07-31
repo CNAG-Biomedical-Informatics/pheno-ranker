@@ -164,7 +164,7 @@ sub validate_json {
     my $data = ( $file && -f $file ) ? read_yaml($file) : undef;
 
     # Premature return with undef if the file does not exist
-    return undef unless defined $data;
+    return undef unless defined $data;    #perlcritic severity 5
 
     # schema for the weights file
     my $schema = {
