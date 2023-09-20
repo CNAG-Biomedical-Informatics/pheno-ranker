@@ -25,7 +25,7 @@ my $input_file = catfile( 't', 'individuals.json' );
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
     # Run the command line script with the input file, and redirect the output to the output_file
-    system("$script -r $input_file -o $tmp_file");
+    system("perl $script -r $input_file -o $tmp_file");
 
     # Compare the output_file and the reference_file
     ok(
