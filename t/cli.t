@@ -1,34 +1,37 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-
-use File::Temp qw{ tempfile };    # core
-use Test::More tests => 3; # Indicate the number of tests you want to run
+use File::Spec::Functions qw(catfile);
+use File::Temp            qw{ tempfile };    # core
+use Test::More tests => 3;                   # Indicate the number of tests you want to run
 use File::Compare;
 
 # The command line script to be tested
-my $script = 'bin/pheno-ranker';
+my $script = catfile( 'bin', 'pheno-ranker' );
 
 # Input file for the command line script, if needed
-my $input_file = 't/individuals.json';
+my $input_file = catfile( 't', 'individuals.json' );
 
 ##########
 # TEST 1 #
 ##########
 
 {
-# The reference file to compare the output with
-my $reference_file = 't/matrix_ref.txt';
+    # The reference file to compare the output with
+    my $reference_file = catfile( 't', 'matrix_ref.txt' );
 
-# The generated output file
-my ( undef, $tmp_file ) =
+    # The generated output file
+    my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-# Run the command line script with the input file, and redirect the output to the output_file
-system("$script -r $input_file -o $tmp_file");
+    # Run the command line script with the input file, and redirect the output to the output_file
+    system("$script -r $input_file -o $tmp_file");
 
-# Compare the output_file and the reference_file
-ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
+    # Compare the output_file and the reference_file
+    ok(
+        compare( $tmp_file, $reference_file ) == 0,
+        qq/Output matches the <$reference_file> file/
+    );
 }
 
 ##########
@@ -36,19 +39,24 @@ ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$referen
 ##########
 
 {
-my $patient_file = 't/patient.json';
-my $reference_file = 't/rank_ref_sorted.txt';
-my $weights_file = 't/weights.yaml';
+    my $patient_file   = catfile( 't', 'patient.json' );
+    my $reference_file = catfile( 't', 'rank_ref_sorted.txt' );
+    my $weights_file   = catfile( 't', 'weights.yaml' );
 
-# The generated output file
-my ( undef, $tmp_file ) =
+    # The generated output file
+    my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-# Run the command line script with the input file, and redirect the output to the output_file
-system("$script -r $input_file -t $patient_file | sort -k2 | cut -f2-> $tmp_file");
+    # Run the command line script with the input file, and redirect the output to the output_file
+    system(
+"$script -r $input_file -t $patient_file | sort -k2 | cut -f2-> $tmp_file"
+    );
 
-# Compare the output_file and the reference_file
-ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
+    # Compare the output_file and the reference_file
+    ok(
+        compare( $tmp_file, $reference_file ) == 0,
+        qq/Output matches the <$reference_file> file/
+    );
 }
 
 ##########
@@ -56,17 +64,22 @@ ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$referen
 ##########
 
 {
-my $patient_file = 't/patient.json';
-my $reference_file = 't/rank_weight_ref_sorted.txt';
-my $weights_file = 't/weights.yaml';
+    my $patient_file   = catfile( 't', 'patient.json' );
+    my $reference_file = catfile( 't', 'rank_weight_ref_sorted.txt' );
+    my $weights_file   = catfile( 't', 'weights.yaml' );
 
-# The generated output file
-my ( undef, $tmp_file ) =
+    # The generated output file
+    my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-# Run the command line script with the input file, and redirect the output to the output_file
-system("$script -r $input_file -t $patient_file -w $weights_file | sort -k2 | cut -f2-> $tmp_file");
+    # Run the command line script with the input file, and redirect the output to the output_file
+    system(
+"$script -r $input_file -t $patient_file -w $weights_file | sort -k2 | cut -f2-> $tmp_file"
+    );
 
-# Compare the output_file and the reference_file
-ok( compare( $tmp_file, $reference_file ) == 0,  qq/Output matches the <$reference_file> file/);
+    # Compare the output_file and the reference_file
+    ok(
+        compare( $tmp_file, $reference_file ) == 0,
+        qq/Output matches the <$reference_file> file/
+    );
 }
