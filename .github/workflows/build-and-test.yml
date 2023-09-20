@@ -27,11 +27,11 @@ jobs:
       - run: perl -V
       - run: cpanm -n --installdeps .
       - run: prove -l t
-#      - name: Run tests (with coverage)
-#        if: ${{ matrix.perl == '5.30' && matrix.os == 'ubuntu-latest' }}
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: |
-#          perl Makefile.PL
-#          cpanm -n Devel::Cover::Report::Coveralls
-#          cover -test -report Coveralls
+      - name: Run tests (with coverage)
+        if: ${{ matrix.perl == '5.30' && matrix.os == 'ubuntu-latest' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          perl Makefile.PL
+          cpanm -n Devel::Cover::Report::Coveralls
+          cover -test -report Coveralls
