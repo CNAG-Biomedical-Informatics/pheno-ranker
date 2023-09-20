@@ -4,6 +4,7 @@ requires 'JSON::XS';
 requires 'YAML::XS';
 requires 'Path::Tiny';
 requires 'Term::ANSIColor';
+requires 'Text::CSV_XS';
 requires 'Hash::Fold';
 requires 'Sort::Naturally';
 requires 'Math::CDF';
@@ -14,5 +15,6 @@ requires 'File::ShareDir::ProjectDistDir';
 # t
 requires 'Test::Exception';
 
-# sim
+# utils
 requires 'Data::Fake';
+requires 'Text::CSV_XS';
