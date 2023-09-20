@@ -30,10 +30,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx create --name elbuilder
-          docker buildx use elbuilder
-          docker buildx inspect --bootstrap
-          docker buildx build --push --tag manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} -o type=image --platform=linux/arm64,linux/amd64 .
+          docker buildx build --tag manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} -o type=image --platform=linux/arm64,linux/amd64 --push .
           #docker build -t manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} .
           docker tag manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} manuelrueda/pheno-ranker:latest
 
