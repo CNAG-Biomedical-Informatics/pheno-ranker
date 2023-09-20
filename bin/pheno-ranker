@@ -2,7 +2,7 @@
 #
 #   A script that performs semantic similarity in PXF|BFF data structures
 #
-#   Last Modified: Jul/27/2023
+#   Last Modified: Sep/29/2023
 #
 #   Version 0.00
 #
@@ -11,6 +11,8 @@
 #   License: Artistic License 2.0
 #
 #   If this program helps you in your research, please cite.
+
+package main;
 
 use strict;
 use warnings;
@@ -23,6 +25,7 @@ use Sys::Hostname;
 use File::Spec::Functions qw(catdir catfile);
 use POSIX                 qw(strftime);
 use Term::ANSIColor       qw(:constants);
+use File::ShareDir::ProjectDistDir qw(dist_dir);
 use FindBin               qw($Bin);
 use lib "$Bin/../lib";
 use Pheno::Ranker qw($VERSION write_json);
@@ -36,6 +39,7 @@ sub pheno_ranker {
 
     # Defining a few variables
     my $out_file       = 'matrix.txt';
+    my $share_dir   = dist_dir('Pheno-Ranker');
     my $align_basename = 'alignment';
     my $log_file       = 'pheno-ranker-log.json';
     my $color          = 1;
@@ -130,13 +134,26 @@ sub write_log {
 
     my ( $log, $data, $VERSION ) = @_;
 
-    # NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
-    chomp( my $os = qx{uname} );
-    chomp( my $ncpuhost = $os eq 'Darwin' ? qx{/usr/sbin/sysctl -n hw.logicalcpu} : qx{/usr/bin/nproc} // 1 );
+# NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
+    my $os = $^O;
+    chomp(
+        my $ncpuhost =
+          lc($os) eq 'darwin' ? qx{/usr/sbin/sysctl -n hw.logicalcpu}
+        : $os eq 'MSWin32' ? qx{wmic cpu get NumberOfLogicalProcessors}
+        :                    qx{/usr/bin/nproc} // 1
+    );
+
+    # For the Windows command, the result will also contain the string
+    # "NumberOfLogicalProcessors" which is the header of the output.
+    # So we need to extract the actual number from it:
+    if ( $os eq 'MSWin32' ) {
+        ($ncpuhost) = $ncpuhost =~ /(\d+)/;
+    }
+    $ncpuhost = 0 + $ncpuhost;    # coercing it to be a number
 
     my $info = {
         date     => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
-        ncpuhost => ( 0 + $ncpuhost ),                                # coercing it to be a number
+        ncpuhost => $ncpuhost,
         hostname => hostname,
         id       => time . substr( "00000$$", -5 ),                   # string
         version  => $VERSION,

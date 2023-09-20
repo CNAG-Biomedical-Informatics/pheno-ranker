@@ -10,6 +10,7 @@ use Cwd                   qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
 use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef);
+use File::ShareDir::ProjectDistDir qw(dist_dir);
 use List::Util      qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
@@ -21,7 +22,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
 our $VERSION  = '0.00';
-our $lib_path = dirname( abs_path(__FILE__) );
+our $share_dir = dist_dir('Pheno-Ranker');
 use constant DEVEL_MODE => 0;
 
 # Misc variables
@@ -29,7 +30,7 @@ my (
     $config_sort_by, $config_max_out, $config_max_number_var,
     $config_seed,    @config_allowed_terms
 );
-my $default_config_file = catfile( $lib_path, '../../conf/config.yaml' );
+my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
 
 ############################################
 # Start declaring attributes for the class #
@@ -123,9 +124,9 @@ has max_number_var => (
 );
 
 has hpo_file => (
-    default => catfile( $lib_path, '../../db/hp.json' ),
+    default => catfile( $share_dir, 'db', 'hp.json' ),
     coerce  => sub {
-        $_[0] // catfile( $lib_path, '../../db/hp.json' );
+        $_[0] // catfile( $share_dir, 'db', 'hp.json' );
     },
     is  => 'ro',
     isa => sub { die "$_[0] is not a valid file" unless -e $_[0] },
@@ -425,6 +426,8 @@ sub run {
     # NB: Must work for -r and -t
     serialize_hashes($hash2serialize) if $export;
 
+    # Return
+    return 1;
 }
 
 sub add_attribute {
