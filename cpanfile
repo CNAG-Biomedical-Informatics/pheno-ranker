@@ -6,7 +6,7 @@ requires 'Path::Tiny';
 requires 'Term::ANSIColor';
 requires 'Text::CSV_XS';
 requires 'Moo';
-requires 'Scalar::Util';
+requires 'Scalar::Util', '1.50';
 requires 'Hash::Fold';
 requires 'Sort::Naturally';
 requires 'Math::CDF';
