@@ -9,6 +9,7 @@ requires 'Sort::Naturally';
 requires 'Math::CDF';
 requires 'Statistics::Descriptive';
 requires 'JSON::Validator';
+requires 'File::ShareDir::ProjectDistDir';
 
 # t
 requires 'Test::Exception';
