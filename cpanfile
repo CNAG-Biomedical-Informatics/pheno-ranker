@@ -5,6 +5,8 @@ requires 'YAML::XS';
 requires 'Path::Tiny';
 requires 'Term::ANSIColor';
 requires 'Text::CSV_XS';
+requires 'Moo';
+requires 'Scalar-List-Utils';
 requires 'Hash::Fold';
 requires 'Sort::Naturally';
 requires 'Math::CDF';

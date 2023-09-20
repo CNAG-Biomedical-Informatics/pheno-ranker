@@ -293,6 +293,7 @@ sub shuffle_slice {
 
     my ( $max, $array ) = @_;
 
+    # head   -> 1.50 List::Util (5.26 has 1.4602)
     #my @items = sample $count, @values; # 1.54 List::Util
     my @slice          = defined $max ? head $max, @$array : @$array;    # slice of refs
     my @shuffled_slice = shuffle @slice;
