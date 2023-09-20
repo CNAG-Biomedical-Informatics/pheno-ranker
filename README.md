@@ -237,6 +237,12 @@ There are two modes of operation:
     * Error message: Foo
       Solution: Bar
 
+# CITATION
+
+The author requests that any published work that utilizes `Convert-Pheno` includes a cite to the the following reference:
+
+Rueda, M et al., (2024). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. _Submitted_.
+
 # AUTHOR 
 
 Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.crg.eu](https://www.cnag.crg.eu).

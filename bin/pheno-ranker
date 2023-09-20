@@ -403,6 +403,12 @@ B<Examples:>
  * Error message: Foo
    Solution: Bar
 
+=head1 CITATION
+
+The author requests that any published work that utilizes C<Convert-Pheno> includes a cite to the the following reference:
+
+Rueda, M et al., (2024). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. I<Submitted>.
+
 =head1 AUTHOR 
 
 Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.crg.eu>.

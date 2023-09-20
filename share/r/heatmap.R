@@ -13,3 +13,4 @@ png(filename = "heatmap.png", width = 1000, height = 1000,
 #heatmap(data, Rowv = FALSE, Colv = FALSE, labRow = rownames(data), labCol = colnames(data))
 pheatmap(data)
 #heatmaply(data)
+#dev.off()

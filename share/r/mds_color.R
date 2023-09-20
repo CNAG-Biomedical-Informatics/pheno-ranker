@@ -1,5 +1,7 @@
 library(ggplot2)
 library(ggrepel)
+library(dplyr)
+library(stringr)
 
 # Read in the input file as a matrix 
 data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
@@ -17,12 +19,15 @@ y <- fit$points[,2]
 # Create example data frame
 df <- data.frame(x, y, label=row.names(data))
 
+# Add a new variable to the data frame based on the label prefixes
+df <- df %>% mutate(label_prefix = str_extract(label, "^[^_]*_"))
+
 # Save image
 png(filename = "mds.png", width = 1000, height = 1000,
     units = "px", pointsize = 12, bg = "white", res = NA)
 
 # Create scatter plot
-ggplot(df, aes(x, y, label = label)) +
+ggplot(df, aes(x, y, label = label, color = label_prefix)) +
   geom_point() +
   geom_text_repel(size = 5, # Adjust the size of the text
                   box.padding = 0.2, # Adjust the padding around the text
@@ -33,4 +38,7 @@ ggplot(df, aes(x, y, label = label)) +
   theme(
         plot.title = element_text(size = 30, face = "bold", hjust = 0.5),
         axis.title = element_text(size = 25),
-        axis.text = element_text(size = 15)) 
+        axis.text = element_text(size = 15),
+        legend.position = "none") # remove legend
+
+dev.off()

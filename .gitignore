@@ -8,11 +8,15 @@ clean.sh
 /blib/
 __pycache__/
 /cover_db/
+/stats/
+/nytprof/
 /Makefile
 /MANIFEST
+/TO_DO.md
 /META*
 /MYMETA*
 /pm_to_blib
 bck/
 old/
 _Inline/
+ori/
