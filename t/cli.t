@@ -18,9 +18,9 @@ SKIP: {
     # Linux commands don't run on windows
     skip qq{Sipping WIn32 tests}, 3 if IS_WINDOWS;
 
-##########
+    ##########
     # TEST 1 #
-##########
+    ##########
 
     {
         # The reference file to compare the output with
@@ -40,14 +40,13 @@ SKIP: {
         );
     }
 
-##########
+    ##########
     # TEST 2 #
-##########
+    ##########
 
     {
         my $patient_file   = catfile( 't', 'patient.json' );
         my $reference_file = catfile( 't', 'rank_ref_sorted.txt' );
-        my $weights_file   = catfile( 't', 'weights.yaml' );
 
         # The generated output file
         my ( undef, $tmp_file ) =
@@ -55,7 +54,7 @@ SKIP: {
 
         # Run the command line script with the input file, and redirect the output to the output_file
         system(
-"$script -r $input_file -t $patient_file | sort -k2 | cut -f2-> $tmp_file"
+"$script -r $input_file -t $patient_file --align | sort -k2 | cut -f2-> $tmp_file"
         );
 
         # Compare the output_file and the reference_file
@@ -63,11 +62,31 @@ SKIP: {
             compare( $tmp_file, $reference_file ) == 0,
             qq/Output matches the <$reference_file> file/
         );
+
+        # Compare with the 3 x --align files
+        $reference_file =  'alignment_ref.csv';
+         ok(
+            compare( 'alignment.txt', $reference_file ) == 0,
+            qq/Output matches the <$reference_file> file/
+        );
+
+          $reference_file =  'alignment_ref.target.csv';
+         ok(
+            compare( 'alignment.target.csv', $reference_file ) == 0,
+            qq/Output matches the <$reference_file> file/
+        );
+
+         $reference_file = 'alignment_ref.txt';
+        ok(
+            compare( 'alignment.txt', $reference_file ) == 0,
+            qq/Output matches the <$reference_file> file/
+        );
+
     }
 
-##########
+    ##########
     # TEST 3 #
-##########
+    ##########
 
     {
         my $patient_file   = catfile( 't', 'patient.json' );
