@@ -18,6 +18,7 @@ jobs:
           perl-version: ${{ matrix.perl }}
       - run: perl -V
       - run: cpanm -n --installdeps .
-      - run: perl t/args.t
-      - run: perl t/cli.t
+      - run: dir
+#      - run: perl t/args.t
+#      - run: perl t/cli.t
       - run: prove -l t
