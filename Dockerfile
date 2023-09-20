@@ -1,5 +1,5 @@
-#FROM ubuntu
-FROM perl:5.36-bullseye
+FROM ubuntu:latest
+#FROM perl:5.36-bullseye # Build fails with PyPerler
 
 # File Author / Maintainer
 LABEL maintainer Manuel Rueda <manuel.rueda@cnag.eu>
