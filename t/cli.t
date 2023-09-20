@@ -7,7 +7,7 @@ use Test::More tests => 3;                   # Indicate the number of tests you 
 use File::Compare;
 
 # The command line script to be tested
-my $script = catfile( 'bin', 'pheno-ranker.pl' );
+my $script = catfile( './bin', 'pheno-ranker' );
 
 # Input file for the command line script, if needed
 my $input_file = catfile( 't', 'individuals.json' );
@@ -25,7 +25,7 @@ my $input_file = catfile( 't', 'individuals.json' );
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
     # Run the command line script with the input file, and redirect the output to the output_file
-    system("perl $script -r $input_file -o $tmp_file");
+    system("$script -r $input_file -o $tmp_file");
 
     # Compare the output_file and the reference_file
     ok(
