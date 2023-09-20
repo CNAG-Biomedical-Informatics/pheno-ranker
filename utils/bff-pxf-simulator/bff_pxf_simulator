@@ -89,7 +89,7 @@ use feature qw(say);
 #use Data::Printer;
 use Data::Dumper;
 use Path::Tiny;
-use List::Util qw(head shuffle);
+use List::Util 1.50 qw(head shuffle);
 use JSON::XS;
 use Data::Fake qw(Core Company Dates Names);
 use FindBin    qw($Bin);
