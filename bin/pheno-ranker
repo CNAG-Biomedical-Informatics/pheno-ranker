@@ -17,16 +17,16 @@ package main;
 use strict;
 use warnings;
 use autodie;
-use feature      qw(say);
+use feature qw(say);
 use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Data::Dumper;
 use Sys::Hostname;
 use File::Spec::Functions qw(catdir catfile);
-use POSIX                 qw(strftime);
-use Term::ANSIColor       qw(:constants);
+use POSIX qw(strftime);
+use Term::ANSIColor qw(:constants);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
-use FindBin               qw($Bin);
+use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use Pheno::Ranker qw($VERSION write_json);
 
@@ -38,12 +38,14 @@ exit;
 sub pheno_ranker {
 
     # Defining a few variables
-    my $out_file       = 'matrix.txt';
-    my $share_dir   = dist_dir('Pheno-Ranker');
-    my $align_basename = 'alignment';
-    my $log_file       = 'pheno-ranker-log.json';
-    my $color          = 1;
-    my $age            = 0;
+    my $share_dir       = dist_dir('Pheno-Ranker');
+    my $out_file        = 'matrix.txt';
+    my $export_basename = 'export';
+    my $align_basename  = 'alignment';
+    my $log_file        = 'pheno-ranker-log.json';
+    my $color           = 1;
+    my $age             = 0;
+    my $cli             = 1;
 
     # Reading arguments
     GetOptions(
@@ -55,8 +57,8 @@ sub pheno_ranker {
         'max-out:i'                      => \my $max_out,                   # integer
         'max-number-var:i'               => \my $max_number_var,            # integer
         'include-hpo-ascendants'         => \my $include_hpo_ascendants,    # flag
-        'export|e'                       => \my $export,                    # flag
-        'align:s'                        => \my $align,                     # opt-string (defined)
+        'export|e:s'                     => \my $export,                    # opt-string (defined)
+        'align|a:s'                      => \my $align,                     # opt-string (defined)
         'sort-by=s'                      => \my $sort_by,                   # string
         'patients-of-interest|poi=s{1,}' => \my @patients_of_interest,      # array
         'poi-out-dir=s'                  => \my $poi_out_dir,               # string
@@ -99,6 +101,7 @@ sub pheno_ranker {
         align                  => $align,
         align_basename         => $align_basename,
         export                 => $export,
+        export_basename        => $export_basename,
         out_file               => $out_file,
         max_out                => $max_out,
         max_number_var         => $max_number_var,
@@ -109,6 +112,7 @@ sub pheno_ranker {
         exclude_terms          => \@exclude_terms,
         config_file            => $config_file,
         age                    => $age,                      # Solution, use ageRange in PXF/BFF, measures' values more difficult
+        cli                    => $cli,
         append_prefixes        => \@append_prefixes,
         log                    => $log,
         debug                  => $debug,
@@ -134,7 +138,7 @@ sub write_log {
 
     my ( $log, $data, $VERSION ) = @_;
 
-# NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
+    # NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
     my $os = $^O;
     chomp(
         my $ncpuhost =
@@ -152,12 +156,15 @@ sub write_log {
     $ncpuhost = 0 + $ncpuhost;    # coercing it to be a number
 
     my $info = {
-        date     => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
-        ncpuhost => $ncpuhost,
-        hostname => hostname,
-        id       => time . substr( "00000$$", -5 ),                   # string
-        version  => $VERSION,
-        user     => $ENV{'LOGNAME'} || $ENV{'USER'} || $ENV{'USERNAME'} || 'dummy-user'
+        date      => ( strftime "%a %b %e %H:%M:%S %Y", localtime ),
+        ncpuhost  => $ncpuhost,
+        hostname  => hostname,
+        id        => time . substr( "00000$$", -5 ),                   # string
+        version   => $VERSION,
+             user => $ENV{'LOGNAME'}
+          || $ENV{'USER'}
+          || $ENV{'USERNAME'}
+          || 'dummy-user'
     };
 
     # Saving file
@@ -202,10 +209,10 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
 
      Options:
        -age                           Include age-related variables [>no-age|age]
-       -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
+       -a|align                       Write alignment file(s). If no argument is given the files will be named [alignment.*]
        -append-prefixes               The prefixes to be added to the primary_key of individuals when #cohorts >= 2 [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
-       -e|export                      Export miscellanea JSON files
+       -e|export                      Export miscellanea JSON files. If no argument is given the files will be named [export.*]
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)

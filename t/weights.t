@@ -2,9 +2,6 @@
 use strict;
 use warnings;
 use lib ( './lib', '../lib' );
-
-#use feature               qw(say);
-#use File::Spec::Functions qw(catdir catfile);
 use Test::Exception tests => 2;
 use Pheno::Ranker;
 

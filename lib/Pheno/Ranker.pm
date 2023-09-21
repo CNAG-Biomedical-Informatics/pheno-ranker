@@ -5,13 +5,13 @@ use warnings;
 use autodie;
 use feature qw(say);
 use Data::Dumper;
-use File::Basename        qw(dirname);
-use Cwd                   qw(abs_path);
+use File::Basename qw(dirname);
+use Cwd qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
-use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef);
+use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef Bool);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
-use List::Util      qw(all);
+use List::Util qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
@@ -21,7 +21,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION  = '0.00_0';
+our $VERSION   = '0.00_0';
 our $share_dir = dist_dir('Pheno-Ranker');
 use constant DEVEL_MODE => 0;
 
@@ -80,7 +80,7 @@ has 'config_file' => (
           // '';                                                               # setter
         $self->{array_terms} = $config->{array_terms} // ['foo'];              # setter - To validate
         $self->{array_regex} = $config->{array_regex} // '^(\w+):(\d+)';       # setter - To validate
-        $self->{format} = $config->{format};                                   # setter
+        $self->{format}      = $config->{format};                              # setter
 
         # Validate $config->{id_correspondence} if we have "real" array_terms
         if ( $self->{array_terms}[0] ne 'foo' ) {
@@ -94,7 +94,8 @@ has 'config_file' => (
 
             # Validate format if exists and check that has a match in config->{id_correspondence}
             if ( exists $config->{format} && Str->check( $config->{format} ) ) {
-                die "<$config->{format}> does not match any key from <id_correspondence>\n"
+                die
+"<$config->{format}> does not match any key from <id_correspondence>\n"
                   unless
                   exists $config->{id_correspondence}{ $config->{format} };
             }
@@ -156,21 +157,26 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
           unless all {
             my $term = $_;
             grep { $_ eq $term } @config_allowed_terms
-          } @$value;
+        }
+        @$value;
     },
     default => sub { [] },
 );
 
+has 'cli' => (
+    is      => 'rw',
+    isa     => Bool,
+    default => 0,                                    # Set the default value to 0
+    coerce  => sub { defined $_[0] ? $_[0] : 0 },    # Coerce to 0 if undefined
+);
+
 # Miscellanea atributes here
 has [
-    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export log verbose age/
+    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export export_basename log verbose age/
 ] => ( is => 'ro' );
 
 has [qw /append_prefixes reference_files patients_of_interest/] =>
   ( default => sub { [] }, is => 'ro' );
-
-#has [qw /test print_hidden_labels self_validate_schema path_to_ohdsi_db/] =>
-#. ( default => undef, is => 'ro' );
 
 ##########################################
 # End declaring attributes for the class #
@@ -227,6 +233,7 @@ sub run {
     my $target_file            = $self->{target_file};
     my $weights_file           = $self->{weights_file};
     my $export                 = $self->{export};
+    my $export_basename        = $self->{export_basename};
     my $include_hpo_ascendants = $self->{include_hpo_ascendants};
     my $hpo_file               = $self->{hpo_file};
     my $align                  = $self->{align};
@@ -239,11 +246,16 @@ sub run {
     my $primary_key            = $self->{primary_key};
     my $poi                    = $self->{patients_of_interest};
     my $poi_out_dir            = $self->{poi_out_dir};
+    my $cli                    = $self->{cli};
 
     # die if --align dir does not exist
-    my $directory = defined $align ? dirname($align) : '.';
-    die "Directory <$directory> does not exist (used with --align)\n"
-      unless -d $directory;
+    my $align_dir = defined $align ? dirname($align) : '.';
+    die "Directory <$align_dir> does not exist (used with --align)\n"
+      unless -d $align_dir;
+
+    my $export_dir = defined $export ? dirname($export) : '.';
+    die "Directory <$export_dir> does not exist (used with --export)\n"
+      unless -d $export_dir;
 
     # We assing weights if <--w>
     # NB: The user can exclude variables by using variable: 0
@@ -400,13 +412,13 @@ sub run {
             }
           );
 
-        # Print Ranked results to STDOUT
-        say join "\n", @$results_rank;
+        # Print Ranked results to STDOUT if CLI
+        say join "\n", @$results_rank if $cli;
 
         # Write TXT for alignment
         write_alignment(
             {
-                align     => $align ? $align : $align_basename,
+                align     => $align ? $align : $align_basename,    # DON'T -- $align // $align_basename,
                 ascii     => $alignment_ascii,
                 dataframe => $alignment_dataframe,
                 csv       => $alignment_csv
@@ -414,7 +426,7 @@ sub run {
         ) if defined $align;
 
         # Load keys into hash if <--e>
-        if ($export) {
+        if ( defined $export ) {
             $hash2serialize->{tar_hash}        = $tar_hash;
             $hash2serialize->{tar_binary_hash} = $tar_binary_hash;
             $hash2serialize->{alignment_hash}  = $results_align
@@ -424,7 +436,12 @@ sub run {
 
     # Dump to JSON if <--export>
     # NB: Must work for -r and -t
-    serialize_hashes($hash2serialize) if $export;
+    serialize_hashes(
+        {
+            data            => $hash2serialize,
+            export_basename => $export ? $export : $export_basename
+        }
+    ) if defined $export;
 
     # Return
     return 1;

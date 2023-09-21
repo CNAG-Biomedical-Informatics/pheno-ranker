@@ -41,10 +41,10 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 
      Options:
        -age                           Include age-related variables [>no-age|age]
-       -align                         Write alignment file(s). If no argument is given the files will be named [alignment.*]
+       -a|align                       Write alignment file(s). If no argument is given the files will be named [alignment.*]
        -append-prefixes               The prefixes to be added to the primary_key of individuals when #cohorts >= 2 [C]
        -config                        YAML config file to change default parameters [conf/config.yaml)
-       -e|export                      Export miscellanea JSON files
+       -e|export                      Export miscellanea JSON files. If no argument is given the files will be named [export.*]
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)

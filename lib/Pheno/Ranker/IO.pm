@@ -26,8 +26,10 @@ use constant DEVEL_MODE => 0;
 sub serialize_hashes {
 
     my $arg = shift;
-    write_json( { data => $arg->{$_}, filepath => qq/$_.json/ } )
-      for keys %{$arg};
+    my $data = $arg->{data};
+    my $export_basename = $arg->{export_basename};
+    write_json( { data => $data->{$_}, filepath => qq/$export_basename.$_.json/ } )
+      for keys %{$data};
     return 1;
 }
 
@@ -52,6 +54,7 @@ sub write_alignment {
         print $fh "\n";
         close $fh;
     }
+   return 1;
 }
 
 sub io_yaml_or_json {

@@ -2,12 +2,34 @@
 use strict;
 use warnings;
 use File::Spec::Functions qw(catfile);
-use File::Temp            qw{ tempfile };    # core
-use Test::More tests => 4;                   # Indicate the number of tests you want to run
+use File::Temp qw{ tempfile };    # core
+use Test::More tests => 4;        # Indicate the number of tests you want to run
 use File::Compare;
+use lib ( './lib', '../lib' );
+use Pheno::Ranker;
 
-# The command line script to be tested
-my $script = catfile( 'bin', 'pheno-ranker' );
+my $data = {
+    "age"                    => 0,
+    "align"                  => undef,
+    "align_basename"         => "alignment",
+    "append_prefixes"        => [],
+    "cli"                    => undef,
+    "debug"                  => undef,
+    "exclude_terms"          => [],
+    "export"                 => undef,
+    "hpo_file"               => undef,
+    "include_hpo_ascendants" => undef,
+    "include_terms"          => [],
+    "log"                    => "",
+    "max_number_var"         => undef,
+    "max_out"                => 36,
+    "patients_of_interest"   => [],
+    "poi_out_dir"            => undef,
+    "sort_by"                => undef,
+    "target_file"            => undef,
+    "verbose"                => undef,
+    "weights_file"           => undef
+};
 
 ##########
 # TEST 1 #
@@ -26,8 +48,16 @@ my $script = catfile( 'bin', 'pheno-ranker' );
     my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-    # Run the command line script with the input file, and redirect the output to the output_file
-    system("$script -r $input_file -o $tmp_file --config $config");
+    # Update valules
+    $data->{config_file}     = $config;
+    $data->{out_file}        = $tmp_file;
+    $data->{reference_files} = [$input_file];
+
+    # Create obj
+    my $ranker = Pheno::Ranker->new($data);
+
+    # Method 'run'
+    $ranker->run;
 
     # Compare the output_file and the reference_file
     ok(
@@ -41,22 +71,22 @@ my $script = catfile( 'bin', 'pheno-ranker' );
 ##########
 
 {
-    # Input file for the command line script, if needed
-    my $input_file = catfile( 't', 'movies.json' );
-
     # The reference file to compare the output with
     my $reference_file = catfile( 't', 'ref_movies_include_matrix.txt' );
-
-    my $config = catfile( 't', 'movies_config.yaml' );
 
     # The generated output file
     my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-    # Run the command line script with the input file, and redirect the output to the output_file
-    system(
-"$script -r $input_file -o $tmp_file --config $config --include-terms country year"
-    );
+    # Update valules
+    $data->{out_file}      = $tmp_file;
+    $data->{include_terms} = [qw/country year/];
+
+    # Create obj
+    my $ranker = Pheno::Ranker->new($data);
+
+    # Method 'run'
+    $ranker->run;
 
     # Compare the output_file and the reference_file
     ok(
@@ -70,22 +100,24 @@ my $script = catfile( 'bin', 'pheno-ranker' );
 ##########
 
 {
-    # Input file for the command line script, if needed
-    my $input_file = catfile( 't', 'movies.json' );
-
     # The reference file to compare the output with
     my $reference_file = catfile( 't', 'ref_movies_weights_matrix.txt' );
-
-    my $config = catfile( 't', 'movies_config.yaml' );
-
-    my $weights = catfile( 't', 'movies_weights.yaml' );
+    my $weights        = catfile( 't', 'movies_weights.yaml' );
 
     # The generated output file
     my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-    # Run the command line script with the input file, and redirect the output to the output_file
-    system("$script -r $input_file -o $tmp_file --config $config -w $weights");
+    # Update valules
+    $data->{out_file}      = $tmp_file;
+    $data->{weights_file}  = $weights;
+    $data->{include_terms} = [];
+
+    # Create obj
+    my $ranker = Pheno::Ranker->new($data);
+
+    # Method 'run'
+    $ranker->run;
 
     # Compare the output_file and the reference_file
     ok(
@@ -111,8 +143,17 @@ my $script = catfile( 'bin', 'pheno-ranker' );
     my ( undef, $tmp_file ) =
       tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
-    # Run the command line script with the input file, and redirect the output to the output_file
-    system("$script -r $input_file -o $tmp_file --config $config");
+    # Update valules
+    $data->{out_file}        = $tmp_file;
+    $data->{config_file}     = $config;
+    $data->{weights_file}    = undef;
+    $data->{reference_files} = [$input_file];
+
+    # Create obj
+    my $ranker = Pheno::Ranker->new($data);
+
+    # Method 'run'
+    $ranker->run;
 
     # Compare the output_file and the reference_file
     ok(
