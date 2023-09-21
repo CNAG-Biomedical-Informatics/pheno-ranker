@@ -79,7 +79,7 @@ Pheno-Ranker is a lightweight and easily to install tool specifically designed f
 
 ### Method 1: From Docker Hub
 
-Download a docker image (latest version) from [Docker Hub](https://hub.docker.com/r/manuelrueda/pheno-ranker) by executing:
+Download a docker image (latest version - amd64|x86-64) from [Docker Hub](https://hub.docker.com/r/manuelrueda/pheno-ranker) by executing:
 
     docker pull manuelrueda/pheno-ranker:latest
     docker image tag manuelrueda/pheno-ranker:latest cnag/pheno-ranker:latest

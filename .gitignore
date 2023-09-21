@@ -1,5 +1,6 @@
 *.sh
 *.txt
+!t/ref_align.txt
 *.bck
 *.old
 *.swp
