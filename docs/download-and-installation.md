@@ -1,29 +1,46 @@
 !!! Info "Where should I install it?"
-    `Pheno-Ranker` is a software that must be installed **locally** in a Linux (or MacOS) server/workstation. 
+    `Pheno-Ranker` is software designed for local installation on Linux or MacOS server/workstations. It is also compatible with Windows Server OS for Windows users.
 
 We provide several alternatives (containerized and non-containerized) for download and installation.
 
-## Containerized (Recommended Method)
+!!! Question "Which download method should I use?"
+    It depends in which components you want to use and your fluency in performing installations on Linux environments. Usually, most people use the [CLI](use-as-a-command-line-interface.md).
+
+    | Use case | Method  |
+    | --  | -- |
+    | CLI |  3 (CPAN) |
+    | CLI (conda) | 4 (CPAN in Conda env)|
+    | API | 1 or 2 (Docker) |
+    | Web App UI | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui)
+
+## Containerized
+
+With the containerized version you get:
+
+* Module
+* CLI
+* APIs
 
 === "Method 1: From Docker Hub"
 
-    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/convert-pheno#method-1-from-docker-hub).
+    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/pheno-ranker#method-1-from-docker-hub).
 
 === "Method 2: With Dockerfile"
 
-    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/convert-pheno#method-2-with-dockerfile).
+    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/pheno-ranker#method-2-with-dockerfile).
 
 ## Non-Containerized
 
-=== "Method 3: From Github"
+=== "Method 3: From CPAN"
 
-    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/convert-pheno#non-containerized).
+    The core of software is a module implemented in `Perl` and it is available in the Comprehensive Perl Archive Network (CPAN). See the description [here](https://metacpan.org/pod/Convert::Pheno).
 
-=== "Method 4: From CPAN"
+    With the CPAN version you get:
 
-    The core of software is a module implemented in `Perl` and it is available in the Comprehensive Perl Archive Network (CPAN). See the description [here](https://metacpan.org/pod/Pheno::Ranker). Along with the module, you'll get the [CLI](use-as-a-command-line-interface.md).
+    * Module
+    * CLI
 
-    !!! Warning "Required system-level libraries"
+    !!! Warning "Linux: Required system-level libraries"
 
         Before procesing with installation, we will need to install a few system level dependencies:
 
@@ -35,11 +52,15 @@ We provide several alternatives (containerized and non-containerized) for downlo
 
         * `libssl-dev:` This package is part of OpenSSL, which provides secure socket layer (SSL) capabilities. For SSL/TLS related tasks in Perl, you can use modules such as IO::Socket::SSL or Net::SSLeay, but these modules also require OpenSSL to be installed on the system.
 
-    To install it, plese see this [README](https://github.com/CNAG-Biomedical-Informatics/convert-pheno#from-cpan).
+    To install it, plese see this [README](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#from-cpan).
 
-=== "Method 5: From CPAN in a **Conda** environment"
+=== "Method 4: From CPAN in a **Conda** environment"
 
-    
+     With the CPAN version you get:
+
+    * Module
+    * CLI
+
     ### Step 1: Install Miniconda
     
     1. Download the Miniconda installer for Linux with the following command:
@@ -86,18 +107,18 @@ We provide several alternatives (containerized and non-containerized) for downlo
     conda install -c conda-forge gcc_linux-64 perl perl-app-cpanminus
     conda install -c bioconda perl-perlio-gzip
     #conda install -c bioconda perl-mac-systemdirectory # (MacOS only)
-    cpanm --notest Pheno::Ranker
+    cpanm --notest Convert::Pheno
     ```
 
-    You can execute `Pheno::Ranker` *CLI*  by typing:
+    You can execute `Convert::Pheno` *CLI*  by typing:
 
-    `convert-pheno --help`
+    `pheno-ranker --help`
 
     To deactivate:
    
     `conda deactivate -n myenv`
 
-    ### Optional: Using Pheno::Ranker `Perl` module in `Python`
+    ### Optional: Using Convert::Pheno `Perl` module in `Python`
 
     First we will download and install `PyPerler`
 
@@ -124,3 +145,15 @@ We provide several alternatives (containerized and non-containerized) for downlo
     ```
 
     Feel free to copy that file and use for your own purposes.
+
+=== "Method 5: From Github"
+
+    With the non-containerized version from Github you get:
+
+    * Module
+    * CLI
+    * APIs
+
+    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/pheno-ranker#non-containerized).
+
+

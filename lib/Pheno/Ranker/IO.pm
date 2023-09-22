@@ -14,7 +14,7 @@ use JSON::XS;
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json array2object validate_json write_poi coverage_stats append_and_rename_primary_key);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json write_array2txt array2object validate_json write_poi coverage_stats append_and_rename_primary_key);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -25,10 +25,11 @@ use constant DEVEL_MODE => 0;
 
 sub serialize_hashes {
 
-    my $arg = shift;
-    my $data = $arg->{data};
+    my $arg             = shift;
+    my $data            = $arg->{data};
     my $export_basename = $arg->{export_basename};
-    write_json( { data => $data->{$_}, filepath => qq/$export_basename.$_.json/ } )
+    write_json(
+        { data => $data->{$_}, filepath => qq/$export_basename.$_.json/ } )
       for keys %{$data};
     return 1;
 }
@@ -46,15 +47,11 @@ sub write_alignment {
         '.target.csv' => $csv
     );
 
-    # Watch out for RAM usage!!!
     for my $key ( keys %hash ) {
         my $output = $basename . $key;
-        open( my $fh, ">", $output );
-        print $fh join "\n", @{ $hash{$key} };
-        print $fh "\n";
-        close $fh;
+        write_array2txt( { filepath => $output, data => $hash{$key} } );
     }
-   return 1;
+    return 1;
 }
 
 sub io_yaml_or_json {
@@ -88,8 +85,8 @@ sub read_json {
 
     my $file = shift;
 
-# NB: hp.json is non-UTF8
-# malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
+    # NB: hp.json is non-UTF8
+    # malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
     my $str =
       $file =~ /hp\.json/ ? path($file)->slurp : path($file)->slurp_utf8;
     return decode_json($str);    # Decode to Perl data structure
@@ -119,6 +116,17 @@ sub write_yaml {
     my $json_data = $arg->{data};
     local $YAML::XS::Boolean = 'JSON::PP';
     DumpFile( $file, $json_data );
+    return 1;
+}
+
+sub write_array2txt {
+
+    my $arg  = shift;
+    my $file = $arg->{filepath};
+    my $data = $arg->{data};
+
+    # Watch out for RAM usage!!!
+    path($file)->spew( join( "\n", @$data ) . "\n" );
     return 1;
 }
 

@@ -37,7 +37,7 @@ Ok, let's convert a CSV then.
     
     Where:
     
-    * `--set-primary-key` means that we are asking to set a primary key (identifier)
+    * `--set-primary-key` means that we are asking to generate an unique ID (identifier) as a primary key. The label for that new ID will be set with `--primary-key`.
     
     * `--primary-key Id` means that we want `Id` to be the label for the primary key
     

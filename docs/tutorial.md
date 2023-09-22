@@ -186,14 +186,15 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 
 === "Timings"
 
-    Expected times:
+    Expected times and memory:
 
-    | Rows  | Time (Cohort)        | Time (Patient)  |
-    | ---  | ----------- | ---- |
-    | 50 | 0.5s| 0.5s |
-    | 100 | 0.5s| 0.5s |
-    | 500 | 1s| 1s |
-    | 1K | 1s| 1s |
-    | 10K | 1s| 1s |
-    | 100K | 1s| 1s |
-    | 1M   |  |
+    | Rows  |Cohort|      | Patient|      | 
+    | ---   |------|----- | ----   | ---  |
+    |Number | Time | RAM  | Time   | RAM  |
+    | 100   | 0.5s | <1GB | <0.5s  | <1GB |
+    | 1K    | 1s   | <1GB | <0.5s  | <1GB |
+    | 5K    | 15s  | 2GB  | <0.5s  | <1GB |
+    | 10K   | 1m30s| 5GB  | <1s    | <1GB |
+    | 50K   |  -   |  -   |  3s    | <1GB |
+    | 100K  |  -   |  -   |  6s    | <1GB |
+    | 1M    |  -   |  -   |  1m    | <4GB |

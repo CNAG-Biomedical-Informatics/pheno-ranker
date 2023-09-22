@@ -5,13 +5,13 @@ use warnings;
 use autodie;
 use feature qw(say);
 use Data::Dumper;
-use File::Basename qw(dirname);
-use Cwd qw(abs_path);
+use File::Basename        qw(dirname);
+use Cwd                   qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
 use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef Bool);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
-use List::Util qw(all);
+use List::Util                     qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
@@ -42,7 +42,7 @@ has 'config_file' => (
     coerce  => sub {
         $_[0] // $default_config_file;
     },
-    is      => 'ro',
+    is      => 'rw',
     isa     => sub { die "$_[0] is not a valid file" unless -e $_[0] },
     trigger => sub {
         my ( $self, $config_file ) = @_;
@@ -107,6 +107,7 @@ has sort_by => (
     default => $config_sort_by,
     is      => 'ro',
     coerce  => sub { $_[0] // $config_sort_by },
+    lazy    => 1,
     isa     => Enum [qw(hamming jaccard)]
 );
 
@@ -114,6 +115,7 @@ has max_out => (
     default => $config_max_out,                    # Limit to speed up runtime
     is      => 'ro',
     coerce  => sub { $_[0] // $config_max_out },
+    lazy    => 1,
     isa     => Int
 );
 
@@ -121,6 +123,7 @@ has max_number_var => (
     default => $config_max_number_var,
     is      => 'ro',
     coerce  => sub { $_[0] // $config_max_number_var },
+    lazy    => 1,
     isa     => Int
 );
 
@@ -157,17 +160,16 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
           unless all {
             my $term = $_;
             grep { $_ eq $term } @config_allowed_terms
-        }
-        @$value;
+          } @$value;
     },
     default => sub { [] },
 );
 
 has 'cli' => (
-    is      => 'rw',
+    is      => 'ro',
     isa     => Bool,
     default => 0,                                    # Set the default value to 0
-    coerce  => sub { defined $_[0] ? $_[0] : 0 },    # Coerce to 0 if undefined
+    coerce  => sub { $_[0] // 0 },    # Coerce to 0 if undefined
 );
 
 # Miscellanea atributes here
@@ -412,10 +414,13 @@ sub run {
             }
           );
 
-        # Print Ranked results to STDOUT if CLI
+        # Print Ranked results to STDOUT only if CLI
         say join "\n", @$results_rank if $cli;
 
-        # Write TXT for alignment
+        # Write txt (
+        write_array2txt( { filepath => $out_file, data => $results_rank } );
+
+        # Write TXT for alignment (ALWAYS!!)
         write_alignment(
             {
                 align     => $align ? $align : $align_basename,    # DON'T -- $align // $align_basename,
