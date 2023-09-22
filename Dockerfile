@@ -1,12 +1,11 @@
-FROM ubuntu:latest
-#FROM perl:5.36-bullseye # Build fails with PyPerler
+FROM perl:5.36-bullseye # Build fails with PyPerler
 
 # File Author / Maintainer
 LABEL maintainer Manuel Rueda <manuel.rueda@cnag.eu>
 
 # Install Linux tools
 RUN apt-get update && \
-    apt-get -y install gcc unzip make git cpanminus perl-doc vim sudo libperl-dev python3-pip cython3
+    apt-get -y install gcc unzip make git cpanminus perl-doc vim sudo libperl-dev
 
 # Download Pheno-Ranker
 WORKDIR /usr/share/
@@ -15,12 +14,6 @@ RUN git clone https://github.com/CNAG-Biomedical-Informatics/pheno-ranker.git
 # Install Perl modules
 WORKDIR /usr/share/pheno-ranker
 RUN cpanm --notest --installdeps .
-
-# Download and install PyPerler
-WORKDIR share/ex
-RUN git clone https://github.com/tkluck/pyperler.git
-WORKDIR pyperler
-RUN make install > install.log 2>&1
 
 # Add user "dockeruser"
 ARG UID=1000
