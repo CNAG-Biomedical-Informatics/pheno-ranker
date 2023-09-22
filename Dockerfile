@@ -1,4 +1,4 @@
-FROM perl:5.36-bullseye # Build fails with PyPerler
+FROM perl:5.36-bullseye
 
 # File Author / Maintainer
 LABEL maintainer Manuel Rueda <manuel.rueda@cnag.eu>
