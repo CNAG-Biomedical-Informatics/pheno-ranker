@@ -1,0 +1,1 @@
+--8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/bff-pxf-simulator/README.md"

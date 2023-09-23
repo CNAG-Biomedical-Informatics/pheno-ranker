@@ -239,7 +239,7 @@ There are two modes of operation:
 
 # CITATION
 
-The author requests that any published work that utilizes `Convert-Pheno` includes a cite to the the following reference:
+The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the the following reference:
 
 Rueda, M et al., (2023). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. _Manuscript in preparation_.
 

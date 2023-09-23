@@ -1,17 +1,19 @@
 ## Usage
 
-=== "Command-line"
+When using the `pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
 
-    When using the `pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
+=== "Intra-cohort"
+
+    We'll be using `individuals.json` which consists of 36 patients.
 
     ```
     ./pheno-ranker -r individuals.json 
 
     ```
 
-    This will create a `matrix.txt` file that then can be processed to obtain a heatmap:
+    This will create a `matrix.txt` file of 36 x 36 cells. 
 
-    --8<-- "tbl/rank.md"
+    --8<-- "tbl/matrix.md"
 
      The matrix can be processed to obtain a heatmap:
 
@@ -36,7 +38,7 @@
     </figure>
 
 
-    The same matrix can be processed with multidimensional scaling to reduce teh dimensionality
+    The same matrix can be processed with multidimensional scaling to reduce the dimensionality
 
     ```R
     library(ggplot2)
@@ -83,24 +85,19 @@
     </figure>
 
 
-=== "Module"
+=== "Inter-cohort"
 
-    The concept is to pass the necessary information as a hash (in Perl) or dictionary (in Python).
+    We'll be using again `individuals.json` which consists of 36 patients. To keep track of which patient come from which file the prefix Cx will bed added to the ids
 
-    === "Perl"
+    ```
+    ./pheno-ranker -r individuals.json individuals.json
 
-        ```Perl
-        $data = {
-            reference_file => './individuals.json',
-            output => 'matrix.txt'
-        };
-        ```
+    ```
 
-    === "Python"
+    The prefixes can be changed with the flag `--append-prefixes`:
 
-        ```Python
-        data = {
-             "reference_file" : "./individuals.json",
-             "output" : "matrix.txt"
-        }
-        ```
+    ```
+    ./pheno-ranker -r individuals.json individuals.json --append-prefixes REF TAR
+
+    ```
+    This will create a `matrix.txt` file of (36+36) x (36+36) cells. Again, this matrix can be processed with R:

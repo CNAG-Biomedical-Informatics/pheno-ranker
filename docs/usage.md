@@ -1,0 +1,1 @@
+--8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/README.md"

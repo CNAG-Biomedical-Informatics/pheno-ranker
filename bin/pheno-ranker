@@ -407,7 +407,7 @@ B<Examples:>
 
 =head1 CITATION
 
-The author requests that any published work that utilizes C<Convert-Pheno> includes a cite to the the following reference:
+The author requests that any published work that utilizes C<Pheno-Ranker> includes a cite to the the following reference:
 
 Rueda, M et al., (2023). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. I<Manuscript in preparation>.
 
