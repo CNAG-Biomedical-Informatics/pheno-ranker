@@ -9,7 +9,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/CNAG-Biomedical-Informatics/pheno-ranker/badge.svg?branch=main)](https://coveralls.io/github/CNAG-Biomedical-Informatics/pheno-ranker?branch=main)
 [![CPAN Publish](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml)
 [![Kwalitee Score](https://cpants.cpanauthors.org/dist/Pheno-Ranker.svg)](https://cpants.cpanauthors.org/dist/Pheno-Ranker)
-![version](https://img.shields.io/badge/version-0.00_0_beta-orange)
+![version](https://img.shields.io/badge/version-0.00_1_beta-orange)
 [![Docker Build](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build.yml)
 [![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/pheno-ranker?icon=docker&label=pulls)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
 [![Docker Image Size](https://badgen.net/docker/size/manuelrueda/pheno-ranker?icon=docker&label=image%20size)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
@@ -50,7 +50,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -max-number-var                Maximum number of variables to be used in binary string [10000]
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -o                             Output file [matrix.txt]
+       -o                             Output file [-r matrix.txt|-t rank.txt]
        -poi|patients-of-interest      Export JSON files for the selected individual ids (dry-run)
        -poi-out-dir                   Directory where to write JSON files (to be used with --poi)
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
