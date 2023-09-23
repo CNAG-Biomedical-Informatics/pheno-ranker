@@ -39,8 +39,8 @@ markdown_extensions:
         custom_checkbox: true
     - tables
     - mdx_gh_links:
-        user: ga4gh-beacon
-        repo: beacon-v2
+        user: CNAG-Biomedical-Informatics
+        repo: pheno-ranker
     - pymdownx.emoji:
           emoji_index: !!python/name:materialx.emoji.twemoji
           emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -48,14 +48,16 @@ markdown_extensions:
         custom_fences:
             - name: mermaid
               class: mermaid
-              format: !!python/name:mermaid2.fence_mermaid   
+              format: !!python/name:mermaid2.fence_mermaid
+    - pymdownx.snippets:
+        base_path: docs
 
 nav:
   - Introduction:
       - What is Pheno-Ranker?: what-is-pheno-ranker.md
       - Which are the supported formats:
-          - BFF: what-is-bff.md
-          - PXF: what-is-pxf.md
+          - BFF: bff.md
+          - PXF: pxf.md
           - Others: others.md
   - 'Download & Installation': download-and-installation.md
   - Web App User interface: https://convert-pheno.cnag.cat

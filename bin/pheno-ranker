@@ -22,7 +22,6 @@ use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Data::Dumper;
 use Sys::Hostname;
-use File::Spec::Functions qw(catdir catfile);
 use POSIX qw(strftime);
 use Term::ANSIColor qw(:constants);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
@@ -31,8 +30,8 @@ use lib "$Bin/../lib";
 use Pheno::Ranker qw($VERSION write_json);
 
 # Defining a few variables
-my $share_dir       = dist_dir('Pheno-Ranker');
-my $out_file        = 'matrix.txt';
+my $out_file_cohort  = 'matrix.txt';
+my $out_file_patient = 'rank.txt';
 my $export_basename = 'export';
 my $align_basename  = 'alignment';
 my $log_file        = 'pheno-ranker-log.json';
@@ -46,7 +45,7 @@ GetOptions(
     'target|t=s'                     => \my $target_file,               # string
     'weights|w=s'                    => \my $weights_file,              # string
     'append-prefixes=s{1,}'          => \my @append_prefixes,           # array
-    'o=s'                            => \$out_file,                     # string
+    'o=s'                            => \$out_file_cohort,                     # string
     'max-out:i'                      => \my $max_out,                   # integer
     'max-number-var:i'               => \my $max_number_var,            # integer
     'include-hpo-ascendants'         => \my $include_hpo_ascendants,    # flag
@@ -73,6 +72,10 @@ pod2usage(
     -message => "Please specify a reference-cohort(s) with <--r>\n",
     -exitval => 1
 ) unless @reference_files;
+
+# Set the name of the output
+
+my $out_file = $target_file ? $out_file_patient : $out_file_cohort;
 
 # Turning color off if argument <--no-color>
 $ENV{'ANSI_COLORS_DISABLED'} = 1 unless $color;
@@ -210,7 +213,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -max-number-var                Maximum number of variables to be used in binary string [10000]
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -o                             Output file [matrix.txt]
+       -o                             Output file [-r matrix.txt|-t rank.txt]
        -poi|patients-of-interest      Export JSON files for the selected individual ids (dry-run)
        -poi-out-dir                   Directory where to write JSON files (to be used with --poi)
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]

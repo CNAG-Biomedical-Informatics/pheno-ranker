@@ -52,7 +52,9 @@ WriteMakefile(
     EXE_FILES => [
         'bin/pheno-ranker',
         'utils/bff-pxf-simulator/bff_pxf_simulator',
+        'utils/bff-pxf-simulator/Ontologies.pm', 
         'utils/csv2pheno-ranker/csv2pheno_ranker'
+         
     ],
     TEST_REQUIRES      => { 'Test::More' => '1.30' },
     test               => { TESTS        => 't/*.t' },

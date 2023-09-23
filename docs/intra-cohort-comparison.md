@@ -11,6 +11,10 @@
 
     This will create a `matrix.txt` file that then can be processed to obtain a heatmap:
 
+    --8<-- "tbl/rank.md"
+
+     The matrix can be processed to obtain a heatmap:
+
     ```R
     # Load library
     library("pheatmap")
