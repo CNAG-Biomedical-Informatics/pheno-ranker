@@ -33,6 +33,6 @@ jobs:
       - name: Check version util1
         run: bff_pxf_simulator -V
       - name: Check version util2
-        run: csv2pheno-ranker -V
+        run: csv2pheno_ranker -V
 
 
