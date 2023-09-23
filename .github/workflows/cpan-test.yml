@@ -27,4 +27,12 @@ jobs:
         id: get_version
         run: echo "::set-output name=VERSION::$(cat VERSION)"
       - name: Local install and test
-        run: cpanm --sudo Pheno-Ranker-${{ steps.get_version.outputs.VERSION }}.tar.gz
+        run: cpanm -n --sudo Pheno-Ranker-${{ steps.get_version.outputs.VERSION }}.tar.gz
+      - name: Check version code 
+        run: pheno-ranker -V
+      - name: Check version util1
+        run: bff_pxf_simulator -V
+      - name: Check version util2
+        run: csv2pheno-ranker -V
+
+
