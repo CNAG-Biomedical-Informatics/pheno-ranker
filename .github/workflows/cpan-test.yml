@@ -24,6 +24,7 @@ jobs:
       - name: Deliver locally
         run: make dist
       - name: Get version
+        id: get_version
         run: echo "::set-output name=VERSION::$(cat VERSION)"
       - name: Local install and test
         run: cpanm Pheno-Ranker-${{ steps.get_version.outputs.VERSION }}.tar.gz
