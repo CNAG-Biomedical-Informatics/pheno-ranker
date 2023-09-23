@@ -1,0 +1,29 @@
+name: CPAN test
+
+on:
+  workflow_dispatch
+  #release:
+  #  types: [created]
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    name: Build and release Pheno::Ranker to CPAN
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install cpanminus
+        run: curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+      - name: Install dependencies
+        run: cpanm --sudo File::ShareDir::Install
+      - name: Configure
+        run: perl Makefile.PL
+      - name: Create MANIFEST
+        run: make manifest
+      - name: Build
+        run: make
+      - name: Deliver locally
+        run: make dist
+      - name: Get version
+        run: echo "::set-output name=VERSION::$(cat VERSION)"
+      - name: Local install and test
+        run: cpanm Pheno-Ranker-${{ steps.get_version.outputs.VERSION }}.tar.gz
