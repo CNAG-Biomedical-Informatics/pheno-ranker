@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-    name: Build and release Pheno::Ranker to CPAN
+    name: Build Pheno::Ranker module and test local deploy
     steps:
       - uses: actions/checkout@v2
       - name: Install cpanminus

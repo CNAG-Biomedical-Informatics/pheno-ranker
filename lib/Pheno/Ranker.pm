@@ -21,7 +21,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '0.00_0';
+our $VERSION   = '0.00_1';
 our $share_dir = dist_dir('Pheno-Ranker');
 use constant DEVEL_MODE => 0;
 
@@ -42,7 +42,7 @@ has 'config_file' => (
     coerce  => sub {
         $_[0] // $default_config_file;
     },
-    is      => 'rw',
+    is      => 'ro',
     isa     => sub { die "$_[0] is not a valid file" unless -e $_[0] },
     trigger => sub {
         my ( $self, $config_file ) = @_;
@@ -461,3 +461,61 @@ sub add_attribute {
 }
 
 1;
+
+=head1 NAME
+
+Convert::Pheno - A module that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
+  
+=head1 SYNOPSIS
+
+ use Pheno::Ranker;
+
+ # Create object
+ my $ranker = Pheno::Ranker->new(
+     {
+         reference_files  => ['individuals.json'],
+         out_file => 'matrix.txt'
+     }
+ );
+
+ # Run it (output are text files)
+ $ranker->run;
+
+=head1 DESCRIPTION
+
+We recommend using the included L<command-line interface|https://metacpan.org/dist/Pheno-Ranker/view/bin/pheno-ranker>.
+
+For a better description, please read the following documentation:
+
+=over
+
+=item General:
+
+L<https://cnag-biomedical-informatics.github.io/pheno-ranker>
+
+=item Command-Line Interface:
+
+L<https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#readme>
+
+=back
+
+=head1 CITATION
+
+The author requests that any published work that utilizes C<Convert-Pheno> includes a cite to the the following reference:
+
+Rueda, M. et al. "Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. (2023) I<Manuscript in preparation>.
+
+=head1 AUTHOR
+
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>.
+
+=head1 METHODS
+
+See L<https://cnag-biomedical-informatics.github.io/pheno-ranker/use-as-a-module>.
+
+=head1 COPYRIGHT
+
+This PERL file is copyrighted. See the LICENSE file included in this distribution.
+
+=cut
+
