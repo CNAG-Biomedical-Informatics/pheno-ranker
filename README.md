@@ -1,4 +1,4 @@
-<p align="left">
+<p align="center">
   <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker"><img src="https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/docs/img/PR-logo.png" width="400" alt="Pheno-Ranker"></a>
 </p>
 <p align="center">
