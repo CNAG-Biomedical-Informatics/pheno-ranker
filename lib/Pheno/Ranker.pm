@@ -21,7 +21,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '0.00_1';
+our $VERSION   = '0.00_2';
 our $share_dir = dist_dir('Pheno-Ranker');
 use constant DEVEL_MODE => 0;
 

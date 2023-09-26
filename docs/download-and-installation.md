@@ -1,6 +1,8 @@
 !!! Info "Where should I install it?"
     `Pheno-Ranker` is software designed for local installation on Linux or MacOS server/workstations.
 
+     It is intended to work as a [command-line-interface](usage.md).
+
 We provide several alternatives (containerized and non-containerized) for download and installation.
 
 !!! Question "Which download method should I use?"
@@ -22,11 +24,11 @@ With the containerized version you get:
 
 === "Method 1: From Docker Hub"
 
-    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/pheno-ranker#method-1-from-docker-hub).
+    Please follow the instructions provided in this [README](usage.md#method-1-from-docker-hub).
 
 === "Method 2: With Dockerfile"
 
-    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/pheno-ranker#method-2-with-dockerfile).
+    Please follow the instructions provided in this [README](usage.md#method-2-with-dockerfile).
 
 ## Non-Containerized
 
@@ -98,7 +100,6 @@ With the containerized version you get:
 
     ```bash
     conda install -c conda-forge gcc_linux-64 perl perl-app-cpanminus
-    conda install -c bioconda perl-perlio-gzip
     #conda install -c bioconda perl-mac-systemdirectory # (MacOS only)
     cpanm --notest Pheno::Ranker
     ```
@@ -118,6 +119,6 @@ With the containerized version you get:
     * Module
     * CLI
 
-    Please follow the instructions provided in this [README](https://github.com/cnag-biomedical-informatics/pheno-ranker#non-containerized).
+    Please follow the instructions provided in this [README](usage.md#non-containerized).
 
 

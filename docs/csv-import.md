@@ -1,6 +1,9 @@
 # How to use a CSV with Pheno-Ranker
 
-If you have a CSV, you can use `Pheno-Ranker` too! However, please be aware that conducting inter-cohort analysis might be challenging due to the lack of consistency in the CSVs.
+If you have a CSV, you can use `Pheno-Ranker` too!
+
+!!! Warning "About inter-cohort analysis with CSV"
+    Please note that performing inter-cohort analysis may be difficult due to potential inconsistencies or lack of common variables across different CSVs.
 
 !!! Hint "Notes on CSV quality"
 

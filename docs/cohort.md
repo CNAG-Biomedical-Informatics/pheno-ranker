@@ -81,7 +81,7 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
     <figure markdown>
        ![Beacon v2](img/mds.png){ width="400" }
-       <figcaption> Mulsidomensional scaling of a intra-cohort pairwise comparison</figcaption>
+       <figcaption> Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
 

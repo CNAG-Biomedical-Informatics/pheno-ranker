@@ -1,6 +1,6 @@
 # What is Pheno-Ranker?
 
-`Pheno-Ranker` is a software for performing semantic similarity on Phenopackets v2 and Beacon v2 Models files, or any other YAML/JSON file.
+`Pheno-Ranker` is a software for performing semantic similarity on [Phenopackets v2](pxf.md) and [Beacon v2 Models](bff.md) files or any other `YAML|JSON|CSV` files.
 
 <figure markdown>
  ![Pheno-Ranker](img/PR-logo.png){width="350"}

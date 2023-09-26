@@ -59,7 +59,7 @@ nav:
       - Which are the supported formats:
           - BFF: bff.md
           - PXF: pxf.md
-          - Others: others.md
+          - Other formats: other-formats.md
   - 'Download & Installation': download-and-installation.md
   - Web App User interface: https://convert-pheno.cnag.cat
   - Modes of operation:

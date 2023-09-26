@@ -1,5 +1,5 @@
 !!! Hint "About other formats"
-    The concept of Pheno-Ranker is to capitalize on the data harmonization provided by [GA4GH] standards. However, we aim to encourage widespread adoption, which is why we also offer support for other formats such as raw JSON/YAML and CSV.
+    Pheno-Ranker leverages the data harmonization of **GA4GH** standards. However, to promote broader adoption, we also support other formats like raw JSON/YAML and CSV.
 
 === "YAML / JSON"
 
