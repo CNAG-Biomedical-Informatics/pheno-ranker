@@ -47,7 +47,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
     You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. The first thing that we are going to create is a configuration file.
 
     !!! Question "What is a `Pheno-Ranker` configuration file?"
-        A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box` that are [BFF](what-is-bff.md) and [PXF](what-is-pxf.md).
+        A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box` that are [BFF](bff.md) and [PXF](pxf.md).
 
     ### Creating a configuration file
 
