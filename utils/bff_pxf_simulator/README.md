@@ -1,10 +1,10 @@
 # NAME
 
-bff\_pxf\_simulator: A script that creates a JSON array of random BFF/PXF
+bff-pxf-simulator: A script that creates a JSON array of random BFF/PXF
 
 # SYNOPSIS
 
-bff\_pxf\_simulator \[-options\]
+bff-pxf-simulator \[-options\]
 
      Options:
        -f|format                      Format [>bff|pxf]
@@ -52,11 +52,11 @@ The software runs without any argument and assumes defaults. If you want to chan
 
 **Examples:**
 
-    $ ./bff_pxf_simulator -f pxf  # BFF with 100 samples
+    $ ./bff-pxf-simulator -f pxf  # BFF with 100 samples
 
-    $ ./bff_pxf_simulator -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
+    $ ./bff-pxf-simulator -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
 
-    $ ./bff_pxf_simulator -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
+    $ ./bff-pxf-simulator -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
 
 ## COMMON ERRORS AND SOLUTIONS
 

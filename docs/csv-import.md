@@ -35,7 +35,7 @@ Ok, let's convert a CSV then.
     OK, we are going to use the included [utility]() to convert `example.csv`:
     
     ```bash
-    ./csv2pheno_ranker -i example.csv --set-primary-key --primary-key Id
+    ./csv2pheno-ranker -i example.csv --set-primary-key --primary-key Id
     ```
     
     Where:

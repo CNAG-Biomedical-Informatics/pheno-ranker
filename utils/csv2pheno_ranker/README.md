@@ -1,10 +1,10 @@
 # NAME
 
-csv2pheno\_ranker: A script to convert a CSV to an input suitable for Pheno-Ranker
+csv2pheno-ranker: A script to convert a CSV to an input suitable for Pheno-Ranker
 
 # SYNOPSIS
 
-csv2pheno\_ranker -i &lt;input.csv> \[-options\]
+csv2pheno-ranker -i &lt;input.csv> \[-options\]
 
      Options:
        -i|input                       CSV file
@@ -53,9 +53,9 @@ The software runs without any argument and assumes defaults. If you want to chan
 
 **Examples:**
 
-    $ ./csv2pheno_ranker -i example.csv
+    $ ./csv2pheno-ranker -i example.csv
     
-    $ ./csv2pheno_ranker -i example.csv --set-primary-key --primary-key ID
+    $ ./csv2pheno-ranker -i example.csv --set-primary-key --primary-key ID
 
 ## COMMON ERRORS AND SOLUTIONS
 
