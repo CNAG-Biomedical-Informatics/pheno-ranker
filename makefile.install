@@ -1,0 +1,10 @@
+#!/usr/bin/env make
+
+SHELL := /bin/bash
+
+install:
+	sudo apt-get install cpanminus libperl-dev
+	cpanm --notest --installdeps .	
+
+test:
+	prove -l

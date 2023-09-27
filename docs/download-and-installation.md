@@ -11,8 +11,8 @@ We provide several alternatives (containerized and non-containerized) for downlo
     | Use case | Method  |
     | --  | -- |
     | CLI |  3 (CPAN) |
-    | CLI | 1 or 2 (Docker; no dependencies) |
     | CLI (conda) | 4 (CPAN in Conda env)|
+    | CLI | 1 or 2 (Docker; no dependencies) |
     | Web App UI | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui)
 
 ## Containerized

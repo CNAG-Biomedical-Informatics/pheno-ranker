@@ -1,0 +1,22 @@
+#!/usr/bin/env make
+
+SHELL := /bin/bash
+
+install:
+	docker build -t cnag/pheno-ranker:latest .
+
+run:
+	docker run -tid --name pheno-ranker cnag/pheno-ranker:latest
+
+enter:
+	docker exec -ti pheno-ranker bash
+
+test:
+	docker exec -ti pheno-ranker prove -l
+
+stop:	
+	docker stop pheno-ranker
+
+clean: 
+	docker rm -f pheno-ranker
+	docker rmi cnag/pheno-ranker:latest
