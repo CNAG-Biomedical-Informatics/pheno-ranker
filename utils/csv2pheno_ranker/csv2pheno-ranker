@@ -249,7 +249,9 @@ sub create_config {
 
         # NB: Can't use $array more than once in the hash ref below. Need to deref
         $config->{array_terms}       = [@arrays];
-        $config->{allowed_terms}     = [ @non_arrays, @arrays ];
+
+        # @non_arrays, @arrays are sorted, but if we merge them we need to re-sort
+        $config->{allowed_terms}     = [ sort @non_arrays, @arrays ];
         $config->{id_correspondence} = {
             CSV => [
                 map {

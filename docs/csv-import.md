@@ -76,10 +76,10 @@
         ```yaml
         ---
         allowed_terms:
+        - Bar
         - Baz
         - Foo
         - Id
-        - Bar
         array_terms:
         - Bar
         format: CSV
