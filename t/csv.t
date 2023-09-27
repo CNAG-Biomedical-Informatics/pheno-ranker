@@ -6,7 +6,7 @@ use Test::More tests => 2;    # Indicate the number of tests you want to run
 use File::Compare;
 
 # The command line script to be tested
-my $script = catfile( 'utils', 'csv2pheno-ranker', 'csv2pheno_ranker' );
+my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
 
 ############
 # TEST 1-2 #

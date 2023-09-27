@@ -41,7 +41,7 @@ SKIP: {
                 "align"                  => "",
                 "align_basename"         => "t/tar_align",
                 "append_prefixes"        => [],
-                "cli"                    => undef,
+                #"cli"                    => undef,
                 "config_file"            => undef,
                 "debug"                  => undef,
                 "exclude_terms"          => [],
