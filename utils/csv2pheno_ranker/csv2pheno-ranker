@@ -315,7 +315,7 @@ A script to convert a CSV to an input suitable for Pheno-Ranker
   * 1 core (it only uses one core per job).
   * At least 1GB HDD.
 
-=head1 HOW TO RUN CSV2PHENO_RANKER
+=head1 HOW TO RUN CSV2PHENO-RANKER
 
 The software runs without any argument and assumes defaults. If you want to change some parmeters please take a look to the synopsis
 

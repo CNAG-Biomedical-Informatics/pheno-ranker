@@ -11,7 +11,7 @@ primary_key: id
 # Set the allowed terms / properties
 allowed_terms: [biosamples,diseases,ethnicity,exposures,files,geographicOrigin,id,info,interpretations,interventionsOrProcedures,karyotypicSex,measurements,measures,medicalActions,metaData,pedigrees,phenotypicFeatures,sex,subject,treatments]
 
-# Set the maximum numbers to variables to be used (if more they will randomized)
+# Set the maximum numbers to variables to be used (if more they will be randomized)
 max_number_var: 10000
 
 # Set the seed number to initialize a pseudorandom number generator for max_number_var:

@@ -43,7 +43,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -age                           Include age-related variables [>no-age|age]
        -a|align                       Write alignment file(s). If no argument is given the files will be named [alignment.*]
        -append-prefixes               The prefixes to be added to the primary_key of individuals when #cohorts >= 2 [C]
-       -config                        YAML config file to change default parameters [conf/config.yaml)
+       -config                        YAML config file to change default parameters [share/conf/config.yaml)
        -e|export                      Export miscellanea JSON files. If no argument is given the files will be named [export.*]
        -exclude-terms                 Exclude BFF/PXF terms (e.g., --exclude-terms sex id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
@@ -75,7 +75,7 @@ Pheno-Ranker is a lightweight and easily to install tool specifically designed f
 
 # INSTALLATION
 
-## Containerized (Recommended Method)
+## Containerized
 
 ### Method 1: From Docker Hub
 
@@ -142,7 +142,7 @@ but we will install a few CPAN modules with `cpanminus`.
 
 Install system level dependencies:
 
-    sudo apt-get install cpanminus libbz2-dev zlib1g-dev libperl-dev libssl-dev
+    sudo apt-get install cpanminus libperl-dev
 
 Now you have two choose between one of the 3 options below:
 
@@ -169,7 +169,7 @@ Now you have two choose between one of the 3 options below:
 
 First install system level dependencies:
 
-    sudo apt-get install cpanminus libbz2-dev zlib1g-dev libperl-dev libssl-dev
+    sudo apt-get install cpanminus libperl-dev
 
 Now you have two choose between one of the 3 options below:
 
