@@ -50,7 +50,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -include-terms                 Include BFF/PXF terms (e.g., --ixclude-terms diseases)
        -max-number-var                Maximum number of variables to be used in binary string [10000]
        -max-out                       Print only N of comparisons (used with --t)  [50]
-       -o                             Output file [-r matrix.txt|-t rank.txt]
+       -o|out-file                    Output file path [-r matrix.txt|-t rank.txt]
        -poi|patients-of-interest      Export JSON files for the selected individual ids (dry-run)
        -poi-out-dir                   Directory where to write JSON files (to be used with --poi)
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
