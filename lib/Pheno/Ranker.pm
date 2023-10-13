@@ -294,7 +294,7 @@ sub run {
 
         # Check for existence of primary_key otherwise die
         my $msg =
-"Sorry, <$cohort_file> does not contain primary_key <$primary_key> term and it's mandatory\n";
+"Sorry, <$cohort_file> does not contain primary_key <$primary_key>. Are you using the right config file?\n";
         if ( ref $json_data eq ref [] ) {    # array
             die $msg unless exists $json_data->[0]->{$primary_key};
         }
@@ -387,7 +387,7 @@ sub run {
 
         # The target file has to have $_->{$primary_key} otherwise die
         die
-"Sorry, <$target_file> does not contain primary_key <$primary_key> term and it's mandatory\n"
+"Sorry, <$target_file> does not contain primary_key <$primary_key>. Are you using the right config file?\n"
           unless exists $tar_data->{$primary_key};
 
         # We store {primary_key} as a variable as it might be deleted from $tar_data (--exclude-terms id)

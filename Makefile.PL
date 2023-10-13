@@ -54,10 +54,7 @@ WriteMakefile(
 
     ],
     TEST_REQUIRES => {
-        'Test::More' => '1.30',
-        'JSON::XS'   => '0.88',
-        'Path::Tiny' => '0.144',
-        'YAML::XS'   => '4.03'
+        'Test::More' => '1.30'
     },
     test               => { TESTS => 't/*.t' },
     CONFIGURE_REQUIRES => {

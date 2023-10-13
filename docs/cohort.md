@@ -2,6 +2,9 @@
 
 When using the `pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
 
+!!! Hint "Hint"
+    It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
+
 === "Intra-cohort"
 
     We'll be using `individuals.json` which consists of 36 patients.
