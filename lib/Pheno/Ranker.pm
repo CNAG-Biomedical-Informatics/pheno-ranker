@@ -5,13 +5,13 @@ use warnings;
 use autodie;
 use feature qw(say);
 use Data::Dumper;
-use File::Basename        qw(dirname);
-use Cwd                   qw(abs_path);
+use File::Basename qw(dirname);
+use Cwd qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
 use Moo;
 use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef Bool);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
-use List::Util                     qw(all);
+use List::Util qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
@@ -21,7 +21,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '0.00_3';
+our $VERSION   = '0.00_4';
 our $share_dir = dist_dir('Pheno-Ranker');
 use constant DEVEL_MODE => 0;
 
@@ -160,7 +160,8 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
           unless all {
             my $term = $_;
             grep { $_ eq $term } @config_allowed_terms
-          } @$value;
+        }
+        @$value;
     },
     default => sub { [] },
 );
@@ -168,7 +169,7 @@ qq/Invalid term in <--include_terms> or <--exclude_terms>. Allowed values are:\n
 has 'cli' => (
     is      => 'ro',
     isa     => Bool,
-    default => 0,                                    # Set the default value to 0
+    default => 0,                     # Set the default value to 0
     coerce  => sub { $_[0] // 0 },    # Coerce to 0 if undefined
 );
 
@@ -189,10 +190,6 @@ sub BUILD {
     # BUILD: is an instance method that is called after the object has been constructed but before it is returned to the caller.
     # BUILDARGS is a class method that is responsible for processing the arguments passed to the constructor (new) and returning a hash reference of attributes that will be used to initialize the object.
     my $self = shift;
-
-    #$self->{primary_key}              = $config->{primary_key} // 'id';       # setter;
-    #$self->{exclude_properties_regex} = $config->{exclude_properties_regex}
-    #  // '';                                                                  # setter
 
     # ************************
     # Start Miscellanea checks
@@ -288,16 +285,28 @@ sub run {
         die "$cohort_file does not exist\n" unless -f $cohort_file;
 
         # Load JSON file as Perl data structure
-        push @$ref_data,
-          io_yaml_or_json(
+        my $json_data = io_yaml_or_json(
             {
                 filepath => $cohort_file,
                 mode     => 'read'
             }
-          );
+        );
+
+        # Check for existence of primary_key otherwise die
+        my $msg =
+"Sorry, <$cohort_file> does not contain primary_key <$primary_key> term and it's mandatory\n";
+        if ( ref $json_data eq ref [] ) {    # array
+            die $msg unless exists $json_data->[0]->{$primary_key};
+        }
+        else {                               # hash
+            die $msg unless exists $json_data->{$primary_key};
+        }
+
+        # Load data into array
+        push @$ref_data, $json_data;
     }
 
-    # In <inter-cohort> we join --cohorts into one but we change the id
+    # In <inter-cohort> we join --cohorts into one but we rename the values of primary_key
     # NB: Re-using $ref_data to save memory
     $ref_data = append_and_rename_primary_key(
         {
@@ -378,10 +387,10 @@ sub run {
 
         # The target file has to have $_->{$primary_key} otherwise die
         die
-"Sorry, <$target_file> does not contain <id> term and it's mandatory\n"
+"Sorry, <$target_file> does not contain primary_key <$primary_key> term and it's mandatory\n"
           unless exists $tar_data->{$primary_key};
 
-        # We store {primary_key} as a variable as it might be deleted from $tar_data (--excluded-terms id)
+        # We store {primary_key} as a variable as it might be deleted from $tar_data (--exclude-terms id)
         my $tar_data_id = $tar_data->{$primary_key};
 
         # Now we load the rest of the hashes

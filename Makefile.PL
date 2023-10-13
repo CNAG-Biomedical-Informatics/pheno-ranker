@@ -45,9 +45,6 @@ WriteMakefile(
         'Hash::Fold'                     => 0,
         'Math::CDF'                      => 0,
         'Data::Fake'                     => 0
-
-          #'IO::Socket::SSL'              => '2.083'
-          #'Mojolicious::Plugin::OpenAPI' => '5.09'
     },
     EXE_FILES => [
         'bin/pheno-ranker',
@@ -57,10 +54,10 @@ WriteMakefile(
 
     ],
     TEST_REQUIRES => {
-        'Test::More' => 0,
-        'JSON::XS'   => 0,
-        'Path::Tiny' => 0,
-        'YAML::XS'   => 0
+        'Test::More' => '1.30',
+        'JSON::XS'   => '0.88',
+        'Path::Tiny' => '0.144',
+        'YAML::XS'   => '4.03'
     },
     test               => { TESTS => 't/*.t' },
     CONFIGURE_REQUIRES => {
