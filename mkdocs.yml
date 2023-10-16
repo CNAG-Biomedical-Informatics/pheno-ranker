@@ -68,6 +68,9 @@ nav:
   - Utilities:
       - BFF/PXF simulator: simulator.md 
       - CSV import: csv-import.md
+  - Technical details:
+      - Implementation: implementation.md
+#      - Algorithm: algorithm.md
   - Help:
       - Tutorial: tutorial.md
       - Google colab: https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB

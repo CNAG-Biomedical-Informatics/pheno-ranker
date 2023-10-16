@@ -21,3 +21,4 @@
 ^\.git/
 ^\.github/
 ^docs/
+^nb/

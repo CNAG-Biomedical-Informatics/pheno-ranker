@@ -47,7 +47,7 @@ With the containerized version you get:
 
         * `libperl-dev:` This package contains the headers and libraries necessary to compile C or C++ programs to link against the Perl library, enabling you to write Perl modules in C or C++.
 
-    To install it, plese see this [README](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#from-cpan).
+    To install it, plese see this [README](usage.md#from-cpan).
 
 === "Method 4: From CPAN in a **Conda** environment"
 
