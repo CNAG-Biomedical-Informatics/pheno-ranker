@@ -21,7 +21,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '0.01';
+our $VERSION   = '0.01_1';
 our $share_dir = dist_dir('Pheno-Ranker');
 use constant DEVEL_MODE => 0;
 
@@ -510,9 +510,9 @@ L<https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#readme>
 
 =head1 CITATION
 
-The author requests that any published work that utilizes C<Convert-Pheno> includes a cite to the the following reference:
+The author requests that any published work that utilizes C<Pheno-Ranker> includes a cite to the the following reference:
 
-Rueda, M. et al. "Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. (2023) I<Manuscript in preparation>.
+Rueda, M. et al. "Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. (2023) I<Submitted>.
 
 =head1 AUTHOR
 
@@ -520,7 +520,11 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag
 
 =head1 METHODS
 
-See L<https://cnag-biomedical-informatics.github.io/pheno-ranker/use-as-a-module>.
+There is only method named c<run>. See above the syntax.
+
+For more information check the documentation:
+
+L<https://cnag-biomedical-informatics.github.io/pheno-ranker
 
 =head1 COPYRIGHT
 

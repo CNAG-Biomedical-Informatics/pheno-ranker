@@ -44,7 +44,7 @@ WriteMakefile(
         'Test::Exception'                => '0.43',
         'Hash::Fold'                     => 0,
         'Math::CDF'                      => 0,
-        'Data::Fake'                     => 0
+        'Data::Fake'                     => 0.006
     },
     EXE_FILES => [
         'bin/pheno-ranker',
@@ -54,12 +54,17 @@ WriteMakefile(
 
     ],
     TEST_REQUIRES => {
-        'Test::More' => '1.30'
+        'Test::More'   => '1.30',
+        'Path::Tiny'   => '0.144',
+        'Data::Fake'   => '0.006',
+        'JSON::XS'     => '4.03',
+        'YAML::XS'     => '0.88',
+        'Text::CSV_XS' => '1.50'
     },
     test               => { TESTS => 't/*.t' },
     CONFIGURE_REQUIRES => {
         'File::ShareDir::Install' => '0.14',
-        'ExtUtils::MakeMaker'     => '7.70',
+        'ExtUtils::MakeMaker'     => '7.70'
     }
 );
 
