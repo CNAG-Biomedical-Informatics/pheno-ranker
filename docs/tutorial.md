@@ -12,6 +12,10 @@ This page provides brief tutorials on how to perform data conversion by using `P
 
 For the tutorial we will use the format **Moviepackets** to demonstrate the power of `Pheno-Ranker` with any JSON file.
 
+<figure markdown>
+ ![MoviePackets](img/moviepackets-logo.png){ width="300" }
+</figure>
+
 !!! Question "What is a Moviepacket (MXF) file?"
     A Moviepacket is an invented format :smile: designed to describe movies, analogous to Phenopackets v2 used for pheno-clinical data.
 

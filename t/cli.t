@@ -21,7 +21,7 @@ my $input_file = catfile( 't', 'individuals.json' );
 
 SKIP: {
     # Linux commands don't run on windows
-    skip qq{Sipping WIn32 tests}, 6 if IS_WINDOWS;
+    skip qq{Sipping WIn32 tests}, 4 if IS_WINDOWS;
 
     ##########
     # TEST 2 #

@@ -24,8 +24,9 @@ my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
     my $config = catfile( 't', 'example_config.yaml' );
 
     # Run the command line script with the input file, and redirect the output to the output_file
-    system(
-        "$script -i $input_file -sep ';' --set-primary-key --primary-key Id");
+    my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
+    system("$^X $inc $script -i $input_file -sep ';' --set-primary-key --primary-key Id");
+    #system("$script -i $input_file -sep ';' --set-primary-key --primary-key Id");
 
     # Compare the output_file and the reference_file
     ok(
