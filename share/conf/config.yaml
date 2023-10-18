@@ -17,8 +17,8 @@ max_number_var: 10000
 # Set the seed number to initialize a pseudorandom number generator for max_number_var:
 seed: 123456789 
 
-# Set the regex to discard variables that contain a given patter
-exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure'
+# Set the regex to discard variables that contain a given pattern
+exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure|biosamples|files|interpretations|reference\.id|reference\.description|timeObserved|treatment\.doseIntervals|complexValue\.typedQuantities|dateOfBirth|timestamp|adverseEvents|treatmentTerminationReason|therapeuticRegimen'
 
 # Set the terms which are arrays
 array_terms: [diseases,exposures,interventionsOrProcedures,measures,measurements,medicalActions,phenotypicFeatures,treatments]
@@ -37,7 +37,7 @@ id_correspondence:
     treatments: 'treatmentCode.id'
   PXF:
     phenotypicFeatures: 'type.id'
-    measurements: 'measurements.assay.id'
+    measurements: 'assay.id'
     diseases: 'term.id'
-    exposures: 'exposures.type.id'
-    medicalActions: 'medicalActions.procedure.code.id'
+    exposures: 'type.id'
+    medicalActions: ['procedure.bodySite.id','procedure.code.id','treatment.agent.id','treatment.drugType','treatmentIntent.id','treatment.routeOfAdministration.id','treatmentTarget.id','treatment.age'] 

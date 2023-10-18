@@ -239,8 +239,12 @@ There are two modes of operation:
 
 ## COMMON ERRORS AND SOLUTIONS
 
-    * Error message: Foo
-      Solution: Bar
+    * Error message: R plotting
+        Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,  : 
+        line 1 did not have X elements
+        Calls: as.matrix -> read.table -> scan
+        Execution halted
+      Solution: Make sure your "id" do not contain spaces (e.g., "my fav id" must be "my_fav_id")
 
     * Error message: Foo
       Solution: Bar
