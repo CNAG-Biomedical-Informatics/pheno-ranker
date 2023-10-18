@@ -21,7 +21,7 @@ seed: 123456789
 exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure'
 
 # Set the terms which are arrays
-array_terms: [measures,treatments,exposures,diseases,phenotypicFeatures,interventionsOrProcedures,medicalActions]
+array_terms: [diseases,exposures,interventionsOrProcedures,measures,measurements,medicalActions,phenotypicFeatures,treatments]
 
 # Set the regex to perform the substitution in array elements
 array_regex: '^(\w+):(\d+)\.(\S+)'
@@ -29,16 +29,15 @@ array_regex: '^(\w+):(\d+)\.(\S+)'
 # Set the path for array properties
 id_correspondence:
   BFF:
-    measures: 'assayCode.id'
-    treatments: 'treatmentCode.id'
-    exposures: 'exposureCode.id'
     diseases: 'diseaseCode.id'
-    phenotypicFeatures: 'featureType.id'
+    exposures: 'exposureCode.id'
     interventionsOrProcedures: 'procedureCode.id'
+    measures: 'assayCode.id'
+    phenotypicFeatures: 'featureType.id'
+    treatments: 'treatmentCode.id'
   PXF:
-    medicalActions: 'treatment.agent.id'
-    diseases: 'term.id'
     phenotypicFeatures: 'type.id'
-    # measures                  => 'assayCode.id',
-    # exposures                 => 'exposureCode.id',
-    # interventionsOrProcedures => 'procedureCode.id'
+    measurements: 'measurements.assay.id'
+    diseases: 'term.id'
+    exposures: 'exposures.type.id'
+    medicalActions: 'medicalActions.procedure.code.id'

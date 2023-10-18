@@ -149,7 +149,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     `pheno-ranker -r t/movies.json --include-terms genre --config t/movies_config.yaml`
 
     <figure markdown>
-       ![Beacon v2](img/movies2.png){ width="600" }
+       ![Beacon v2](img/movies3.png){ width="600" }
        <figcaption> Intra-cohort pairwise comparison</figcaption>
     </figure>
 
@@ -165,7 +165,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     `pheno-ranker -r t/movies.json --include-terms genre --w t/movies_weigths.yaml --config t/movies_config.yaml`
 
     <figure markdown>
-      ![Beacon v2](img/movies3.png){ width="600" }
+      ![Beacon v2](img/movies4.png){ width="600" }
       <figcaption> Intra-cohort pairwise comparison</figcaption>
     </figure>
 
