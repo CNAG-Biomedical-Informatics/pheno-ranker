@@ -40,4 +40,4 @@ id_correspondence:
     measurements: 'assay.id'
     diseases: 'term.id'
     exposures: 'type.id'
-    medicalActions: ['procedure.bodySite.id','procedure.code.id','treatment.agent.id','treatment.drugType','treatmentIntent.id','treatment.routeOfAdministration.id','treatmentTarget.id','treatment.age'] 
+    medicalActions: ['procedure.bodySite.id','procedure.code.id','treatment.agent.id','treatment.drugType','treatmentIntent.id','treatment.routeOfAdministration.id','treatmentTarget.id'] 
