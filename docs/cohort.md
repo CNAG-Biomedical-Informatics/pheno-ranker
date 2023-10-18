@@ -2,9 +2,6 @@
 
 When using the `pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
 
-!!! Hint "Hint"
-    It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
-
 === "Intra-cohort"
 
     We'll be using `individuals.json` which consists of 36 patients.
@@ -13,6 +10,15 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     ./pheno-ranker -r individuals.json 
 
     ```
+
+    !!! Hint "Hint"
+        It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
+        Examples:
+
+        ```bash
+        ./pheno-ranker -r individuals.json --e
+        ./pheno-ranker -r individuals.json --e my_fav_id
+        ```
 
     This will create a `matrix.txt` file of 36 x 36 cells. 
 
