@@ -51,13 +51,18 @@ You are interested in checking the variety of your catalog and plan to use `Phen
 !!! Question "What is a `Pheno-Ranker` configuration file?"
     A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box_ that are [BFF](bff.md) and [PXF](pxf.md).
 
+!!! Tip "Do I need to create a configuration file?"
+    This file only has to be created if you are working with **your own JSON format**.
+
+    If your format is similar to that to Moviepackets just use that file, making sure you **change the terms** to match yours.
+
 ### Creating a configuration file
 
 To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movie_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
 
 ```bash
 # Set the format
-format: MXF # Optional when no array-based properties
+format: MXF # Optional unless you have array-based properties
 
 # Set the primary key for the objects
 primary_key: title
@@ -105,12 +110,28 @@ In the table below we show which parameters are needed depending on the format:
     - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
     - **array_terms**, is an `array` to enumerate which properties are arrays.
     - **array_regex**, it's an `string` to define how the flattened JSON array elements will be renamed.
-    - **id_correspondence**, is a nested `object` that maps the actual JSON path to a given array element.
+    - **id_correspondence**, is a nested `object` that maps the actual JSON path to a given array element. It's used in combination with `array_regex`.For instance, imagine you have:
 
-!!! Tip "Do I need to create a configuration file?"
-    This file only has to be created if you are working with **your own JSON format**. 
+    ```bash 
+    genre:0.Biography
+    genre:1.Drama
+    ...
+    ```
+    The regex `'^(\w+):(\d+)'` will capture:
+ 
+    ```bash 
+    genre 0
+    genre 1 
+    ```
 
-    If your format is similar to that to Moviepackets just use that file, making sure you change the `allowed_terms` to match yours.
+    And then use `id_correspondence` to rename the key to:
+
+    ```json 
+    genre.Biography
+    genre.Drama 
+    ```
+
+    This way we don't rely on index numbers from the array but on the actual values.
 
 ### Running `Pheno-Ranker`
 

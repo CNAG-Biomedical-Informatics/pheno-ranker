@@ -566,7 +566,7 @@ sub remap_hash {
           if ( $regex && $key =~ m/$regex/ );    # $regex has to be defined and be != ''
 
         # The user can turn on age related values
-        next if ( $key =~ m/age(?!nt)\b|onset/i && !$self->{age} );    # $self->{age} [0|1]
+        next if ( $key =~ m/age(?!nt)|onset/i && !$self->{age} );    # $self->{age} [0|1]
 
         # Load values
         my $val = $hash->{$key};
