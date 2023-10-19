@@ -3,7 +3,7 @@ package Pheno::Ranker::Align;
 use strict;
 use warnings;
 use autodie;
-use feature    qw(say);
+use feature qw(say);
 use List::Util qw(any shuffle first);
 
 #use List::MoreUtils qw(duplicates);
@@ -539,6 +539,7 @@ sub remap_hash {
     return {} unless %$hash;
 
     # A bit more pruning plus collapsing
+    # NB: Hash::Fold keeps white spaces on keys
     $hash = fold( undef_excluded_phenotypicFeatures($hash) );
 
     # Load the hash that points to the hierarchy for ontology
@@ -683,30 +684,80 @@ sub add_id2key {
     my $array_terms_str   = join '|', @{ $self->{array_terms} };
     my $array_regex       = $self->{array_regex};
 
-    # Proceed if our key is one of the array_terms
+    #############
+    # OBJECTIVE #
+    #############
+
+    # This subroutine is important as it replaces the index (numeric) for a given
+    # array element for selected ontology. It's done for all subkeys on that element
+
+    #"interventionsOrProcedures" : [
+    #     {
+    #        "bodySite" : {
+    #           "id" : "NCIT:C12736",
+    #           "label" : "intestine"
+    #        },
+    #        "procedureCode" : {
+    #           "id" : "NCIT:C157823",
+    #           "label" : "Colon Resection"
+    #        }
+    #     },
+    #   {
+    #        "bodySite" : {
+    #           "id" : "NCIT:C12736",
+    #           "label" : "intestine"
+    #        },
+    #        "procedureCode" : {
+    #           "id" : "NCIT:C86074",
+    #           "label" : "Hemicolectomy"
+    #        }
+    #     },
+    #]
+    #
+    # Will become:
+    #
+    #"interventionsOrProcedures.NCIT:C157823.bodySite.id.NCIT:C12736" : 1,
+    #"interventionsOrProcedures.NCIT:C157823.procedureCode.id.NCIT:C157823" : 1,
+    #"interventionsOrProcedures.NCIT:C86074.bodySite.id.NCIT:C12736" : 1,
+    #"interventionsOrProcedures.NCIT:C86074.procedureCode.id.NCIT:C86074" : 1,
+    #
+    # To make the replecament we use $id_correspondence, after we perform a regex
+    # to fetch the key parts
+
+    # Only proceed if $key is one of the array_terms
     if ( $key =~ /$array_terms_str/ ) {
 
-        # User defined regex
+        # Now we use $array_regex to capture $1, $2 and $3 for BFF/PXF
+        # NB: For others (e.g., MXF) we will have only $1 and $2
         $key =~ m/$array_regex/;
+        #say "<$1> <$2> <$3>";
+
         my ( $tmp_key, $val );
 
-        # Normal behaviour
+        # Normal behaviour for BFF/PXF
         if ( defined $3 ) {
 
-            # When id_correspondence consists of an array we have fetch the right match
+            # If id_correspondence is an array (e.g., medicalActions) we have to grep the right match
             my $correspondence;
             if ( ref $id_correspondence->{$1} eq ref [] ) {
-                $correspondence = first { $key =~ m/$_$/ } @{ $id_correspondence->{$1} };
+
+                #       $1         $2                 $3
+                # <medicalActions> <0> <treatment.routeOfAdministration.id>
+                my $subkey = ( split /\./, $3 )[0];    # treatment
+                $correspondence =
+                  first { $_ =~ m/^$subkey/ } @{ $id_correspondence->{$1} };   # treatment.agent.id
             }
             else {
                 $correspondence = $id_correspondence->{$1};
             }
-            $tmp_key = $1 . ':' . $2 . '.' . $correspondence;
-            $val     = $hash->{$tmp_key};
-            $key     = $1 . '.' . $val . '.' . $3;
+
+            # Now that we know which is the term we use to find key-val in $hash
+            $tmp_key = $1 . ':' . $2 . '.' . $correspondence;    # medicalActions.0.treatment.agent.id
+            $val     = $hash->{$tmp_key};                        # DrugCentral:257
+            $key     = join '.', $1, $val, $3;                   # medicalActions.DrugCentral:257.treatment.routeOfAdministration.id
         }
 
-        # Only two
+        # MXF or similar (...we haven't encountered other regex yet)
         else {
 
             $tmp_key = $1 . ':' . $2;

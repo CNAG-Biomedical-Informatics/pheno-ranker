@@ -18,10 +18,10 @@ max_number_var: 10000
 seed: 123456789 
 
 # Set the regex to discard variables that contain a given pattern
-exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure|files|biosamples|interpretations|reference\.id|reference\.description|timeObserved|treatment\.doseIntervals|complexValue\.typedQuantities|dateOfBirth|timestamp|adverseEvents|treatmentTerminationReason|therapeuticRegimen'
+exclude_properties_regex: 'info|notes|label|value|\.high|\.low|metaData|familyHistory|excluded|_visit|dateOfProcedure|files|reference\.id|reference\.description|timeObserved|dateOfBirth|timestamp|treatmentTarget|treatmentIntent|adverseEvents|treatmentTerminationReason'
 
 # Set the terms which are arrays
-array_terms: [diseases,exposures,interventionsOrProcedures,measures,measurements,medicalActions,phenotypicFeatures,treatments]
+array_terms: [biosamples,diseases,exposures,interpretations,interventionsOrProcedures,measures,measurements,medicalActions,phenotypicFeatures,treatments]
 
 # Set the regex to perform the substitution in array elements
 array_regex: '^(\w+):(\d+)\.(\S+)'
@@ -38,6 +38,8 @@ id_correspondence:
   PXF:
     phenotypicFeatures: 'type.id'
     measurements: 'assay.id'
+    biosamples: 'id'
+    interpretations: 'id'
     diseases: 'term.id'
     exposures: 'type.id'
-    medicalActions: ['procedure.bodySite.id','procedure.code.id','treatment.agent.id','treatment.drugType','treatmentIntent.id','treatment.routeOfAdministration.id','treatmentTarget.id'] 
+    medicalActions: ['procedure.code.id','treatment.agent.id','radiationTherapy.modality.id','therapeuticRegimen.ontologyClass.id'] 

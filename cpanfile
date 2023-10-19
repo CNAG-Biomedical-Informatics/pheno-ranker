@@ -6,7 +6,6 @@ requires 'Path::Tiny';
 requires 'Term::ANSIColor';
 requires 'Moo';
 requires 'Types::Standard';
-requires 'Scalar::Util', '1.50';
 requires 'Hash::Fold';
 requires 'Sort::Naturally';
 requires 'Math::CDF';
@@ -20,3 +19,4 @@ requires 'Test::Exception';
 # utils
 requires 'Data::Fake';
 requires 'Text::CSV_XS';
+requires 'Scalar::Util', '>= 1.50';  # core

@@ -8,7 +8,6 @@ use File::Compare;
 
 # The command line script to be tested
 my $script = catfile( 'utils', 'bff_pxf_simulator', 'bff-pxf-simulator' );
-
 my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
 ##########

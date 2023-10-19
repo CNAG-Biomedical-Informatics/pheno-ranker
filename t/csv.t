@@ -7,6 +7,7 @@ use File::Compare;
 
 # The command line script to be tested
 my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
+my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
 ############
 # TEST 1-2 #
@@ -24,9 +25,7 @@ my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
     my $config = catfile( 't', 'example_config.yaml' );
 
     # Run the command line script with the input file, and redirect the output to the output_file
-    my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
     system("$^X $inc $script -i $input_file -sep ';' --set-primary-key --primary-key Id");
-    #system("$script -i $input_file -sep ';' --set-primary-key --primary-key Id");
 
     # Compare the output_file and the reference_file
     ok(

@@ -37,7 +37,3 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     ```
 
     The output will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their Hamming distance to the reference patient.
-
-!!! Warning "About `biosamples` and `interpretations`"
-
-    We are intentionally omitting `biosamples` and `interpretations` due to their potential for deep nesting, and their limited utility for **comparative analysis**.

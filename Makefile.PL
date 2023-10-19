@@ -30,6 +30,7 @@ WriteMakefile(
         'x_contributors' => [],
     },
     PREREQ_PM => {
+        'Scalar::Util'                   => '1.50', # core
         'JSON::XS'                       => '4.03',
         'YAML::XS'                       => '0.88',
         'Path::Tiny'                     => '0.144',
@@ -41,7 +42,6 @@ WriteMakefile(
         'JSON::Validator'                => '5.14',
         'Types::Standard'                => '2.004000',
         'Statistics::Descriptive'        => 0,
-        'Test::Exception'                => '0.43',
         'Hash::Fold'                     => 0,
         'Math::CDF'                      => 0,
         'Data::Fake'                     => 0.006
@@ -54,12 +54,13 @@ WriteMakefile(
 
     ],
     TEST_REQUIRES => {
-        'Test::More'   => '1.30',
-        'Path::Tiny'   => '0.144',
-        'Data::Fake'   => '0.006',
-        'JSON::XS'     => '4.03',
-        'YAML::XS'     => '0.88',
-        'Text::CSV_XS' => '1.50'
+        'Test::More'      => '1.30',
+        'Test::Exception' => '0.43',
+        'Path::Tiny'      => '0.144',
+        'Data::Fake'      => '0.006',
+        'JSON::XS'        => '4.03',
+        'YAML::XS'        => '0.88',
+        'Text::CSV_XS'    => '1.50'
     },
     test               => { TESTS => 't/*.t' },
     CONFIGURE_REQUIRES => {

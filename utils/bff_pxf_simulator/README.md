@@ -32,9 +32,13 @@ A script that creates a JSON array of random BFF/PXF
 
 # SUMMARY
 
-A script that creates a JSON array of random BFF/PXF
+A script that creates a JSON array of random BFF/PXF. 
+
+For complex properties we only implemented `diseases,phenotypicFeatures` and `treatments`. Depending on the user's adoption we might implement more.
 
 # INSTALLATION
+
+(only needed if you did not install `Pheno-Ranker`)
 
     $ cpanm --sudo --installdeps .
 
@@ -48,7 +52,7 @@ A script that creates a JSON array of random BFF/PXF
 
 # HOW TO RUN BFF-PXF-SIMULATOR
 
-The software runs without any argument and assumes defaults. If you want to change some pearmeters please take a look to the synopsis
+The software runs without any argument and assumes defaults. If you want to change some parameters please take a look to the synopsis.
 
 **Examples:**
 

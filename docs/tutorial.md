@@ -109,29 +109,8 @@ In the table below we show which parameters are needed depending on the format:
     - **primary_key**, the key that will be used as an item identifier.
     - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
     - **array_terms**, is an `array` to enumerate which properties are arrays.
-    - **array_regex**, it's an `string` to define how the flattened JSON array elements will be renamed.
-    - **id_correspondence**, is a nested `object` that maps the actual JSON path to a given array element. It's used in combination with `array_regex`.For instance, imagine you have:
-
-    ```bash 
-    genre:0.Biography
-    genre:1.Drama
-    ...
-    ```
-    The regex `'^(\w+):(\d+)'` will capture:
- 
-    ```bash 
-    genre 0
-    genre 1 
-    ```
-
-    And then use `id_correspondence` to rename the key to:
-
-    ```json 
-    genre.Biography
-    genre.Drama 
-    ```
-
-    This way we don't rely on index numbers from the array but on the actual values.
+    - **array_regex**, it's an `string` to parse flattened keys. It's used in conjunction with `id_correspondence`.
+    - **id_correspondence**, is a nested `object` that maps used in combination with `array_regex` to rename array elements and not rely on numeric indexes.
 
 ### Running `Pheno-Ranker`
 
