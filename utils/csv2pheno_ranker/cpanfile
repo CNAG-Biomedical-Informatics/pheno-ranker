@@ -2,6 +2,6 @@
 
 requires 'JSON::XS';
 requires 'Path::Tiny';
-require 'File::Basename';
-require 'YAML::XS';
-require 'Text::CSV_XS';
+requires 'File::Basename';
+requires 'YAML::XS';
+requires 'Text::CSV_XS';
