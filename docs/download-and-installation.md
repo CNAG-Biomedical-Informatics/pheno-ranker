@@ -8,12 +8,14 @@ We provide several alternatives (containerized and non-containerized) for downlo
 !!! Question "Which download method should I use?"
     It depends in which components you want to use and your fluency in performing installations on Linux environments.
 
+    The [CPAN](usage.md#from-cpan) based installation **(Method 3) is the easier** one.
+
     | Use case | Method  |
     | --  | -- |
     | CLI |  3 (CPAN) |
-    | CLI (conda) | 4 (CPAN in Conda env)|
+    | CLI (conda) | 4 (CPAN in Conda env) |
     | CLI | 1 or 2 (Docker; no dependencies) |
-    | Web App UI | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui)
+    | Web App UI | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
 
 ## Containerized
 

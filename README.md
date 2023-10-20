@@ -244,7 +244,7 @@ There are two modes of operation:
         line 1 did not have X elements
         Calls: as.matrix -> read.table -> scan
         Execution halted
-      Solution: Make sure your "id" do not contain spaces (e.g., "my fav id" must be "my_fav_id")
+      Solution: Make sure that the values of your primary key (e.g., "id") do not contain spaces (e.g., "my fav id" must be "my_fav_id")
 
     * Error message: Foo
       Solution: Bar
@@ -253,7 +253,7 @@ There are two modes of operation:
 
 The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the the following reference:
 
-Rueda, M et al., (2023). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. _Manuscript in preparation_.
+Rueda, M et al., (2023). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. _Submitted_.
 
 # AUTHOR 
 

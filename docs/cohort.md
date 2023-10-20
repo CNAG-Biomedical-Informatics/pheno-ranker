@@ -1,15 +1,20 @@
 ## Usage
 
-When using the `pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
+When using the `Pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
 
 === "Intra-cohort"
 
-    We'll be using `individuals.json` which consists of 36 patients.
+    For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
 
     ```
     ./pheno-ranker -r individuals.json 
 
     ```
+
+    This will create a `matrix.txt` file of 36 x 36 cells. 
+
+    --8<-- "tbl/matrix.md"
+
 
     !!! Hint "Hint"
         It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
@@ -19,10 +24,8 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
         ./pheno-ranker -r individuals.json --e
         ./pheno-ranker -r individuals.json --e my_fav_id
         ```
-
-    This will create a `matrix.txt` file of 36 x 36 cells. 
-
-    --8<-- "tbl/matrix.md"
+        The intermediate files can be used for further processing (e.g., import to a database). The file `*coverage.coverage_stats.json` has stats on the coverage of each term in the cohort.
+       
 
      The matrix can be processed to obtain a heatmap:
 
@@ -42,7 +45,7 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     ```
 
     <figure markdown>
-       ![Beacon v2](img/heatmap.png){ width="400" }
+       ![Heatmap](img/heatmap.png){ width="800" }
        <figcaption> Heatmap of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
@@ -89,19 +92,25 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     ```
 
     <figure markdown>
-       ![Beacon v2](img/mds.png){ width="400" }
+       ![MDS](img/mds.png){ width="800" }
        <figcaption> Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
 
 === "Inter-cohort"
 
-    We'll be using again `individuals.json` which consists of 36 patients. To keep track of which patient come from which file the prefix Cx will bed added to the ids
+     We'll be using `individuals.json` again, which includes data for 36 patients. This time, however, we'll use it twice to simulate having two cohorts. The software will add a `CX_` prefix to the `primary_key` values to help us keep track of which patient comes from which usage of the file.
 
     ```
     ./pheno-ranker -r individuals.json individuals.json
 
     ```
+
+    <figure markdown>
+       ![Heatmap](img/cohort1.png){ width="800" }
+       <figcaption> Heatmap of a inter-cohort pairwise comparison</figcaption>
+    </figure>
+
 
     The prefixes can be changed with the flag `--append-prefixes`:
 
@@ -110,3 +119,9 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
     ```
     This will create a `matrix.txt` file of (36+36) x (36+36) cells. Again, this matrix can be processed with R:
+
+    <figure markdown>
+       ![Heatmap](img/cohort2.png){ width="800" }
+       <figcaption> Heatmap of a inter-cohort pairwise comparison</figcaption>
+    </figure>
+

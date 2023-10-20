@@ -10,7 +10,7 @@
 
    `Convert-Pheno` accepts as input data from the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity in [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) format (`individuals.json`).
 
-!!! Tip "Browsing BFF vs `JSON` data"
+!!! Tip "Browsing BFF `JSON` data"
     You can browse a public BFF v2 file with the following **JSON viewers**:
 
     * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/t/individuals.json)
@@ -39,4 +39,4 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     pheno-ranker -r individuals.json -t patient.json
     ```
 
-    The output will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their Hamming distance to the reference patient.
+    The output will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See aditional details in the [Patient Mode](patient.md) page.

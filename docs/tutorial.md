@@ -1,16 +1,16 @@
-!!! th Tip "Google Colab version"
-    We created a [Google Colab version](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB) of the tutorial. Users can view notebooks shared publicly without sign-in, but you need a google account to execute code.
+!!! Tip "Google Colab notebook"
+    Try out `Pheno-Ranker` using our [Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB) notebook. You can view it without signing in, but running the code requires a Google account.
 
     We also have a local copy of the notebook that can be downloaded from the [repo](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/nb/convert_pheno_cli_tutorial.ipynb). 
 
 This page provides brief tutorials on how to perform data conversion by using `Pheno-Ranker`**command-line interface**.
 
 !!! Info "Note on installation"
-    Before proceeding, ensure that the software is properly installed. In the following instructions, it will be assumed that you have downloaded and installed the [containerized version](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#containerized-recommended-method).
+    Before proceeding, ensure that the software is properly installed. In the following instructions, it will be assumed that you have downloaded and installed `Pheno-Ranker`.
 
 ### Moviepackets:
 
-For the tutorial we will use the format **Moviepackets** to demonstrate the power of `Pheno-Ranker` with any JSON file.
+For the tutorial we will use the format **Moviepackets** to demonstrate the power of `Pheno-Ranker` with any `JSON` file.
 
 <figure markdown>
  ![MoviePackets](img/moviepackets-logo.png){ width="300" }
@@ -20,7 +20,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
     A Moviepacket is an invented format :smile: designed to describe movies, analogous to Phenopackets v2 used for pheno-clinical data.
 
 
-Imagine you have a catalog of 25 movies described in JSON format. Each movie has several `properties` (a.k.a. `terms`).
+Imagine you have a catalog of 25 movies described in `JSON` format. Each movie has several `properties` (a.k.a. `terms`).
 
 ```bash
 [
@@ -46,7 +46,7 @@ Imagine you have a catalog of 25 movies described in JSON format. Each movie has
 ]
 ```
 
-You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. The first thing that we are going to create is a configuration file.
+You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. The first thing that we are going to create is a **configuration file**.
 
 !!! Question "What is a `Pheno-Ranker` configuration file?"
     A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box_ that are [BFF](bff.md) and [PXF](pxf.md).
@@ -54,11 +54,11 @@ You are interested in checking the variety of your catalog and plan to use `Phen
 !!! Tip "Do I need to create a configuration file?"
     This file only has to be created if you are working with **your own JSON format**.
 
-    If your format is similar to that to Moviepackets just use that file, making sure you **change the terms** to match yours.
+    If your file format resembles Moviepackets, you can use that file directly. Just ensure you **modify the terms** to align with your data.
 
 ### Creating a configuration file
 
-To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movie_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
+To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
 
 ```bash
 # Set the format
@@ -110,7 +110,7 @@ In the table below we show which parameters are needed depending on the format:
     - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
     - **array_terms**, is an `array` to enumerate which properties are arrays.
     - **array_regex**, it's an `string` to parse flattened keys. It's used in conjunction with `id_correspondence`.
-    - **id_correspondence**, is a nested `object` that maps used in combination with `array_regex` to rename array elements and not rely on numeric indexes.
+    - **id_correspondence**, is an `object` that (in combination with `array_regex`) serves to rename array elements and not rely on numeric indexes.
 
 ### Running `Pheno-Ranker`
 
@@ -211,7 +211,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     To single out the 'Interstellar' movie data:
 
-    `pheno-ranker -r t/movies.json --patient-of-interest Interstellar --config t/movies_config.yaml`
+    `pheno-ranker -r t/movies.json --patients-of-interest Interstellar --config t/movies_config.yaml`
 
     This command will carry out a dry-run, producing an extracted JSON object named `Interstellar.json`.
 

@@ -61,7 +61,7 @@ nav:
           - PXF: pxf.md
           - Other formats: other-formats.md
   - 'Download & Installation': download-and-installation.md
-  - Web App User interface: https://convert-pheno.cnag.cat
+  - Web App User interface: https://pheno-ranker.cnag.cat
   - Modes of operation:
       - Cohort mode: cohort.md 
       - Patient mode: patient.md

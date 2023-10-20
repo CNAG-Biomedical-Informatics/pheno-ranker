@@ -7,9 +7,9 @@
 
 Phenopackets use [top-level](https://phenopacket-schema.readthedocs.io/en/latest/toplevel.html) elements in order to structure the information. We'll be focussing on the element [Phenopacket](https://phenopacket-schema.readthedocs.io/en/latest/phenopacket.html).
 
-!!! Tip "Browsing PXF vs `JSON` data"
+!!! Tip "Browsing PXF `JSON` data"
 
-    You can browse a public Phenopackets v2 file with onf of teh following **JSON viewers**:
+    You can browse a public Phenopackets v2 file with onf of the following **JSON viewers**:
 
     * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/convert-pheno/main/t/pxf2bff/in/pxf.json)
     * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fconvert-pheno%2Fmain%2Ft%2Fomop2pxf%2Fout%2Fpxf.json#/data?sql=select+*+from+pxf)
@@ -36,4 +36,4 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     pheno-ranker -r pxf.json -t patient.json
     ```
 
-    The output will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their Hamming distance to the reference patient.
+    The output will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See aditional details in the [Patient Mode](patient.md) page.
