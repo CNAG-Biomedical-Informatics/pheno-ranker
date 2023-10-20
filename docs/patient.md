@@ -23,20 +23,6 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     --8<-- "tbl/rank-one.md"
 
-    !!! Abstract "Obtaining additional information on the alignments"
-
-        You can create several files related to the alignment by adding `--align`.
-
-        ```
-        pheno-ranker -r individuals.json -t patient.json --align
-        ```
-
-        or
-
-        ```
-        pheno-ranker -r individuals.json -t patient.json --align my_fav_preffix
-        ```
-
 === "Against multiple cohorts"
 
     Example:
@@ -53,7 +39,40 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     --8<-- "tbl/rank-multiple.md"
 
-    !!! Question "Why the distance is equal to `1` and not `0` if the three cohorts are identtical?"
+    !!! Question "Why the distance for `107:week_0_arm_1` is not `0` if the three cohorts are identical?"
 
-        Because by default we are including the `primary_key` (`id`in this case).
-        You can exclude it by adding `--exclude-terms id`.
+        Because by default we are including the `primary_key` (`id` in this case). Note that in _Patient Mode_ the reference vector is build with reference individuals, not with the patient.
+
+        You can exclude `id` by adding `--exclude-terms id`.
+
+    !!! Abstract "Obtaining additional information on the alignments"
+
+        You can create several files related to the reference --- target alignment by adding `--align`. Example:
+
+        ```
+        pheno-ranker -r individuals.json individuals.json -t patient.json --align # (optional preffix)
+        ```
+
+    Find below an extract of the alignment (`C1_107:week_0_arm_1 --- 107:week_0_arm_1`) extracted from `alignment.txt`:
+
+    ```
+    REF -- TAR
+    1 ----- 1 | (w:  1|d:  0|cd:  0|) diseases.NCIT:C3138.diseaseCode.id.NCIT:C3138 (Inflammatory Bowel Disease)
+    1 ----- 1 | (w:  1|d:  0|cd:  0|) ethnicity.id.NCIT:C41261 (Caucasian)
+    1 ----- 1 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C154329.exposureCode.id.NCIT:C154329 (Smoking)
+    1 ----- 1 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C154329.unit.id.NCIT:C65108 (Never Smoker)
+    0       0 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C154329.unit.id.NCIT:C67147 (Current Smoker)
+    0       0 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C154329.unit.id.NCIT:C67148 (Former Smoker)
+    1 ----- 1 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C2190.exposureCode.id.NCIT:C2190 (Alcohol)
+    0       0 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C2190.unit.id.NCIT:C126379 (Non-Drinker)
+    0       0 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C2190.unit.id.NCIT:C156821 (Alcohol Consumption More than 2 Drinks per Day for Men and More than 1 Drink per Day for Women)
+    1 ----- 1 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C2190.unit.id.NCIT:C17998 (Unknown)
+    0       0 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C73993.exposureCode.id.NCIT:C73993 (Pack Year)
+    0       0 | (w:  1|d:  0|cd:  0|) exposures.NCIT:C73993.unit.id.NCIT:C73993 (Pack Year)
+    1 xxx-- 0 | (w:  1|d:  1|cd:  1|) id.C1_107:week_0_arm_1 (id.C1_107:week_0_arm_1)
+    0       0 | (w:  1|d:  0|cd:  1|) id.C1_107:week_14_arm_1 (id.C1_107:week_14_arm_1)
+    0       0 | (w:  1|d:  0|cd:  1|) id.C1_107:week_2_arm_1 (id.C1_107:week_2_arm_1)
+    0       0 | (w:  1|d:  0|cd:  1|) id.C1_125:week_0_arm_1 (id.C1_125:week_0_arm_1)
+    0       0 | (w:  1|d:  0|cd:  1|) id.C1_125:week_14_arm_1 (id.C1_125:week_14_arm_1)
+    ...
+    ```

@@ -22,7 +22,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 
 Imagine you have a catalog of 25 movies described in `JSON` format. Each movie has several `properties` (a.k.a. `terms`).
 
-```bash
+```json
 [
   {
     "title": "TheShawshankRedemption",
@@ -60,7 +60,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
 
 To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
 
-```bash
+```yaml
 # Set the format
 format: MXF # Optional unless you have array-based properties
 
@@ -73,7 +73,7 @@ allowed_terms: [country,genre,year]
 
 But because your data has the term `genre`, which is an `array` the file will look like this:
 
-```bash
+```yaml
 # Set the format
 format: MXF
 
