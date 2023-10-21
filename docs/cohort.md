@@ -1,3 +1,5 @@
+_Cohort mode_ performs a **cross-comparison of all individuals** in a cohort using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric. The resulting distance matrix can be further analyzed (e.g., with `R`) for cluster characterization or processed through dimensionality reduction.
+
 ## Usage
 
 When using the `Pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
@@ -11,7 +13,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     ```
 
-    This will create a `matrix.txt` file of 36 x 36 cells. 
+    This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
 
     --8<-- "tbl/matrix.md"
 
@@ -105,6 +107,9 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     ./pheno-ranker -r individuals.json individuals.json
 
     ```
+
+    !!! Question "Is it possible to have a cohort with just one individual?"
+        Absolutely, a cohort can indeed be composed of a single individual. This allows for an analysis involving both a cohort and specific patient(s) simultaneously.
 
     <figure markdown>
        ![Heatmap](img/cohort1.png){ width="800" }

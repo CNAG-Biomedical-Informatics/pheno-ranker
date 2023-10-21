@@ -1,3 +1,5 @@
+_Patient mode_ aims to determine which **individuals in the cohort** are the **closest to our patient** by ranking them using (dis)similarity metrics.
+
 ## Usage
 
 When using the `Pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
@@ -25,11 +27,11 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
 === "Against multiple cohorts"
 
-    Example:
-
     The process mirrors handling a single cohort; the sole distinction is the addition of a prefix to each `primary_key`, enabling us to trace the origin of every individual.
 
     Let's reuse `individuals.json` to have the impression of having more than one cohort.
+
+    Example:
 
     ```
     pheno-ranker -r individuals.json individuals.json individuals.json -t patient.json --max-out 10 -o rank_multiple.txt
@@ -41,9 +43,9 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     !!! Question "Why the distance for `107:week_0_arm_1` is not `0` if the three cohorts are identical?"
 
-        Because by default we are including the `primary_key` (`id` in this case). Note that in _Patient Mode_ the reference vector is build with reference individuals, not with the patient.
+        In _Patient mode_, the global vector is formed using variables solely from the reference cohort(s), not the patient's. The `primary_key` (`id` in this context) is automatically included, leading to a distance of 1 due to the mismatch in the individual's `id` field.
 
-        You can exclude `id` by adding `--exclude-terms id`.
+        Note that you can exclude `id` by adding `--exclude-terms id`.
 
     !!! Abstract "Obtaining additional information on the alignments"
 
