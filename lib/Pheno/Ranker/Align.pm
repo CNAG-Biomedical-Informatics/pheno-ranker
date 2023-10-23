@@ -730,6 +730,7 @@ sub add_id2key {
         # Now we use $array_regex to capture $1, $2 and $3 for BFF/PXF
         # NB: For others (e.g., MXF) we will have only $1 and $2
         $key =~ m/$array_regex/;
+
         #say "<$1> <$2> <$3>";
 
         my ( $tmp_key, $val );
@@ -765,6 +766,16 @@ sub add_id2key {
             $key     = $1;
         }
     }
+
+    # $key = 'Bar:1' means that we have array but the user either:
+    #  a) Made a mistake in the config
+    #  b) Is not using the right config file 
+    else {
+        die
+"<$1> contains array elements but is not defined as an array in <$self->{config_file}>. Please check your syntax and configuration file.\n"
+          if $key =~ m/(\w+):/;
+    }
+
     return $key;
 }
 
