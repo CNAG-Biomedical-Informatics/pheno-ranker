@@ -773,7 +773,7 @@ sub add_id2key {
     else {
         die
 "<$1> contains array elements but is not defined as an array in <$self->{config_file}>. Please check your syntax and configuration file.\n"
-          if $key =~ m/(\w+):/;
+          if $key =~ m/^(\w+):/;
     }
 
     return $key;
