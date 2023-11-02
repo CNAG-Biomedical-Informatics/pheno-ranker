@@ -73,7 +73,7 @@ my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
     # The generated output file
     my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 0 );
+      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
