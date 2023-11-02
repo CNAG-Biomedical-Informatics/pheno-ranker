@@ -28,7 +28,7 @@ graph LR
 A [Web App UI](https://cnag-biomedical-informatics.github.io/convert-pheno-ui) enhances its functionality, built upon this [command-line interface](usage.md).
 
 !!! Tip "Which one should I use?"
-    Start with the `Pheno-Ranker` [Web App UI Playground](https://pheno-ranker.cnag.cat) for a practical introduction. When you're ready for more advanced features, turn to the [CLI](usage.md).
+    Start with the `Pheno-Ranker` [Web App UI Playground](https://pheno-ranker.cnag.eu) for a practical introduction. When you're ready for more advanced features, turn to the [CLI](usage.md).
 
 ## Utils
 
