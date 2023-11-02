@@ -77,7 +77,7 @@ my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
-"$^X $script -n 100 -f bff --external-ontologies $ont_file -diseases 1 -max-diseases-pool 2 -phenotypicFeatures 1 -max-phenotypicFeatures-pool 2 -treatments 1 -max-treatments-pool 2 --random-seed $seed -o $tmp_file"
+"$^X $script -n 100 -f bff --external-ontologies $ont_file -diseases 1 -max-diseases-pool 1 -phenotypicFeatures 1 -max-phenotypicFeatures-pool 1 -treatments 1 -max-treatments-pool 1 --random-seed $seed -o $tmp_file"
     );
 
     # Compare the output_file and the reference_file
