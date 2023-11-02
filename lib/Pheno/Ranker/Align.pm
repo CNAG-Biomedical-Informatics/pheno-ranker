@@ -769,7 +769,7 @@ sub add_id2key {
 
     # $key = 'Bar:1' means that we have array but the user either:
     #  a) Made a mistake in the config
-    #  b) Is not using the right config file 
+    #  b) Is not using the right config file
     else {
         die
 "<$1> contains array elements but is not defined as an array in <$self->{config_file}>. Please check your syntax and configuration file.\n"

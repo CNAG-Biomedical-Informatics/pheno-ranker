@@ -6,6 +6,9 @@ use File::Temp qw{ tempfile };    # core
 use Test::More tests => 3;        # Indicate the number of tests you want to run
 use File::Compare;
 
+# Seed for srand
+my $seed = 12345;
+
 # The command line script to be tested
 my $script = catfile( 'utils', 'bff_pxf_simulator', 'bff-pxf-simulator' );
 my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
@@ -24,7 +27,7 @@ my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
-"$^X $inc $script -n 100 -f bff -diseases 10 -max-diseases-pool 10 -phenotypicFeatures 10 -max-phenotypicFeatures-pool 10 -treatments 10 --max-treatments-pool 10 --random-seed 12345 -o $tmp_file"
+"$^X $inc $script -n 100 -f bff -diseases 10 -max-diseases-pool 10 -phenotypicFeatures 10 -max-phenotypicFeatures-pool 10 -treatments 10 --max-treatments-pool 10 --random-seed $seed -o $tmp_file"
     );
 
     # Compare the output_file and the reference_file
@@ -48,7 +51,7 @@ my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
-"$^X $script -n 1000 -f bff -diseases 10 -max-diseases-pool 10 -phenotypicFeatures 10 -max-phenotypicFeatures-pool 10 -treatments 10 --max-treatments-pool 10 --random-seed 12345 -o $tmp_file"
+"$^X $script -n 1000 -f bff -diseases 10 -max-diseases-pool 10 -phenotypicFeatures 10 -max-phenotypicFeatures-pool 10 -treatments 10 --max-treatments-pool 10 --random-seed $seed -o $tmp_file"
     );
 
     # Compare the output_file and the reference_file
@@ -70,11 +73,11 @@ my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 
     # The generated output file
     my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 0 );
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
-"$^X $script -n 100 -f bff -external-ontologies $ont_file -diseases 1 -max-diseases-pool 1 -phenotypicFeatures 1 -max-phenotypicFeatures-pool 1 -treatments 1 --max-treatments-pool 1 --random-seed 12345 -o $tmp_file"
+"$^X $script -n 100 -f bff --external-ontologies $ont_file -diseases 1 -max-diseases-pool 2 -phenotypicFeatures 1 -max-phenotypicFeatures-pool 2 -treatments 1 -max-treatments-pool 2 --random-seed $seed -o $tmp_file"
     );
 
     # Compare the output_file and the reference_file
