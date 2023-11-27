@@ -39,8 +39,8 @@ sub cohort_comparison {
     my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
     my $num_items                   = scalar @sorted_keys_ref_binary_hash;
 
-    # Define #items limit for switching to whole matrix calculation
-    my $max_items = 10_000;
+    # Define limit #items for switching to whole matrix calculation
+    my $max_items = 5_000;
     my $switch    = $num_items > $max_items ? 1 : 0;
 
     # Opening file for output
@@ -75,13 +75,11 @@ sub cohort_comparison {
                 $distance = $i == $j ? 0 : hd_fast( $str1, $str2 );
             }
             else {
-
                 if ( $i == $j ) {
 
                     # Distance is zero for diagonal elements
                     $distance = 0;
                 }
-
                 elsif ( $j > $i ) {
 
                     # Compute distance for large cohorts or upper triangle

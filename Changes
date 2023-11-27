@@ -6,5 +6,6 @@ Revision history for Perl distribution Pheno-Ranker
  - Got rid of trailing \t at the end of the rows in matrix.txt
  - Minor changes in STDERR messages
  - Added a TODO block to t/sim.t (t3) which fails in ~10% of CPAN systems tested
+ - Deleted Carton install instructions from README.md
 
 NOTE: All versions <= 0.02 were used for testing deployment via CPAN.

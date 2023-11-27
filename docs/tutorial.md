@@ -293,8 +293,8 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     |Number | Time  | RAM  | Time  | RAM  |
     | 100   | 0.5s  | <1GB | <0.5s | <1GB |
     | 1K    | 1s    | <1GB | <0.5s | <1GB |
-    | 5K    | 15s   | 1GB  | <0.5s | <1GB |
-    | 10K   | 1m30s | 3GB  | <1s   | <1GB |
+    | 5K    | 15s   | <1GB | <0.5s | <1GB |
+    | 10K   | 1m30s | <1GB | <1s   | <1GB |
     | 50K   | 1h    | <1GB*|  3s   | <1GB |
     | 100K  |  -    |  -   |  6s   | <1GB |
     | 1M    |  -    |  -   |  1m   | <4GB |
@@ -302,4 +302,4 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
 
     !!! Note "* About RAM usage in cohort mode"
-        After reaching 10,000 rows, Pheno-Ranker adopts a RAM-efficient approach, where it calculates the entire symmetric matrix without storing it in memory.
+        After reaching 5K rows, Pheno-Ranker adopts a RAM-efficient approach, where it calculates the entire symmetric matrix without storing it in memory.

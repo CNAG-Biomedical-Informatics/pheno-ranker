@@ -9,7 +9,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/CNAG-Biomedical-Informatics/pheno-ranker/badge.svg?branch=main)](https://coveralls.io/github/CNAG-Biomedical-Informatics/pheno-ranker?branch=main)
 [![CPAN Publish](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml)
 [![Kwalitee Score](https://cpants.cpanauthors.org/dist/Pheno-Ranker.svg)](https://cpants.cpanauthors.org/dist/Pheno-Ranker)
-![version](https://img.shields.io/badge/version-0.02_beta-orange)
+![version](https://img.shields.io/badge/version-0.03_beta-orange)
 [![Docker Build](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build.yml)
 [![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/pheno-ranker?icon=docker&label=pulls)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
 [![Docker Image Size](https://badgen.net/docker/size/manuelrueda/pheno-ranker?icon=docker&label=image%20size)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
@@ -68,6 +68,8 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
 # DESCRIPTION
 
 pheno-ranker: A script that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
+
+The script also accepts CSV files that have been pre-processed using the `csv2pheno-ranker` utility (included).
 
 # SUMMARY
 
@@ -144,7 +146,7 @@ Install system level dependencies:
 
     sudo apt-get install cpanminus libperl-dev
 
-Now you have two choose between one of the 3 options below:
+Now you have two choose between one of the 2 options below:
 
 **Option 1:** Install dependencies (they're harmless to your system) as `sudo`:
 
@@ -161,21 +163,13 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
-**Option 3:** Install the dependencies in a "virtual environment" (at `local/`) . We'll be using the module `Carton` for that:
-
-    mkdir local
-    cpanm --notest --local-lib=local/ Carton
-    export PATH=$PATH:local/bin; export PERL5LIB=$(pwd)/local/lib/perl5:$PERL5LIB
-    carton install
-    carton exec -- bin/pheno-ranker -help
-
 ### From CPAN
 
 First install system level dependencies:
 
     sudo apt-get install cpanminus libperl-dev
 
-Now you have two choose between one of the 3 options below:
+Now you have two choose between one of the 2 options below:
 
 **Option 1:** System-level installation:
 
@@ -191,15 +185,6 @@ Now you have two choose between one of the 3 options below:
 To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
-
-**Option 3:** Install Pheno-Ranker and the dependencies in a "virtual environment" (at `local/`) . We'll be using the module `Carton` for that:
-
-    mkdir local
-    cpanm --notest --local-lib=local/ Carton
-    echo "requires 'Pheno::Ranker';" > cpanfile
-    export PATH=$PATH:local/bin; export PERL5LIB=$(pwd)/local/lib/perl5:$PERL5LIB
-    carton install
-    carton exec -- pheno-ranker -help
 
 ### System requirements
 
