@@ -2,6 +2,7 @@ Revision history for Perl distribution Pheno-Ranker
 
 0.03 2023-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Testing deployment in CPAN
+ - Minor changes in STDERR messages
+ - Added a TODO block to t/sim.t (t3) which fails in ~10% of CPAN systems tested
 
-NOTE: All versions prior to 0.03 were used for testing deployment via CPAN.
+NOTE: All versions <= 0.02 were used for testing deployment via CPAN.

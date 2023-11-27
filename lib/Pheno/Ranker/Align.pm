@@ -31,25 +31,26 @@ sub cohort_comparison {
     my ( $ref_binary_hash, $self ) = @_;
     my $out_file = $self->{out_file};
 
+    # Inform about the start of the comparison process
     say "Performing COHORT comparison"
       if ( $self->{debug} || $self->{verbose} );
 
-    # *** IMPORTANT ***
-    # The ids/cohorts are naturally sorted (it won't match --append-prefixes!!!)
+    # Sorting keys of the hash
     my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
+    my $num_items                   = scalar @sorted_keys_ref_binary_hash;
 
-    # Print to  $out_file
-    #
+    # Define #items limit for switching to whole matrix calculation
+    my $max_items = 10_000;
+    my $switch    = $num_items > $max_items ? 1 : 0;
+
+    # Opening file for output
     open( my $fh, ">", $out_file );
     say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
-    # NB: It's a symmetric matrix so we could just compute
-    #     triangle. However,  R needs the whole matrix
-
-    # Initialize the 2D matrix
+    # Initialize matrix for storing distances
     my @matrix;
 
-    # I elements
+    # Iterate over items (I elements)
     for my $i ( 0 .. $#sorted_keys_ref_binary_hash ) {
         say "Calculating <"
           . $sorted_keys_ref_binary_hash[$i]
@@ -59,36 +60,52 @@ sub cohort_comparison {
           {binary_digit_string_weighted};
         print $fh $sorted_keys_ref_binary_hash[$i] . "\t";
 
-        # J elements
+        # Iterate for pairwise comparisons (J elements)
         for my $j ( 0 .. $#sorted_keys_ref_binary_hash ) {
             my $str2 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
               {binary_digit_string_weighted};
             my $distance;
 
-            if ( $j < $i ) {
+            if ($switch) {
 
-                # Use the distance from the lower triangle
-                $distance = $matrix[$j][$i];
-            }
-            elsif ( $j == $i ) {
-                $distance = 0;    # Diagonal element
+                # Compute every distance for large datasets
+                my $str2 =
+                  $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
+                  {binary_digit_string_weighted};
+                $distance = $i == $j ? 0 : hd_fast( $str1, $str2 );
             }
             else {
-                # Compute the distance and store it in the matrix
-                $distance = hd_fast( $str1, $str2 );
-                $matrix[$i][$j] = $distance;
+
+                if ( $i == $j ) {
+
+                    # Distance is zero for diagonal elements
+                    $distance = 0;
+                }
+
+                elsif ( $j > $i ) {
+
+                    # Compute distance for large cohorts or upper triangle
+                    $distance = hd_fast( $str1, $str2 );
+                    $matrix[$i][$j] = $distance;
+                }
+                else {
+                    # Use precomputed distance from lower triangle
+                    $distance = $matrix[$j][$i];
+                }
             }
 
-            # Fill out the other triangle
-            $matrix[$j][$i] = $distance;
-
-            print $fh $distance . "\t";
+            # Print a tab before each distance except the first one
+            print $fh "\t" if $j > 0;
+            print $fh $distance;
         }
 
         print $fh "\n";
     }
 
+    # Close the file handle
     close $fh;
+
+    # Inform about the completion of the matrix computation
     say "Matrix saved to <$out_file>" if ( $self->{debug} || $self->{verbose} );
     return 1;
 }

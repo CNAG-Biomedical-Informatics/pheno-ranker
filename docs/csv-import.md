@@ -34,7 +34,7 @@
         
         Column `Bar` is an array and columns `Foo`and `Baz` aren't. Your file does not have a column that can be used as an **identifier** for each row.
         
-        OK, we are going to use the included [utility]() to convert `example.csv`:
+        OK, we are going to use the included [utility](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/csv2pheno_ranker/README.md) to convert `example.csv`:
         
         ```bash
         ./csv2pheno-ranker -i example.csv --set-primary-key --primary-key Id
