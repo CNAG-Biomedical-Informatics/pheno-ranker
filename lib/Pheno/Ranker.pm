@@ -8,6 +8,7 @@ use Data::Dumper;
 use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 use File::Spec::Functions qw(catdir catfile);
+use Term::ANSIColor qw(:constants);
 use Moo;
 use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef Bool);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
@@ -18,6 +19,9 @@ use Pheno::Ranker::Stats;
 
 use Exporter 'import';
 our @EXPORT_OK = qw($VERSION write_json);
+
+# Personalize die function
+$SIG{__DIE__} = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
@@ -64,7 +68,10 @@ sub _set_basic_config {
     $config_sort_by        = $config->{sort_by} // 'hamming';
     $config_max_out        = $config->{max_out} // 50;
     $config_max_number_var = $config->{max_number_var} // 10_000;
-    $config_seed           = defined $config->{seed} && Int->check($config->{seed}) ? $config->{seed} : 123456789;
+    $config_seed =
+          ( defined $config->{seed} && Int->check( $config->{seed} ) )
+          ? $config->{seed}
+          : 123456789;
 }
 
 # Private Method: _validate_and_set_exclusive_config
@@ -83,7 +90,6 @@ sub _validate_and_set_exclusive_config {
 # Sets additional configuration parameters on $self.
 sub _set_additional_config {
     my ($self, $config, $config_file) = @_;
-
     $self->{primary_key}              = $config->{primary_key} // 'id';
     $self->{exclude_properties_regex} = $config->{exclude_properties_regex} // '';
     $self->{array_terms}              = $config->{array_terms} // ['foo'];
@@ -135,7 +141,7 @@ has hpo_file => (
         $_[0] // catfile( $share_dir, 'db', 'hp.json' );
     },
     is  => 'ro',
-    isa => sub { die "$_[0] is not a valid file" unless -e $_[0] },
+    isa => sub { die "Error <$_[0]> is not a valid file" unless -e $_[0] },
 );
 
 has poi_out_dir => (
@@ -144,7 +150,7 @@ has poi_out_dir => (
         $_[0] // catdir('./');
     },
     is  => 'ro',
-    isa => sub { die "$_[0] dir does not exist" unless -d $_[0] },
+    isa => sub { die "<$_[0]> dir does not exist" unless -d $_[0] },
 );
 
 has [qw /include_terms exclude_terms/] => (

@@ -6,7 +6,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Added error when --include-terms does not exist in cohort(s)
  - Added t/die.t for the above condition (+others)
  - Refactored the code in .t and .pm to enhance readability and maintainability
- - Minor changes in STDERR messages
+ - Spiced up die messages with a BOLD RED "Error: " prefix
 
 0.03 2023-11-27T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 

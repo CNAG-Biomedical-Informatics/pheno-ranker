@@ -163,7 +163,7 @@ sub array2object {
         }
         else {
             die
-"Sorry, your file has $n patients but only 1 patient is allowed with <-t>\n";
+"Expected 1 patient, found $n patients in your target file\n";
         }
     }
     return $data;
@@ -235,22 +235,12 @@ sub check_existence_of_include_terms {
 
     my ( $coverage, $include_terms ) = @_;
 
-    # Return 1 (true) if include_terms is empty
+    # Return true if include_terms is empty
     return 1 unless @$include_terms;
 
-    # Flag to indicate if any term exists
-    my $term_exists = 0;
-
-    # Check each term; set flag if any term exists
-    foreach my $term (@$include_terms) {
-        if ( exists $coverage->{coverage_terms}{$term} ) {
-            $term_exists = 1;
-            last;    # Exit loop after finding a term, but no premature return from the subroutine
-        }
-    }
-
-    # Return the status of term existence
-    return $term_exists;
+    # Check for the existence of any term in include_terms within coverage
+    # Returns true if any term exists, false otherwise
+    return any { exists $coverage->{coverage_terms}{$_} } @$include_terms;
 }
 
 sub append_and_rename_primary_key {
@@ -260,13 +250,8 @@ sub append_and_rename_primary_key {
     my $append_prefixes = $arg->{append_prefixes};
     my $primary_key     = $arg->{primary_key};
 
-    # Return early if there is only one cohort
-    if ( @$ref_data == 1 ) {
-        my $first_element = $ref_data->[0];
-        return ( ref $first_element eq 'HASH' )
-          ? [$first_element]
-          : $first_element;
-    }
+    # Early return if there is only one element in ref_data
+    return (ref $ref_data->[0] eq 'HASH' ? [$ref_data->[0]] : $ref_data->[0]) if @$ref_data == 1;
 
     my @data;
     for my $index ( 0 .. $#$ref_data ) {
