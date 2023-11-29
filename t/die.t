@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use lib ( './lib', '../lib' );
-use Test::Exception tests => 2;
+use Test::Exception tests => 1;
 use Pheno::Ranker;
 
 {
