@@ -1,6 +1,14 @@
 Revision history for Perl distribution Pheno-Ranker
 
-0.03 2023-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+0.04 2023-11-xxT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+
+ - Added List::MoreUtils to cpanfile and Makefile.PL
+ - Added error when --include-terms does not exist in cohort(s)
+ - Added t/die.t for the above condition (+others)
+ - Refactored the code in .t and .pm to enhance readability and maintainability
+ - Minor changes in STDERR messages
+
+0.03 2023-11-27T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Changed Align.pm to switch to full 2D-matrix computation for >5K rows 
  - Got rid of trailing \t at the end of the rows in matrix.txt

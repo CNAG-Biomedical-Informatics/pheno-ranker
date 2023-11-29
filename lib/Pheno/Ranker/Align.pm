@@ -5,8 +5,6 @@ use warnings;
 use autodie;
 use feature qw(say);
 use List::Util qw(any shuffle first);
-
-#use List::MoreUtils qw(duplicates);
 use Data::Dumper;
 use Sort::Naturally qw(nsort);
 use Hash::Fold fold => { array_delimiter => ':' };
@@ -58,7 +56,9 @@ sub cohort_comparison {
           if $self->{verbose};
         my $str1 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$i] }
           {binary_digit_string_weighted};
-        print $fh $sorted_keys_ref_binary_hash[$i] . "\t";
+
+        # Print first column (w/o \t)
+        print $fh $sorted_keys_ref_binary_hash[$i];
 
         # Iterate for pairwise comparisons (J elements)
         for my $j ( 0 .. $#sorted_keys_ref_binary_hash ) {
@@ -92,9 +92,8 @@ sub cohort_comparison {
                 }
             }
 
-            # Print a tab before each distance except the first one
-            print $fh "\t" if $j > 0;
-            print $fh $distance;
+            # Print a tab before each distance
+            print $fh "\t", $distance;
         }
 
         print $fh "\n";

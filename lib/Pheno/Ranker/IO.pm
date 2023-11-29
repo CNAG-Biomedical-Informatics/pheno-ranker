@@ -7,14 +7,14 @@ use feature qw(say);
 use Path::Tiny;
 use File::Basename;
 use File::Spec::Functions qw(catdir catfile);
-use List::Util            qw(any);
-use YAML::XS              qw(LoadFile DumpFile);
+use List::Util qw(any);
+use YAML::XS qw(LoadFile DumpFile);
 use JSON::XS;
 
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
 our @EXPORT =
-  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json write_array2txt array2object validate_json write_poi coverage_stats append_and_rename_primary_key);
+  qw(serialize_hashes write_alignment io_yaml_or_json read_json read_yaml write_json write_array2txt array2object validate_json write_poi coverage_stats check_existence_of_include_terms append_and_rename_primary_key);
 use constant DEVEL_MODE => 0;
 
 #########################
@@ -220,7 +220,7 @@ sub say_errors {
 
 sub coverage_stats {
 
-    use Data::Dumper;
+    #use Data::Dumper;
     my $data     = shift;
     my $coverage = {};
     for my $item (@$data) {
@@ -231,6 +231,28 @@ sub coverage_stats {
     return { cohort_size => scalar @$data, coverage_terms => $coverage };
 }
 
+sub check_existence_of_include_terms {
+
+    my ( $coverage, $include_terms ) = @_;
+
+    # Return 1 (true) if include_terms is empty
+    return 1 unless @$include_terms;
+
+    # Flag to indicate if any term exists
+    my $term_exists = 0;
+
+    # Check each term; set flag if any term exists
+    foreach my $term (@$include_terms) {
+        if ( exists $coverage->{coverage_terms}{$term} ) {
+            $term_exists = 1;
+            last;    # Exit loop after finding a term, but no premature return from the subroutine
+        }
+    }
+
+    # Return the status of term existence
+    return $term_exists;
+}
+
 sub append_and_rename_primary_key {
 
     my $arg             = shift;
@@ -238,45 +260,36 @@ sub append_and_rename_primary_key {
     my $append_prefixes = $arg->{append_prefixes};
     my $primary_key     = $arg->{primary_key};
 
-    # Premature return if @$ref_data == 1 (only 1 cohort)
-    # *** IMPORTANT ***
-    # $ref_data->[0] can be ARRAY or HASH
-    # We force HASH to be ARRAY
-    return ref $ref_data->[0] eq ref {} ? [ $ref_data->[0] ] : $ref_data->[0]
-      if @$ref_data == 1;
+    # Return early if there is only one cohort
+    if ( @$ref_data == 1 ) {
+        my $first_element = $ref_data->[0];
+        return ( ref $first_element eq 'HASH' )
+          ? [$first_element]
+          : $first_element;
+    }
 
-    # NB: for is a bit faster than map
-    my $count = 1;
+    my @data;
+    for my $index ( 0 .. $#$ref_data ) {
+        my $item   = $ref_data->[$index];
+        my $prefix = $append_prefixes->[$index] // 'C' . ( $index + 1 ) . '_';
 
-    # We have to load into a new array data
-    my $data;
-    for my $item (@$ref_data) {
-
-        my $prefix =
-            $append_prefixes->[ $count - 1 ]
-          ? $append_prefixes->[ $count - 1 ] . '_'
-          : 'C' . $count . '_';
-
-        # ARRAY
-        if ( ref $item eq ref [] ) {
+        # array
+        if ( ref $item eq 'ARRAY' ) {
             for my $individual (@$item) {
                 $individual->{$primary_key} =
                   $prefix . $individual->{$primary_key};
-                push @$data, $individual;
+                push @data, $individual;
             }
         }
 
-        # Object
+        # object
         else {
             $item->{$primary_key} = $prefix . $item->{$primary_key};
-            push @$data, $item;
+            push @data, $item;
         }
-
-        # Add $count
-        $count++;
     }
 
-    return $data;
+    return \@data;
 }
 
 1;
