@@ -20,8 +20,9 @@ use Pheno::Ranker::Stats;
 use Exporter 'import';
 our @EXPORT_OK = qw($VERSION write_json);
 
-# Personalize die function
-$SIG{__DIE__} = sub { die BOLD RED "Error: ", @_ };
+# Personalize warn and die functions
+$SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
+$SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
@@ -42,8 +43,9 @@ my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
 
 # Complex defaults here
 has 'config_file' => (
-    is      => 'ro',
-    isa     => sub { die "Config file '$_[0]' is not a valid file" unless -e $_[0] },
+    is  => 'ro',
+    isa =>
+      sub { die "Config file '$_[0]' is not a valid file" unless -e $_[0] },
     default => $default_config_file,
     coerce  => sub { $_[0] // $default_config_file },
     trigger => sub {
@@ -54,58 +56,66 @@ has 'config_file' => (
         $self->_set_basic_config($config);
 
         # Validate and set exclusive configuration parameters
-        $self->_validate_and_set_exclusive_config($config, $config_file);
+        $self->_validate_and_set_exclusive_config( $config, $config_file );
 
         # Set additional configuration parameters on $self
-        $self->_set_additional_config($config, $config_file);
+        $self->_set_additional_config( $config, $config_file );
     }
 );
 
 # Private Method: _set_basic_config
 # Sets basic configuration parameters from the provided config.
 sub _set_basic_config {
-    my ($self, $config) = @_;
-    $config_sort_by        = $config->{sort_by} // 'hamming';
-    $config_max_out        = $config->{max_out} // 50;
+    my ( $self, $config ) = @_;
+    $config_sort_by        = $config->{sort_by}        // 'hamming';
+    $config_max_out        = $config->{max_out}        // 50;
     $config_max_number_var = $config->{max_number_var} // 10_000;
     $config_seed =
-          ( defined $config->{seed} && Int->check( $config->{seed} ) )
-          ? $config->{seed}
-          : 123456789;
+      ( defined $config->{seed} && Int->check( $config->{seed} ) )
+      ? $config->{seed}
+      : 123456789;
 }
 
 # Private Method: _validate_and_set_exclusive_config
 # Validates and sets configuration parameters that are exclusive or conditional.
 sub _validate_and_set_exclusive_config {
-    my ($self, $config, $config_file) = @_;
+    my ( $self, $config, $config_file ) = @_;
 
     # Validate $config->{allowed_terms}
-    unless (exists $config->{allowed_terms} && ArrayRef->check($config->{allowed_terms}) && @{$config->{allowed_terms}}) {
+    unless ( exists $config->{allowed_terms}
+        && ArrayRef->check( $config->{allowed_terms} )
+        && @{ $config->{allowed_terms} } )
+    {
         die "No <allowed terms> provided or not an array ref at $config_file\n";
     }
-    @config_allowed_terms = @{$config->{allowed_terms}};
+    @config_allowed_terms = @{ $config->{allowed_terms} };
 }
 
 # Private Method: _set_additional_config
 # Sets additional configuration parameters on $self.
 sub _set_additional_config {
-    my ($self, $config, $config_file) = @_;
-    $self->{primary_key}              = $config->{primary_key} // 'id';
-    $self->{exclude_properties_regex} = $config->{exclude_properties_regex} // '';
-    $self->{array_terms}              = $config->{array_terms} // ['foo'];
-    $self->{array_regex}              = $config->{array_regex} // '^(\w+):(\d+)';
-    $self->{format}                   = $config->{format};
+    my ( $self, $config, $config_file ) = @_;
+    $self->{primary_key}              = $config->{primary_key} // 'id';       # setter
+    $self->{exclude_properties_regex} = $config->{exclude_properties_regex}
+      // '';                                                                  # setter
+    $self->{array_terms} = $config->{array_terms} // ['foo'];                 # setter (TBV)
+    $self->{array_regex} = $config->{array_regex} // '^(\w+):(\d+)';          # setter (TBV)
+    $self->{format}      = $config->{format};                                 #setter
 
     # Validate $config->{id_correspondence} for "real" array_terms
-    if ($self->{array_terms}[0] ne 'foo') {
-        unless (exists $config->{id_correspondence} && HashRef->check($config->{id_correspondence})) {
-            die "No <id_correspondence> provided or not a hash ref at $config_file\n";
+    if ( $self->{array_terms}[0] ne 'foo' ) {
+        unless ( exists $config->{id_correspondence}
+            && HashRef->check( $config->{id_correspondence} ) )
+        {
+            die
+"No <id_correspondence> provided or not a hash ref at $config_file\n";
         }
         $self->{id_correspondence} = $config->{id_correspondence};
 
         # Validate format and check match in config->{id_correspondence}
-        if (exists $config->{format} && Str->check($config->{format})) {
-            die "<$config->{format}> does not match any key from <id_correspondence>\n"
+        if ( exists $config->{format} && Str->check( $config->{format} ) ) {
+            die
+"<$config->{format}> does not match any key from <id_correspondence>\n"
               unless exists $config->{id_correspondence}{ $config->{format} };
         }
     }
@@ -154,20 +164,21 @@ has poi_out_dir => (
 );
 
 has [qw /include_terms exclude_terms/] => (
-    is      => 'ro',
-    lazy    => 1,
-    isa     => sub {
+    is   => 'ro',
+    lazy => 1,
+    isa  => sub {
         my $value = shift;
-        
+
         # Ensure the value is an array reference
         die "<--include_terms> and <--exclude_terms> must be an array ref\n"
           unless ref $value eq 'ARRAY';
 
         # Validate each term against allowed terms
         foreach my $term (@$value) {
-            die "Invalid term '$term' in <--include_terms> or <--exclude_terms>. Allowed values are: " 
-                . join(', ', @config_allowed_terms) . "\n"
-                unless grep { $_ eq $term } @config_allowed_terms;
+            die
+"Invalid term '$term' in <--include_terms> or <--exclude_terms>. Allowed values are: "
+              . join( ', ', @config_allowed_terms ) . "\n"
+              unless grep { $_ eq $term } @config_allowed_terms;
         }
     },
     default => sub { [] },

@@ -5,15 +5,16 @@ Revision history for Perl distribution Pheno-Ranker
  - Added List::MoreUtils to cpanfile and Makefile.PL
  - Added error when --include-terms does not exist in cohort(s)
  - Added t/die.t for the above condition (+others)
- - Refactored the code in .t and .pm to enhance readability and maintainability
- - Spiced up die messages with a BOLD RED "Error: " prefix
+ - Refactored code in .t and .pm to enhance readability and maintainability
+ - Spiced up die/warn messages with bold-colored text
+ - Added utils/barcode to deal with load/save QR codes
 
 0.03 2023-11-27T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Changed Align.pm to switch to full 2D-matrix computation for >5K rows 
- - Got rid of trailing \t at the end of the rows in matrix.txt
- - Minor changes in STDERR messages
- - Added a TODO block to t/sim.t (t3) which fails in ~10% of CPAN systems tested
- - Deleted Carton install instructions from README.md
+ - Updated Align.pm for optimized performance with datasets over 5,000 rows
+ - Cleaned up matrix.txt by removing trailing tab characters
+ - Refined STDERR messages for clearer communication
+ - Introduced a TODO in t/sim.t (test 3) for future improvement (fails in ~10% of CPAN)
+ - Streamlined setup by removing Carton instructions from README.md
 
-NOTE: All versions <= 0.02 were used for testing deployment via CPAN.
+Note: Versions <= 0.02 were primarily for testing deployment on CPAN.
