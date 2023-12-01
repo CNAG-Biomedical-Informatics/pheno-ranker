@@ -72,7 +72,7 @@ The software runs without any argument and assumes defaults. If you want to chan
 
 # AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.crg.eu](https://www.cnag.crg.eu).
+Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu).
 
 # COPYRIGHT AND LICENSE
 

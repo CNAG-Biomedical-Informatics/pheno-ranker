@@ -22,3 +22,4 @@
 ^\.github/
 ^docs/
 ^nb/
+^utils/barcode/

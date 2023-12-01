@@ -9,7 +9,7 @@
 #
 #   Version 0.00
 #
-#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.crg.eu)
+#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   License: Artistic License 2.0
 #
@@ -341,7 +341,7 @@ B<Examples:>
 
 =head1 AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.crg.eu>.
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>.
 
 =head1 COPYRIGHT AND LICENSE
 
