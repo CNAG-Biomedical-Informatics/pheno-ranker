@@ -163,7 +163,7 @@ sub array2object {
         }
         else {
             die
-"Expected 1 patient, found $n patients in your target file\n";
+"Sorry, your file has $n patients but only 1 patient is allowed with <-t>\n";
         }
     }
     return $data;
@@ -250,31 +250,45 @@ sub append_and_rename_primary_key {
     my $append_prefixes = $arg->{append_prefixes};
     my $primary_key     = $arg->{primary_key};
 
-    # Early return if there is only one element in ref_data
-    return (ref $ref_data->[0] eq 'HASH' ? [$ref_data->[0]] : $ref_data->[0]) if @$ref_data == 1;
+    # Premature return if @$ref_data == 1 (only 1 cohort)
+    # *** IMPORTANT ***
+    # $ref_data->[0] can be ARRAY or HASH
+    # We force HASH to be ARRAY
+    return ref $ref_data->[0] eq ref {} ? [ $ref_data->[0] ] : $ref_data->[0]
+      if @$ref_data == 1;
 
-    my @data;
-    for my $index ( 0 .. $#$ref_data ) {
-        my $item   = $ref_data->[$index];
-        my $prefix = $append_prefixes->[$index] // 'C' . ( $index + 1 ) . '_';
+    # NB: for is a bit faster than map
+    my $count = 1;
 
-        # array
-        if ( ref $item eq 'ARRAY' ) {
+    # We have to load into a new array data
+    my $data;
+    for my $item (@$ref_data) {
+
+        my $prefix =
+            $append_prefixes->[ $count - 1 ]
+          ? $append_prefixes->[ $count - 1 ] . '_'
+          : 'C' . $count . '_';
+
+        # ARRAY
+        if ( ref $item eq ref [] ) {
             for my $individual (@$item) {
                 $individual->{$primary_key} =
                   $prefix . $individual->{$primary_key};
-                push @data, $individual;
+                push @$data, $individual;
             }
         }
 
-        # object
+        # Object
         else {
             $item->{$primary_key} = $prefix . $item->{$primary_key};
-            push @data, $item;
+            push @$data, $item;
         }
+
+        # Add $count
+        $count++;
     }
 
-    return \@data;
+    return $data;
 }
 
 1;
