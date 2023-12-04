@@ -5,8 +5,10 @@
 
 This page provides brief tutorials on how to perform data conversion by using `Pheno-Ranker`**command-line interface**.
 
-!!! Info "Note on installation"
-    Before proceeding, ensure that the software is properly installed. In the following instructions, it will be assumed that you have downloaded and installed `Pheno-Ranker`.
+!!! Warning "About this tutorial"
+    This tutorial deliberately uses generic data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
+
+    Once you are comfortable with the concepts using movie data, you will find it easier to apply `Pheno-Ranker`` to real GA4GH data. For specific examples, please refer to the [cohort](cohort.md) and [patient](patient.md) pages in this documentation.
 
 ### Moviepackets:
 

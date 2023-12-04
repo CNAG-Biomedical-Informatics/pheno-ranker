@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 use File::Spec::Functions qw(catfile);
 use File::Temp qw{ tempfile };    # core
-use Test::More tests => 5;        # Indicate the number of tests you want to run
+use Test::More tests => 6;        # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
 use lib ( './lib', '../lib' );
@@ -22,7 +22,7 @@ my $input_file = catfile( 't', 'individuals.json' );
 
 SKIP: {
     # Linux commands don't run on windows
-    skip qq{Sipping WIn32 tests}, 4 if IS_WINDOWS;
+    skip qq{Sipping WIn32 tests}, 5 if IS_WINDOWS;
 
     ##########
     # TEST 2 #
@@ -38,10 +38,11 @@ SKIP: {
 
         my $ranker = Pheno::Ranker->new(
             {
-                "age"                    => 0,
-                "align"                  => "",
-                "align_basename"         => "t/tar_align",
-                "append_prefixes"        => [],
+                "age"             => 0,
+                "align"           => "",
+                "align_basename"  => "t/tar_align",
+                "append_prefixes" => [],
+
                 #"cli"                    => undef,
                 "config_file"            => undef,
                 "debug"                  => undef,
@@ -152,6 +153,62 @@ SKIP: {
         );
         unlink $align_file;
     }
+
+    ##########
+    # TEST 6 #
+    ##########
+    # Inter-cohort
+
+    {
+        # Input file 2
+        my $other_input_file = catfile( 't', 'patient.json' );
+
+        # The reference file to compare the output with
+        my $reference_file = catfile( 't', 'inter_cohort_matrix_ref.txt' );
+
+        # The generated output file
+        my ( undef, $tmp_file ) =
+          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+
+        my $ranker = Pheno::Ranker->new(
+            {
+                "age"             => 0,
+                "align"           => "",
+                "align_basename"  => "t/tar_align",
+                "append_prefixes" => [ 'FOO', 'BAR' ],
+
+                #"cli"                    => undef,
+                "config_file"            => undef,
+                "debug"                  => undef,
+                "exclude_terms"          => [],
+                "export"                 => undef,
+                "hpo_file"               => undef,
+                "include_hpo_ascendants" => undef,
+                "include_terms"          => [],
+                "log"                    => "",
+                "max_number_var"         => undef,
+                "max_out"                => 36,
+                "out_file"               => $tmp_file,
+                "patients_of_interest"   => [],
+                "poi_out_dir"            => undef,
+                "reference_files"        => [ $input_file, $other_input_file ],
+                "sort_by"                => undef,
+                "target_file"            => undef,
+                "verbose"                => undef,
+                "weights_file"           => undef
+            }
+        );
+
+        # Method 'run'
+        $ranker->run;
+
+        # Compare the output_file and the reference_file
+        ok(
+            compare( $tmp_file, $reference_file ) == 0,
+            qq/Output matches the <$reference_file> file/
+        );
+    }
+
 }
 
 sub compare_sorted_files {
@@ -168,5 +225,6 @@ sub compare_sorted_files {
     close $fh2;
 
     # Compare arrays directly
-    return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1, @lines2;
+    return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1,
+      @lines2;
 }
