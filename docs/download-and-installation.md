@@ -5,7 +5,7 @@
 
 We provide several alternatives (containerized and non-containerized) for download and installation.
 
-!!! Question "Which download method should I use?"
+???+ Question "Which download method should I use?"
     It depends in which components you want to use and your fluency in performing installations on Linux environments.
 
     The [CPAN](usage.md#from-cpan) based installation **(Method 3) is the easier** one.

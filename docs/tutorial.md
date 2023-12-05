@@ -1,11 +1,11 @@
-!!! Tip "Google Colab notebook"
+??? Tip "Google Colab notebook"
     Try out `Pheno-Ranker` using our [Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB) notebook. You can view it without signing in, but running the code requires a Google account.
 
     We also have a local copy of the notebook that can be downloaded from the [repo](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/nb/convert_pheno_cli_tutorial.ipynb). 
 
 This page provides brief tutorials on how to perform data conversion by using `Pheno-Ranker`**command-line interface**.
 
-!!! Warning "About this tutorial"
+???+ Warning "About this tutorial"
     This tutorial deliberately uses generic data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
 
     Once you are comfortable with the concepts using movie data, you will find it easier to apply `Pheno-Ranker`` to real GA4GH data. For specific examples, please refer to the [cohort](cohort.md) and [patient](patient.md) pages in this documentation.
@@ -19,7 +19,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
  <figcaption> Image created by DAL.LE-3</figcaption>
 </figure>
 
-!!! Question "What is a Moviepacket (MXF) file?"
+??? Question "What is a Moviepacket (MXF) file?"
     A Moviepacket is an invented format :smile: designed to describe movies, analogous to Phenopackets v2 used for pheno-clinical data.
 
 
@@ -51,70 +51,70 @@ Imagine you have a catalog of 25 movies described in `JSON` format. Each movie h
 
 You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. The first thing that we are going to create is a **configuration file**.
 
-!!! Question "What is a `Pheno-Ranker` configuration file?"
+??? Question "What is a `Pheno-Ranker` configuration file?"
     A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box_ that are [BFF](bff.md) and [PXF](pxf.md).
 
-!!! Tip "Do I need to create a configuration file?"
+??? Tip "Do I need to create a configuration file?"
     This file only has to be created if you are working with **your own JSON format**.
 
     If your file format resembles Moviepackets, you can use that file directly. Just ensure you **modify the terms** to align with your data.
 
-### Creating a configuration file
-
-To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
-
-```yaml
-# Set the format
-format: MXF # Optional unless you have array-based properties
-
-# Set the primary key for the objects
-primary_key: title
-
-# Set the allowed terms / properties
-allowed_terms: [country,genre,year]
-```
-
-But because your data has the term `genre`, which is an `array` the file will look like this:
-
-```yaml
-# Set the format
-format: MXF
-
-# Set the primary key for the objects
-primary_key: title
-
-# Set the allowed terms / properties
-allowed_terms: [country,genre,year]
-
-# Set the terms which are arrays
-array_terms: [genre]
-
-# Set the regex to perform the substitution in array elements
-array_regex: '^(\w+):(\d+)'
-
-# Set the path for array properties
-id_correspondence:
-  MXF:
-    genre: genre
-```
-
-In the table below we show which parameters are needed depending on the format:
-
-| Format      | Required properties | Optional properties | Pre-configured |
-| ----------- | ------------------- | ------------------- |  -----  | 
-| BFF / PXF   | `primary_key, allowed_terms, array_terms, array_regex, id_correspondence` | `format` | ✓ |
-| Others (`array`) | `format, primary_key, allowed_terms, array_terms, id_correspondence` | `array_regex` |   |
-| Others (`non-array`) |  `primary_key, allowed_terms` | `format` |   |
-
-
- * Where:
-    - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
-    - **primary_key**, the key that will be used as an item identifier.
-    - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
-    - **array_terms**, is an `array` to enumerate which properties are arrays.
-    - **array_regex**, it's an `string` to parse flattened keys. It's used in conjunction with `id_correspondence`.
-    - **id_correspondence**, is an `object` that (in combination with `array_regex`) serves to rename array elements and not rely on numeric indexes.
-
+    ### Creating a configuration file
+    
+    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
+    
+    ```yaml
+    # Set the format
+    format: MXF # Optional unless you have array-based properties
+    
+    # Set the primary key for the objects
+    primary_key: title
+    
+    # Set the allowed terms / properties
+    allowed_terms: [country,genre,year]
+    ```
+    
+    But because your data has the term `genre`, which is an `array` the file will look like this:
+    
+    ```yaml
+    # Set the format
+    format: MXF
+    
+    # Set the primary key for the objects
+    primary_key: title
+    
+    # Set the allowed terms / properties
+    allowed_terms: [country,genre,year]
+    
+    # Set the terms which are arrays
+    array_terms: [genre]
+    
+    # Set the regex to perform the substitution in array elements
+    array_regex: '^(\w+):(\d+)'
+    
+    # Set the path for array properties
+    id_correspondence:
+      MXF:
+        genre: genre
+    ```
+    
+    In the table below we show which parameters are needed depending on the format:
+    
+    | Format      | Required properties | Optional properties | Pre-configured |
+    | ----------- | ------------------- | ------------------- |  -----  | 
+    | BFF / PXF   | `primary_key, allowed_terms, array_terms, array_regex, id_correspondence` | `format` | ✓ |
+    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, id_correspondence` | `array_regex` |   |
+    | Others (`non-array`) |  `primary_key, allowed_terms` | `format` |   |
+    
+    
+     * Where:
+        - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
+        - **primary_key**, the key that will be used as an item identifier.
+        - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
+        - **array_terms**, is an `array` to enumerate which properties are arrays.
+        - **array_regex**, it's an `string` to parse flattened keys. It's used in conjunction with `id_correspondence`.
+        - **id_correspondence**, is an `object` that (in combination with `array_regex`) serves to rename array elements and not rely on numeric indexes.
+    
 ### Running `Pheno-Ranker`
 
 Once you have created the mapping file you can proceed to run `pheno-ranker` with the **command-line interface**.
@@ -127,7 +127,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
 
-    !!! Abstract "Included R scripts"
+    ??? Abstract "Included R scripts"
 
         You can find in the link below a few examples to perform clustering and multimensional scaling with your data:
 

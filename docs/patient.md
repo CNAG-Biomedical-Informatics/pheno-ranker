@@ -12,7 +12,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     pheno-ranker -r individuals.json -t patient.json
     ```
     
-    !!! Question "How do I extract one or many patients from a cohort file?"
+    ???+ Question "How do I extract one or many patients from a cohort file?"
 
         `pheno-ranker -r t/individuals.json --patients-of-interest 107:week_0_arm_1 125:week_0_arm_1`
 

@@ -10,7 +10,7 @@
 
    `Convert-Pheno` accepts as input data from the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity in [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) format (`individuals.json`).
 
-!!! Tip "Browsing BFF `JSON` data"
+??? Tip "Browsing BFF `JSON` data"
     You can browse a public BFF v2 file with the following **JSON viewers**:
 
     * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/t/individuals.json)

@@ -7,7 +7,7 @@
     !!! Warning "About inter-cohort analysis with CSV"
         Please note that performing inter-cohort analysis may be difficult due to potential inconsistencies or lack of common variables across different CSVs.
     
-    !!! Hint "Notes on CSV quality"
+    ??? Hint "Notes on CSV quality"
     
         Here are a few important considerations regarding the CSV format. Most of these are common-sense guidelines:
     

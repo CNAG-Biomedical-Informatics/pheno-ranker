@@ -68,6 +68,7 @@ nav:
   - Utilities:
       - BFF/PXF simulator: simulator.md 
       - CSV import: csv-import.md
+      - QR generator: qr-generator.md
   - Technical details:
       - Implementation: implementation.md
 #      - Algorithm: algorithm.md

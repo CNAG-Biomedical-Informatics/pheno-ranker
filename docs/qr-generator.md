@@ -1,0 +1,45 @@
+# Converting Pheno-clinical data to 2B-barcodes
+
+=== "Explanation"
+
+    As a proof of concept, we created an utility that encodes/decodes the `Pheno-Ranker` format to a QR-codes.
+    
+    !!! Danger "Experimental feature"
+        This feature serves as a **proof of concept**. The generated QR-code images exclusively encode `Pheno-Ranker` data and do not include any clinical information. To decode these images back into phenotypic-clinical data, a specific `template` is required. In a production environment, implementing an additional security layer, such as AES encryption, is recommended to enhance data safety.
+    
+    Ok, let's convert `Pheno-Ranker` data to QRs.
+    
+    === "From Pheno-Ranker to QR"
+    
+        The first thing is to run `Pheno-Ranker` with your data, but using the flag `--export`:
+        
+        ```bash
+        ./pheno-ranker -r individuals.json --export my_export_name
+        ```
+        
+        This will create a set of files, including `my_export_name.glob_hash.json` and `my_export_name.ref_binary_hash.json`.
+
+        Now you can run the following command:
+        
+        ```bash
+        ./pheno-ranker2barcode -i my_export_name.ref_binary_hash.json -o my_fav_dir
+        ```
+        
+        This will create 1 `png` image (inside `my_fav_dir`) for each individual in `individuals.json`. Like this one:
+        <figure markdown>
+         ![Pheno-Ranker](img/107_week_0_arm_1.png){width="350"}
+         <figcaption>QR code from Pheno-Ranker</figcaption>
+        </figure>
+
+    === "From QR to Pheno-Ranker"
+
+        To decode a QR into `Pheno-Ranker` original format use the following:
+
+        ```bash
+        ./barcode2pheno-ranker -i my_fav_dir/*png -t my_export_name.glob_hash.json -o individuals.qr.json 
+        ```
+    
+=== "Usage"
+
+    --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/barcode/README.md"
+

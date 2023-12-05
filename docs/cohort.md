@@ -18,7 +18,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     --8<-- "tbl/matrix.md"
 
 
-    !!! Hint "Hint"
+    ??? Hint "Hint on intermediate files"
         It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
         Examples:
 

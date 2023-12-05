@@ -3,7 +3,8 @@
 SHELL := /bin/bash
 
 install:
-	sudo apt-get install cpanminus libperl-dev
+	sudo apt-get install cpanminus libperl-dev python3-pip libzbar0
+    pip3 install qrcode[pil] Pillow pyzbar
 	cpanm --notest --installdeps .	
 
 test:

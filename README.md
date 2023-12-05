@@ -163,6 +163,11 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
+_Optional:_ If you want to use `utils/barcode`:
+
+    sudo apt-get install python3-pip libzbar0
+    pip3 install qrcode[pil] Pillow pyzbar
+
 ### From CPAN
 
 First install system level dependencies:
