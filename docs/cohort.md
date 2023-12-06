@@ -8,7 +8,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
 
-    ```
+    ```bash
     ./pheno-ranker -r individuals.json 
 
     ```
@@ -103,7 +103,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
      We'll be using `individuals.json` again, which includes data for 36 patients. This time, however, we'll use it twice to simulate having two cohorts. The software will add a `CX_` prefix to the `primary_key` values to help us keep track of which patient comes from which usage of the file.
 
-    ```
+    ```bash
     ./pheno-ranker -r individuals.json individuals.json
 
     ```
@@ -119,7 +119,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     The prefixes can be changed with the flag `--append-prefixes`:
 
-    ```
+    ```bash
     ./pheno-ranker -r individuals.json individuals.json --append-prefixes REF TAR
 
     ```

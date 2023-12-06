@@ -32,7 +32,8 @@ A [Web App UI](https://cnag-biomedical-informatics.github.io/convert-pheno-ui) e
 
 ## Utils
 
-We include two utilities:
+We include several utilities:
 
 1. [bff-pxf-simulator](./simulator.md) to simulate BFF/PXF data
 2. [csv2pheno-ranker](./csv-import.md) to enable using `Pheno-Ranker` with `CSV`.
+2. [QR encoder/decoder](./qr-generator.md) to transform data into a QR code.

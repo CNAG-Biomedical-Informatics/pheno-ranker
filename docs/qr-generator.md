@@ -1,13 +1,23 @@
-# Converting Pheno-clinical data to 2B-barcodes
+# Converting pheno-clinical data to 2D-barcodes
 
 === "Explanation"
 
-    As a proof of concept, we created an utility that encodes/decodes the `Pheno-Ranker` format to a QR-codes.
+    As a proof of concept, we created an utility that encodes/decodes the `Pheno-Ranker` format to a [QR codes](https://en.wikipedia.org/wiki/QR_code).
+
+    ???+ Example "About the utility of QR codes"
+        2D barcodes are straightforward and easy to scan, typically using a smartphone camera. They offer the convenience of encoding various data. Below are a few examples:
+
+        * Enrolling in clinical trial or health data program via QR
+        * Patient-doctor pass of information
+        * Medical reports with augmented data
+
+        Of course if you are using `Pheno-Ranker` with non pheno-clinical data you will need to come up with your own examples :smile:.
+
+    Ok, let's convert `Pheno-Ranker` data to QRs.
+
     
     !!! Danger "Experimental feature"
-        This feature serves as a **proof of concept**. The generated QR-code images exclusively encode `Pheno-Ranker` data and do not include any clinical information. To decode these images back into phenotypic-clinical data, a specific `template` is required. In a production environment, implementing an additional security layer, such as AES encryption, is recommended to enhance data safety.
-    
-    Ok, let's convert `Pheno-Ranker` data to QRs.
+        This feature serves as a **proof of concept**. The generated QR code images exclusively encode `Pheno-Ranker` data and do not include any clinical information. To decode these images back into phenotypic-clinical data, a specific `template` is required. In a production environment, implementing an additional security layer, such as AES encryption, is recommended to enhance data safety.
     
     === "From Pheno-Ranker to QR"
     

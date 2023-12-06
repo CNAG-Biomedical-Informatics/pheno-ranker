@@ -123,7 +123,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 1: Let's start by using all terms
 
-    `pheno-ranker -r t/movies.json --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json --config t/movies_config.yaml
+    ```
 
     The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
 
@@ -140,7 +142,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 2: Let's cluster by year
 
-    `pheno-ranker -r t/movies.json --include-terms year --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json --include-terms year --config t/movies_config.yaml
+    ```
 
     <figure markdown>
       ![Beacon v2](img/movies2.png){ width="600" }
@@ -149,7 +153,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 3: Let's cluster by `genre`
 
-    `pheno-ranker -r t/movies.json --include-terms genre --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json --include-terms genre --config t/movies_config.yaml
+    ```
 
     <figure markdown>
        ![Beacon v2](img/movies3.png){ width="600" }
@@ -165,7 +171,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     genre.Biography: 25
     ```
 
-    `pheno-ranker -r t/movies.json --include-terms genre --w t/movies_weigths.yaml --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json --include-terms genre --w t/movies_weigths.yaml --config t/movies_config.yaml
+    ```
 
     <figure markdown>
       ![Beacon v2](img/movies4.png){ width="600" }
@@ -182,7 +190,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     For demonstration purposes, in this example we are re-using the same file (`t/movies.json`)
 
-    `pheno-ranker -r t/movies.json t/movies.json --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json t/movies.json --config t/movies_config.yaml
+    ```
 
     After executing this command you will obtain a file named `matrix.txt` which is a matrix consisting of all (25+25)*(25+25) pairwise comparisons.
 
@@ -199,7 +209,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 2: Set up catalog nomenclature prefixes 
 
-    `pheno-ranker -r t/movies.json t/movies.json t/movies.json --append-prefixes NETFLIX HBO PRIME_VIDEO --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json t/movies.json t/movies.json --append-prefixes NETFLIX HBO PRIME_VIDEO --config t/movies_config.yaml
+    ```
 
     <figure markdown>
       ![Beacon v2](img/movies6.png){ width="600" }
@@ -214,7 +226,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     To single out the 'Interstellar' movie data:
 
-    `pheno-ranker -r t/movies.json --patients-of-interest Interstellar --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json --patients-of-interest Interstellar --config t/movies_config.yaml
+    ```
 
     This command will carry out a dry-run, producing an extracted JSON object named `Interstellar.json`.
 
@@ -237,7 +251,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     Next, run the following command to initiate the ranking process:
 
-    `pheno-ranker -r t/movies.json -t Interstellar.json --config t/movies_config.yaml`
+    ```bash
+    pheno-ranker -r t/movies.json -t Interstellar.json --config t/movies_config.yaml
+    ```
 
     This will output the results to the console and additionally save them in a file titled `rank.txt`.
 
@@ -271,7 +287,9 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     Of course you can perform tha ranking against multiple cohorts and select specific terms.
 
-    `pheno-ranker -r t/movies.json t/movies.json --append-prefixes NEFLIX HBO -t Interstellar.json --include-terms genre year --config t/movies_config.yaml --max-out 10`
+    ```bash
+    pheno-ranker -r t/movies.json t/movies.json --append-prefixes NEFLIX HBO -t Interstellar.json --include-terms genre year --config t/movies_config.yaml --max-out 10
+    ```
 
 
     | RANK | REFERENCE(ID) | TARGET(ID) | FORMAT | LENGTH | WEIGHTED | HAMMING-DISTANCE | DISTANCE-Z-SCORE | DISTANCE-P-VALUE | DISTANCE-Z-SCORE(RAND) | JACCARD-INDEX | JACCARD-Z-SCORE | JACCARD-P-VALUE |

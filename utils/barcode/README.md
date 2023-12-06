@@ -30,7 +30,7 @@ Example:
 ## barcode2-phenoranker
 
 ```
-sage: barcode2pheno-ranker [-h] -i INPUT [INPUT ...] -t TEMPLATE [-o OUTPUT]
+usage: barcode2pheno-ranker [-h] -i INPUT [INPUT ...] -t TEMPLATE [-o OUTPUT]
 
 Decode QR codes to JSON format.
 

@@ -112,11 +112,15 @@ With the containerized version you get:
 
     You can execute `Pheno::Ranker` *CLI*  by typing:
 
-    `pheno-ranker --help`
+    ```bash
+    pheno-ranker --help
+    ```
 
     To deactivate:
    
-    `conda deactivate -n myenv`
+    ```bash
+    conda deactivate -n myenv
+    ```
 
 === "Method 5: From Github"
 

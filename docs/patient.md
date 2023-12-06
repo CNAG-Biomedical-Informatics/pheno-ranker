@@ -8,18 +8,22 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     Example:
 
-    ```
+    ```bash
     pheno-ranker -r individuals.json -t patient.json
     ```
     
     ???+ Question "How do I extract one or many patients from a cohort file?"
 
-        `pheno-ranker -r t/individuals.json --patients-of-interest 107:week_0_arm_1 125:week_0_arm_1`
+        ```bash
+        pheno-ranker -r t/individuals.json --patients-of-interest 107:week_0_arm_1 125:week_0_arm_1
+        ```
 
         This command will carry out a dry-run, creating `107:week_0_arm_1.json` and `125:week_0_arm_1.json` files.
         In the example above, I renamed `107:week_0_arm_1.json` to `patient.json` by typing this:
        
-        `mv 107:week_0_arm_1.json patient.json`         
+        ```bash
+        mv 107:week_0_arm_1.json patient.json
+        ```
 
     This will create the text file `rank.txt`.
 
@@ -33,7 +37,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     Example:
 
-    ```
+    ```bash
     pheno-ranker -r individuals.json individuals.json individuals.json -t patient.json --max-out 10 -o rank_multiple.txt
     ```
 
@@ -51,13 +55,13 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
         You can create several files related to the reference --- target alignment by adding `--align`. Example:
 
-        ```
+        ```bash
         pheno-ranker -r individuals.json individuals.json -t patient.json --align # (optional preffix)
         ```
 
     Find below an extract of the alignment (`C1_107:week_0_arm_1 --- 107:week_0_arm_1`) extracted from `alignment.txt`:
 
-    ```
+    ```bash
     REF -- TAR
     1 ----- 1 | (w:  1|d:  0|cd:  0|) diseases.NCIT:C3138.diseaseCode.id.NCIT:C3138 (Inflammatory Bowel Disease)
     1 ----- 1 | (w:  1|d:  0|cd:  0|) ethnicity.id.NCIT:C41261 (Caucasian)

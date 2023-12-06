@@ -28,7 +28,7 @@ Frequently Asked Questions
 
     First, export intermediate files using the following command:
 
-    ```
+    ```bash
     pheno-ranker -r individuals.json -e my_export_data
     ```
 
@@ -36,7 +36,7 @@ Frequently Asked Questions
 
     To convert the JSON data to CSV, you can use various methods, but we recommend using the `jq` tool:
 
-    ```
+    ```bash
     jq -r 'to_entries[] | [.key, .value.binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,binary_digit_string"}{print}' > output.csv
     ```
 

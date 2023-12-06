@@ -103,7 +103,9 @@ Next, we'll replace it with an actual `id` (`Person_X`) and replicate the object
 
     ## Example 1: Using all terms
 
-    `pheno-ranker -r open_ehr.json`
+    ```bash
+    pheno-ranker -r open_ehr.json
+    ```
 
     The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
 
@@ -128,12 +130,15 @@ Next, we'll replace it with an actual `id` (`Person_X`) and replicate the object
 
     Save the contents in a file named `open_ehr_config.yaml`. Now you can exclude or include terms:
 
-    `pheno-ranker -r open_ehr.json --config open_ehr_config.yaml --exclude-terms id`
-
+    ```bash
+    pheno-ranker -r open_ehr.json --config open_ehr_config.yaml --exclude-terms id
+    ```
 
 === "Patient matching"
 
-    `pheno-ranker -r open_ehr.json -t person_data_v0.json --config open_ehr_config.yaml`
+    ```bash
+    pheno-ranker -r open_ehr.json -t person_data_v0.json --config open_ehr_config.yaml
+    ```
 
     This will output the results to the console and additionally save them in a file titled `rank.txt`.
 
