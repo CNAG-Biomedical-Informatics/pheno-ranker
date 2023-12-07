@@ -4,7 +4,7 @@
 
     As a proof of concept, we created an utility that encodes/decodes the `Pheno-Ranker` format to a [QR codes](https://en.wikipedia.org/wiki/QR_code).
 
-    ???+ Example "About the utility of QR codes"
+    ??? Example "About the utility of QR codes"
         2D barcodes are straightforward and easy to scan, typically using a smartphone camera. They offer the convenience of encoding various data. Below are a few examples:
 
         * Enrolling in clinical trial or health data program via QR
@@ -48,6 +48,8 @@
         ```bash
         ./barcode2pheno-ranker -i my_fav_dir/*png -t my_export_name.glob_hash.json -o individuals.qr.json 
         ```
+        ??? Question "Do I retrieve all my data back?"
+            You will access the data used by `Pheno-Ranker` to encode that patient. For example, using `PXF`, you won't receive _labels_. The filtering behavior is determined by the **configuration file**.
     
 === "Usage"
 

@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+#
+#   The script processes JSON data and QR code images to generate 
+#   custom PDF reports with structured tables, incorporating specified
+#   data types and an optional logo
+#
+#   Last Modified: Dec/06/2023
+#
+#   Version 0.00
+#
+#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
+#
+#   License: Artistic License 2.0
+#
+#   If this program helps you in your research, please cite.
+
+
+import pdf_generator
+
+if __name__ == "__main__":
+    pdf_generator.main_generate()

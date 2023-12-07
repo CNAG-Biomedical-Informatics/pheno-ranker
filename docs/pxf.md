@@ -1,7 +1,7 @@
 **PXF** stands for **P**henotype e**X**change **F**ormat. Phenopackets v2 [documentation](https://phenopacket-schema.readthedocs.io/en/latest/basics.html).
 
 <figure markdown>
-   ![Phenopackets v2](https://www.ga4gh.org/wp-content/uploads/phenopachets-v2-final.jpeg){ width="500" }
+   ![Phenopackets v2](https://www.ga4gh.org/wp-content/uploads/2022/02/phenopachets-v2-final-1.jpeg){ width="500" }
    <figcaption>Figure extracted from www.ga4gh.org</figcaption>
 </figure>
 

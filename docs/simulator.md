@@ -6,7 +6,7 @@
 
     The tool, `bff-pxf-simulator`, is included as an executable (if downloaded from CPAN) or found in the `utils` directory (if downloaded from GitHub).
 
-    !!! Hint "Potential uses for synthetic data"
+    !!! Example "Potential uses for synthetic data"
 
         The simulated data can be used to:
 

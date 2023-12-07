@@ -129,7 +129,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
 
-    ??? Abstract "Included R scripts"
+    ??? Example "Included R scripts"
 
         You can find in the link below a few examples to perform clustering and multimensional scaling with your data:
 
