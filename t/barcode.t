@@ -90,7 +90,7 @@ use List::MoreUtils qw(pairwise);
     my $output_file = catfile( $output_dir, '107_week_0_arm_1.pdf' );
 
     # Run the command line
-    system("$script -j $json -l $logo -q $qr -o $output_dir -t bff --debug");
+    system("$script -j $json -l $logo -q $qr -o $output_dir -t bff --test");
 
     # Compare the output_file and the reference_file
     ok(
