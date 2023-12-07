@@ -329,7 +329,7 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 I<Optional:> If you want to use C<utils/barcode>:
 
   sudo apt-get install python3-pip libzbar0
-  pip3 install qrcode[pil] Pillow pyzbar
+  pip3 install qrcode[pil] Pillow pyzbar pandas reportlab
 
 =head3 From CPAN
 

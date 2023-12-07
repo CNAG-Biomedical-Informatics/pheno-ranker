@@ -54,7 +54,7 @@ def create_tables_for_term(data, term):
         tables.append(table)
     return tables
 
-def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None, debug=False):
+def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None, test=False):
     if len(json_data) != len(qr_code_files):
         raise ValueError("The number of JSON objects does not match the number of PNG files.")
 
@@ -103,7 +103,7 @@ def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None,
         elements.append(header_table)
         elements.append(id_paragraph)
 
-        if not debug:
+        if not test:
             current_date = datetime.datetime.now().strftime("%Y-%m-%d")
             date_paragraph = Paragraph(f'Date: {current_date}', styles['Normal'])
             elements.append(date_paragraph)
@@ -136,7 +136,7 @@ def main_generate():
     parser.add_argument('-o', '--output', default='pdf', help='Output directory for PDF files. Default: pdf')
     parser.add_argument('-t', '--type', required=True, choices=['bff', 'pxf'], help='Type of data processing required.')
     parser.add_argument('-l', '--logo', help='Path to the logo image.')
-    parser.add_argument('--debug', action='store_true', help='Enable debug mode (does not print date to PDF).')
+    parser.add_argument('--test', action='store_true', help='Enable test mode (does not print date to PDF).')
 
     args = parser.parse_args()
 
@@ -146,4 +146,4 @@ def main_generate():
     if not os.path.exists(args.output):
         os.makedirs(args.output)
 
-    json_to_pdf(json_data, args.qr, args.output, args.type, args.logo, args.debug)
+    json_to_pdf(json_data, args.qr, args.output, args.type, args.logo, args.test)
