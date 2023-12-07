@@ -21,7 +21,7 @@ def flatten_json(y):
                     flatten(x[a], name + a + '_')
         elif isinstance(x, list):
             for i, a in enumerate(x):
-                flatten(a, f"{name}{i}_")
+                flatten(a, f"[Item:{i}]  {name}")  # Updated line
         else:
             out[name[:-1]] = x
 
@@ -38,8 +38,7 @@ def create_tables_for_term(data, term):
     tables = []
     for col in df.columns:
         table_data = [[col], [df[col].iloc[0]]]
-        # Keep the increased column widths to accommodate longer text
-        table = Table(table_data, colWidths=[4.5*inch, 5*inch])  # Adjusted widths
+        table = Table(table_data, colWidths=[4.5*inch, 5*inch])
         table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
@@ -49,14 +48,13 @@ def create_tables_for_term(data, term):
             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-            ('FONTSIZE', (0, 0), (-1, -1), 10),  # Reverted to previous font size
-            ('WORDWRAP', (0, 0), (-1, -1), 'LTR')  # Ensure word wrap in cells
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('WORDWRAP', (0, 0), (-1, -1), 'LTR')
         ]))
         tables.append(table)
     return tables
 
-
-def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None):
+def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None, debug=False):
     if len(json_data) != len(qr_code_files):
         raise ValueError("The number of JSON objects does not match the number of PNG files.")
 
@@ -76,15 +74,12 @@ def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None)
 
         elements = []
 
-        # Prepare QR code
         qr_code_img = Image(qr_code_file, width=1*inch, height=1*inch)
         qr_code_img.hAlign = 'LEFT'
 
-        # Prepare ID paragraph
         id_value = obj.get('id', 'default')
         id_paragraph = Paragraph(f'ID: {id_value}', styles['Heading2'])
 
-        # Prepare logo image
         if logo_path:
             logo_img = Image(logo_path)
             logo_aspect_ratio = logo_img.imageWidth / logo_img.imageHeight
@@ -94,7 +89,6 @@ def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None)
         else:
             logo_img = Spacer(1*inch, 1*inch)
 
-        # Header table for QR code and logo
         header_table = Table([
             [qr_code_img, logo_img]
         ], colWidths=[4*inch, 4*inch])
@@ -107,30 +101,29 @@ def json_to_pdf(json_data, qr_code_files, output_dir, data_type, logo_path=None)
         ]))
 
         elements.append(header_table)
-        elements.append(id_paragraph)  # ID text below the QR code
+        elements.append(id_paragraph)
 
-        # Add Date, Data Type, and auto-generated report text
-        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
-        date_paragraph = Paragraph(f'Date: {current_date}', styles['Normal'])
+        if not debug:
+            current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            date_paragraph = Paragraph(f'Date: {current_date}', styles['Normal'])
+            elements.append(date_paragraph)
+
         data_type_paragraph = Paragraph(f'Data type: {data_type.upper()}', styles['Normal'])
         auto_generated_text = "This is an auto-generated report by Pheno-Ranker"
         auto_generated_paragraph = Paragraph(auto_generated_text, styles['Normal'])
 
-        elements.extend([data_type_paragraph, date_paragraph, auto_generated_paragraph])
+        elements.extend([data_type_paragraph, auto_generated_paragraph])
 
-        # Add elements for each term
         for term in obj.keys():
-            elements.append(Paragraph(term, styles['Heading2']))  # Term text
+            elements.append(Paragraph(term, styles['Heading2']))
             tables = create_tables_for_term(obj, term)
             if tables:
                 for table in tables:
                     table.setStyle(TableStyle([
-                        # ... (existing styles) ...
-                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align text in cells
-                        ('WORDWRAP', (0, 0), (-1, -1), 'LTR'),  # Ensure word wrap in cells
-                        # Adjust other styles as needed
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                        ('WORDWRAP', (0, 0), (-1, -1), 'LTR'),
                     ]))
-                    table.hAlign = 'LEFT'  # Align table with the term text
+                    table.hAlign = 'LEFT'
                     elements.append(table)
                     elements.append(Spacer(1, 12))
 
@@ -143,16 +136,14 @@ def main_generate():
     parser.add_argument('-o', '--output', default='pdf', help='Output directory for PDF files. Default: pdf')
     parser.add_argument('-t', '--type', required=True, choices=['bff', 'pxf'], help='Type of data processing required.')
     parser.add_argument('-l', '--logo', help='Path to the logo image.')
+    parser.add_argument('--debug', action='store_true', help='Enable debug mode (does not print date to PDF).')
 
     args = parser.parse_args()
 
-    # Load JSON data
     with open(args.json, 'r') as file:
         json_data = json.load(file)
 
-    # Create output directory if it doesn't exist
     if not os.path.exists(args.output):
         os.makedirs(args.output)
 
-    # Generate PDF
-    json_to_pdf(json_data, args.qr, args.output, args.type, args.logo)
+    json_to_pdf(json_data, args.qr, args.output, args.type, args.logo, args.debug)

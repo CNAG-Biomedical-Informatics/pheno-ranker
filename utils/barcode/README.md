@@ -54,7 +54,7 @@ Example:
 ## pheno-ranker2pdf
 
 ```bash
-usage: pheno-ranker2pdf [-h] -j JSON -q QR [QR ...] [-o OUTPUT] -t {bff,pxf} [-l LOGO]
+usage: pheno-ranker2pdf [-h] -j JSON -q QR [QR ...] [-o OUTPUT] -t {bff,pxf} [-l LOGO] [--debug]
 
 Convert JSON data to a formatted PDF file.
 
@@ -68,6 +68,7 @@ options:
   -t {bff,pxf}, --type {bff,pxf}
                         Type of data processing required.
   -l LOGO, --logo LOGO  Path to the logo image.
+  --debug               Enable debug mode (does not print date to PDF).
 ```
 
 Example:
