@@ -94,7 +94,7 @@ This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-c
     
     <figure markdown>
      ![MDS](img/vcf-mds.png){ width="600" }
-     <figcaption> Intra-cohort pairwise comparison</figcaption>
+     <figcaption> MDS for intra-cohort pairwise comparison</figcaption>
     </figure>
 
 ### Step 4: Execute `Pheno-Ranker` in _patient-mode_
@@ -127,29 +127,30 @@ bin/pheno-ranker -r output.json -t HG00096.json -config output_config.yaml
     |9 | NA20534 | HG00096 | CSV |   1057 | False |   28 |  -1.984 |    0.0236175 | -30.7891 |   0.974 |   2.017 |    0.1546849|
     |10 | HG00234 | HG00096 | CSV |   1057 | False |   28 |  -1.984 |    0.0236175 | -30.7891 |   0.974 |   2.017 |    0.1546849|
 
-Patient `HG01537` is the closest. It has a distance of 14 to `HG00096` and a _p_-value = 0.0033449.
+Sample `HG01537` is the closest. It has a distance of 14 to `HG00096` and a _p_-value = 0.0033449.
 
 ### Step 5: Generate QR codes for the first 10 samples
 
 We are going to compress all variant information (1042 variants) into QR-codes
 
-1. First we are going to export the needed files:
+* First we are going to export the needed files:
 
 ```bash
 bin/pheno-ranker -r output.json -config output_config.yaml --export
 ```
 
-2. Now we use the included utility `pheno-ranker2barcode`:
+* Now we use the included utility `pheno-ranker2barcode`:
 
 ```bash
 utils/barcode/pheno-ranker2barcode -i export.ref_binary_hash.json
 ```
+
 This has created QR codes (`PNG`) for each sample inside the directory `qr_codes`.
 
 ??? Example "See QR codes for the first 10 samples"
     <figure markdown>
      ![QR](img/vcf-qr.png){ width="600" }
-     <figcaption> Qr codes for 10 samples</figcaption>
+     <figcaption> QR codes for 10 samples</figcaption>
     </figure>
 
 To decode the QR codes back to `Pheno-Ranker` format:

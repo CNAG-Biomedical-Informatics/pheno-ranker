@@ -32,7 +32,7 @@
         Now you can run the following command:
         
         ```bash
-        ./pheno-ranker2barcode -i my_export_name.ref_binary_hash.json -o my_fav_dir
+        ./pheno-ranker2barcode -i my_export_name.ref_binary_hash.json -o my_fav_dir --no-compress
         ```
         
         This will create 1 `png` image (inside `my_fav_dir`) for each individual in `individuals.json`. Like this one:
