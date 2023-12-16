@@ -8,6 +8,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Refactored code in .t and .pm to enhance readability and maintainability
  - Spiced up die/warn messages with bold-colored text
  - Added utils/barcode to deal with QR codes (+Dockerfile and t)
+ - csv2pheno-ranker now accepts .tsv (sep \t)
 
 0.03 2023-11-27T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 

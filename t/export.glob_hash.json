@@ -140,7 +140,6 @@
    "measures.NCIT:NA0000.measurementValue.quantity.unit.id.NCIT:C70666" : 1,
    "measures.NCIT:NA0000.procedure.procedureCode.id.NCIT:C25526" : 1,
    "measures.NCIT:NA0000.procedure.procedureCode.id.NCIT:C27232" : 1,
-   "peter.aa" : 1,
    "phenotypicFeatures.NCIT:C2985.featureType.id.NCIT:C2985" : 1,
    "phenotypicFeatures.NCIT:C3117.featureType.id.NCIT:C3117" : 1,
    "sex.id.NCIT:C16576" : 1,

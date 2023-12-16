@@ -26,7 +26,7 @@ use List::MoreUtils qw(pairwise);
     my $output_file = catfile( $output_dir, '107_week_0_arm_1.png' );
 
     # Run the command line
-    system("$script -i $input_file -o $output_dir");
+    system("$script -i $input_file -o $output_dir --no-compress");
 
     # Compare the output_file and the reference_file
     ok(
@@ -101,6 +101,38 @@ use List::MoreUtils qw(pairwise);
     unlink $output_file;
     rmdir $output_dir;
 }
+
+##########
+# TEST 4 #
+##########
+
+#{
+##
+#    # The command line script to be tested
+#    my $script = catfile( 'utils', 'barcode', 'pheno-ranker2barcode' );
+#
+#    # Input file for the command line script, if needed
+#    my $input_file = catfile( 't', 'export.ref_binary_hash.json' );
+#
+#    # The reference files to compare the output with
+#    my $reference_file = catfile( 't', 'qr_codes', '107_week_0_arm_1.compressed.png' );
+#
+#    # The output files
+#    my $output_dir  = catdir( 't', 'tmp_test' );
+#    my $output_file = catfile( $output_dir, '107_week_0_arm_1.compressed.png' );
+#
+#    # Run the command line
+#    system("$script -i $input_file -o $output_dir");
+#
+#    # Compare the output_file and the reference_file
+#    ok(
+#        compare( $output_file, $reference_file ) == 0,
+#        qq/Output matches the <$reference_file> file/
+#    );
+#    unlink $output_file;
+#    rmdir $output_dir;
+#}
+
 
 sub compare_files {
 
