@@ -9,7 +9,7 @@ When you run `pheno-ranker` use the flag `--e`. This will export the following f
 ## pheno-ranker2barcode
 
 ```
-usage: pheno-ranker2barcode [-h] -i INPUT [-o OUTPUT]
+usage: pheno-ranker2barcode [-h] -i INPUT [-o OUTPUT] [--no-compress]
 
 Generate QR codes from JSON data.
 
@@ -19,6 +19,7 @@ options:
                         Input JSON file path
   -o OUTPUT, --output OUTPUT
                         Output directory for QR codes
+  --no-compress         Disable compression of the binary digit string
 ```
 
 Example:

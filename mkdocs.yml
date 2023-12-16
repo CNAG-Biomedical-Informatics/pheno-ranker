@@ -83,7 +83,9 @@ nav:
       - Google colab: https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB
       - Usage: usage.md
       - FAQs: faq.md
-      - 'Addendum: openEHR': addendum-open-ehr.md
+  - Addendum: 
+      - openEHR: open-ehr.md
+      - VCF: vcf.md
   - About:
       - About: about.md
       - Citation: citation.md
