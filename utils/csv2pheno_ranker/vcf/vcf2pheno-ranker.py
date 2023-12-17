@@ -19,7 +19,7 @@ def process_vcf_line(line, sample_ids):
     fields = line.strip().split('\t')
     chrom, pos, _, ref, alt, *rest = fields
     variant_key = f"{chrom}_{pos}_{ref}_{alt}"  # Unique key for each variant
-    genotypes = rest[4:]  # Genotypes start after the first 9 columns
+    genotypes = [genotype[:3] for genotype in rest[4:]]  # Process genotypes (1st-3-char)
     return variant_key, dict(zip(sample_ids, genotypes))
 
 def main(vcf_file_path, output_file_path):

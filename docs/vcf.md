@@ -6,21 +6,27 @@ In this page, we aim to explore the full potential of `Pheno-Ranker`. Our focus 
 
     The Variant Call Format (VCF) is a bioinformatics standard created for the 1000 Genomes Project to store gene variations, evolving to version 4.3 and expanded with formats like gVCF for comprehensive data representation.
  
-    The body of the Variant Call Format (VCF), which is essentially a **tab-separated values (TSV) file**, comprises eight mandatory columns and an unlimited number of optional columns for additional sample information. The first optional column specifies the data format for the subsequent columns.
+    The body of the Variant Call Format (VCF), which is essentially a **tab-separated values (TSV) file**, comprises eight mandatory columns and an unlimited number of optional columns for additional sample information.
 
 ## Steps
 
-OK, so our goal is to compare samples within the VCF based on their genomic variants. To achieve this, we'll undertake the following steps:
+OK, so our goal is to compare samples within the VCF based on their genomic variations. To achieve this, we'll undertake the following steps:
 
-1. Transpose the VCF data into a TSV format, arranging it so that each row contains all variants for a specific sample.
+1. Transpose the VCF data into a TSV format, arranging it so that each row contains all variations for a specific sample.
 2. Transform the TSV into a format that is compatible with `Pheno-Ranker`, utilizing the provided [utility](csv-import.md).
 3. Execute `Pheno-Ranker` in _cohort-mode_ to generate plots using R.
 4. Run `Pheno-Ranker` in _patient-mode_ to identify the most similar sample.
 5. Generate QR codes for the first 10 samples (and decode them back).
 
-??? Question "Where does your `VCF` data come from?"
+??? Question "What is the source of your `VCF` test data?"
 
-    It's a subset from 1000G. It's explained [here](https://github.com/mrueda/beacon2-ri-tools/tree/main/test).
+    The dataset `test_1000G.vcf.gz` is a subset extracted from the 1000 Genomes Project, containing approximately 1K variations. For more detailed information, please visit [here](https://github.com/mrueda/beacon2-ri-tools/tree/main/test).
+
+???+ Danger "About VCF size and content"
+
+    The idea here is to compare samples (or individuals if you will) by their genomic variations, like if we were comparing a genomic fingerprint. A good example for this would be comparing samples in a **multi-sample** `VCF` from a **gene panel** (or even an Exome) after filtering variations.  This method of course could be complemented by adding the phenotypic information on top of the genomic variations, and then use weights. etc.
+
+    :exclamation: We advise against using this method for comparing samples with millions of genomic variations.
 
 Let's go!
 
@@ -28,11 +34,27 @@ Let's go!
 
 We are going to be using the included [Python script](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py)
 
+??? Question "Can the `VCF` be multi-allelic?"
+    Yes,the `VCF` can me multi-allelic. This is how variant information is stored:
+
+    ```json
+    "1_15274_A_G,T" : "0|0",
+    "1_15274_A_G,T" : "0|1",
+    "1_15274_A_G,T" : "0|2",
+    "1_15274_A_G,T" : "1|0",
+    "1_15274_A_G,T" : "1|1",
+    "1_15274_A_G,T" : "1|2",
+    "1_15274_A_G,T" : "2|0",
+    "1_15274_A_G,T" : "2|1",
+    "1_15274_A_G,T" : "2|2",
+    ```
+
 ```bash
 utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py -i test_1000G.vcf.gz -o output.tsv
 ```
 
-Note that you have to use the right paths for your executables.
+??? Tip "Regarding paths for executables"
+        Make sure to specify the correct paths for your executables. Here, we show the paths as they exist in the Github repository.
 
 ### Step 2: Transform the TSV to a compatible format
 
@@ -40,7 +62,7 @@ Note that you have to use the right paths for your executables.
 utils/csv2pheno_ranker/csv2pheno-ranker -i output.tsv -primary-key 'Sample ID'
 ```
 
-Where the created `output.json` has the follwoing format format:
+Where the created `output.json` has the following format format:
 
 ```json
 [
@@ -54,8 +76,6 @@ Where the created `output.json` has the follwoing format format:
   },
   ...
 ]
-
-
 ```
 
 ### Step 3: Execute `Pheno-Ranker` in _cohort-mode_
@@ -74,7 +94,7 @@ This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-c
     Rscript share/r/heatmap.R
     ```
     
-    (Running time < 2 min in Apple M2)
+    (Running time < 2 min in Apple M2 Pro)
     
     <figure markdown>
      ![Heatmap](img/vcf-heatmap.png){ width="600" }
@@ -90,7 +110,7 @@ This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-c
     Rscript share/r/mds.R
     ```
     
-    (Running time < 2 min in Apple M2)
+    (Running time < 2 min in Apple M2 Pro)
     
     <figure markdown>
      ![MDS](img/vcf-mds.png){ width="600" }
@@ -99,7 +119,7 @@ This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-c
 
 ### Step 4: Execute `Pheno-Ranker` in _patient-mode_
 
-First we are going to start one sample. The first one in the VCF: `HG00096`
+Initially, we will extract a single sample from the cohort, specifically the first one listed in the VCF: `HG00096`.
 
 ```bash
 bin/pheno-ranker -r output.json -config output_config.yaml --patients-of-interest HG00096
@@ -131,7 +151,7 @@ Sample `HG01537` is the closest. It has a distance of 14 to `HG00096` and a _p_-
 
 ### Step 5: Generate QR codes for the first 10 samples
 
-We are going to compress all variant information (1042 variants) into QR-codes
+We are going to compress all variant information (1042 variations) into QR-codes
 
 * First we are going to export the needed files:
 
