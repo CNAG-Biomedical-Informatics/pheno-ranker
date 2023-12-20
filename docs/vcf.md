@@ -35,7 +35,7 @@ Let's go!
 We are going to be using the included [Python script](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py)
 
 ??? Question "Can the `VCF` be multi-allelic?"
-    Yes,the `VCF` can me multi-allelic. This is how variant information is stored:
+    Yes, the `VCF` can me multi-allelic. This is how variant information is stored:
 
     ```json
     "1_15274_A_G,T" : "0|0",
@@ -48,6 +48,7 @@ We are going to be using the included [Python script](https://github.com/CNAG-Bi
     "1_15274_A_G,T" : "2|1",
     "1_15274_A_G,T" : "2|2",
     ```
+    In this example, the genotypes are _phased_, but it works also with _unphased_ genotypes (e.g., `0/1`).
 
 ```bash
 utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py -i test_1000G.vcf.gz -o output.tsv

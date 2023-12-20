@@ -52,7 +52,7 @@ def decompress_binary_string(compressed_bytes):
         return ''
 
 
-def generate_qr_from_data(binary_digit_string, output_path, compress=True):
+def generate_qr_from_data(binary_digit_string, output_path, qr_version, compress=True):
     if compress:
         # Compress and then base64 encode the data
         compressed_data = compress_binary_string(binary_digit_string, compress)
@@ -62,7 +62,6 @@ def generate_qr_from_data(binary_digit_string, output_path, compress=True):
         data_to_encode = binary_digit_string
 
     # Create QR code
-    qr_version = 1  # Adjust based on data length
     qr = qrcode.QRCode(
         version=qr_version,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -74,7 +73,7 @@ def generate_qr_from_data(binary_digit_string, output_path, compress=True):
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(output_path)
 
-def generate_qr_codes_from_json(json_data, output_dir, compress=True):
+def generate_qr_codes_from_json(json_data, output_dir, qr_version, compress=True):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     for key, value in json_data.items():
@@ -82,7 +81,7 @@ def generate_qr_codes_from_json(json_data, output_dir, compress=True):
             binary_digit_string = value['binary_digit_string']
             safe_key = key.replace(':', '_')
             img_path = os.path.join(output_dir, f"{safe_key}.png")
-            generate_qr_from_data(binary_digit_string, img_path, compress)
+            generate_qr_from_data(binary_digit_string, img_path, qr_version, compress)
 
 # Functions for decoding QR codes to JSON
 def decode_qr_code(filepath):
@@ -214,6 +213,7 @@ def setup_qr_generation_cli():
     parser = argparse.ArgumentParser(description='Generate QR codes from JSON data.')
     parser.add_argument('-i', '--input', required=True, help='Input JSON file path')
     parser.add_argument('-o', '--output', default='qr_codes', help='Output directory for QR codes')
+    parser.add_argument('--qr-version', type=int, default=1, help='Specifies the version of the QR code (integer from 1 to 40).')
     parser.add_argument('--no-compress', action='store_true', help='Disable compression of the binary digit string')
     return parser.parse_args()
 
@@ -230,8 +230,9 @@ def setup_qr_decoding_cli():
 def main_generate():
     args = setup_qr_generation_cli()
     json_data = load_json_file(args.input)
+    qr_version = args.qr_version
     compress = not args.no_compress  # Determine whether to compress based on the --no-compress flag
-    generate_qr_codes_from_json(json_data, args.output, compress)
+    generate_qr_codes_from_json(json_data, args.output, qr_version, compress)
     print(f"QR codes generated successfully in {args.output}")
 
 def main_decode():
