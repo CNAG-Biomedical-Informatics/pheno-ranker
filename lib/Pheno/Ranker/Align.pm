@@ -232,6 +232,8 @@ sub compare_and_rank {
         # Compute estimated av and dev for binary_string of L = length_align - n_00
         # Corrected length_align L = length_align - n_00
         my $length_align_corrected = $length_align - $n_00;
+
+        #$estimated_average, $estimated_std_dev
         ( $stat->{hamming_stats}{mean_rnd}, $stat->{hamming_stats}{sd_rnd} ) =
           estimate_hamming_stats($length_align_corrected);
 

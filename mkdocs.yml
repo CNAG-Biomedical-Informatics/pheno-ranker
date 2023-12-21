@@ -6,8 +6,14 @@ repo_name: 'Pheno-Ranker'
 repo_url: https://github.com/mrueda/pheno-ranker
 edit_uri: edit/main/docs/
 
-extra_css: [css/theme_overrides.css]
-extra_javascript: [js/theme_overrides.js]
+extra_css: 
+  - css/theme_overrides.css
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+extra_javascript:
+  - js/theme_overrides.js
+  - js/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 
 plugins:
   - search
@@ -57,6 +63,8 @@ markdown_extensions:
             - name: mermaid
               class: mermaid
               format: !!python/name:mermaid2.fence_mermaid
+    - pymdownx.arithmatex:
+        generic: true
 
 nav:
   - Introduction:
