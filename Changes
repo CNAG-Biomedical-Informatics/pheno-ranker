@@ -10,6 +10,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Added utils/barcode to deal with QR codes (+Dockerfile and t)
  - csv2pheno-ranker now accepts .tsv (sep \t)
  - Turned on legend on share/r/mds_color.R
+ - Fixed stringification of weights (read from YAML) on JSON export
 
 0.03 2023-11-27T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 

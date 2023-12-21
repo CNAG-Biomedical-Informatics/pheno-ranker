@@ -8,6 +8,25 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
 
+    ??? Tip "Exporting intermediate files"
+        It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
+        Examples:
+
+        ```bash
+        ./pheno-ranker -r individuals.json --e
+        ./pheno-ranker -r individuals.json --e my_fav_id # for chosing a prefix
+        ```
+
+        The intermediate files can be used for further processing (e.g., import to a database; see [FAQs](faq.md)) or to make **informed decisions**. For instance, the file `export.coverage_stats.json` has stats on the coverage of each term (1D-key) in the cohort. It is possible to go more granular with a tool like `jq` that parses `JSON`. For instance:
+
+
+        ```bash
+        jq -r 'to_entries | map(.key + ": " + (.value | length | tostring))[]' < export.ref_hash.json
+        ```
+
+        This command will print how many variables per individual were actually used to perform the comparison. You can post-process the output to check for unbalanced data.
+
+
     ```bash
     ./pheno-ranker -r individuals.json 
 
@@ -16,18 +35,6 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
 
     --8<-- "tbl/matrix.md"
-
-
-    ??? Hint "Hint on intermediate files"
-        It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
-        Examples:
-
-        ```bash
-        ./pheno-ranker -r individuals.json --e
-        ./pheno-ranker -r individuals.json --e my_fav_id
-        ```
-        The intermediate files can be used for further processing (e.g., import to a database). The file `*coverage.coverage_stats.json` has stats on the coverage of each term in the cohort.
-       
 
      The matrix can be processed to obtain a heatmap:
 
