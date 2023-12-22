@@ -53,6 +53,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -o|out-file                    Output file path [-r matrix.txt|-t rank.txt]
        -poi|patients-of-interest      Export JSON files for the selected individual ids (dry-run)
        -poi-out-dir                   Directory where to write JSON files (to be used with --poi)
+       -similarity-metric-cohort      Similarity metric for cohort mode [>hamming|jaccard]
        -sort-by                       Sort reference-patient comparison by Hamming-distance or Jaccard-index [>hamming|jaccard]
        -w|weights                     YAML file with weights
 

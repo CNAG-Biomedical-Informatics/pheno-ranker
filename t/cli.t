@@ -44,24 +44,25 @@ SKIP: {
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
-                "config_file"            => undef,
-                "debug"                  => undef,
-                "exclude_terms"          => [],
-                "export"                 => undef,
-                "hpo_file"               => undef,
-                "include_hpo_ascendants" => undef,
-                "include_terms"          => [],
-                "log"                    => "",
-                "max_number_var"         => undef,
-                "max_out"                => 36,
-                "out_file"               => $tmp_file,
-                "patients_of_interest"   => [],
-                "poi_out_dir"            => undef,
-                "reference_files"        => [$input_file],
-                "sort_by"                => undef,
-                "target_file"            => undef,
-                "verbose"                => undef,
-                "weights_file"           => undef
+                "config_file"              => undef,
+                "debug"                    => undef,
+                "exclude_terms"            => [],
+                "export"                   => undef,
+                "hpo_file"                 => undef,
+                "include_hpo_ascendants"   => undef,
+                "include_terms"            => [],
+                "log"                      => "",
+                "max_number_var"           => undef,
+                "max_out"                  => 36,
+                "out_file"                 => $tmp_file,
+                "patients_of_interest"     => [],
+                "poi_out_dir"              => undef,
+                "reference_files"          => [$input_file],
+                "sort_by"                  => undef,
+                "similarity_metric_cohort" => undef,
+                "target_file"              => undef,
+                "verbose"                  => undef,
+                "weights_file"             => undef
             }
         );
 
@@ -93,29 +94,30 @@ SKIP: {
     {
         my $ranker = Pheno::Ranker->new(
             {
-                "age"                    => 0,
-                "align"                  => "",
-                "align_basename"         => "t/tar_align",
-                "append_prefixes"        => [],
-                "cli"                    => undef,
-                "config_file"            => undef,
-                "debug"                  => undef,
-                "exclude_terms"          => [],
-                "export"                 => undef,
-                "hpo_file"               => undef,
-                "include_hpo_ascendants" => undef,
-                "include_terms"          => [],
-                "log"                    => "",
-                "max_number_var"         => undef,
-                "max_out"                => 36,
-                "out_file"               => "matrix.txt",
-                "patients_of_interest"   => [],
-                "poi_out_dir"            => undef,
-                "reference_files"        => [$input_file],
-                "sort_by"                => undef,
-                "target_file"            => $patient_file,
-                "verbose"                => undef,
-                "weights_file"           => $weights_file
+                "age"                      => 0,
+                "align"                    => "",
+                "align_basename"           => "t/tar_align",
+                "append_prefixes"          => [],
+                "cli"                      => undef,
+                "config_file"              => undef,
+                "debug"                    => undef,
+                "exclude_terms"            => [],
+                "export"                   => undef,
+                "hpo_file"                 => undef,
+                "include_hpo_ascendants"   => undef,
+                "include_terms"            => [],
+                "log"                      => "",
+                "max_number_var"           => undef,
+                "max_out"                  => 36,
+                "out_file"                 => "matrix.txt",
+                "patients_of_interest"     => [],
+                "poi_out_dir"              => undef,
+                "reference_files"          => [$input_file],
+                "sort_by"                  => undef,
+                "similarity_metric_cohort" => undef,
+                "target_file"              => $patient_file,
+                "verbose"                  => undef,
+                "weights_file"             => $weights_file
             }
         );
 
@@ -193,9 +195,10 @@ SKIP: {
                 "poi_out_dir"            => undef,
                 "reference_files"        => [ $input_file, $other_input_file ],
                 "sort_by"                => undef,
-                "target_file"            => undef,
-                "verbose"                => undef,
-                "weights_file"           => undef
+                "similarity_metric_cohort" => undef,
+                "target_file"              => undef,
+                "verbose"                  => undef,
+                "weights_file"             => undef
             }
         );
 

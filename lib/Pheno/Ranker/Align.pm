@@ -27,11 +27,28 @@ sub check_format {
 sub cohort_comparison {
 
     my ( $ref_binary_hash, $self ) = @_;
-    my $out_file = $self->{out_file};
+    my $out_file          = $self->{out_file};
+    my $similarity_metric = $self->{similarity_metric_cohort};
 
     # Inform about the start of the comparison process
     say "Performing COHORT comparison"
       if ( $self->{debug} || $self->{verbose} );
+
+    # Define the subroutine to be used
+    my %similarity_function = (
+        'hamming' => \&hd_fast,
+        'jaccard' => \&jaccard_similarity
+    );
+
+    # Define values for diagonal elements depending on metric
+    my %similarity_diagonal = (
+        'hamming' => 0,
+        'jaccard' => 1
+    );
+
+    # Use previous hashes to define stuff
+    my $metric              = $similarity_function{$similarity_metric};
+    my $similarity_diagonal = $similarity_diagonal{$similarity_metric};
 
     # Sorting keys of the hash
     my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
@@ -45,7 +62,7 @@ sub cohort_comparison {
     open( my $fh, ">", $out_file );
     say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
-    # Initialize matrix for storing distances
+    # Initialize matrix for storing similarity
     my @matrix;
 
     # Iterate over items (I elements)
@@ -64,36 +81,37 @@ sub cohort_comparison {
         for my $j ( 0 .. $#sorted_keys_ref_binary_hash ) {
             my $str2 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
               {binary_digit_string_weighted};
-            my $distance;
+            my $similarity;
 
             if ($switch) {
 
-                # Compute every distance for large datasets
+                # Compute every similarity for large datasets
                 my $str2 =
                   $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
                   {binary_digit_string_weighted};
-                $distance = $i == $j ? 0 : hd_fast( $str1, $str2 );
+                $similarity =
+                  $i == $j ? $similarity_diagonal : $metric->( $str1, $str2 );
             }
             else {
                 if ( $i == $j ) {
 
-                    # Distance is zero for diagonal elements
-                    $distance = 0;
+                    # Similarity for diagonal elements
+                    $similarity = $similarity_diagonal;
                 }
                 elsif ( $j > $i ) {
 
-                    # Compute distance for large cohorts or upper triangle
-                    $distance = hd_fast( $str1, $str2 );
-                    $matrix[$i][$j] = $distance;
+                    # Compute similarity for large cohorts or upper triangle
+                    $similarity = $metric->( $str1, $str2 );
+                    $matrix[$i][$j] = $similarity;
                 }
                 else {
-                    # Use precomputed distance from lower triangle
-                    $distance = $matrix[$j][$i];
+                    # Use precomputed similarity from lower triangle
+                    $similarity = $matrix[$j][$i];
                 }
             }
 
-            # Print a tab before each distance
-            print $fh "\t", $distance;
+            # Print a tab before each similarity
+            print $fh "\t", $similarity;
         }
 
         print $fh "\n";
@@ -122,7 +140,7 @@ sub compare_and_rank {
     say "Performing COHORT(REF)-PATIENT(TAR) comparison"
       if ( $self->{debug} || $self->{verbose} );
 
-    # Hash for compiling distances
+    # Hash for compiling metrics
     my $score;
 
     # Hash for stats
@@ -632,11 +650,11 @@ sub remap_hash {
           # VARIABLE LEVEL
           # NB: exists stringifies
           exists $weight->{$tmp_key}
-          ? $weight->{$tmp_key} + 0 # coercing to number
+          ? $weight->{$tmp_key} + 0    # coercing to number
 
           # TERM LEVEL
           : exists $weight->{$tmp_key_at_term_level}
-          ? $weight->{$tmp_key_at_term_level} + 0 # coercing to number
+          ? $weight->{$tmp_key_at_term_level} + 0    # coercing to number
 
           # NO WEIGHT
           : 1;

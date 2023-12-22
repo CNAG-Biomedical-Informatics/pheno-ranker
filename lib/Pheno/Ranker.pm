@@ -34,7 +34,7 @@ use constant DEVEL_MODE => 0;
 
 # Misc variables
 my (
-    $config_sort_by, $config_max_out, $config_max_number_var,
+    $config_sort_by, $config_similarity_metric_cohort, $config_max_out, $config_max_number_var,
     $config_seed,    @config_allowed_terms
 );
 my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
@@ -70,6 +70,7 @@ has 'config_file' => (
 sub _set_basic_config {
     my ( $self, $config ) = @_;
     $config_sort_by        = $config->{sort_by}        // 'hamming';
+    $config_similarity_metric_cohort        = $config->{config_similarity_metric_cohort}        // 'hamming';
     $config_max_out        = $config->{max_out}        // 50;
     $config_max_number_var = $config->{max_number_var} // 10_000;
     $config_seed =
@@ -127,6 +128,14 @@ has sort_by => (
     default => $config_sort_by,
     is      => 'ro',
     coerce  => sub { $_[0] // $config_sort_by },
+    lazy    => 1,
+    isa     => Enum [qw(hamming jaccard)]
+);
+
+has similarity_metric_cohort => (
+    default => $config_similarity_metric_cohort,
+    is      => 'ro',
+    coerce  => sub { $_[0] // $config_similarity_metric_cohort },
     lazy    => 1,
     isa     => Enum [qw(hamming jaccard)]
 );
@@ -259,8 +268,6 @@ sub run {
     my $out_file               = $self->{out_file};
     my $cohort_files           = $self->{cohort_files};
     my $append_prefixes        = $self->{append_prefixes};
-    my $max_out                = $self->{max_out};
-    my $sort_by                = $self->{sort_by};
     my $primary_key            = $self->{primary_key};
     my $poi                    = $self->{patients_of_interest};
     my $poi_out_dir            = $self->{poi_out_dir};
@@ -473,6 +480,7 @@ sub run {
               if defined $align;
         }
     }
+
 
     # Dump to JSON if <--export>
     # NB: Must work for -r and -t
