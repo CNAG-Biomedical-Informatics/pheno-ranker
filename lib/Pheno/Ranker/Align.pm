@@ -468,6 +468,12 @@ sub create_glob_and_ref_hashes {
                 self   => $self
             }
         );
+
+        # *** IMPORTANT ***
+        # We eliminate keys with weight = 0 if defined $weight;
+        prune_keys_with_weight_zero($ref_hash) if defined $weight;
+
+        # Load big hash ref_hash_flattened
         $ref_hash_flattened->{$id} = $ref_hash;
 
         # The idea is to create a $glob_hash with unique key-values
@@ -873,4 +879,17 @@ sub parse_hpo_json {
     }
     return \%nodes, \%edges;
 }
+
+sub prune_keys_with_weight_zero {
+
+    my $hash_ref = shift;
+
+    # Iterate over the keys of the hash
+    foreach my $key ( keys %{$hash_ref} ) {
+
+        # Delete the key if its value is 0
+        delete $hash_ref->{$key} if $hash_ref->{$key} == 0;
+    }
+}
+
 1;

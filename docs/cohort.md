@@ -1,4 +1,4 @@
-_Cohort mode_ performs a **cross-comparison of all individuals** in a cohort using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric. The resulting distance matrix can be further analyzed (e.g., with `R`) for cluster characterization or processed through dimensionality reduction.
+_Cohort mode_ performs a **cross-comparison** of all individuals in a cohort(s) using as a metric the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) or the [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index). The resulting matrix can be further analyzed (e.g., with `R`) for cluster characterization or processed through dimensionality reduction.
 
 ## Usage
 
@@ -8,12 +8,22 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
 
+    ```bash
+    ./pheno-ranker -r individuals.json 
+
+    ```
+
+    This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
+
+    ??? Tip "Defining the similarity metric"
+        Use teh flag `--similarity-metric-cohort`. The default valie is `hamming`. The alternative value is `jaccard`-
+
     ??? Tip "Exporting intermediate files"
         It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
         Examples:
 
         ```bash
-        ./pheno-ranker -r individuals.json --e
+        ./pheno-ranker -r individuals.json --e 
         ./pheno-ranker -r individuals.json --e my_fav_id # for chosing a prefix
         ```
 
@@ -26,79 +36,74 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
         This command will print how many variables per individual were actually used to perform the comparison. You can post-process the output to check for unbalanced data.
 
-
-    ```bash
-    ./pheno-ranker -r individuals.json 
-
-    ```
-
-    This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
-
     --8<-- "tbl/matrix.md"
 
      The matrix can be processed to obtain a heatmap:
 
-    ```R
-    # Load library
-    library("pheatmap")
-
-    # Read in the input file as a matrix
-    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
-
-    # Save image
-    png(filename = "heatmap.png", width = 1000, height = 1000,
-        units = "px", pointsize = 12, bg = "white", res = NA)
-
-    # Create the heatmap with row and column labels
-    pheatmap(data)
-    ```
-
+    ??? Example "R code"
+        ```R
+        # Load library
+        library("pheatmap")
+    
+        # Read in the input file as a matrix
+        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+    
+        # Save image
+        png(filename = "heatmap.png", width = 1000, height = 1000,
+            units = "px", pointsize = 12, bg = "white", res = NA)
+    
+        # Create the heatmap with row and column labels
+        pheatmap(data)
+        ```
+    
     <figure markdown>
-       ![Heatmap](img/heatmap.png){ width="800" }
-       <figcaption> Heatmap of a intra-cohort pairwise comparison</figcaption>
+      ![Heatmap](img/heatmap.png){ width="800" }
+      <figcaption> Heatmap of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
 
     The same matrix can be processed with multidimensional scaling to reduce the dimensionality
 
-    ```R
-    library(ggplot2)
-    library(ggrepel)
-    
-    # Read in the input file as a matrix 
-    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
-    
-    #calculate distance matrix
-    d <- dist(data)
-    
-    #perform multidimensional scaling
-    fit <- cmdscale(d, eig=TRUE, k=2)
-    
-    #extract (x, y) coordinates of multidimensional scaling
-    x <- fit$points[,1]
-    y <- fit$points[,2]
-    
-    # Create example data frame
-    df <- data.frame(x, y, label=row.names(data))
-    
-    # Save image
-    png(filename = "mds.png", width = 1000, height = 1000,
-        units = "px", pointsize = 12, bg = "white", res = NA)
-    
-    # Create scatter plot
-    ggplot(df, aes(x, y, label = label)) +
-      geom_point() +
-      geom_text_repel(size = 5, # Adjust the size of the text
-                      box.padding = 0.2, # Adjust the padding around the text
-                      max.overlaps = 10) + # Change the maximum number of overlaps
-      labs(title = "Multidimensional Scaling Results",
-           x = "Hamming Distance MDS Coordinate 1",
-           y = "Hamming Distance MDS Coordinate 2") + # Add title and axis labels
-      theme(
-            plot.title = element_text(size = 30, face = "bold", hjust = 0.5),
-            axis.title = element_text(size = 25),
-            axis.text = element_text(size = 15))
-    ```
+    ??? Example "R code"
+
+        ```R
+        library(ggplot2)
+        library(ggrepel)
+        
+        # Read in the input file as a matrix 
+        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+        
+        #calculate distance matrix
+        d <- dist(data)
+        
+        #perform multidimensional scaling
+        fit <- cmdscale(d, eig=TRUE, k=2)
+        
+        #extract (x, y) coordinates of multidimensional scaling
+        x <- fit$points[,1]
+        y <- fit$points[,2]
+        
+        # Create example data frame
+        df <- data.frame(x, y, label=row.names(data))
+        
+        # Save image
+        png(filename = "mds.png", width = 1000, height = 1000,
+            units = "px", pointsize = 12, bg = "white", res = NA)
+        
+        # Create scatter plot
+        ggplot(df, aes(x, y, label = label)) +
+          geom_point() +
+          geom_text_repel(size = 5, # Adjust the size of the text
+                          box.padding = 0.2, # Adjust the padding around the text
+                          max.overlaps = 10) + # Change the maximum number of overlaps
+          labs(title = "Multidimensional Scaling Results",
+               x = "Hamming Distance MDS Coordinate 1",
+               y = "Hamming Distance MDS Coordinate 2") + # Add title and axis labels
+          theme(
+                plot.title = element_text(size = 30, face = "bold", hjust = 0.5),
+                axis.title = element_text(size = 25),
+                axis.text = element_text(size = 15))
+        ```
 
     <figure markdown>
        ![MDS](img/mds.png){ width="800" }
