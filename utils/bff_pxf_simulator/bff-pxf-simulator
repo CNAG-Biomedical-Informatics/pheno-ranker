@@ -1,15 +1,15 @@
 #!/usr/bin/env perl
 #
-#   A script that creates a JSON array of random BFF/PXF
+#   A script that creates a JSON array of simulated BFF/PXF
 #
-#   Note: Monarch has a more sophisticated version at:
+#   Note: Check also Monarch Initiative:
 #   https://github.com/monarch-initiative/PhenoImp
 #
-#   Last Modified: May/05/2023
+#   Last Modified: Dec/24/2023
 #
 #   $VERSION taken from Pheno::Ranker
 #
-#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
+#   Copyright (C) 2023-2024 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   License: Artistic License 2.0
 #
@@ -27,27 +27,38 @@ exit;
 
 sub randomize_ga4gh {
 
-    my $format             = 'bff';
-    my $number             = 100;
-    my $output             = 'individuals.json';
-    my $phenotypicFeatures = 1;
-    my $diseases           = 1;
-    my $treatments         = 1;
-    my $VERSION            = '0.00';
+    my $VERSION = '0.15';
+    my $format  = 'bff';
+    my $number  = 100;
+    my $output  = 'individuals.json';
+    my ( $phenotypicFeatures, $diseases, $treatments, $procedures, $exposures )
+      = ( 1, 1, 1, 1, 1 );
 
     # Reading arguments
     GetOptions(
         'format|f=s'                    => \$format,                           # string
         'number|n=i'                    => \$number,                           # string
         'output|o=s'                    => \$output,                           # string
+
+         #
         'phenotypicFeatures=i'          => \$phenotypicFeatures,               # integer
-        'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,   # integer
         'diseases=i'                    => \$diseases,                         # integer
-        'max-diseases-pool=i'           => \my $max_diseases_pool,             # integer
         'treatments=i'                  => \$treatments,                       # integer
+        'procedures=i'                  => \$procedures,                       # integer
+        'exposures=i'                   => \$exposures,                        # integer
+
+         #
+        'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,   # integer
+        'max-diseases-pool=i'           => \my $max_diseases_pool,             # integer
         'max-treatments-pool=i'         => \my $max_treatments_pool,           # integer
+        'max-procedures-pool=i'         => \my $max_procedures_pool,           # integer
+        'max-exposures-pool=i'          => \my $max_exposures_pool,            # integer
+
+         #
         'random-seed=i'                 => \my $random_seed,                   # integer
         'external-ontologies=s'         => \my $ext_ontologies,                # string
+
+         #
         'help|?'                        => \my $help,                          # flag
         'man'                           => \my $man,                           # flag
         'debug=i'                       => \my $debug,                         # integer
@@ -66,9 +77,13 @@ sub randomize_ga4gh {
             phenotypicFeatures          => $phenotypicFeatures,
             diseases                    => $diseases,
             treatments                  => $treatments,
+            procedures                  => $procedures,
+            exposures                   => $exposures,
             max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
             max_diseases_pool           => $max_diseases_pool,
             max_treatments_pool         => $max_treatments_pool,
+            max_procedures_pool         => $max_procedures_pool,
+            max_exposures_pool          => $max_exposures_pool,
             random_seed                 => $random_seed,
             ext_ontologies              => $ext_ontologies,
             debug                       => $debug,
@@ -93,9 +108,10 @@ use Path::Tiny;
 use List::Util 1.50 qw(head shuffle);
 use JSON::XS;
 use Data::Fake qw(Core Company Dates Names);
-use FindBin    qw($Bin);
+use FindBin qw($Bin);
 use lib $Bin;
-use Ontologies qw($hpo_array $omim_array $rxnorm_array $ethnicity_array);
+use Ontologies
+  qw($hpo_array $omim_array $rxnorm_array $ncit_procedures_array $ncit_exposures_array $ethnicity_array);
 
 sub new {
     my ( $class, $self ) = @_;
@@ -118,7 +134,7 @@ sub run {
     # Set seed if defined
     srand($random_seed) if defined $random_seed;    # user can set it to 0
 
-    # Load external ontologies file is present
+    # Load external ontologies file if present
     $self->{ontologies_data} =
       $self->{ext_ontologies}
       ? validate_json( $self->{ext_ontologies} )
@@ -171,17 +187,44 @@ sub pxf_generator {
             },
             diseases           => $hash->{diseases},
             phenotypicFeatures => $hash->{phenotypicFeatures},
-            medicalActions     => $hash->{treatments}
+            medicalActions     => merge_medical_actions($hash)
+
         }
     );
     return $pxf->();
 }
 
+sub merge_medical_actions {
+
+    my $hash = shift;
+
+    # Initialize empty arrays for treatments and procedures
+    my @processed_treatments;
+    my @processed_procedures;
+
+    # Process treatments if defined
+    if ( defined $hash->{treatments} ) {
+        @processed_treatments =
+          map { { treatment => $_ } } @{ $hash->{treatments} };
+    }
+
+    # Process procedures if defined
+    if ( defined $hash->{procedures} ) {
+        @processed_procedures =
+          map { { procedure => $_ } } @{ $hash->{procedures} };
+    }
+
+    # Merge the processed arrays and return a reference
+    # NB: If undef no elements will be added
+    return [ @processed_treatments, @processed_procedures ];
+}
+
 sub bff_generator {
 
     my ( $id, $self ) = @_;
-    my $hash = load_ontologies($self);
-    my $bff  = fake_hash(
+    my $default_array = [];
+    my $hash          = load_ontologies($self);
+    my $bff           = fake_hash(
         {
             id        => "Beacon_" . $id,
             ethnicity => fake_pick_mod($ethnicity_array),
@@ -191,72 +234,107 @@ sub bff_generator {
                     { id => "NCIT:C16576", label => "Female" }
                 ]
             ),
-            diseases           => $hash->{diseases},
-            phenotypicFeatures => $hash->{phenotypicFeatures},
-
-            treatments => $hash->{treatments}
-
+            diseases           => $hash->{diseases}           // $default_array,
+            phenotypicFeatures => $hash->{phenotypicFeatures} // $default_array,
+            treatments         => $hash->{treatments}         // $default_array,
+            interventionsOrProcedures => $hash->{procedures}  // $default_array,
+            exposures                 => $hash->{exposures}   // $default_array
         }
     );
     return $bff->();
 }
 
-sub phenotypicFeatures {
+sub create_entries {
 
-    my ( $format, $ont_array, $n, $max ) = @_;
-    my $type           = $format eq 'bff' ? 'featureType' : 'type';
-    my $onset          = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
+    my ( $params, $ont_array, $n, $max ) = @_;
     my $shuffled_slice = shuffle_slice( $max, $ont_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
-          {
-            $type  => $shuffled_slice->[$i],
-            $onset => {
-                age => {
-                    iso8601duration =>
-                      fake_template( "P%dY", fake_int_mod( 1, 99 ) )
-                }
-            }
-          };
+          $params->{entry_creator}->( $shuffled_slice->[$i], $params );
     }
     return $array;
+}
+
+sub common_entry_creator {
+
+    my ( $element, $params ) = @_;
+    return {
+        $params->{type}  => $element,
+        $params->{onset} => {
+            age => {
+                iso8601duration =>
+                  fake_template( "P%dY", fake_int_mod( 1, 99 ) )
+            }
+        }
+    };
+}
+
+sub phenotypicFeatures {
+
+    my ( $format, $ont_array, $n, $max ) = @_;
+    my $params = {
+        type          => $format eq 'bff' ? 'featureType' : 'type',
+        onset         => $format eq 'bff' ? 'ageOfOnset'  : 'onset',
+        entry_creator => \&common_entry_creator
+    };
+    return create_entries( $params, $ont_array, $n, $max );
 }
 
 sub diseases {
 
     my ( $format, $ont_array, $n, $max ) = @_;
-    my $type           = $format eq 'bff' ? 'diseaseCode' : 'term';
-    my $onset          = $format eq 'bff' ? 'ageOfOnset'  : 'onset';
-    my $shuffled_slice = shuffle_slice( $max, $ont_array );
-    my $array;
-    for ( my $i = 0 ; $i < $n ; $i++ ) {
-        push @$array,
-          {
-            $type  => $shuffled_slice->[$i],
-            $onset => {
-                age => {
-                    iso8601duration =>
-                      fake_template( "P%dY", fake_int_mod( 1, 99 ) )
-                }
-            }
-          };
-    }
-    return $array;
+    my $params = {
+        type          => $format eq 'bff' ? 'diseaseCode' : 'term',
+        onset         => $format eq 'bff' ? 'ageOfOnset'  : 'onset',
+        entry_creator => \&common_entry_creator
+    };
+    return create_entries( $params, $ont_array, $n, $max );
 }
 
 sub treatments {
 
     my ( $format, $ont_array, $n, $max ) = @_;
-    my $shuffled_slice = shuffle_slice( $max, $ont_array );
-    my $array;
-    for ( my $i = 0 ; $i < $n ; $i++ ) {
-        push @$array,
-          $format eq 'bff'
-          ? { treatmentCode => $shuffled_slice->[$i] }
-          : { treatment     => { agent => $shuffled_slice->[$i] } };
+    my $params = {
+        entry_creator => sub {
+            my ( $element, $p ) = @_;
+            return $format eq 'bff'
+              ? { treatmentCode => $element }
+              : { agent         => $element };
+        }
+    };
+    return create_entries( $params, $ont_array, $n, $max );
+}
+
+sub procedures {
+
+    my ( $format, $ont_array, $n, $max ) = @_;
+    my $params = {
+        type          => $format eq 'bff' ? 'procedureCode'  : 'term',
+        onset         => $format eq 'bff' ? 'ageAtProcedure' : 'onset',
+        entry_creator => \&common_entry_creator
+    };
+    return create_entries( $params, $ont_array, $n, $max );
+}
+
+sub exposures {
+
+    my ( $format, $ont_array, $n, $max ) = @_;
+    my $default_duration = 'P999Y';
+    my $default_ontology = { id => 'NCIT:NA0000', label => 'NA' };
+    my $params           = {
+        type          => $format eq 'bff' ? 'exposureCode'  : 'term',
+        onset         => $format eq 'bff' ? 'ageAtExposure' : 'onset',
+        entry_creator => \&common_entry_creator
+    };
+    my $entries = create_entries( $params, $ont_array, $n, $max );
+
+    # Add 'duration' 'and 'unit' to pass bff-validator
+    foreach my $entry (@$entries) {
+        $entry->{duration} = $default_duration;
+        $entry->{unit}     = $default_ontology;
     }
-    return $array;
+    return $entries;
 }
 
 sub load_ontologies {
@@ -266,16 +344,23 @@ sub load_ontologies {
     my %func = (
         diseases           => \&diseases,
         phenotypicFeatures => \&phenotypicFeatures,
-        treatments         => \&treatments
+        treatments         => \&treatments,
+        procedures         => \&procedures,
+        exposures          => \&exposures,
+
     );
     my %ont = (
         diseases           => $omim_array,
         phenotypicFeatures => $hpo_array,
-        treatments         => $rxnorm_array
+        treatments         => $rxnorm_array,
+        procedures         => $ncit_procedures_array,
+        exposures          => $ncit_exposures_array
     );
 
     my %hash;
-    for my $item (qw/diseases phenotypicFeatures treatments/) {
+    for
+      my $item (qw/diseases phenotypicFeatures treatments procedures exposures/)
+    {
         my $ont_array =
           exists $self->{ontologies_data}{$item}
           ? $self->{ontologies_data}{$item}
@@ -296,6 +381,8 @@ sub shuffle_slice {
 
     # head   -> 1.50 List::Util (5.26 has 1.4602)
     #my @items = sample $count, @values; # 1.54 List::Util
+    # *** IMPORTANT ***
+    # If $max was defined by the user then use it, otherwise @$array;
     my @slice          = defined $max ? head $max, @$array : @$array;    # slice of refs
     my @shuffled_slice = shuffle @slice;
     return wantarray ? @shuffled_slice : \@shuffled_slice;
@@ -322,12 +409,15 @@ sub validate_json {
     my $file   = shift;
     my $data   = read_yaml($file);
     my $schema = {
-        '$schema' => 'http://json-schema.org/draft-07/schema#',
+        '$schema'  => 'http://json-schema.org/draft-07/schema#',
         type       => "object",
         properties => {
             diseases           => { '$ref' => '#/$defs/array' },
             phenotypicFeatures => { '$ref' => '#/$defs/array' },
-            treatments         => { '$ref' => '#/$defs/array' }
+            treatments         => { '$ref' => '#/$defs/array' },
+            procedures         => { '$ref' => '#/$defs/array' },
+            exposures          => { '$ref' => '#/$defs/array' },
+            ethnicity          => { '$ref' => '#/$defs/array' }
         },
         '$defs' => {
             array => {
@@ -386,7 +476,7 @@ sub read_yaml {
 
 =head1 NAME
 
-bff-pxf-simulator: A script that creates a JSON array of random BFF/PXF
+bff-pxf-simulator: A script that creates a JSON array of simulated BFF/PXF
 
 =head1 SYNOPSIS
 
@@ -395,15 +485,17 @@ bff-pxf-simulator [-options]
      Options:
        -f|format                      Format [>bff|pxf]
        -n|number                      Number of individuals
-       -diseases                      Number of [1]
-       -phenotypicFeatures            IDEM
-       -treatments                    IDEM
-       -max-diseases-pool             To narrow the selection to N first array elements
-       -max-phenotypicFeatures-pool   IDEM
-       -max-treatments-pool           IDEM
        -o|output                      Output file [individuals.json]
        -external-ontologies           YAML file with ontologies for diseases, phenotypicFeatures and treatments
        -random-seed                   Initializes pseudorandom number sequences for reproducible results (int)
+
+       -diseases                      Number of [1]
+       -exposures                     IDEM
+       -procedures                    IDEM
+       -phenotypicFeatures            IDEM
+       -procedures                    IDEM
+       -treatments                    IDEM
+       -max-[term]-pool               To narrow the selection to N first array elements
 
      Generic Options;
        -debug                         Print debugging (from 1 to 5, being 5 max)
@@ -414,13 +506,23 @@ bff-pxf-simulator [-options]
 
 =head1 DESCRIPTION
 
-A script that creates a JSON array of random BFF/PXF
+This script generates a JSON array of simulated BFF/PXF data. The files can be created based on pre-loaded ontologies or by utilizing an external YAML file.
 
 =head1 SUMMARY
 
-A script that creates a JSON array of random BFF/PXF. 
+A script that creates a JSON array of simulated BFF/PXF. 
 
-For complex properties we only implemented C<diseases,phenotypicFeatures> and C<treatments>. Depending on the user's adoption we might implement more.
+Implemented array terms:
+
+B<BFF:> C<diseases, exposures, interventionsOrProcedures, phenotypicFeatures, treatments>. 
+
+procedures = interventionsOrProcedures
+
+B<PXF:> C<interventionsOrProcedures, medicalActions.procedure, medicalActions.treatment, phenotypicFeatures>.
+
+procedures = medicalActions.procedure
+
+treatments = medicalActions.treatment
 
 =head1 INSTALLATION
 
@@ -438,7 +540,11 @@ For complex properties we only implemented C<diseases,phenotypicFeatures> and C<
 
 =head1 HOW TO RUN BFF-PXF-SIMULATOR
 
-The software runs without any argument and assumes defaults. If you want to change some parameters please take a look to the synopsis.
+When run without any arguments, the software will use default settings. To modify any parameters, please refer to the synopsis for guidance.
+
+If you prefer not to include a specific term in the analysis, set its value to zero. For example:
+
+C<--treatments 0>
 
 B<Examples:>
 
@@ -447,6 +553,8 @@ B<Examples:>
  $ ./bff-pxf-simulator -f pxf -n 1000 -o pxf.json # PXF with 1K samples and saved to pxf.json
 
  $ ./bff-pxf-simulator -phenotypicFeatures 10 # BFF with 100 samples and 10 pF each
+
+ $ ./bff-pxf-simulator -diseases 0 -exposures 0 -procedures 0 -phenotypicFeatures 0 -treatments 0 # Only sex and ethnicity
 
 =head2 COMMON ERRORS AND SOLUTIONS
 

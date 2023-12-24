@@ -12,6 +12,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Turned on legend on share/r/mds_color.R
  - Fixed stringification of weights (read from YAML) on JSON export
  - Added flag --similarity-metric-cohort
+ - Added terms <procedures, exposures> to bff-pxf-simulator
 
 0.03 2023-11-27T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 

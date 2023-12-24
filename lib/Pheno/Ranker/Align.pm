@@ -623,24 +623,23 @@ sub remap_hash {
         my $id_key = add_id2key( $key, $hash, $self );
 
         # Finally add value to id_key
-        my $tmp_key = $id_key . '.' . $val;
+        my $tmp_key_at_variable_level = $id_key . '.' . $val;
 
         # Add HPO ascendants
         if ( defined $edges && $val =~ /^HP:/ ) {
-            my $ascendants = add_hpo_ascendants( $tmp_key, $nodes, $edges );
+            my $ascendants =
+              add_hpo_ascendants( $tmp_key_at_variable_level, $nodes, $edges );
             $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
         ##################
         # Assign weights #
         ##################
-        # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
-        # NB: We don't warn if it does not exist, just assign 1
-        # *** IMPORTANT *** 07-26-2023
-        # We allow for assigning weights by TERM (e.g., 1D)
-        # but VARIABLE level takes precedence to TERM
 
-        my $tmp_key_at_term_level = $tmp_key;
+        # NB: mrueda (04-12-23) - it's ok if $weight == undef => NO AUTOVIVIFICATION!
+        # NB: We don't warn if user selection does not exist, just assign 1
+
+        my $tmp_key_at_term_level = $tmp_key_at_variable_level;
 
         # If variable has . then capture $1
         if ( $tmp_key_at_term_level =~ m/\./ ) {
@@ -650,25 +649,44 @@ sub remap_hash {
             $tmp_key_at_term_level = $1;
         }
 
-        # ORDER MATTERS !!!!
-        $out_hash->{$tmp_key} =
+        if ( defined $weight ) {
 
-          # VARIABLE LEVEL
-          # NB: exists stringifies
-          exists $weight->{$tmp_key}
-          ? $weight->{$tmp_key} + 0    # coercing to number
+            # *** IMPORTANT ***
+            # ORDER MATTERS !!!!
+            # We allow for assigning weights by TERM (e.g., 1D)
+            # but VARIABLE level takes precedence to TERM
 
-          # TERM LEVEL
-          : exists $weight->{$tmp_key_at_term_level}
-          ? $weight->{$tmp_key_at_term_level} + 0    # coercing to number
+            $out_hash->{$tmp_key_at_variable_level} =
 
-          # NO WEIGHT
-          : 1;
+              # VARIABLE LEVEL
+              # NB: exists stringifies the weights
+              exists $weight->{$tmp_key_at_variable_level}
+              ? $weight->{$tmp_key_at_variable_level} + 0    # coercing to number
+
+              # TERM LEVEL
+              : exists $weight->{$tmp_key_at_term_level}
+              ? $weight->{$tmp_key_at_term_level} + 0        # coercing to number
+
+              # NO WEIGHT
+              : 1;
+
+        }
+        else {
+
+            # Assign a weight of 1 if no users weights
+            $out_hash->{$tmp_key_at_variable_level} = 1;
+
+        }
+
+        ##############
+        # label Hash #
+        ##############
 
         # Finally we load the Nomenclature hash
         my $label = $key;
         $label =~ s/id/label/;
-        $nomenclature{$tmp_key} = $hash->{$label} if defined $hash->{$label};
+        $nomenclature{$tmp_key_at_variable_level} = $hash->{$label}
+          if defined $hash->{$label};
     }
 
     # *** IMPORTANT ***

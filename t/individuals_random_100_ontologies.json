@@ -4,7 +4,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P91Y"
+                  "iso8601duration" : "P3Y"
                }
             },
             "diseaseCode" : {
@@ -14,15 +14,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
+      "exposures" : [],
       "id" : "Beacon_1",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P21Y"
+                  "iso8601duration" : "P10Y"
                }
             },
             "featureType" : {
@@ -49,7 +51,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P89Y"
+                  "iso8601duration" : "P53Y"
                }
             },
             "diseaseCode" : {
@@ -59,15 +61,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
       },
+      "exposures" : [],
       "id" : "Beacon_2",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P35Y"
+                  "iso8601duration" : "P23Y"
                }
             },
             "featureType" : {
@@ -94,7 +98,101 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P20Y"
+                  "iso8601duration" : "P89Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_3",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P43Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P6Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_4",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P67Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P10Y"
                }
             },
             "diseaseCode" : {
@@ -107,12 +205,61 @@
          "id" : "NCIT:C41261",
          "label" : "White"
       },
-      "id" : "Beacon_3",
+      "exposures" : [],
+      "id" : "Beacon_5",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P68Y"
+                  "iso8601duration" : "P7Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P44Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_6",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P22Y"
                }
             },
             "featureType" : {
@@ -149,60 +296,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
       },
-      "id" : "Beacon_4",
+      "exposures" : [],
+      "id" : "Beacon_7",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P13Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P25Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_5",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P65Y"
+                  "iso8601duration" : "P20Y"
                }
             },
             "featureType" : {
@@ -229,52 +333,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P29Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_6",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P90Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P61Y"
+                  "iso8601duration" : "P40Y"
                }
             },
             "diseaseCode" : {
@@ -287,12 +346,61 @@
          "id" : "NCIT:C17459",
          "label" : "Hispanic or Latino"
       },
-      "id" : "Beacon_7",
+      "exposures" : [],
+      "id" : "Beacon_8",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P27Y"
+                  "iso8601duration" : "P68Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P68Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
+      },
+      "exposures" : [],
+      "id" : "Beacon_9",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P84Y"
                }
             },
             "featureType" : {
@@ -319,7 +427,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P25Y"
+                  "iso8601duration" : "P81Y"
                }
             },
             "diseaseCode" : {
@@ -332,12 +440,343 @@
          "id" : "NCIT:C42331",
          "label" : "African"
       },
-      "id" : "Beacon_8",
+      "exposures" : [],
+      "id" : "Beacon_10",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P67Y"
+                  "iso8601duration" : "P45Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P19Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
+      },
+      "exposures" : [],
+      "id" : "Beacon_11",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P30Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P72Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_12",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P97Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P85Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_13",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P26Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P21Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_14",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P12Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P20Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_15",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P92Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P60Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_16",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P76Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P27Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_17",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P49Y"
                }
             },
             "featureType" : {
@@ -374,15 +813,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
       },
-      "id" : "Beacon_9",
+      "exposures" : [],
+      "id" : "Beacon_18",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P2Y"
+                  "iso8601duration" : "P18Y"
                }
             },
             "featureType" : {
@@ -409,7 +850,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P55Y"
+                  "iso8601duration" : "P84Y"
                }
             },
             "diseaseCode" : {
@@ -419,15 +860,64 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
       },
-      "id" : "Beacon_10",
+      "exposures" : [],
+      "id" : "Beacon_19",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P97Y"
+                  "iso8601duration" : "P43Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P9Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_20",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P20Y"
                }
             },
             "featureType" : {
@@ -454,7 +944,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P30Y"
+                  "iso8601duration" : "P20Y"
                }
             },
             "diseaseCode" : {
@@ -464,15 +954,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
       },
-      "id" : "Beacon_11",
+      "exposures" : [],
+      "id" : "Beacon_21",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P97Y"
+                  "iso8601duration" : "P4Y"
                }
             },
             "featureType" : {
@@ -499,7 +991,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P90Y"
+                  "iso8601duration" : "P36Y"
                }
             },
             "diseaseCode" : {
@@ -509,15 +1001,487 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
-      "id" : "Beacon_12",
+      "exposures" : [],
+      "id" : "Beacon_22",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P38Y"
+                  "iso8601duration" : "P63Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P60Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_23",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P17Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P52Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_24",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P60Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P6Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_25",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P78Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P56Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_26",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P7Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P14Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_27",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P82Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P29Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_28",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P6Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P64Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_29",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P91Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P66Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_30",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P82Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P79Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
+      },
+      "exposures" : [],
+      "id" : "Beacon_31",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P83Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P35Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_32",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P33Y"
                }
             },
             "featureType" : {
@@ -554,15 +1518,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
       },
-      "id" : "Beacon_13",
+      "exposures" : [],
+      "id" : "Beacon_33",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P48Y"
+                  "iso8601duration" : "P13Y"
                }
             },
             "featureType" : {
@@ -589,7 +1555,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P11Y"
+                  "iso8601duration" : "P2Y"
                }
             },
             "diseaseCode" : {
@@ -599,60 +1565,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
       },
-      "id" : "Beacon_14",
+      "exposures" : [],
+      "id" : "Beacon_34",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P72Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P4Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
-      },
-      "id" : "Beacon_15",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P95Y"
+                  "iso8601duration" : "P86Y"
                }
             },
             "featureType" : {
@@ -664,141 +1587,6 @@
       "sex" : {
          "id" : "NCIT:C20197",
          "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P42Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_16",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P75Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P61Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_17",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P64Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P32Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_18",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P42Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
       },
       "treatments" : [
          {
@@ -827,12 +1615,14 @@
          "id" : "NCIT:C42331",
          "label" : "African"
       },
-      "id" : "Beacon_19",
+      "exposures" : [],
+      "id" : "Beacon_35",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P47Y"
+                  "iso8601duration" : "P39Y"
                }
             },
             "featureType" : {
@@ -844,6 +1634,288 @@
       "sex" : {
          "id" : "NCIT:C16576",
          "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P43Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
+      },
+      "exposures" : [],
+      "id" : "Beacon_36",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P11Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P98Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_37",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P85Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P18Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_38",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P69Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P7Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_39",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P50Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P43Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_40",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P31Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P85Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_41",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P25Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
       },
       "treatments" : [
          {
@@ -869,15 +1941,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
       },
-      "id" : "Beacon_20",
+      "exposures" : [],
+      "id" : "Beacon_42",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P4Y"
+                  "iso8601duration" : "P71Y"
                }
             },
             "featureType" : {
@@ -904,7 +1978,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P23Y"
+                  "iso8601duration" : "P87Y"
                }
             },
             "diseaseCode" : {
@@ -917,12 +1991,249 @@
          "id" : "NCIT:C67109",
          "label" : "Multiracial"
       },
-      "id" : "Beacon_21",
+      "exposures" : [],
+      "id" : "Beacon_43",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P27Y"
+                  "iso8601duration" : "P19Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P34Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_44",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P49Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P91Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_45",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P59Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P56Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_46",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P98Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P46Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_47",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P76Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P55Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_48",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P37Y"
                }
             },
             "featureType" : {
@@ -962,12 +2273,14 @@
          "id" : "NCIT:C16352",
          "label" : "Black or African American"
       },
-      "id" : "Beacon_22",
+      "exposures" : [],
+      "id" : "Beacon_49",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P6Y"
+                  "iso8601duration" : "P15Y"
                }
             },
             "featureType" : {
@@ -977,8 +2290,55 @@
          }
       ],
       "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P88Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_50",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P81Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
       },
       "treatments" : [
          {
@@ -1004,15 +2364,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
-      "id" : "Beacon_23",
+      "exposures" : [],
+      "id" : "Beacon_51",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P27Y"
+                  "iso8601duration" : "P15Y"
                }
             },
             "featureType" : {
@@ -1039,7 +2401,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P82Y"
+                  "iso8601duration" : "P34Y"
                }
             },
             "diseaseCode" : {
@@ -1052,12 +2414,14 @@
          "id" : "NCIT:C41261",
          "label" : "White"
       },
-      "id" : "Beacon_24",
+      "exposures" : [],
+      "id" : "Beacon_52",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P4Y"
+                  "iso8601duration" : "P56Y"
                }
             },
             "featureType" : {
@@ -1084,52 +2448,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P82Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_25",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P82Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P7Y"
+                  "iso8601duration" : "P2Y"
                }
             },
             "diseaseCode" : {
@@ -1142,142 +2461,9 @@
          "id" : "NCIT:C42331",
          "label" : "African"
       },
-      "id" : "Beacon_26",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P30Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P43Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_27",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P59Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P41Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
-      },
-      "id" : "Beacon_28",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P4Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P62Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_29",
+      "exposures" : [],
+      "id" : "Beacon_53",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
@@ -1292,8 +2478,8 @@
          }
       ],
       "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
+         "id" : "NCIT:C16576",
+         "label" : "Female"
       },
       "treatments" : [
          {
@@ -1309,7 +2495,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P67Y"
+                  "iso8601duration" : "P37Y"
                }
             },
             "diseaseCode" : {
@@ -1322,502 +2508,9 @@
          "id" : "NCIT:C17459",
          "label" : "Hispanic or Latino"
       },
-      "id" : "Beacon_30",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P77Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P87Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_31",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P96Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P50Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_32",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P84Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P21Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
-      },
-      "id" : "Beacon_33",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P22Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P55Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_34",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P52Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P68Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_35",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P18Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P19Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_36",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P4Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P94Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_37",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P50Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P83Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_38",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P93Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P77Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_39",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P85Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P57Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_40",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P76Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P43Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_41",
+      "exposures" : [],
+      "id" : "Beacon_54",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
@@ -1832,51 +2525,6 @@
          }
       ],
       "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P74Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_42",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P83Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
          "id" : "NCIT:C16576",
          "label" : "Female"
       },
@@ -1894,7 +2542,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P52Y"
+                  "iso8601duration" : "P77Y"
                }
             },
             "diseaseCode" : {
@@ -1904,60 +2552,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
-      "id" : "Beacon_43",
+      "exposures" : [],
+      "id" : "Beacon_55",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P72Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P94Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_44",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P88Y"
+                  "iso8601duration" : "P2Y"
                }
             },
             "featureType" : {
@@ -1994,15 +2599,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
       },
-      "id" : "Beacon_45",
+      "exposures" : [],
+      "id" : "Beacon_56",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P85Y"
+                  "iso8601duration" : "P3Y"
                }
             },
             "featureType" : {
@@ -2029,7 +2636,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P9Y"
+                  "iso8601duration" : "P10Y"
                }
             },
             "diseaseCode" : {
@@ -2042,57 +2649,14 @@
          "id" : "NCIT:C42331",
          "label" : "African"
       },
-      "id" : "Beacon_46",
+      "exposures" : [],
+      "id" : "Beacon_57",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P22Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P38Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_47",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P41Y"
+                  "iso8601duration" : "P60Y"
                }
             },
             "featureType" : {
@@ -2119,7 +2683,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P68Y"
+                  "iso8601duration" : "P46Y"
                }
             },
             "diseaseCode" : {
@@ -2132,12 +2696,61 @@
          "id" : "NCIT:C67109",
          "label" : "Multiracial"
       },
-      "id" : "Beacon_48",
+      "exposures" : [],
+      "id" : "Beacon_58",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P28Y"
+                  "iso8601duration" : "P94Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P37Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_59",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P47Y"
                }
             },
             "featureType" : {
@@ -2164,7 +2777,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P87Y"
+                  "iso8601duration" : "P35Y"
                }
             },
             "diseaseCode" : {
@@ -2174,15 +2787,299 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
-      "id" : "Beacon_49",
+      "exposures" : [],
+      "id" : "Beacon_60",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P89Y"
+                  "iso8601duration" : "P31Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P79Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_61",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P92Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P76Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_62",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P78Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P32Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_63",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P25Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P10Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_64",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P72Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P10Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_65",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P58Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P50Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_66",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P14Y"
                }
             },
             "featureType" : {
@@ -2222,1589 +3119,16 @@
          "id" : "NCIT:C41260",
          "label" : "Asian"
       },
-      "id" : "Beacon_50",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P93Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P30Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_51",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P15Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P93Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_52",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P30Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P93Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_53",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P38Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P54Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_54",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P38Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P97Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_55",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P18Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P60Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_56",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P13Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P1Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_57",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P64Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P17Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_58",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P79Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P71Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_59",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P36Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P90Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_60",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P28Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P97Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_61",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P21Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P29Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_62",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P1Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P32Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_63",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P34Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P74Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_64",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P49Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P60Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_65",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P65Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P45Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_66",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P47Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P55Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
+      "exposures" : [],
       "id" : "Beacon_67",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P43Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P69Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
-      },
-      "id" : "Beacon_68",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P83Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P45Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
-      },
-      "id" : "Beacon_69",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P23Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P70Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_70",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P12Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P94Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_71",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P90Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P1Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_72",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P75Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P51Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_73",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P24Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P32Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_74",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P18Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P87Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_75",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P51Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P41Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_76",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P37Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P97Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_77",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P87Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P47Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
-      },
-      "id" : "Beacon_78",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P19Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P41Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_79",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P14Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P32Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_80",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P22Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P14Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_81",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P5Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P7Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_82",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P81Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P23Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_83",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P29Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P65Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_84",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P32Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
          {
             "ageOfOnset" : {
                "age" : {
                   "iso8601duration" : "P63Y"
                }
             },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41261",
-         "label" : "White"
-      },
-      "id" : "Beacon_85",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P13Y"
-               }
-            },
             "featureType" : {
                "id" : "HP:11",
                "label" : "Foo"
@@ -3812,8 +3136,8 @@
          }
       ],
       "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
+         "id" : "NCIT:C16576",
+         "label" : "Female"
       },
       "treatments" : [
          {
@@ -3829,7 +3153,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P70Y"
+                  "iso8601duration" : "P37Y"
                }
             },
             "diseaseCode" : {
@@ -3839,10 +3163,12 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C16352",
-         "label" : "Black or African American"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
-      "id" : "Beacon_86",
+      "exposures" : [],
+      "id" : "Beacon_68",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
@@ -3874,97 +3200,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P61Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_87",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P56Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P66Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_88",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P28Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P35Y"
+                  "iso8601duration" : "P31Y"
                }
             },
             "diseaseCode" : {
@@ -3977,102 +3213,14 @@
          "id" : "NCIT:C42331",
          "label" : "African"
       },
-      "id" : "Beacon_89",
+      "exposures" : [],
+      "id" : "Beacon_69",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P3Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P44Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
-      },
-      "id" : "Beacon_90",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P77Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P37Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_91",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P33Y"
+                  "iso8601duration" : "P49Y"
                }
             },
             "featureType" : {
@@ -4099,97 +3247,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P27Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C67109",
-         "label" : "Multiracial"
-      },
-      "id" : "Beacon_92",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P58Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C16576",
-         "label" : "Female"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P75Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
-      },
-      "id" : "Beacon_93",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P85Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P92Y"
+                  "iso8601duration" : "P81Y"
                }
             },
             "diseaseCode" : {
@@ -4202,57 +3260,14 @@
          "id" : "NCIT:C41260",
          "label" : "Asian"
       },
-      "id" : "Beacon_94",
+      "exposures" : [],
+      "id" : "Beacon_70",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P79Y"
-               }
-            },
-            "featureType" : {
-               "id" : "HP:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
-      },
-      "treatments" : [
-         {
-            "treatmentCode" : {
-               "id" : "RxNorm:11",
-               "label" : "Foo"
-            }
-         }
-      ]
-   },
-   {
-      "diseases" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P5Y"
-               }
-            },
-            "diseaseCode" : {
-               "id" : "OMIM:11",
-               "label" : "Foo"
-            }
-         }
-      ],
-      "ethnicity" : {
-         "id" : "NCIT:C41260",
-         "label" : "Asian"
-      },
-      "id" : "Beacon_95",
-      "phenotypicFeatures" : [
-         {
-            "ageOfOnset" : {
-               "age" : {
-                  "iso8601duration" : "P32Y"
+                  "iso8601duration" : "P41Y"
                }
             },
             "featureType" : {
@@ -4289,15 +3304,769 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
       },
-      "id" : "Beacon_96",
+      "exposures" : [],
+      "id" : "Beacon_71",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
+                  "iso8601duration" : "P73Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
                   "iso8601duration" : "P66Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_72",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P76Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P75Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_73",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P27Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P31Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_74",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P31Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P44Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
+      },
+      "exposures" : [],
+      "id" : "Beacon_75",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P95Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P6Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_76",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P43Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P32Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_77",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P59Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P15Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_78",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P92Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P77Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_79",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P83Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P50Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_80",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P10Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P40Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_81",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P68Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P45Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_82",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P77Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P15Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_83",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P98Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P4Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_84",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P76Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P37Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_85",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P82Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P58Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_86",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P36Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P64Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_87",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P3Y"
                }
             },
             "featureType" : {
@@ -4334,15 +4103,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C17459",
-         "label" : "Hispanic or Latino"
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
       },
-      "id" : "Beacon_97",
+      "exposures" : [],
+      "id" : "Beacon_88",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P3Y"
+                  "iso8601duration" : "P55Y"
                }
             },
             "featureType" : {
@@ -4369,7 +4140,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P4Y"
+                  "iso8601duration" : "P77Y"
                }
             },
             "diseaseCode" : {
@@ -4379,15 +4150,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C41261",
+         "label" : "White"
       },
-      "id" : "Beacon_98",
+      "exposures" : [],
+      "id" : "Beacon_89",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P21Y"
+                  "iso8601duration" : "P12Y"
                }
             },
             "featureType" : {
@@ -4397,8 +4170,8 @@
          }
       ],
       "sex" : {
-         "id" : "NCIT:C20197",
-         "label" : "Male"
+         "id" : "NCIT:C16576",
+         "label" : "Female"
       },
       "treatments" : [
          {
@@ -4414,7 +4187,7 @@
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P98Y"
+                  "iso8601duration" : "P55Y"
                }
             },
             "diseaseCode" : {
@@ -4427,12 +4200,343 @@
          "id" : "NCIT:C16352",
          "label" : "Black or African American"
       },
-      "id" : "Beacon_99",
+      "exposures" : [],
+      "id" : "Beacon_90",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P85Y"
+                  "iso8601duration" : "P90Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P27Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41260",
+         "label" : "Asian"
+      },
+      "exposures" : [],
+      "id" : "Beacon_91",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P18Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P31Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_92",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P69Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P1Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_93",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P60Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P30Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_94",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P94Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P81Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C17459",
+         "label" : "Hispanic or Latino"
+      },
+      "exposures" : [],
+      "id" : "Beacon_95",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P20Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P60Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C67109",
+         "label" : "Multiracial"
+      },
+      "exposures" : [],
+      "id" : "Beacon_96",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P1Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P27Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C42331",
+         "label" : "African"
+      },
+      "exposures" : [],
+      "id" : "Beacon_97",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P65Y"
                }
             },
             "featureType" : {
@@ -4469,15 +4573,17 @@
          }
       ],
       "ethnicity" : {
-         "id" : "NCIT:C42331",
-         "label" : "African"
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
       },
-      "id" : "Beacon_100",
+      "exposures" : [],
+      "id" : "Beacon_98",
+      "interventionsOrProcedures" : [],
       "phenotypicFeatures" : [
          {
             "ageOfOnset" : {
                "age" : {
-                  "iso8601duration" : "P12Y"
+                  "iso8601duration" : "P40Y"
                }
             },
             "featureType" : {
@@ -4489,6 +4595,100 @@
       "sex" : {
          "id" : "NCIT:C16576",
          "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P52Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C16352",
+         "label" : "Black or African American"
+      },
+      "exposures" : [],
+      "id" : "Beacon_99",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P64Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C16576",
+         "label" : "Female"
+      },
+      "treatments" : [
+         {
+            "treatmentCode" : {
+               "id" : "RxNorm:11",
+               "label" : "Foo"
+            }
+         }
+      ]
+   },
+   {
+      "diseases" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P55Y"
+               }
+            },
+            "diseaseCode" : {
+               "id" : "OMIM:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "ethnicity" : {
+         "id" : "NCIT:C41261",
+         "label" : "White"
+      },
+      "exposures" : [],
+      "id" : "Beacon_100",
+      "interventionsOrProcedures" : [],
+      "phenotypicFeatures" : [
+         {
+            "ageOfOnset" : {
+               "age" : {
+                  "iso8601duration" : "P57Y"
+               }
+            },
+            "featureType" : {
+               "id" : "HP:11",
+               "label" : "Foo"
+            }
+         }
+      ],
+      "sex" : {
+         "id" : "NCIT:C20197",
+         "label" : "Male"
       },
       "treatments" : [
          {
