@@ -9,7 +9,7 @@
 #
 #   $VERSION taken from Pheno::Ranker
 #
-#   Copyright (C) 2023 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
+#   Copyright (C) 2023-2024 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   License: Artistic License 2.0
 #
@@ -27,7 +27,7 @@ exit;
 
 sub process_csv {
 
-    my $VERSION = '0.00';
+    my $VERSION = '0.04';
 
     # Reading arguments
     GetOptions(

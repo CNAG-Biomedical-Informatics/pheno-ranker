@@ -31,38 +31,40 @@ sub randomize_ga4gh {
     my $format  = 'bff';
     my $number  = 100;
     my $output  = 'individuals.json';
-    my ( $phenotypicFeatures, $diseases, $treatments, $procedures, $exposures )
-      = ( 1, 1, 1, 1, 1 );
+    my ( $phenotypicFeatures, $diseases, $treatments, $procedures, $exposures,
+        $ethnicity )
+      = (1) x 6;
 
     # Reading arguments
     GetOptions(
-        'format|f=s'                    => \$format,                           # string
-        'number|n=i'                    => \$number,                           # string
-        'output|o=s'                    => \$output,                           # string
+        'format|f=s' => \$format,    # string
+        'number|n=i' => \$number,    # string
+        'output|o=s' => \$output,    # string
 
-         #
-        'phenotypicFeatures=i'          => \$phenotypicFeatures,               # integer
-        'diseases=i'                    => \$diseases,                         # integer
-        'treatments=i'                  => \$treatments,                       # integer
-        'procedures=i'                  => \$procedures,                       # integer
-        'exposures=i'                   => \$exposures,                        # integer
+        #
+        'phenotypicFeatures=i' => \$phenotypicFeatures,    # integer
+        'diseases=i'           => \$diseases,              # integer
+        'treatments=i'         => \$treatments,            # integer
+        'procedures=i'         => \$procedures,            # integer
+        'exposures=i'          => \$exposures,             # integer
 
-         #
+        #
         'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,   # integer
         'max-diseases-pool=i'           => \my $max_diseases_pool,             # integer
         'max-treatments-pool=i'         => \my $max_treatments_pool,           # integer
         'max-procedures-pool=i'         => \my $max_procedures_pool,           # integer
         'max-exposures-pool=i'          => \my $max_exposures_pool,            # integer
+        'max-ethnicity-pool=i'          => \my $max_ethnicity_pool,            # integer
 
-         #
-        'random-seed=i'                 => \my $random_seed,                   # integer
-        'external-ontologies=s'         => \my $ext_ontologies,                # string
+        #
+        'random-seed=i'         => \my $random_seed,                           # integer
+        'external-ontologies=s' => \my $ext_ontologies,                        # string
 
-         #
-        'help|?'                        => \my $help,                          # flag
-        'man'                           => \my $man,                           # flag
-        'debug=i'                       => \my $debug,                         # integer
-        'verbose|'                      => \my $verbose,                       # flag
+        #
+        'help|?'    => \my $help,                                              # flag
+        'man'       => \my $man,                                               # flag
+        'debug=i'   => \my $debug,                                             # integer
+        'verbose|'  => \my $verbose,                                           # flag
         'version|V' => sub { print "$0 Version $VERSION\n"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
@@ -79,11 +81,13 @@ sub randomize_ga4gh {
             treatments                  => $treatments,
             procedures                  => $procedures,
             exposures                   => $exposures,
+            ethnicity                   => $ethnicity,
             max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
             max_diseases_pool           => $max_diseases_pool,
             max_treatments_pool         => $max_treatments_pool,
             max_procedures_pool         => $max_procedures_pool,
             max_exposures_pool          => $max_exposures_pool,
+            max_ethnicity_pool          => $max_ethnicity_pool,
             random_seed                 => $random_seed,
             ext_ontologies              => $ext_ontologies,
             debug                       => $debug,
@@ -173,8 +177,8 @@ sub write_json {
 sub pxf_generator {
 
     my ( $id, $self ) = @_;
-    my $hash = load_ontologies($self);
-    my $pxf  = fake_hash(
+    my $result_hash = run_functions($self);
+    my $pxf         = fake_hash(
         {
             id      => "Phenopacket_" . $id,
             subject => {
@@ -185,10 +189,9 @@ sub pxf_generator {
                 },
                 sex => fake_pick_mod( [ 'MALE', 'FEMALE' ] )
             },
-            diseases           => $hash->{diseases},
-            phenotypicFeatures => $hash->{phenotypicFeatures},
-            medicalActions     => merge_medical_actions($hash)
-
+            diseases           => $result_hash->{diseases},
+            phenotypicFeatures => $result_hash->{phenotypicFeatures},
+            medicalActions     => merge_medical_actions($result_hash)
         }
     );
     return $pxf->();
@@ -223,31 +226,37 @@ sub bff_generator {
 
     my ( $id, $self ) = @_;
     my $default_array = [];
-    my $hash          = load_ontologies($self);
+    my $result_hash   = run_functions($self);
     my $bff           = fake_hash(
         {
             id        => "Beacon_" . $id,
-            ethnicity => fake_pick_mod($ethnicity_array),
+            ethnicity => $result_hash->{ethnicity},
             sex       => fake_pick_mod(
                 [
                     { id => "NCIT:C20197", label => "Male" },
                     { id => "NCIT:C16576", label => "Female" }
                 ]
             ),
-            diseases           => $hash->{diseases}           // $default_array,
-            phenotypicFeatures => $hash->{phenotypicFeatures} // $default_array,
-            treatments         => $hash->{treatments}         // $default_array,
-            interventionsOrProcedures => $hash->{procedures}  // $default_array,
-            exposures                 => $hash->{exposures}   // $default_array
+            diseases           => $result_hash->{diseases} // $default_array,
+            phenotypicFeatures => $result_hash->{phenotypicFeatures}
+              // $default_array,
+            treatments => $result_hash->{treatments} // $default_array,
+            interventionsOrProcedures => $result_hash->{procedures}
+              // $default_array,
+            exposures => $result_hash->{exposures} // $default_array
         }
     );
     return $bff->();
 }
 
+######################
+#  START ARRAY TERMS #
+######################
+
 sub create_entries {
 
-    my ( $params, $ont_array, $n, $max ) = @_;
-    my $shuffled_slice = shuffle_slice( $max, $ont_array );
+    my ( $params, $ontologies_array, $n, $max ) = @_;
+    my $shuffled_slice = shuffle_slice( $max, $ontologies_array );
     my $array;
     for ( my $i = 0 ; $i < $n ; $i++ ) {
         push @$array,
@@ -272,29 +281,29 @@ sub common_entry_creator {
 
 sub phenotypicFeatures {
 
-    my ( $format, $ont_array, $n, $max ) = @_;
+    my ( $format, $ontologies_array, $n, $max ) = @_;
     my $params = {
         type          => $format eq 'bff' ? 'featureType' : 'type',
         onset         => $format eq 'bff' ? 'ageOfOnset'  : 'onset',
         entry_creator => \&common_entry_creator
     };
-    return create_entries( $params, $ont_array, $n, $max );
+    return create_entries( $params, $ontologies_array, $n, $max );
 }
 
 sub diseases {
 
-    my ( $format, $ont_array, $n, $max ) = @_;
+    my ( $format, $ontologies_array, $n, $max ) = @_;
     my $params = {
         type          => $format eq 'bff' ? 'diseaseCode' : 'term',
         onset         => $format eq 'bff' ? 'ageOfOnset'  : 'onset',
         entry_creator => \&common_entry_creator
     };
-    return create_entries( $params, $ont_array, $n, $max );
+    return create_entries( $params, $ontologies_array, $n, $max );
 }
 
 sub treatments {
 
-    my ( $format, $ont_array, $n, $max ) = @_;
+    my ( $format, $ontologies_array, $n, $max ) = @_;
     my $params = {
         entry_creator => sub {
             my ( $element, $p ) = @_;
@@ -303,23 +312,23 @@ sub treatments {
               : { agent         => $element };
         }
     };
-    return create_entries( $params, $ont_array, $n, $max );
+    return create_entries( $params, $ontologies_array, $n, $max );
 }
 
 sub procedures {
 
-    my ( $format, $ont_array, $n, $max ) = @_;
+    my ( $format, $ontologies_array, $n, $max ) = @_;
     my $params = {
         type          => $format eq 'bff' ? 'procedureCode'  : 'term',
         onset         => $format eq 'bff' ? 'ageAtProcedure' : 'onset',
         entry_creator => \&common_entry_creator
     };
-    return create_entries( $params, $ont_array, $n, $max );
+    return create_entries( $params, $ontologies_array, $n, $max );
 }
 
 sub exposures {
 
-    my ( $format, $ont_array, $n, $max ) = @_;
+    my ( $format, $ontologies_array, $n, $max ) = @_;
     my $default_duration = 'P999Y';
     my $default_ontology = { id => 'NCIT:NA0000', label => 'NA' };
     my $params           = {
@@ -327,7 +336,7 @@ sub exposures {
         onset         => $format eq 'bff' ? 'ageAtExposure' : 'onset',
         entry_creator => \&common_entry_creator
     };
-    my $entries = create_entries( $params, $ont_array, $n, $max );
+    my $entries = create_entries( $params, $ontologies_array, $n, $max );
 
     # Add 'duration' 'and 'unit' to pass bff-validator
     foreach my $entry (@$entries) {
@@ -337,9 +346,35 @@ sub exposures {
     return $entries;
 }
 
-sub load_ontologies {
+sub ethnicity {
+
+    my ( undef, $ontologies_array, undef, $max ) = @_;
+    my $shuffled_slice = shuffle_slice( $max, $ontologies_array );
+    return $shuffled_slice->[0];
+}
+
+####################
+#  END ARRAY TERMS #
+####################
+
+sub load_ontologies_hash {
 
     my $self = shift;
+    my %ont  = (
+        diseases           => $omim_array,
+        phenotypicFeatures => $hpo_array,
+        treatments         => $rxnorm_array,
+        procedures         => $ncit_procedures_array,
+        exposures          => $ncit_exposures_array,
+        ethnicity          => $ethnicity_array
+    );
+    return \%ont;
+}
+
+sub run_functions {
+
+    my $self       = shift;
+    my $ontologies = load_ontologies_hash($self);
 
     my %func = (
         diseases           => \&diseases,
@@ -347,31 +382,24 @@ sub load_ontologies {
         treatments         => \&treatments,
         procedures         => \&procedures,
         exposures          => \&exposures,
-
-    );
-    my %ont = (
-        diseases           => $omim_array,
-        phenotypicFeatures => $hpo_array,
-        treatments         => $rxnorm_array,
-        procedures         => $ncit_procedures_array,
-        exposures          => $ncit_exposures_array
+        ethnicity          => \&ethnicity
     );
 
     my %hash;
-    for
-      my $item (qw/diseases phenotypicFeatures treatments procedures exposures/)
+    for my $item (
+        qw/diseases phenotypicFeatures treatments procedures exposures ethnicity/
+      )
     {
-        my $ont_array =
+        my $ontologies_array =
           exists $self->{ontologies_data}{$item}
           ? $self->{ontologies_data}{$item}
-          : $ont{$item};
-
-        # format, ont_array, n, max
+          : $ontologies->{$item};
         $hash{$item} = $func{$item}->(
-            $self->{format}, $ont_array, $self->{$item},
+            $self->{format}, $ontologies_array, $self->{$item},
             $self->{ 'max_' . $item . '_pool' }
         );
     }
+
     return \%hash;
 }
 
@@ -495,7 +523,8 @@ bff-pxf-simulator [-options]
        -phenotypicFeatures            IDEM
        -procedures                    IDEM
        -treatments                    IDEM
-       -max-[term]-pool               To narrow the selection to N first array elements
+       -max-[term]-pool               To narrow the selection to N first array elements.
+       -max-ethnicity-pool            Each individual can have only 1 ethnicity. However, you can also set a fixed sample size for the pool
 
      Generic Options;
        -debug                         Print debugging (from 1 to 5, being 5 max)
