@@ -15,11 +15,11 @@ bff-pxf-simulator \[-options\]
 
        -diseases                      Number of [1]
        -exposures                     IDEM
-       -procedures                    IDEM
        -phenotypicFeatures            IDEM
        -procedures                    IDEM
        -treatments                    IDEM
-       -max-[term]-pool               To narrow the selection to N first array elements
+       -max-[term]-pool               To narrow the selection to N first array elements.
+       -max-ethnicity-pool            Each individual can have only 1 ethnicity. However, you can also set a fixed sample size for the pool
 
      Generic Options;
        -debug                         Print debugging (from 1 to 5, being 5 max)

@@ -42,19 +42,19 @@ sub randomize_ga4gh {
         'output|o=s' => \$output,    # string
 
         #
-        'phenotypicFeatures=i' => \$phenotypicFeatures,    # integer
         'diseases=i'           => \$diseases,              # integer
-        'treatments=i'         => \$treatments,            # integer
-        'procedures=i'         => \$procedures,            # integer
         'exposures=i'          => \$exposures,             # integer
+        'phenotypicFeatures=i' => \$phenotypicFeatures,    # integer
+        'procedures=i'         => \$procedures,            # integer
+        'treatments=i'         => \$treatments,            # integer
 
         #
-        'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,   # integer
         'max-diseases-pool=i'           => \my $max_diseases_pool,             # integer
+        'max-ethnicity-pool=i'          => \my $max_ethnicity_pool,            # integer
+        'max-exposures-pool=i'          => \my $max_exposures_pool,            # integer
+        'max-phenotypicFeatures-pool=i' => \my $max_phenotypicFeatures_pool,   # integer
         'max-treatments-pool=i'         => \my $max_treatments_pool,           # integer
         'max-procedures-pool=i'         => \my $max_procedures_pool,           # integer
-        'max-exposures-pool=i'          => \my $max_exposures_pool,            # integer
-        'max-ethnicity-pool=i'          => \my $max_ethnicity_pool,            # integer
 
         #
         'random-seed=i'         => \my $random_seed,                           # integer
@@ -76,18 +76,18 @@ sub randomize_ga4gh {
             format                      => $format,
             number                      => $number,
             output                      => $output,
-            phenotypicFeatures          => $phenotypicFeatures,
             diseases                    => $diseases,
-            treatments                  => $treatments,
-            procedures                  => $procedures,
-            exposures                   => $exposures,
             ethnicity                   => $ethnicity,
-            max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
+            exposures                   => $exposures,
+            phenotypicFeatures          => $phenotypicFeatures,
+            procedures                  => $procedures,
+            treatments                  => $treatments,
             max_diseases_pool           => $max_diseases_pool,
-            max_treatments_pool         => $max_treatments_pool,
-            max_procedures_pool         => $max_procedures_pool,
-            max_exposures_pool          => $max_exposures_pool,
             max_ethnicity_pool          => $max_ethnicity_pool,
+            max_exposures_pool          => $max_exposures_pool,
+            max_phenotypicFeatures_pool => $max_phenotypicFeatures_pool,
+            max_procedures_pool         => $max_procedures_pool,
+            max_treatments_pool         => $max_treatments_pool,
             random_seed                 => $random_seed,
             ext_ontologies              => $ext_ontologies,
             debug                       => $debug,
@@ -357,16 +357,16 @@ sub ethnicity {
 #  END ARRAY TERMS #
 ####################
 
-sub load_ontologies_hash {
+sub load_ontology_hash {
 
     my $self = shift;
     my %ont  = (
         diseases           => $omim_array,
-        phenotypicFeatures => $hpo_array,
-        treatments         => $rxnorm_array,
-        procedures         => $ncit_procedures_array,
+        ethnicity          => $ethnicity_array,
         exposures          => $ncit_exposures_array,
-        ethnicity          => $ethnicity_array
+        phenotypicFeatures => $hpo_array,
+        procedures         => $ncit_procedures_array,
+        treatments         => $rxnorm_array
     );
     return \%ont;
 }
@@ -374,29 +374,29 @@ sub load_ontologies_hash {
 sub run_functions {
 
     my $self       = shift;
-    my $ontologies = load_ontologies_hash($self);
+    my $ontologies = load_ontology_hash($self);
 
     my %func = (
         diseases           => \&diseases,
-        phenotypicFeatures => \&phenotypicFeatures,
-        treatments         => \&treatments,
-        procedures         => \&procedures,
+        ethnicity          => \&ethnicity,
         exposures          => \&exposures,
-        ethnicity          => \&ethnicity
+        phenotypicFeatures => \&phenotypicFeatures,
+        procedures         => \&procedures,
+        treatments         => \&treatments
     );
 
     my %hash;
-    for my $item (
-        qw/diseases phenotypicFeatures treatments procedures exposures ethnicity/
-      )
-    {
+
+    # *** IMPORTANT ***
+    # sort keys (below) is mandatory for reproducibility
+    for my $key ( sort keys %func ) {
         my $ontologies_array =
-          exists $self->{ontologies_data}{$item}
-          ? $self->{ontologies_data}{$item}
-          : $ontologies->{$item};
-        $hash{$item} = $func{$item}->(
-            $self->{format}, $ontologies_array, $self->{$item},
-            $self->{ 'max_' . $item . '_pool' }
+          exists $self->{ontologies_data}{$key}
+          ? $self->{ontologies_data}{$key}
+          : $ontologies->{$key};
+        $hash{$key} = $func{$key}->(
+            $self->{format}, $ontologies_array, $self->{$key},
+            $self->{ 'max_' . $key . '_pool' }
         );
     }
 
@@ -519,7 +519,6 @@ bff-pxf-simulator [-options]
 
        -diseases                      Number of [1]
        -exposures                     IDEM
-       -procedures                    IDEM
        -phenotypicFeatures            IDEM
        -procedures                    IDEM
        -treatments                    IDEM
