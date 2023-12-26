@@ -26,7 +26,7 @@ $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '0.03_1';
+our $VERSION   = '0.04';
 our $share_dir = dist_dir('Pheno-Ranker');
 
 # Set developoent mode
@@ -70,7 +70,7 @@ has 'config_file' => (
 sub _set_basic_config {
     my ( $self, $config ) = @_;
     $config_sort_by        = $config->{sort_by}        // 'hamming';
-    $config_similarity_metric_cohort        = $config->{config_similarity_metric_cohort}        // 'hamming';
+    $config_similarity_metric_cohort        = $config->{similarity_metric_cohort}        // 'hamming';
     $config_max_out        = $config->{max_out}        // 50;
     $config_max_number_var = $config->{max_number_var} // 10_000;
     $config_seed =
