@@ -1,6 +1,6 @@
 Revision history for Perl distribution Pheno-Ranker
 
-0.04 2023-11-xxT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+0.04 2023-11-26T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Added List::MoreUtils to cpanfile and Makefile.PL
  - Added error when --include-terms does not exist in cohort(s)
