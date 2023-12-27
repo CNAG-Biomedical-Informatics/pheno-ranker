@@ -10,7 +10,7 @@ use Statistics::Descriptive;
 
 use Exporter 'import';
 our @EXPORT =
-  qw(hd_fast jaccard_similarity estimate_hamming_stats z_score p_value_from_z_score _p_value add_stats);
+  qw(hd_fast jaccard_similarity jaccard_similarity_formatted estimate_hamming_stats z_score p_value_from_z_score _p_value add_stats);
 
 use constant DEVEL_MODE => 0;
 
@@ -37,6 +37,18 @@ sub jaccard_similarity {
     }
     return $union == 0 ? 0 : $intersection / $union;
 }
+
+sub jaccard_similarity_formatted {
+
+    # *** IMPORTANT ****
+    # mrueda Dec-27-23
+    # Direct formatting in jaccard_similarity adds minor overhead (verified by testing),
+    # but prevents errors on some CPAN FreeBSD architectures.
+    my $result = jaccard_similarity(@_);
+    return sprintf("%.6f", $result);
+}
+
+
 
 sub estimate_hamming_stats {
 

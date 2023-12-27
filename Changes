@@ -1,6 +1,10 @@
 Revision history for Perl distribution Pheno-Ranker
 
-0.04 2023-11-26T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+0.05 2023-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+
+ - Implemented sprintf in jaccard function for FreeBSD CPAN test compliance
+
+0.04 2023-12-26T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Added List::MoreUtils to cpanfile and Makefile.PL
  - Added error when --include-terms does not exist in cohort(s)

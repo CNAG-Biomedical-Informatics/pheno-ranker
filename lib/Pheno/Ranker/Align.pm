@@ -37,7 +37,7 @@ sub cohort_comparison {
     # Define the subroutine to be used
     my %similarity_function = (
         'hamming' => \&hd_fast,
-        'jaccard' => \&jaccard_similarity
+        'jaccard' => \&jaccard_similarity_formatted
     );
 
     # Define values for diagonal elements depending on metric
