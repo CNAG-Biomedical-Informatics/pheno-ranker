@@ -5,10 +5,11 @@ library(ggrepel)
 data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
 
 #calculate distance matrix
-d <- dist(data)
+#d <- dist(data)
 
 #perform multidimensional scaling
-fit <- cmdscale(d, eig=TRUE, k=2)
+#fit <- cmdscale(d, eig=TRUE, k=2)
+fit <- cmdscale(data, eig=TRUE, k=2)
 
 #extract (x, y) coordinates of multidimensional scaling
 x <- fit$points[,1]
