@@ -23,4 +23,5 @@
 ^docs/
 ^nb/
 ^utils/barcode/
+^shared/r/
 ^t/barcode\.t$
