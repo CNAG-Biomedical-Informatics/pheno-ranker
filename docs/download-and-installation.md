@@ -22,7 +22,11 @@ We provide several alternatives (containerized and non-containerized) for downlo
 With the containerized version you get:
 
 * Module
-* CLI
+* CLI (`pheno-ranker`)
+* Utilities:
+    * `bff-pxf-simulator`
+    * `csv2pheno-ranker`
+    * QR code utilities
 
 === "Method 1: From Docker Hub"
 
@@ -41,7 +45,10 @@ With the containerized version you get:
     With the CPAN version you get:
 
     * Module
-    * CLI
+    * CLI (`pheno-ranker`)
+    * Utilities:
+        * `bff-pxf-simulator`
+        * `csv2pheno-ranker`
 
     !!! Warning "Linux: Required system-level libraries"
 
@@ -56,7 +63,10 @@ With the containerized version you get:
      With the CPAN version you get:
 
     * Module
-    * CLI
+    * CLI (`pheno-ranker`)
+    * Utilities:
+        * `bff-pxf-simulator`
+        * `csv2pheno-ranker`
 
     ### Step 1: Install Miniconda
 
@@ -127,7 +137,11 @@ With the containerized version you get:
     With the non-containerized version from Github you get:
 
     * Module
-    * CLI
+    * CLI (`pheno-ranker`)
+    * Utilities:
+        * `bff-pxf-simulator`
+        * `csv2pheno-ranker`
+        * QR code utilities
 
     Please follow the instructions provided in this [README](usage.md#non-containerized).
 

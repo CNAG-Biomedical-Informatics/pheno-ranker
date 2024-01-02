@@ -197,7 +197,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     After executing this command you will obtain a file named `matrix.txt` which is a matrix consisting of all (25+25)*(25+25) pairwise comparisons.
 
     !!! Abstract "Dimensionality reduction"
-        We will use the included [R scripts]((https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r)) to perform dimensionality reduction via [MDS](https://en.wikipedia.org/wiki/Multidimensional_scaling). Note that you can use other dimensioanly reduction techniques such as t-SNE or UMAP.
+        We will use the included [R scripts]((https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r)) to perform dimensionality reduction via [MDS](https://en.wikipedia.org/wiki/Multidimensional_scaling). Note that you can use other dimensinality reduction techniques such as t-SNE or UMAP.
 
     <figure markdown>
       ![Beacon v2](img/movies5.png){ width="600" }
@@ -205,7 +205,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     </figure>
 
 
-    By default, the ids in each catalog will be renamed to C1_, C2_ and so on, but you can add your own preffixes with `--append-prefix`.
+    By default, the ids in each catalog will be renamed to `C1_`, `C2_` and so on, but you can add your own preffixes with `--append-prefix`.
 
     ## Example 2: Set up catalog nomenclature prefixes 
 
