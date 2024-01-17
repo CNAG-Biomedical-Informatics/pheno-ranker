@@ -4,7 +4,7 @@
 
     We have developed a tool for generating **simulated** (synthetic) data in either [BFF](bff.md) or [PXF](pxf.md) formats. 
 
-    The tool, `bff-pxf-simulator`, is included as an executable (if downloaded from CPAN) or found in the `utils` directory (if downloaded from GitHub).
+    The tool, `bff-pxf-simulator`, is included as an executable (if downloaded from CPAN) or found in the `utils` directory (if downloaded from GitHub or Docker).
 
     !!! Example "Potential uses for synthetic data"
 
