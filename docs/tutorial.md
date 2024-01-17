@@ -315,7 +315,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     | 100   | 0.5s  | <1GB | <0.5s | <1GB |
     | 1K    | 1s    | <1GB | <0.5s | <1GB |
     | 5K    | 15s   | <1GB | <0.5s | <1GB |
-    | 10K   | 1m30s | <1GB | <1s   | <1GB |
+    | 10K   | 1m30s | <1GB*| <1s   | <1GB |
     | 50K   | 1h    | <1GB*|  3s   | <1GB |
     | 100K  |  -    |  -   |  6s   | <1GB |
     | 1M    |  -    |  -   |  1m   | <4GB |

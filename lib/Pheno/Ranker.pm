@@ -558,7 +558,7 @@ There is only method named c<run>. See above the syntax.
 
 For more information check the documentation:
 
-L<https://cnag-biomedical-informatics.github.io/pheno-ranker
+L<https://cnag-biomedical-informatics.github.io/pheno-ranker>
 
 =head1 COPYRIGHT
 
