@@ -26,7 +26,7 @@ Example:
 It should work out of the box with the containerized version. Otherwise:
 
 ```
-pip install pandas matplotlib
+pip install pandas matplotlib PyYAML
 ```
 
 # AUTHOR 

@@ -164,7 +164,7 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
-_Optional:_ If you want to use `utils/barcode`:
+_Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
 
     sudo apt-get install python3-pip libzbar0
     pip3 install -r requirements.txt

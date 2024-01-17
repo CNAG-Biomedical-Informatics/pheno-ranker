@@ -4,3 +4,4 @@ pyzbar
 pandas
 reportlab
 matplotlib
+PyYAML
