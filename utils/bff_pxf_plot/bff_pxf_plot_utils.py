@@ -34,8 +34,15 @@ def plot_data(data, output_file):
         pie_chart_keys = ["ethnicity", "geographicOrigin", "karyotypicSex", "sex"]
         main_title = "Beacon Friendly Format"
 
+    # Count the total number of objects
+    total_objects = len(data)
+
+    # Modify the main title to include the count of objects with 'n' in italics
+    main_title = f"{main_title} ($n$ = {total_objects})"
+
     # Combine all keys and sort them
     all_keys = sorted(set(histogram_keys + pie_chart_keys))
+
     # Initialize dictionaries for counts and pie chart data
     counts = {key: [] for key in histogram_keys}
     pie_data = {key: [] for key in pie_chart_keys}
