@@ -35,7 +35,7 @@ jobs:
           perl-version: ${{ matrix.perl }}
       - run: perl -V
       - run: cpanm -n --installdeps .
-      - run: pip3 install qrcode[pil] Pillow pyzbar pandas reportlab
+      - run: pip3 install -r requirements.txt
       - run: prove -l t
       - name: Run tests (with coverage)
         if: ${{ matrix.perl == '5.30' && matrix.os == 'ubuntu-latest' }}
