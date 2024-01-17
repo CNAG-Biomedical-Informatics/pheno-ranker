@@ -16,7 +16,7 @@ WORKDIR /usr/share/pheno-ranker
 RUN cpanm --notest --installdeps .
 
 # Install Python packages (utils/barcode)
-RUN pip3 install qrcode[pil] Pillow pyzbar pandas reportlab
+RUN pip3 install qrcode[pil] Pillow pyzbar pandas reportlab matplotlib
 
 # Add user "dockeruser"
 ARG UID=1000

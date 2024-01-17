@@ -22,6 +22,8 @@
 ^\.github/
 ^docs/
 ^nb/
-^utils/barcode/
 ^shared/r/
+^utils/barcode/
 ^t/barcode\.t$
+^utils/bff_pxf_plot/
+^t/plot\.t$
