@@ -78,13 +78,15 @@ def plot_data(data, output_file):
         ax = axes[row, col]
         if key in histogram_keys:
             ax.hist(counts[key], bins=10, edgecolor='black')
-            ax.set_title(f'Histogram of {key}')
+            ax.set_title(f"Histogram of '{key}'")
+            #ax.set_title(f"Histogram of $\it{{{key}}}$") # Difficult to read
             ax.set_xlabel('Number of Elements')
             ax.set_ylabel('Frequency')
         elif key in pie_chart_keys:
             pie_series = pd.Series(pie_data[key]).value_counts()
             ax.pie(pie_series, labels=pie_series.index, autopct='%1.1f%%', startangle=90)
             ax.set_title(f"Pie Chart of '{key}'")
+            #ax.set_title(f"Pie Chart of $\it{{{key}}}$") # # Difficult to read
 
     # Hide empty subplots if any
     for i in range(len(all_keys), num_rows * num_cols):
