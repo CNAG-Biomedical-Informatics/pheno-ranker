@@ -25,6 +25,7 @@ With the containerized version you get:
 * CLI (`pheno-ranker`)
 * Utilities:
     * `bff-pxf-simulator`
+    * `bff-pxf-plot`
     * `csv2pheno-ranker`
     * QR code utilities
 
@@ -140,9 +141,8 @@ With the containerized version you get:
     * CLI (`pheno-ranker`)
     * Utilities:
         * `bff-pxf-simulator`
+        * `bff-pxf-plot`
         * `csv2pheno-ranker`
         * QR code utilities
 
     Please follow the instructions provided in this [README](usage.md#non-containerized).
-
-
