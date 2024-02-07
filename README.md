@@ -97,7 +97,7 @@ Please download the `Dockerfile` from the repo:
 
 And then run:
 
-    docker build -t cnag/pheno-ranker:latest .
+    docker buildx build -t cnag/pheno-ranker:latest .
 
 ### Additional instructions for Methods 1 and 2
 
