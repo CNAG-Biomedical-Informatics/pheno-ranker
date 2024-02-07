@@ -56,6 +56,18 @@ Frequently Asked Questions
 
     ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "How can I create a JSON file consisting of a subset of individuals?"
 
+    You can use the tool `jq`:
+
+    ```bash
+    # Let's assume you have an array of "id" values in a variable named ids
+    ids=( "157a:week_0_arm_1" "157a:week_2_arm_1" )
+
+    # Use jq to filter the array based on the "id" values
+    jq --argjson ids "$(printf '%s\n' "${ids[@]}" | jq -R -s -c 'split("\n")')" 'map(select(.id | IN($ids[])))' < individuals.json > subset.json
+    ```
+
+    ##### last change 2024-07-02 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ## Installation

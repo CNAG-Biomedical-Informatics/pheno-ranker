@@ -546,7 +546,7 @@ L<https://github.com/CNAG-Biomedical-Informatics/pheno-ranker#readme>
 
 The author requests that any published work that utilizes C<Pheno-Ranker> includes a cite to the the following reference:
 
-Rueda, M. et al. "Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. (2023) I<Submitted>.
+Rueda, M. et al. "Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. (2024) I<Submitted>.
 
 =head1 AUTHOR
 
