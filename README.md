@@ -24,6 +24,8 @@
 
 **CPAN Module**: <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
 
+**Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
+
 # NAME
 
 pheno-ranker: A script that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
@@ -244,7 +246,7 @@ There are two modes of operation:
 
 The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the the following reference:
 
-Rueda, M et al., (2023). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. _Submitted_.
+Rueda, M et al., (2024). Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond. _Submitted_.
 
 # AUTHOR 
 

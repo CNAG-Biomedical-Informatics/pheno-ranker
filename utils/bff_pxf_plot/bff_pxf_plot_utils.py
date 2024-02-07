@@ -50,7 +50,11 @@ def plot_data(data, output_file):
     # Process the data
     for item in data:
         for key in histogram_keys:
-            counts[key].append(len(item.get(key, [])))
+            # Ensure that item.get(key, []) always returns a list
+            key_data = item.get(key)
+            if key_data is None:
+                key_data = []
+            counts[key].append(len(key_data))
         if is_pxf:
             subject = item.get("subject", {})
             for key in pie_chart_keys:
