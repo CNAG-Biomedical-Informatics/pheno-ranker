@@ -9,14 +9,15 @@ use Ontologies
   qw($hpo_array $omim_array $rxnorm_array $ncit_procedures_array $ncit_exposures_array $ethnicity_array);
 
 # Convert these arrays into a hash with keys corresponding to your YAML structure
-my $n    = 5;
+my $n = 4;
 my $data = {
     phenotypicFeatures => [ @$hpo_array[ 0 .. $n ] ],
     diseases           => [ @$omim_array[ 0 .. $n ] ],
     treatments         => [ @$rxnorm_array[ 0 .. $n ] ],
     procedures         => [ @$ncit_procedures_array[ 0 .. $n ] ],
     exposures          => [ @$ncit_exposures_array[ 0 .. $n ] ]
-    #ethnicity => $ethnicity_array
+
+      #ethnicity => $ethnicity_array
 };
 
 # Write YAML

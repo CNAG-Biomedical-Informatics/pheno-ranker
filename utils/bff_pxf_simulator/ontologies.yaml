@@ -10,8 +10,6 @@ diseases:
   label: Aldosteronism, glucocorticoid-remediable
 - id: OMIM:104200
   label: Alport syndrome, autosomal dominant
-- id: OMIM:104300
-  label: Alzheimer disease, susceptibility to
 exposures:
 - id: NCIT:C194
   label: 4-Nitroquinoline-1-Oxide
@@ -23,8 +21,6 @@ exposures:
   label: Aflatoxin
 - id: NCIT:C251
   label: Anthracene
-- id: NCIT:C284
-  label: Asbestos
 phenotypicFeatures:
 - id: HP:0000020
   label: Urinary incontinence
@@ -36,8 +32,6 @@ phenotypicFeatures:
   label: Abnormal uvea morphology
 - id: HP:0000630
   label: Abnormal retinal artery morphology
-- id: HP:0000632
-  label: Lacrimation abnormality
 procedures:
 - id: NCIT:C1447
   label: Barium Enema Injection
@@ -49,8 +43,6 @@ procedures:
   label: Bone Marrow Biopsy
 - id: NCIT:C15220
   label: Diagnosis
-- id: NCIT:C15317
-  label: Second-Look Surgery
 treatments:
 - id: RxNorm:1000000
   label: amlodipine 5 MG / hydrochlorothiazide 12.5 MG / olmesartan medoxomil 40 MG
@@ -66,5 +58,3 @@ treatments:
     Topical Spray
 - id: RxNorm:1000048
   label: doxepin 10 MG Oral Capsule
-- id: RxNorm:1000054
-  label: doxepin 10 MG/ML Oral Solution
