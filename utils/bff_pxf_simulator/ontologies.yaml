@@ -1,33 +1,70 @@
+---
 diseases:
-  - id: OMIM:101000
-    label: Neurofibromatosis, type 2
-  - id: OMIM:102578
-    label: Leukemia, acute promyelocytic, somatic
-  - id: OMIM:103050
-    label: Adenylosuccinase deficiency
-  - id: OMIM:103900
-    label: Aldosteronism, glucocorticoid-remediable
-  - id: OMIM:104200
-    label: Alport syndrome, autosomal dominant
+- id: OMIM:101000
+  label: Neurofibromatosis, type 2
+- id: OMIM:102578
+  label: Leukemia, acute promyelocytic, somatic
+- id: OMIM:103050
+  label: Adenylosuccinase deficiency
+- id: OMIM:103900
+  label: Aldosteronism, glucocorticoid-remediable
+- id: OMIM:104200
+  label: Alport syndrome, autosomal dominant
+- id: OMIM:104300
+  label: Alzheimer disease, susceptibility to
+exposures:
+- id: NCIT:C194
+  label: 4-Nitroquinoline-1-Oxide
+- id: NCIT:C196
+  label: Benzo(a)pyrene-7,8-diol 9,10-Epoxide
+- id: NCIT:C197
+  label: Dimethylbenzanthracene
+- id: NCIT:C213
+  label: Aflatoxin
+- id: NCIT:C251
+  label: Anthracene
+- id: NCIT:C284
+  label: Asbestos
 phenotypicFeatures:
-  - id: HP:0000020
-    label: Urinary incontinence
-  - id: HP:0000055
-    label: Abnormality of female external genitalia
-  - id: HP:0000141
-    label: Amenorrhea
-  - id: HP:0000553
-    label: Abnormal uvea morphology
-  - id: HP:0000630
-    label: Abnormal retinal artery morphology
+- id: HP:0000020
+  label: Urinary incontinence
+- id: HP:0000055
+  label: Abnormality of female external genitalia
+- id: HP:0000141
+  label: Amenorrhea
+- id: HP:0000553
+  label: Abnormal uvea morphology
+- id: HP:0000630
+  label: Abnormal retinal artery morphology
+- id: HP:0000632
+  label: Lacrimation abnormality
+procedures:
+- id: NCIT:C1447
+  label: Barium Enema Injection
+- id: NCIT:C15189
+  label: Biopsy
+- id: NCIT:C15190
+  label: Needle Biopsy
+- id: NCIT:C15193
+  label: Bone Marrow Biopsy
+- id: NCIT:C15220
+  label: Diagnosis
+- id: NCIT:C15317
+  label: Second-Look Surgery
 treatments:
-  - id: RxNorm:1000000
-    label: amlodipine 5 MG / hydrochlorothiazide 12.5 MG / olmesartan medoxomil 40 MG Oral Tablet [Tribenzor]
-  - id: RxNorm:1000001
-    label: amlodipine 5 MG / hydrochlorothiazide 25 MG / olmesartan medoxomil 40 MG Oral Tablet
-  - id: RxNorm:1000005
-    label: amlodipine 5 MG / hydrochlorothiazide 25 MG / olmesartan medoxomil 40 MG Oral Tablet [Tribenzor]
-  - id: RxNorm:1000009
-    label: dimethicone 100 MG/ML / miconazole nitrate 20 MG/ML / zinc oxide 100 MG/ML Topical Spray
-  - id: RxNorm:1000048
-    label: doxepin 10 MG Oral Capsule
+- id: RxNorm:1000000
+  label: amlodipine 5 MG / hydrochlorothiazide 12.5 MG / olmesartan medoxomil 40 MG
+    Oral Tablet [Tribenzor]
+- id: RxNorm:1000001
+  label: amlodipine 5 MG / hydrochlorothiazide 25 MG / olmesartan medoxomil 40 MG
+    Oral Tablet
+- id: RxNorm:1000005
+  label: amlodipine 5 MG / hydrochlorothiazide 25 MG / olmesartan medoxomil 40 MG
+    Oral Tablet [Tribenzor]
+- id: RxNorm:1000009
+  label: dimethicone 100 MG/ML / miconazole nitrate 20 MG/ML / zinc oxide 100 MG/ML
+    Topical Spray
+- id: RxNorm:1000048
+  label: doxepin 10 MG Oral Capsule
+- id: RxNorm:1000054
+  label: doxepin 10 MG/ML Oral Solution

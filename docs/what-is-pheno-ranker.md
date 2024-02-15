@@ -11,5 +11,5 @@
 
     `Pheno-Ranker` core is is a [Perl module](https://metacpan.org/pod/Pheno::Ranker) that can be operated as a:
 
-    * [Command-line tool](tutorial.md)
+    * [Command-line tool](cohort.md)
     * [Web App UI](https://pheno-ranker.cnag.eu)

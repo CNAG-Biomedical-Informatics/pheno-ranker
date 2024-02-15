@@ -70,4 +70,10 @@ Frequently Asked Questions
 
     ##### last change 2024-07-02 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "How does Pheno-Ranker treat empty values?"
+
+    Empty values, as well as `NA` values, are discarded by Pheno-Ranker.
+
+    ##### last change 2024-13-02 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 ## Installation
