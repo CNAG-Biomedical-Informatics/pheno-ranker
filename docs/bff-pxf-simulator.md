@@ -16,6 +16,12 @@
         * Outlier identification
         * ...
 
+    ??? Info "Default Ontologies Used"
+         Below are the default ontologies utilized by the script. Please note that it is possible to use an external ontologies YAML file instead, by employing the `--external-ontologies` flag.
 
+         ```yaml
+         --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/bff_pxf_simulator/ontologies.yaml"
+         ```
+           
 === "Usage"
     --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/bff_pxf_simulator/README.md"
