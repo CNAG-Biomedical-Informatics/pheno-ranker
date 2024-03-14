@@ -18,7 +18,7 @@
 
 **Documentation**: <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker</a>
 
-**Google Colab tutorial**: <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB</a>
+**Google Colab tutorial**: <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg</a>
 
 **CLI Source Code**: <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker" target="_blank">https://github.com/cnag-biomedical-informatics/pheno-ranker</a>
 
