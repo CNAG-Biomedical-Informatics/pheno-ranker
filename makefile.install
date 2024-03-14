@@ -4,7 +4,7 @@ SHELL := /bin/bash
 
 install:
 	sudo apt-get install cpanminus libperl-dev python3-pip libzbar0
-    pip3 install -r requirements.txt
+	pip3 install -r requirements.txt
 	cpanm --notest --installdeps .	
 
 test:
