@@ -53,7 +53,11 @@
 
     === "From Pheno-Ranker to PDF"
 
-        We created a simple utility to create a PDF report from `Pheno-Ranker` data. It works for `BFF`and `PXF` files.
+        We created a simple utility to create a PDF report from `Pheno-Ranker` data. It works for `BFF`and `PXF` files. 
+
+        !!! Warning "About the QR code"
+            Please note that the QR code has to match the `JSON` file from which it was created.
+
 
         ```bash
         ./pheno-ranker2pdf -j individuals.qr.json -q my_fav_dir/*png -t bff --logo my-logo.png -o my_pdf_dir
