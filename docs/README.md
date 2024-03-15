@@ -1,8 +1,5 @@
 # Pheno-Ranker Documentation
 
-!!! Bug "Disclaimer"
-    This software is still in development (**beta**) phase. Further testing and refinement are required before it can be considered fully operational.
-
 <figure markdown>
  ![Pheno-Ranker](img/PR-logo.png){width="350"}
  <figcaption>Pheno-Ranker logo</figcaption>

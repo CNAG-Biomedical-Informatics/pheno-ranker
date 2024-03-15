@@ -1,6 +1,8 @@
 ## Components
 
-The core of `Pheno-Ranker` is a [Perl module](https://metacpan.org/pod/Pheno%3A%3ARanker), accessible through a [command-line interface](usage.md).
+The core of `Pheno-Ranker` is a [Perl module](https://metacpan.org/pod/Pheno%3A%3ARanker), accessible through a [command-line interface](usage.md#synopsis).
+
+A [Web App UI](https://pheno-ranker.cnag.eu) enhances its functionality, built with [R-Shiny](https://shiny.posit.co).
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
@@ -25,15 +27,14 @@ graph LR
 
 <figcaption>Diagram showing Pheno-Ranker implementation</figcaption>
 
-A [Web App UI](https://cnag-biomedical-informatics.github.io/convert-pheno-ui) enhances its functionality, built upon this [command-line interface](usage.md).
-
 !!! Tip "Which one should I use?"
-    Start with the `Pheno-Ranker` [Web App UI Playground](https://pheno-ranker.cnag.eu) for a practical introduction. When you're ready for more advanced features, turn to the [CLI](usage.md).
+    Start with the `Pheno-Ranker` [Web App UI](https://pheno-ranker.cnag.eu) for a practical introduction. When you're ready for more advanced features, turn to the [CLI](usage.md).
 
-## Utils
+## Utilities
 
-We include several utilities:
+`Pheno-Ranker` includes several utilities:
 
-1. [bff-pxf-simulator](./simulator.md) to simulate BFF/PXF data
-2. [csv2pheno-ranker](./csv-import.md) to enable using `Pheno-Ranker` with `CSV`.
-2. [QR encoder/decoder](./qr-generator.md) to transform data into a QR code.
+1. [bff-pxf-plot](./bff-pxf-plot.md) to create summary statistcs for BFF/PXF data.
+2. [bff-pxf-simulator](./bff-pxf-simulator.md) to simulate BFF/PXF data.
+3. [csv2pheno-ranker](./csv-import.md) to enable using `Pheno-Ranker` with `CSV`.
+4. [QR encoder/decoder](./qr-code-generator.md) to transform data (back and forth) into QR codes and `PDF` reports.
