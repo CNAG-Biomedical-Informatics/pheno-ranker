@@ -85,8 +85,7 @@ nav:
       - QR code generator: qr-code-generator.md
   - Technical details:
       - Implementation: implementation.md
-#      - Algorithm: algorithm.md
-#      - Federated version: federated-version.md
+      - Algorithm: algorithm.md
   - Help:
       - 'Tutorial: JSON format': tutorial-json-format.md
       - Google colab: https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB
@@ -94,7 +93,9 @@ nav:
       - FAQs: faq.md
   - Addendum: 
       - openEHR: open-ehr.md
+      - OMOP-CDM: omop-cdm.md 
       - VCF: vcf.md
+      - Federated version proposal: federated-version-proposal.md
   - About:
       - About: about.md
       - Citation: citation.md

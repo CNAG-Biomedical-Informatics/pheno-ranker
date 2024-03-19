@@ -103,7 +103,7 @@ Next, we'll replace it with an actual `id` (`Person_X`) and replicate the object
 
 ### Running `Pheno-Ranker`
 
-=== "Intra-catalog comparison"
+=== "Intra-cohort comparison"
 
     ## Example 1: Using all terms
 
