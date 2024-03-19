@@ -85,8 +85,8 @@ sub read_json {
 
     my $file = shift;
 
-    # NB: hp.json is non-UTF8
-    # malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
+# NB: hp.json is non-UTF8
+# malformed UTF-8 character in JSON string, at character offset 680 (before "\x{fffd}r"\n      },...")
     my $str =
       $file =~ /hp\.json/ ? path($file)->slurp : path($file)->slurp_utf8;
     return decode_json($str);    # Decode to Perl data structure
@@ -272,23 +272,37 @@ sub append_and_rename_primary_key {
         # ARRAY
         if ( ref $item eq ref [] ) {
             for my $individual (@$item) {
-                $individual->{$primary_key} =
-                  $prefix . $individual->{$primary_key};
+                my $id = $individual->{$primary_key};
+                check_null_primary_key({count => $count, primary_key=> $primary_key, id=> $id}); 
+                $individual->{$primary_key} = $prefix . $id;
                 push @$data, $individual;
+                $count++;
             }
         }
 
         # Object
         else {
-            $item->{$primary_key} = $prefix . $item->{$primary_key};
-            push @$data, $item;
-        }
 
-        # Add $count
-        $count++;
+            # Check if primary_key is defined
+            my $id = $item->{$primary_key};
+            check_null_primary_key({count => $count, primary_key=> $primary_key, id=> $id}); 
+            $item->{$primary_key} = $prefix . $id;
+            push @$data, $item;
+            $count++;
+        }
     }
 
     return $data;
+}
+
+sub check_null_primary_key {
+
+ my $arg = shift;
+ my $id = $arg->{id};
+ my $count = $arg->{count};
+ my $primary_key = $arg->{primary_key};
+ die "Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n" unless defined $id;
+ return 1;
 }
 
 1;
