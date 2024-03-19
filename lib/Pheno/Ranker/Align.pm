@@ -463,10 +463,12 @@ sub create_glob_and_ref_hashes {
         # For consistency, we obtain the primary_key for both BFF/PXF
         # from $_->{id} (not from subject.id)
         my $id = $element->{$primary_key};
- 
+
         # die if an individual does not have primary_key defined
-        die "Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n" unless defined $id;
-     
+        die
+"Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n"
+          unless defined $id;
+
         # Remapping hash
         say "Flattening and remapping <id:$id> ..." if $self->{verbose};
         my $ref_hash = remap_hash(
@@ -820,8 +822,7 @@ sub add_id2key {
                 #       $1         $2                 $3
                 # <medicalActions> <0> <treatment.routeOfAdministration.id>
                 my $subkey = ( split /\./, $3 )[0];    # treatment
-                $correspondence =
-                  first { $_ =~ m/^$subkey/ }
+                $correspondence = first { $_ =~ m/^$subkey/ }
                 @{ $id_correspondence->{$1} };         # treatment.agent.id
             }
             else {

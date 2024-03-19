@@ -257,26 +257,36 @@ sub append_and_rename_primary_key {
     return ref $ref_data->[0] eq ref {} ? [ $ref_data->[0] ] : $ref_data->[0]
       if @$ref_data == 1;
 
-    # NB: for is a bit faster than map
-    my $count = 1;
+    # Count for prefixes
+    my $prefix_count = 1;
 
     # We have to load into a new array data
+    # NB: for is a bit faster than map
     my $data;
     for my $item (@$ref_data) {
 
+        # Get prefix
         my $prefix =
-            $append_prefixes->[ $count - 1 ]
-          ? $append_prefixes->[ $count - 1 ] . '_'
-          : 'C' . $count . '_';
+            $append_prefixes->[ $prefix_count - 1 ]
+          ? $append_prefixes->[ $prefix_count - 1 ] . '_'
+          : 'C' . $prefix_count . '_';
 
         # ARRAY
+        my $item_count = 1;
         if ( ref $item eq ref [] ) {
             for my $individual (@$item) {
                 my $id = $individual->{$primary_key};
-                check_null_primary_key({count => $count, primary_key=> $primary_key, id=> $id}); 
+                check_null_primary_key(
+                    {
+                        count       => $item_count,
+                        primary_key => $primary_key,
+                        id          => $id,
+                        prefix      => $prefix
+                    }
+                );
                 $individual->{$primary_key} = $prefix . $id;
                 push @$data, $individual;
-                $count++;
+                $item_count++;
             }
         }
 
@@ -285,24 +295,34 @@ sub append_and_rename_primary_key {
 
             # Check if primary_key is defined
             my $id = $item->{$primary_key};
-            check_null_primary_key({count => $count, primary_key=> $primary_key, id=> $id}); 
+            check_null_primary_key(
+                {
+                    count       => $item_count,
+                    primary_key => $primary_key,
+                    id          => $id,
+                    prefix      => $prefix
+                }
+            );
             $item->{$primary_key} = $prefix . $id;
             push @$data, $item;
-            $count++;
+            $item_count++;
         }
+        $prefix_count++;
     }
-
     return $data;
 }
 
 sub check_null_primary_key {
 
- my $arg = shift;
- my $id = $arg->{id};
- my $count = $arg->{count};
- my $primary_key = $arg->{primary_key};
- die "Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n" unless defined $id;
- return 1;
+    my $arg         = shift;
+    my $id          = $arg->{id};
+    my $count       = $arg->{count};
+    my $primary_key = $arg->{primary_key};
+    my $prefix      = $arg->{prefix};
+    die
+"Sorry but the JSON document ${prefix}[$count] does not have the primary_key <$primary_key> defined\n"
+      unless defined $id;
+    return 1;
 }
 
 1;
