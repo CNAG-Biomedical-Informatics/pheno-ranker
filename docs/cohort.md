@@ -58,7 +58,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     
     <figure markdown>
       ![Heatmap](img/heatmap.png){ width="800" }
-      <figcaption> Heatmap of a intra-cohort pairwise comparison</figcaption>
+      <figcaption>Heatmap of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
 
@@ -104,7 +104,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     <figure markdown>
        ![MDS](img/mds.png){ width="800" }
-       <figcaption> Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
+       <figcaption>Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
 
@@ -122,7 +122,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     <figure markdown>
        ![Heatmap](img/cohort1.png){ width="800" }
-       <figcaption> Heatmap of a inter-cohort pairwise comparison</figcaption>
+       <figcaption>Heatmap of a inter-cohort pairwise comparison</figcaption>
     </figure>
 
 
@@ -136,6 +136,6 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     <figure markdown>
        ![Heatmap](img/cohort2.png){ width="800" }
-       <figcaption> Heatmap of a inter-cohort pairwise comparison</figcaption>
+       <figcaption>Heatmap of a inter-cohort pairwise comparison</figcaption>
     </figure>
 

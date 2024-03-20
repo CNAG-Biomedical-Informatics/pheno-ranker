@@ -24,7 +24,7 @@ Frequently Asked Questions
 
     ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-??? faq "How do I store data in a relational database?"
+??? faq "How do I store `Pheno-Ranker`'s data in a relational database?"
 
     First, export intermediate files using the following command:
 

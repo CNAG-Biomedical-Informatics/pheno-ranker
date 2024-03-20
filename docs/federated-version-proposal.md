@@ -2,6 +2,11 @@
 
 In this proposal, we aim to explore the potential application of Pheno-Ranker within two distinct contexts: the Inter-Hospital Network and the Beacon v2 Network.
 
+<figure markdown>
+ ![Pheno-Ranker](img/federated-matching.png){width="250"}
+ <figcaption>Federated network diagram. Image created by DAL.LE-3</figcaption>
+</figure>
+
 === "Use Case A: Inter-Hospital Network"
 
     The current version of Pheno-Ranker is designed for file-based operations and initiates calculations from scratch each time. To adapt the algorithm for use in multiple hospitals without directly sharing clinical data, we propose the following approach:

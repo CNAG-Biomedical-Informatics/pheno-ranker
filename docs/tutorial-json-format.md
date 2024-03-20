@@ -16,7 +16,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 
 <figure markdown>
  ![MoviePackets](img/moviepackets-logo.png){ width="300" }
- <figcaption> Image created by DAL.LE-3</figcaption>
+ <figcaption>MoviePackets logo. Image created by DAL.LE-3</figcaption>
 </figure>
 
 ??? Question "What is a Moviepacket (MXF) file?"
@@ -137,7 +137,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     <figure markdown>
       ![Beacon v2](img/movies1.png){ width="600" }
-      <figcaption> Intra-cohort pairwise comparison</figcaption>
+      <figcaption>Intra-cohort pairwise comparison</figcaption>
     </figure>
 
     ## Example 2: Let's cluster by year
@@ -148,7 +148,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     <figure markdown>
       ![Beacon v2](img/movies2.png){ width="600" }
-      <figcaption> Intra-cohort pairwise comparison</figcaption>
+      <figcaption>Intra-cohort pairwise comparison</figcaption>
     </figure>
 
     ## Example 3: Let's cluster by `genre`
@@ -159,7 +159,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     <figure markdown>
        ![Beacon v2](img/movies3.png){ width="600" }
-       <figcaption> Intra-cohort pairwise comparison</figcaption>
+       <figcaption>Intra-cohort pairwise comparison</figcaption>
     </figure>
 
     ## Example 4: Let's apply weights to `genre`
@@ -177,7 +177,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     <figure markdown>
       ![Beacon v2](img/movies4.png){ width="600" }
-      <figcaption> Intra-cohort pairwise comparison</figcaption>
+      <figcaption>Intra-cohort pairwise comparison</figcaption>
     </figure>
 
 === "Inter-catalog comparison"
@@ -201,7 +201,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     <figure markdown>
       ![Beacon v2](img/movies5.png){ width="600" }
-      <figcaption> Inter-catalog multidimensional scaling</figcaption>
+      <figcaption>Inter-catalog multidimensional scaling</figcaption>
     </figure>
 
 
@@ -215,7 +215,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     <figure markdown>
       ![Beacon v2](img/movies6.png){ width="600" }
-      <figcaption> Inter-catalog multidimensional scaling</figcaption>
+      <figcaption>Inter-catalog multidimensional scaling</figcaption>
     </figure>
 
 === "Movie recommendations"

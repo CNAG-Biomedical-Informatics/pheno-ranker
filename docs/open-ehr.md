@@ -5,7 +5,7 @@
 
 <figure markdown>
  ![openEHR](https://openehr.org/static/img/logo.svg){ width="300" }
- <figcaption> Image from https://openehr.org</figcaption>
+ <figcaption>Image from https://openehr.org</figcaption>
 </figure>
 
 **openEHR** is an open standard for electronic health records (EHRs), ensuring consistency and interoperability in medical data across healthcare systems. It uses a dual-level structure: a base model and customizable templates for various medical scenarios. When represented as JSON, openEHR data maintains its hierarchical form, using objects and key-value pairs to depict healthcare data and metadata, enabling compatibility across diverse healthcare applications.
@@ -115,7 +115,7 @@ Next, we'll replace it with an actual `id` (`Person_X`) and replicate the object
 
     <figure markdown>
       ![Heatmap](img/open-ehr.png){ width="600" }
-      <figcaption> Intra-cohort pairwise comparison</figcaption>
+      <figcaption>Intra-cohort pairwise comparison</figcaption>
     </figure>
 
      You get the concept :smile:. Altering the values will consequently change the distances.

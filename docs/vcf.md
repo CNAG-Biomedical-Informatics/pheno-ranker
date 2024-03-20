@@ -99,7 +99,7 @@ This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-c
     
     <figure markdown>
      ![Heatmap](img/vcf-heatmap.png){ width="600" }
-     <figcaption> Intra-cohort pairwise comparison</figcaption>
+     <figcaption>Intra-cohort pairwise comparison</figcaption>
     </figure>
 
 
@@ -115,7 +115,7 @@ This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-c
     
     <figure markdown>
      ![MDS](img/vcf-mds.png){ width="600" }
-     <figcaption> MDS for intra-cohort pairwise comparison</figcaption>
+     <figcaption>MDS for intra-cohort pairwise comparison</figcaption>
     </figure>
 
 ### Step 4: Execute `Pheno-Ranker` in _patient-mode_
@@ -171,7 +171,7 @@ This has created QR codes (`PNG`) for each sample inside the directory `qr_codes
 ??? Example "See QR codes for the first 10 samples"
     <figure markdown>
      ![QR](img/vcf-qr.png){ width="600" }
-     <figcaption> QR codes for 10 samples</figcaption>
+     <figcaption>QR codes for 10 samples</figcaption>
     </figure>
 
 To decode the QR codes back to `Pheno-Ranker` format:
