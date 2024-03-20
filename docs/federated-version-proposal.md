@@ -3,8 +3,9 @@
 In this proposal, we aim to explore the potential application of Pheno-Ranker within two distinct contexts: the Inter-Hospital Network and the Beacon v2 Network.
 
 <figure markdown>
+ Federated network diagram
  ![Pheno-Ranker](img/federated-matching.png){width="250"}
- <figcaption>Federated network diagram. Image created by DAL.LE-3</figcaption>
+ <figcaption>Image created by DAL.LE-3</figcaption>
 </figure>
 
 === "Use Case A: Inter-Hospital Network"
