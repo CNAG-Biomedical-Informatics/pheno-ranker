@@ -60,7 +60,7 @@ utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py -i test_1000G.vcf.gz -o output.ts
 ### Step 2: Transform the TSV to a compatible format
 
 ```bash
-utils/csv2pheno_ranker/csv2pheno-ranker -i output.tsv -primary-key 'Sample ID'
+utils/csv2pheno_ranker/csv2pheno-ranker -i output.tsv -primary-key-name 'Sample ID'
 ```
 
 Where the created `output.json` has the following format format:

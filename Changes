@@ -2,7 +2,9 @@ Revision history for Perl distribution Pheno-Ranker
 
 0.06 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Foo
+ - Renamed --primary-key to --primary-key-name and --set-primary-key to --generate-primary-key
+   in csv2pheno_ranker for clarity
+ - Updated docs
 
 0.05 2024-03-19T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
