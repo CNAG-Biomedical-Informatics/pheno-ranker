@@ -1,0 +1,2248 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pheno-Ranker Documentation">
+      
+      
+        <meta name="author" content="Manuel Rueda, PhD">
+      
+      
+      
+        <link rel="prev" href="../algorithm/">
+      
+      
+        <link rel="next" href="../usage/">
+      
+      
+      <link rel="icon" href="../img/favicon-2x.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
+    
+    
+      
+        <title>Tutorial: JSON format - Pheno-Ranker Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.10ba22f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/theme_overrides.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#moviepackets" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Pheno-Ranker Documentation" class="md-header__button md-logo" aria-label="Pheno-Ranker Documentation" data-md-component="logo">
+      
+  <img src="../img/iconhex.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pheno-Ranker Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tutorial: JSON format
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mrueda/pheno-ranker" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Pheno-Ranker
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pheno-Ranker Documentation" class="md-nav__button md-logo" aria-label="Pheno-Ranker Documentation" data-md-component="logo">
+      
+  <img src="../img/iconhex.svg" alt="logo">
+
+    </a>
+    Pheno-Ranker Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mrueda/pheno-ranker" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Pheno-Ranker
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Introduction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what-is-pheno-ranker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is Pheno-Ranker?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Which are the supported formats
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Which are the supported formats
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BFF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pxf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PXF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../other-formats/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Other formats
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../download-and-installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Download & Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pheno-ranker.cnag.eu" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web App User interface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Modes of operation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Modes of operation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cohort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cohort mode
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patient/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Patient mode
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Utilities
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Utilities
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bff-pxf-plot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BFF/PXF plot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bff-pxf-simulator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BFF/PXF simulator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csv-import/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CSV import
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qr-code-generator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    QR code generator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Technical details
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Technical details
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Help
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Help
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Tutorial: JSON format
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Tutorial: JSON format
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#moviepackets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moviepackets:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a configuration file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-pheno-ranker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Pheno-Ranker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-lets-start-by-using-all-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Let's start by using all terms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-lets-cluster-by-year" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Let's cluster by year
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3-lets-cluster-by-genre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Let's cluster by genre
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-4-lets-apply-weights-to-genre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 4: Let's apply weights to genre
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-default-catalog-cohort-nomenclature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Default catalog (cohort) nomenclature
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-set-up-catalog-nomenclature-prefixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Set up catalog nomenclature prefixes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-isolate-the-movie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Isolate the Movie
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-rank-similar-movies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Rank Similar Movies
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Google colab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Addendum
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Addendum
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../open-ehr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    openEHR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../omop-cdm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OMOP-CDM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vcf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VCF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../federated-version-proposal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Federated version proposal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            About
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Citation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Tutorial: JSON format</h1>
+
+<details class="tip">
+<summary>Google Colab notebook</summary>
+<p>Try out <code>Pheno-Ranker</code> using our <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB">Google Colab</a> notebook. You can view it without signing in, but running the code requires a Google account.</p>
+<p>We also have a local copy of the notebook that can be downloaded from the <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/nb/convert_pheno_cli_tutorial.ipynb">repo</a>. </p>
+</details>
+<p>This page provides brief tutorials on how to perform data conversion by using <code>Pheno-Ranker</code><strong>command-line interface</strong>.</p>
+<details class="warning" open="open">
+<summary>About this tutorial</summary>
+<p>This tutorial deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of <code>Pheno-Ranker</code>, as starting with familiar examples can help you better grasp its usage.</p>
+<p>Once you are comfortable with the concepts using movie data, you will find it easier to apply <code>Pheno-Ranker</code> to real GA4GH standards. For specific examples, please refer to the <a href="../cohort/">cohort</a> and <a href="../patient/">patient</a> pages in this documentation.</p>
+</details>
+<h3 id="moviepackets">Moviepackets:<a class="headerlink" href="#moviepackets" title="Permanent link">&para;</a></h3>
+<p>For the tutorial we will use the format <strong>Moviepackets</strong> to demonstrate the power of <code>Pheno-Ranker</code> with any <code>JSON</code> file.</p>
+<figure>
+<p>MoviePackets logo
+ <img alt="MoviePackets" src="../img/moviepackets-logo.png" width="300" />
+ </p>
+<figcaption>Image created by DAL.LE-3</figcaption>
+</figure>
+<details class="question">
+<summary>What is a Moviepacket (MXF) file?</summary>
+<p>A Moviepacket is an invented format <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg" title=":smile:" /> designed to describe movies, analogous to Phenopackets v2 used for pheno-clinical data.</p>
+</details>
+<p>Imagine you have a catalog of 25 movies described in <code>JSON</code> format. Each movie has several <code>properties</code> (a.k.a. <code>terms</code>).</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TheShawshankRedemption&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">&quot;genre&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="s2">&quot;Drama&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">],</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">&quot;year&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1994</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USA&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.3</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="p">{</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TheGodfather&quot;</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">&quot;genre&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">      </span><span class="s2">&quot;Crime&quot;</span><span class="p">,</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="s2">&quot;Drama&quot;</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="p">],</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="nt">&quot;year&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1972</span><span class="p">,</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USA&quot;</span><span class="p">,</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.2</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="p">},</span><span class="err">...</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>You are interested in checking the variety of your catalog and plan to use <code>Pheno-Ranker</code>. The first thing that we are going to create is a <strong>configuration file</strong>.</p>
+<details class="question">
+<summary>What is a <code>Pheno-Ranker</code> configuration file?</summary>
+<p>A configuration file is a text file in <a href="https://en.wikipedia.org/wiki/YAML">YAML</a> format (<a href="https://en.wikipedia.org/wiki/JSON">JSON</a> is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats <em>out-of-the-box</em> that are <a href="../bff/">BFF</a> and <a href="../pxf/">PXF</a>.</p>
+</details>
+<details class="tip">
+<summary>Do I need to create a configuration file?</summary>
+<p>This file only has to be created if you are working with <strong>your own JSON format</strong>.</p>
+<p>If your file format resembles Moviepackets, you can use that file directly. Just ensure you <strong>modify the terms</strong> to align with your data.</p>
+<h3 id="creating-a-configuration-file">Creating a configuration file<a class="headerlink" href="#creating-a-configuration-file" title="Permanent link">&para;</a></h3>
+<p>To create a configuration file, start by reviewing the <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movies_config.yaml">example file</a> provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Set the format</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MXF</span><span class="w"> </span><span class="c1"># Optional unless you have array-based properties</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Set the primary key for the objects</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nt">primary_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">title</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Set the allowed terms / properties</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nt">allowed_terms</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">country</span><span class="p p-Indicator">,</span><span class="nv">genre</span><span class="p p-Indicator">,</span><span class="nv">year</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
+<p>But because your data has the term <code>genre</code>, which is an <code>array</code> the file will look like this:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Set the format</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MXF</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Set the primary key for the objects</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">primary_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">title</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Set the allowed terms / properties</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nt">allowed_terms</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">country</span><span class="p p-Indicator">,</span><span class="nv">genre</span><span class="p p-Indicator">,</span><span class="nv">year</span><span class="p p-Indicator">]</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Set the terms which are arrays</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nt">array_terms</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">genre</span><span class="p p-Indicator">]</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Set the regex to perform the substitution in array elements</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nt">array_regex</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;^(\w+):(\d+)&#39;</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Set the path for array properties</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="nt">id_correspondence</span><span class="p">:</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="nt">MXF</span><span class="p">:</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="nt">genre</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">genre</span>
+</span></code></pre></div>
+<p>In the table below we show which parameters are needed depending on the format:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Required properties</th>
+<th>Optional properties</th>
+<th>Pre-configured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BFF / PXF</td>
+<td><code>primary_key, allowed_terms, array_terms, array_regex, id_correspondence</code></td>
+<td><code>format</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Others (<code>array</code>)</td>
+<td><code>format, primary_key, allowed_terms, array_terms, id_correspondence</code></td>
+<td><code>array_regex</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Others (<code>non-array</code>)</td>
+<td><code>primary_key, allowed_terms</code></td>
+<td><code>format</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Where:<ul>
+<li><strong>format</strong>, is a <code>string</code> that defines your particular format. In this case <code>MXF</code>. Note that it has to match that of <code>id_correspondence</code>.</li>
+<li><strong>primary_key</strong>, the key that will be used as an item identifier.</li>
+<li><strong>allowed_terms</strong>, is an <code>array</code> to define the terms that can be used with the flags <code>--include-terms</code> and <code>--exclude-terms</code>.</li>
+<li><strong>array_terms</strong>, is an <code>array</code> to enumerate which properties are arrays.</li>
+<li><strong>array_regex</strong>, it's an <code>string</code> to parse flattened keys. It's used in conjunction with <code>id_correspondence</code>.</li>
+<li><strong>id_correspondence</strong>, is an <code>object</code> that (in combination with <code>array_regex</code>) serves to rename array elements and not rely on numeric indexes.</li>
+</ul>
+</li>
+</ul>
+</details>
+<h3 id="running-pheno-ranker">Running <code>Pheno-Ranker</code><a class="headerlink" href="#running-pheno-ranker" title="Permanent link">&para;</a></h3>
+<p>Once you have created the mapping file you can proceed to run <code>pheno-ranker</code> with the <strong>command-line interface</strong>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Intra-catalog comparison</label><label for="__tabbed_1_2">Inter-catalog comparison</label><label for="__tabbed_1_3">Movie recommendations</label><label for="__tabbed_1_4">Timings</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<h2 id="example-1-lets-start-by-using-all-terms">Example 1: Let's start by using all terms<a class="headerlink" href="#example-1-lets-start-by-using-all-terms" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p>The result is a file named <code>matrix.txt</code>. Find below the result of the clustering with <code>R</code>.</p>
+<details class="example">
+<summary>Included R scripts</summary>
+<p>You can find in the link below a few examples to perform clustering and multimensional scaling with your data:</p>
+<p><a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r">R scripts at GitHub</a>.</p>
+</details>
+<p><figure markdown>
+  <img alt="Beacon v2" src="../img/movies1.png" width="600" />
+  <figcaption>Intra-cohort pairwise comparison</figcaption>
+</figure></p>
+<h2 id="example-2-lets-cluster-by-year">Example 2: Let's cluster by year<a class="headerlink" href="#example-2-lets-cluster-by-year" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>--include-terms<span class="w"> </span>year<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p><figure markdown>
+  <img alt="Beacon v2" src="../img/movies2.png" width="600" />
+  <figcaption>Intra-cohort pairwise comparison</figcaption>
+</figure></p>
+<h2 id="example-3-lets-cluster-by-genre">Example 3: Let's cluster by <code>genre</code><a class="headerlink" href="#example-3-lets-cluster-by-genre" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>--include-terms<span class="w"> </span>genre<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p><figure markdown>
+   <img alt="Beacon v2" src="../img/movies3.png" width="600" />
+   <figcaption>Intra-cohort pairwise comparison</figcaption>
+</figure></p>
+<h2 id="example-4-lets-apply-weights-to-genre">Example 4: Let's apply weights to <code>genre</code><a class="headerlink" href="#example-4-lets-apply-weights-to-genre" title="Permanent link">&para;</a></h2>
+<p>We will use the file <code>t/movies_weigths.yaml</code> that has the following content:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nn">---</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">genre.Biography</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>--include-terms<span class="w"> </span>genre<span class="w"> </span>--w<span class="w"> </span>t/movies_weigths.yaml<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p><figure markdown>
+  <img alt="Beacon v2" src="../img/movies4.png" width="600" />
+  <figcaption>Intra-cohort pairwise comparison</figcaption>
+</figure></p>
+</div>
+<div class="tabbed-block">
+<p>Imagine you have several <strong>MoviePacket</strong> <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg" title=":smile:" /> catalogs and you want to compare the similarity among them.</p>
+<p>The way you will compute this with <code>Pheno-Ranker</code> is similar to intra-catalog, the only thing to have in mind is that the catalogs (i.e., cohorts) will have a preffix so that we can identify them.</p>
+<h2 id="example-1-default-catalog-cohort-nomenclature">Example 1: Default catalog (cohort) nomenclature<a class="headerlink" href="#example-1-default-catalog-cohort-nomenclature" title="Permanent link">&para;</a></h2>
+<p>For demonstration purposes, in this example we are re-using the same file (<code>t/movies.json</code>)</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>t/movies.json<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p>After executing this command you will obtain a file named <code>matrix.txt</code> which is a matrix consisting of all (25+25)*(25+25) pairwise comparisons.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Dimensionality reduction</p>
+<p>We will use the included <a href="(https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r)">R scripts</a> to perform dimensionality reduction via <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS</a>. Note that you can use other dimensinality reduction techniques such as t-SNE or UMAP.</p>
+</div>
+<p><figure markdown>
+  <img alt="Beacon v2" src="../img/movies5.png" width="600" />
+  <figcaption>Inter-catalog multidimensional scaling</figcaption>
+</figure></p>
+<p>By default, the ids in each catalog will be renamed to <code>C1_</code>, <code>C2_</code> and so on, but you can add your own preffixes with <code>--append-prefix</code>.</p>
+<h2 id="example-2-set-up-catalog-nomenclature-prefixes">Example 2: Set up catalog nomenclature prefixes<a class="headerlink" href="#example-2-set-up-catalog-nomenclature-prefixes" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>t/movies.json<span class="w"> </span>t/movies.json<span class="w"> </span>--append-prefixes<span class="w"> </span>NETFLIX<span class="w"> </span>HBO<span class="w"> </span>PRIME_VIDEO<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p><figure markdown>
+  <img alt="Beacon v2" src="../img/movies6.png" width="600" />
+  <figcaption>Inter-catalog multidimensional scaling</figcaption>
+</figure></p>
+</div>
+<div class="tabbed-block">
+<p>Imagine you'd like to discover movies similar to a specific one, such as <a href="https://en.wikipedia.org/wiki/Interstellar_(film)">Interstellar</a>.</p>
+<h2 id="step-1-isolate-the-movie">Step 1: Isolate the Movie<a class="headerlink" href="#step-1-isolate-the-movie" title="Permanent link">&para;</a></h2>
+<p>To single out the 'Interstellar' movie data:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>--patients-of-interest<span class="w"> </span>Interstellar<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p>This command will carry out a dry-run, producing an extracted JSON object named <code>Interstellar.json</code>.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">   </span><span class="nt">&quot;country&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USA&quot;</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">   </span><span class="nt">&quot;genre&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">      </span><span class="s2">&quot;Adventure&quot;</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">      </span><span class="s2">&quot;Drama&quot;</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">      </span><span class="s2">&quot;Sci-Fi&quot;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">   </span><span class="p">],</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">   </span><span class="nt">&quot;rating&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">8.6</span><span class="p">,</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Interstellar&quot;</span><span class="p">,</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">   </span><span class="nt">&quot;year&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2014</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="step-2-rank-similar-movies">Step 2: Rank Similar Movies<a class="headerlink" href="#step-2-rank-similar-movies" title="Permanent link">&para;</a></h2>
+<p>Next, run the following command to initiate the ranking process:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>-t<span class="w"> </span>Interstellar.json<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml
+</span></code></pre></div>
+<p>This will output the results to the console and additionally save them in a file titled <code>rank.txt</code>.</p>
+<table>
+<thead>
+<tr>
+<th>RANK</th>
+<th>REFERENCE(ID)</th>
+<th>TARGET(ID)</th>
+<th>FORMAT</th>
+<th>LENGTH</th>
+<th>WEIGHTED</th>
+<th>HAMMING-DISTANCE</th>
+<th>DISTANCE-Z-SCORE</th>
+<th>DISTANCE-P-VALUE</th>
+<th>DISTANCE-Z-SCORE(RAND)</th>
+<th>JACCARD-INDEX</th>
+<th>JACCARD-Z-SCORE</th>
+<th>JACCARD-P-VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Interstellar</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>7</td>
+<td>False</td>
+<td>0</td>
+<td>-3.994</td>
+<td>0.0000325</td>
+<td>-2.6458</td>
+<td>1.000</td>
+<td>4.529</td>
+<td>0.0002087</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SavingPrivateRyan</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>10</td>
+<td>False</td>
+<td>7</td>
+<td>-0.846</td>
+<td>0.1988972</td>
+<td>1.2649</td>
+<td>0.300</td>
+<td>0.438</td>
+<td>0.7129606</td>
+</tr>
+<tr>
+<td>3</td>
+<td>TheShawshankRedemption</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>10</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.8974</td>
+<td>0.200</td>
+<td>-0.146</td>
+<td>0.8742001</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Se7en</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.5076</td>
+<td>0.273</td>
+<td>0.279</td>
+<td>0.7646809</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Gladiator</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.5076</td>
+<td>0.273</td>
+<td>0.279</td>
+<td>0.7646809</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Inception</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.5076</td>
+<td>0.273</td>
+<td>0.279</td>
+<td>0.7646809</td>
+</tr>
+<tr>
+<td>7</td>
+<td>FightClub</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>10</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.8974</td>
+<td>0.200</td>
+<td>-0.146</td>
+<td>0.8742001</td>
+</tr>
+<tr>
+<td>8</td>
+<td>TheGreenMile</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.5076</td>
+<td>0.273</td>
+<td>0.279</td>
+<td>0.7646809</td>
+</tr>
+<tr>
+<td>9</td>
+<td>TheSilenceoftheLambs</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>8</td>
+<td>-0.396</td>
+<td>0.3461273</td>
+<td>1.5076</td>
+<td>0.273</td>
+<td>0.279</td>
+<td>0.7646809</td>
+</tr>
+<tr>
+<td>10</td>
+<td>ForrestGump</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>9</td>
+<td>0.054</td>
+<td>0.5215214</td>
+<td>2.1106</td>
+<td>0.182</td>
+<td>-0.253</td>
+<td>0.8948480</td>
+</tr>
+<tr>
+<td>11</td>
+<td>TheMatrix</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>9</td>
+<td>0.054</td>
+<td>0.5215214</td>
+<td>2.1106</td>
+<td>0.182</td>
+<td>-0.253</td>
+<td>0.8948480</td>
+</tr>
+<tr>
+<td>12</td>
+<td>CityofGod</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>9</td>
+<td>0.054</td>
+<td>0.5215214</td>
+<td>2.1106</td>
+<td>0.182</td>
+<td>-0.253</td>
+<td>0.8948480</td>
+</tr>
+<tr>
+<td>13</td>
+<td>PulpFiction</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>9</td>
+<td>0.054</td>
+<td>0.5215214</td>
+<td>2.1106</td>
+<td>0.182</td>
+<td>-0.253</td>
+<td>0.8948480</td>
+</tr>
+<tr>
+<td>14</td>
+<td>TheGodfather</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>11</td>
+<td>False</td>
+<td>9</td>
+<td>0.054</td>
+<td>0.5215214</td>
+<td>2.1106</td>
+<td>0.182</td>
+<td>-0.253</td>
+<td>0.8948480</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Goodfellas</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>16</td>
+<td>TheLordoftheRings:TheFellowshipoftheRing</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Casablanca</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Schindler'sList</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>19</td>
+<td>LifeisBeautiful</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>20</td>
+<td>SpiritedAway</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>21</td>
+<td>TheLordoftheRings:TheReturnoftheKing</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>22</td>
+<td>TheDarkKnight</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>23</td>
+<td>StarWars:EpisodeV-TheEmpireStrikesBack</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>12</td>
+<td>False</td>
+<td>10</td>
+<td>0.504</td>
+<td>0.6927786</td>
+<td>2.3094</td>
+<td>0.167</td>
+<td>-0.341</td>
+<td>0.9100849</td>
+</tr>
+<tr>
+<td>24</td>
+<td>TheUsualSuspects</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>13</td>
+<td>False</td>
+<td>12</td>
+<td>1.403</td>
+<td>0.9197335</td>
+<td>3.0509</td>
+<td>0.077</td>
+<td>-0.866</td>
+<td>0.9689622</td>
+</tr>
+<tr>
+<td>25</td>
+<td>ThePianist</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>13</td>
+<td>False</td>
+<td>12</td>
+<td>1.403</td>
+<td>0.9197335</td>
+<td>3.0509</td>
+<td>0.077</td>
+<td>-0.866</td>
+<td>0.9689622</td>
+</tr>
+</tbody>
+</table>
+<p>Of course you can perform tha ranking against multiple cohorts and select specific terms.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>t/movies.json<span class="w"> </span>t/movies.json<span class="w"> </span>--append-prefixes<span class="w"> </span>NETFLIX<span class="w"> </span>HBO<span class="w"> </span>-t<span class="w"> </span>Interstellar.json<span class="w"> </span>--include-terms<span class="w"> </span>genre<span class="w"> </span>year<span class="w"> </span>--config<span class="w"> </span>t/movies_config.yaml<span class="w"> </span>--max-out<span class="w"> </span><span class="m">10</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>RANK</th>
+<th>REFERENCE(ID)</th>
+<th>TARGET(ID)</th>
+<th>FORMAT</th>
+<th>LENGTH</th>
+<th>WEIGHTED</th>
+<th>HAMMING-DISTANCE</th>
+<th>DISTANCE-Z-SCORE</th>
+<th>DISTANCE-P-VALUE</th>
+<th>DISTANCE-Z-SCORE(RAND)</th>
+<th>JACCARD-INDEX</th>
+<th>JACCARD-Z-SCORE</th>
+<th>JACCARD-P-VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>NETFLIX_Interstellar</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>4</td>
+<td>False</td>
+<td>0</td>
+<td>-3.561</td>
+<td>0.0001845</td>
+<td>-2.0000</td>
+<td>1.000</td>
+<td>4.387</td>
+<td>0.0003529</td>
+</tr>
+<tr>
+<td>2</td>
+<td>HBO_Interstellar</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>4</td>
+<td>False</td>
+<td>0</td>
+<td>-3.561</td>
+<td>0.0001845</td>
+<td>-2.0000</td>
+<td>1.000</td>
+<td>4.387</td>
+<td>0.0003529</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HBO_FightClub</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>5</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>1.3416</td>
+<td>0.200</td>
+<td>-0.068</td>
+<td>0.8572146</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NETFLIX_Inception</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>6</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>0.8165</td>
+<td>0.333</td>
+<td>0.675</td>
+<td>0.6275454</td>
+</tr>
+<tr>
+<td>5</td>
+<td>HBO_TheShawshankRedemption</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>5</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>1.3416</td>
+<td>0.200</td>
+<td>-0.068</td>
+<td>0.8572146</td>
+</tr>
+<tr>
+<td>6</td>
+<td>NETFLIX_TheLordoftheRings:TheReturnoftheKing</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>6</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>0.8165</td>
+<td>0.333</td>
+<td>0.675</td>
+<td>0.6275454</td>
+</tr>
+<tr>
+<td>7</td>
+<td>HBO_Gladiator</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>6</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>0.8165</td>
+<td>0.333</td>
+<td>0.675</td>
+<td>0.6275454</td>
+</tr>
+<tr>
+<td>8</td>
+<td>NETFLIX_Gladiator</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>6</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>0.8165</td>
+<td>0.333</td>
+<td>0.675</td>
+<td>0.6275454</td>
+</tr>
+<tr>
+<td>9</td>
+<td>NETFLIX_TheShawshankRedemption</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>5</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>1.3416</td>
+<td>0.200</td>
+<td>-0.068</td>
+<td>0.8572146</td>
+</tr>
+<tr>
+<td>10</td>
+<td>NETFLIX_FightClub</td>
+<td>Interstellar</td>
+<td>MXF</td>
+<td>5</td>
+<td>False</td>
+<td>4</td>
+<td>-0.779</td>
+<td>0.2179810</td>
+<td>1.3416</td>
+<td>0.200</td>
+<td>-0.068</td>
+<td>0.8572146</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<p>Expected times and memory:</p>
+<table>
+<thead>
+<tr>
+<th>Rows</th>
+<th>Cohort</th>
+<th></th>
+<th>Patient</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number</td>
+<td>Time</td>
+<td>RAM</td>
+<td>Time</td>
+<td>RAM</td>
+</tr>
+<tr>
+<td>100</td>
+<td>0.5s</td>
+<td>&lt;1GB</td>
+<td>&lt;0.5s</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>1K</td>
+<td>1s</td>
+<td>&lt;1GB</td>
+<td>&lt;0.5s</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>5K</td>
+<td>15s</td>
+<td>&lt;1GB</td>
+<td>&lt;0.5s</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>10K</td>
+<td>1m30s</td>
+<td>&lt;1GB*</td>
+<td>&lt;1s</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>50K</td>
+<td>1h</td>
+<td>&lt;1GB*</td>
+<td>3s</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>100K</td>
+<td>-</td>
+<td>-</td>
+<td>6s</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>1M</td>
+<td>-</td>
+<td>-</td>
+<td>1m</td>
+<td>&lt;4GB</td>
+</tr>
+</tbody>
+</table>
+<p>1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD</p>
+<div class="admonition note">
+<p class="admonition-title">* About RAM usage in cohort mode</p>
+<p>After reaching 5K rows, Pheno-Ranker adopts a RAM-efficient approach, where it calculates the entire symmetric matrix without storing it in memory.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; Copyright 2023-2024, Manuel Rueda, CNAG
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mrueda" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.select", "content.code.copy", "content.tabs.link", "search.highlight", "search.share", "navigation.tracking", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.bd41221c.min.js"></script>
+      
+        <script src="../js/theme_overrides.js"></script>
+      
+        <script src="../js/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
