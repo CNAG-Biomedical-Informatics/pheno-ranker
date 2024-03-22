@@ -43,7 +43,7 @@ With the containerized version you get:
 
     The core of software is a module implemented in `Perl` and it is available in the Comprehensive Perl Archive Network (CPAN). See the description [here](https://metacpan.org/pod/Pheno::Ranker).
 
-    With the CPAN version you get:
+    With the CPAN distribution you get:
 
     * Module
     * CLI (`pheno-ranker`)
@@ -61,7 +61,7 @@ With the containerized version you get:
 
 === "Method 4: From CPAN in a **Conda** environment"
 
-     With the CPAN version you get:
+     With the CPAN distribution you get:
 
     * Module
     * CLI (`pheno-ranker`)

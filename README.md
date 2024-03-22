@@ -24,7 +24,7 @@
 
 **Web App UI Source Code**: <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker-ui" target="_blank">https://github.com/cnag-biomedical-informatics/pheno-ranker-ui</a>
 
-**CPAN Module**: <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
+**CPAN Distribution**: <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
 
 **Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
 
