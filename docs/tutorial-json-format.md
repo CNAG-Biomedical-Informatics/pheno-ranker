@@ -71,7 +71,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     # Set the primary key for the objects
     primary_key: title
     
-    # Set the allowed terms / properties
+    # Set the allowed terms or properties for use with include|exclude-terms
     allowed_terms: [country,genre,year]
     ```
     
@@ -84,16 +84,16 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     # Set the primary key for the objects
     primary_key: title
     
-    # Set the allowed terms / properties
+    # Set the allowed terms or properties for use with include|exclude-terms
     allowed_terms: [country,genre,year]
     
     # Set the terms which are arrays
     array_terms: [genre]
     
-    # Set the regex to perform the substitution in array elements
+    # Set the regex to identify array indexes, guiding their substitution within array elements
     array_regex: '^(\w+):(\d+)'
     
-    # Set the path for array properties
+    # Set the path to select values for substituting array indexes
     id_correspondence:
       MXF:
         genre: genre
@@ -111,7 +111,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
      * Where:
         - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
         - **primary_key**, the key that will be used as an item identifier.
-        - **allowed_terms**, is an `array` to define the terms that can be used with the flags `--include-terms` and `--exclude-terms`.
+        - **allowed_terms**, defined as an array, delineates the terms permitted for use with the `--include-terms` and `--exclude-terms` options. This mechanism is in place to ensure data validation and to mitigate user errors, such as typos, in specifying terms. If `--include-terms` or `--exclude-terms` options are not specified, all terms present in the JSON file will be considered valid, irrespective of their inclusion in this list.
         - **array_terms**, is an `array` to enumerate which properties are arrays.
         - **array_regex**, it's an `string` to parse flattened keys. It's used in conjunction with `id_correspondence`.
         - **id_correspondence**, is an `object` that (in combination with `array_regex`) serves to rename array elements and not rely on numeric indexes.
