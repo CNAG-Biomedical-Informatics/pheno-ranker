@@ -14,6 +14,17 @@ Frequently Asked Questions
 
     ##### last change 2023-09-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "Where can I find the Web App user interface?"
+
+    You can find the Web App user interface at this address: [https://pheno-ranker.cnag.eu](https://pheno-ranker.cnag.eu).
+
+    There is a playground that you can use by entering the following credentials:
+
+    **Username:** `pheno`  
+    **Password:** `ranker`
+
+    ##### last change 2024-04-01 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 ??? faq "Can I export intermediate files?"
 
     Yes.
