@@ -1,4 +1,4 @@
-# Citation for Convert-Pheno
+# Citation for Pheno-Ranker
 
 !!! Abstract "Citation"
     Leist, I.C. et al., "Pheno-Ranker: Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond". _Submitted_.
@@ -6,7 +6,7 @@
 !!! Success "Funding agencies"
     * This project has received funding from the Innovative Medicines Initiative 2 Joint Undertaking (JU) under grant agreement No 831434 (3TR). The JU receives support from the European Union’s Horizon 2020 research and innovation programme and EFPIA. 
     <figure markdown>
-     ![Convert-Pheno](img/3tr-funding.png){width="400"}
+     ![Pheno-Ranker](img/3tr-funding.png){width="400"}
     <figcaption>Funding agencies</figcaption>
     </figure>
     * Institutional support was from the Spanish Instituto de Salud Carlos III, Fondo de Investigaciones Sanitarias and cofunded with ERDF funds (PI19/01772). 
