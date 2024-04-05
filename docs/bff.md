@@ -8,7 +8,7 @@
 !!! Abstract "About Beacon v2 Models' entities"
     Of the seven entities (a.k.a., entry types) in the Beacon v2 Models, [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) is typically the only one that contains phenotypic data (represented at record-level granularity).
 
-As an input, `Pheno-Ranker` accepts data from the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity, serialized in [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) format (`individuals.json`). The Beacon models represent the schemas in “record” granularity
+As an input, `Pheno-Ranker` accepts data from the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity, serialized in [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) format (`individuals.json`).
 
 ??? Tip "Browsing BFF `JSON` data"
     You can browse a public BFF v2 file with the following **JSON viewers**:
