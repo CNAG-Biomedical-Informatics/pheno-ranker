@@ -3,8 +3,6 @@
 
     We also have a local copy of the notebook that can be downloaded from the [repo](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/nb/convert_pheno_cli_tutorial.ipynb). 
 
-This page provides brief tutorials on how to perform data conversion by using `Pheno-Ranker`**command-line interface**.
-
 ???+ Warning "About this tutorial"
     This tutorial deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
 
