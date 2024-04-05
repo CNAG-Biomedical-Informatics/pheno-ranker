@@ -6,6 +6,7 @@ Revision history for Perl distribution Pheno-Ranker
    in csv2pheno_ranker for clarity
  - Updated docs
  - Changed from perl:5.36-bullseye to perl:stable-bullseye in Dockerfile
+ - Excluded `NA`, `NaN`, `undef`, `{}`, and `[]` from coverage_stats counts
 
 0.05 2024-03-19T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
