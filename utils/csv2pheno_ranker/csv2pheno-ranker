@@ -165,7 +165,7 @@ sub read_csv {
 
         # Check that primary_key_name does not exist
         die
-"<$primary_key_name> already exist. Are you sure you need the <--generate-primary-key> flag?\n"
+"Primary key <$primary_key_name> already exists. Are you sure you need the <--generate-primary-key> flag?\n"
           if ( grep { $_ eq $primary_key_name } @$headers );
 
         # Make it last element of the array
