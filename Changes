@@ -7,6 +7,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Updated docs
  - Changed from perl:5.36-bullseye to perl:stable-bullseye in Dockerfile
  - Excluded `NA`, `NaN`, `undef`, `{}`, and `[]` from coverage_stats counts
+ - Freezed a few modules in requirements.txt
 
 0.05 2024-03-19T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
