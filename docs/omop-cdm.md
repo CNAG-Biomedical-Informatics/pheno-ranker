@@ -52,7 +52,7 @@ echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
     (you can install `wget`, `curl`, or `aria2c` by typing `sudo apt install wget`, `sudo apt install curl`, or `sudo apt install aria2`.)
 
-    Once downloaded, use the option `--path-to-ohdsi-db`
+    Once downloaded, use the options `--ohdsi-db` and `--path-to-ohdsi-db`
 
 ## Step 2: Use `Convert-Pheno` to Convert OMOP CDM to Beacon v2 Models
 

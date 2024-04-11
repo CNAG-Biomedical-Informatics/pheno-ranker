@@ -20,7 +20,7 @@ graph TD;
 
 ## Step 1: Flatten JSON for reference cohort(s)
 
-Each object containing one individual in Phenopackets (PXF) or Beacon v2 (BFF) JSON for the reference cohort(s) are “flattened” into a one-dimensional lookup table (hash data structure in Perl or dictionary in Python) and the variables are initialized with weights of `1`. In cases where the term consists of an array of objects (e.g., _phenotypicFeatures_), the ontology describing the term is introduced as a label for each array element (replacing the element index). We used an ad-hoc filtering (that can be changed with a configuration file) to remove variables that do not provide any value to the similarity. For instance:
+Each object containing one individual (loaded from [PXF](pxf.md) or [BFF](bff.md) files) for the reference cohort(s) are “flattened” into a one-dimensional hash data structure (i.e., associative array or lookup table) and the variables are initialized with weights of `1`. For terms that consist of arrays of objects (e.g., _phenotypicFeatures_), each array element is labeled with the [CURIE](https://www.w3.org/TR/curie/)-style identifier (`"id"`) from the principal ontology class, instead of using the element index. We used an ad-hoc filtering (that can be changed with a configuration file) to remove variables that do not provide any value to the similarity. For instance:
 
 ```json
 "sex": {
@@ -71,6 +71,8 @@ Becomes:
 "interventionsOrProcedures.NCIT:C86074.bodySite.id.NCIT:C12736" : 1,
 "interventionsOrProcedures.NCIT:C86074.procedureCode.id.NCIT:C86074" : 1,
 ```
+
+Note that the flattened keys maintain the original hierarchical relationships of the data.
 
 ## Step 2: Generate global hash for reference cohort(s)
 

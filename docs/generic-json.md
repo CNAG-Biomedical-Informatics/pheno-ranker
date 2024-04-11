@@ -15,7 +15,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 <figure markdown>
  MoviePackets logo
  ![MoviePackets](img/moviepackets-logo.png){ width="300" }
- <figcaption>Image created by DAL.LE-3</figcaption>
+ <figcaption>Image created by DALL.E-3</figcaption>
 </figure>
 
 ??? Question "What is a Moviepacket (MXF) file?"

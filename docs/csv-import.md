@@ -13,7 +13,7 @@
     
         * Ensure there are no duplicated column names (headers).
     
-        * While it's acceptable not to include ontologies, please maintain consistent nomenclature for values (e.g., avoid using `M` and `Male` to refer to the same concept).
+        * While it's acceptable not to include ontologies/terminologies, please maintain consistent nomenclature for values (e.g., avoid using `M` and `Male` to refer to the same concept).
     
         * You can use any separator of your choice, but if you have nested values, they must be quoted and separated by commas (e.g., `valA, valB, "valC1, valC2", valD`).
     

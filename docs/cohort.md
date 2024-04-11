@@ -21,7 +21,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
 
     ??? Tip "Defining the similarity metric"
-        Use the flag `--similarity-metric-cohort`. The default valie is `hamming`. The alternative value is `jaccard`.
+        Use the flag `--similarity-metric-cohort`. The default value is `hamming`. The alternative value is `jaccard`.
 
     ??? Tip "Exporting intermediate files"
         It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.

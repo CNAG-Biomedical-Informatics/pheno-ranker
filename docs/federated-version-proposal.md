@@ -5,7 +5,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
 <figure markdown>
  Federated network diagram
  ![Pheno-Ranker](img/federated-matching.png){width="250"}
- <figcaption>Image created by DAL.LE-3</figcaption>
+ <figcaption>Image created by DALL.E-3</figcaption>
 </figure>
 
 === "Use Case A: Inter-Hospital Network"
