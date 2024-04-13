@@ -20,7 +20,7 @@ graph TD;
 
 ## Step 1: Flatten JSON for reference cohort(s)
 
-Each object containing one individual (loaded from [PXF](pxf.md) or [BFF](bff.md) files) for the reference cohort(s) is “flattened” into a one-dimensional hash data structure (i.e., associative array or lookup table) and the variables are initialized with weights of `1`. For terms that consist of arrays of objects (e.g., _phenotypicFeatures_), the element indices are replaced with the [CURIE](https://www.w3.org/TR/curie/)-style identifier (`"id"`) from the _requires_ ontology class, instead of using the element index. We used an ad-hoc filtering (that can be changed with a configuration file) to remove variables that do not provide any value to the similarity. For instance:
+Each object containing one individual (loaded from [PXF](pxf.md) or [BFF](bff.md) files) for the reference cohort(s) is “flattened” into a one-dimensional hash data structure (i.e., associative array or lookup table) and the variables are initialized with weights of `1`. For terms that consist of arrays of objects (e.g., _phenotypicFeatures_), the element indices are replaced with the [CURIE](https://www.w3.org/TR/curie/)-style identifier (`"id"`) from the _required_ ontology class, instead of using the element index. We used an ad-hoc filtering (that can be changed with a configuration file) to remove variables that do not provide any value to the similarity. For instance:
 
 ```json
 "sex": {
