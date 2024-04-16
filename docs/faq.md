@@ -158,7 +158,7 @@ Frequently Asked Questions
 
     The approach here is to transition from **array** properties to **objects**. By default, `Pheno-Ranker` handles this transition up to 1D. However, for more intricate scenarios, we recommend some preprocessing steps.
 
-    The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, and each element requires the `"id"` property (`subject_or_biosample_id`). This implies that users might be interested in the variants, but since `subject_or_biosample_id` will be in the flattened key, it will never match another patient. To address this, we'll transform our `PXF` data using `Python`:
+    The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, the key `"id"` may refer to a given patient, plus the key `subjectOrBiosampleId` referes to the same patient too!. This implies that users might be interested in the variants, but since patient ids will be in the flattened key, it will never match another patient. To address this, we'll transform our `PXF` data using `Python`:
 
     Imagine you have an JSON file named `data.json`, like this one:
     ```json
@@ -197,50 +197,54 @@ Frequently Asked Questions
     }
     ```
     
+    !!! Tip "`oneOf` options for `genomicInterpretation`"
+        Note that here we are using [GeneDescriptor](https://phenopacket-schema.readthedocs.io/en/latest/gene.html#rstgene) to define the `call`, but Phenopacket v2 schema also allows for [VariantInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/variant-interpretation.html#rstvariantinterpretation).
+
     We'll process it with Python:
 
-    ```python
-    import json
+    ??? Example "See code"
+        ```python
+        import json
+        
+        # Function to transform data from a file
+        def transform_interpretations_from_file(file_path):
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+        
+            # Initialize a result dictionary preserving other root-level keys
+            transformed_data = {key: value for key, value in data.items() if key != "interpretations"}
+            transformed_data["interpretations"] = {}
+        
+            # Extract and process interpretations if they exist
+            if "interpretations" in data:
+                interpretations = data["interpretations"]
+                for interpretation in interpretations:
+                    disease_id = interpretation["diagnosis"]["disease"]["id"]
+                    # Create a dictionary for each interpretation, omitting "id" and transforming "diagnosis"
+                    transformed_interpretation = {key: value for key, value in interpretation.items() if key != "diagnosis" and key != "id"}
+                    transformed_interpretation['genomicInterpretations'] = {}
+        
+                    # Process each genomic interpretation, omitting "subjectOrBiosampleId"
+                    for genomic in interpretation["diagnosis"]["genomicInterpretations"]:
+                        gene_id = genomic["gene"]["valueId"]
+                        filtered_genomic = {k: v for k, v in genomic.items() if k != "subjectOrBiosampleId"}
+                        transformed_interpretation['genomicInterpretations'][gene_id] = filtered_genomic
+        
+                    # Assign the transformed interpretation to the corresponding disease_id
+                    transformed_data["interpretations"][disease_id] = transformed_interpretation
+        
+            return transformed_data
+        
+        # File path to JSON data
+        file_path = 'data.json'
+        
+        # Call the function with the file path
+        transformed_output = transform_interpretations_from_file(file_path)
+        
+        # Print the transformed data
+        print(json.dumps(transformed_output, indent=2))
+        ```
     
-    # Function to transform data from a file
-    def transform_interpretations_from_file(file_path):
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-    
-        # Initialize a result dictionary preserving other root-level keys
-        transformed_data = {key: value for key, value in data.items() if key != "interpretations"}
-        transformed_data["interpretations"] = {}
-    
-        # Extract and process interpretations if they exist
-        if "interpretations" in data:
-            interpretations = data["interpretations"]
-            for interpretation in interpretations:
-                disease_id = interpretation["diagnosis"]["disease"]["id"]
-                # Create a dictionary for each interpretation, omitting "id" and transforming "diagnosis"
-                transformed_interpretation = {key: value for key, value in interpretation.items() if key != "diagnosis" and key != "id"}
-                transformed_interpretation['genomicInterpretations'] = {}
-    
-                # Process each genomic interpretation, omitting "subjectOrBiosampleId"
-                for genomic in interpretation["diagnosis"]["genomicInterpretations"]:
-                    gene_id = genomic["gene"]["valueId"]
-                    filtered_genomic = {k: v for k, v in genomic.items() if k != "subjectOrBiosampleId"}
-                    transformed_interpretation['genomicInterpretations'][gene_id] = filtered_genomic
-    
-                # Assign the transformed interpretation to the corresponding disease_id
-                transformed_data["interpretations"][disease_id] = transformed_interpretation
-    
-        return transformed_data
-    
-    # File path to JSON data
-    file_path = 'data.json'
-    
-    # Call the function with the file path
-    transformed_output = transform_interpretations_from_file(file_path)
-    
-    # Print the transformed data
-    print(json.dumps(transformed_output, indent=2))
-    ```
-
     The final JSON will look like this:
     ```json
     {
