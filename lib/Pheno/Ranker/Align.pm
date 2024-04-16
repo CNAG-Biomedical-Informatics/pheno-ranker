@@ -579,9 +579,9 @@ sub remap_hash {
 
     # *** IMPORTANT ***
     # The user may include a term that:
-    # A - may not exist in any individual
-    # B - does not exist in some individuals
-    # If the term does not exist in a invidual
+    # 1 - may not exist in any individual
+    # 2 - does not exist in some individuals
+    # If the term does not exist in a individual
     #  - a) -include-terms contains ANOTHER TERM THAT EXISTS
     #        %$hash will contain keys => OK
     #  - b) -include-terms only includes the term/terms not present
@@ -589,15 +589,25 @@ sub remap_hash {
     #print Dumper $hash;
     return {} unless %$hash;
 
-    # A bit more pruning plus collapsing
+    # A bit more pruning plus folding
     # NB: Hash::Fold keeps white spaces on keys
+    #
+    # Options for 1D-array folding:
+    # A) Array to Hash then Fold
+    # B) Fold then Regex <=== CHOSEN
+    #  - Avoids the need for deep cloning
+    #  - Works across any JSON data structure (without specific key requirements)
+    #  - BUT profiling shows it's ~5-10% slower than 'Array to Hash then Fold'
+    #  - Does not accommodate specific remappings like 'interpretations.diagnosis.genomicInterpretations'
     $hash = fold( undef_excluded_phenotypicFeatures($hash) );
 
-    # Load the hash that points to the hierarchy for ontology
+    # Load the hash that points to the hierarchy for ontology-term-id
     #  *** IMPORTANT ***
     # - phenotypicFeatures.featureType.id => BFF
     # - phenotypicFeatures.type.id        => PXF
-    my $id_correspondence = $self->{id_correspondence};
+    my $id_correspondence           = $self->{id_correspondence};
+    my $exclude_properties_regex_qr = $self->{exclude_properties_regex_qr};
+    my $misc_regex_qr = qr/1900-01-01|NA0000|P999Y|P9999Y|phenopacket_id/;
 
     # Now we proceed for each key
     for my $key ( keys %{$hash} ) {
@@ -613,9 +623,9 @@ sub remap_hash {
         # NB1: We discard _labels too!!
         # NB2: info|metaData are always discarded
 
-        my $regex = $self->{exclude_properties_regex};
         next
-          if ( $regex && $key =~ m/$regex/ );    # $regex has to be defined and be != ''
+          if ( defined $exclude_properties_regex_qr
+            && $key =~ $exclude_properties_regex_qr );
 
         # The user can turn on age related values
         next
@@ -628,12 +638,12 @@ sub remap_hash {
         next
           if (
             ( ref($val) eq 'HASH' && !keys %{$val} )    # Discard {} (e.g.,subject.vitalStatus: {})
-            || ( ref($val) eq 'ARRAY' && !@{$val} )     # Discard [] 
+            || ( ref($val) eq 'ARRAY' && !@{$val} )     # Discard []
             || $val eq 'NA'
             || $val eq 'NaN'
             || $val eq 'Fake'
             || $val eq 'None:No matching concept'
-            || $val =~ m/1900-01-01|NA0000|P999Y|P9999Y|ARRAY|phenopacket_id/
+            || $val =~ $misc_regex_qr
           );
 
         # Add IDs to key
@@ -756,17 +766,16 @@ sub add_hpo_ascendants {
 sub add_id2key {
 
     my ( $key, $hash, $self ) = @_;
-    my $id_correspondence     = $self->{id_correspondence}{ $self->{format} };
-    my $array_regex           = $self->{array_regex};
-    my $array_terms_regex_str = $self->{array_terms_regex_str};
+    my $id_correspondence    = $self->{id_correspondence}{ $self->{format} };
+    my $array_regex_qr       = $self->{array_regex_qr};
+    my $array_terms_regex_qr = $self->{array_terms_regex_qr};
 
-    #say "HERE -> [$key] /$array_terms_regex_str]/ [$array_regex]";
     #############
     # OBJECTIVE #
     #############
 
     # This subroutine is important as it replaces the index (numeric) for a given
-    # array element for selected ontology. It's done for all subkeys on that element
+    # array element by a selected ontology. It's done for all subkeys on that element
 
     #"interventionsOrProcedures" : [
     #     {
@@ -798,15 +807,15 @@ sub add_id2key {
     #"interventionsOrProcedures.NCIT:C86074.bodySite.id.NCIT:C12736" : 1,
     #"interventionsOrProcedures.NCIT:C86074.procedureCode.id.NCIT:C86074" : 1,
     #
-    # To make the replecament we use $id_correspondence, after we perform a regex
+    # To make the replacement we use $id_correspondence, then we perform a regex
     # to fetch the key parts
 
     # Only proceed if $key is one of the array_terms
-    if ( $key =~ /$array_terms_regex_str/ ) {
+    if ( $key =~ $array_terms_regex_qr ) {
 
-        # Now we use $array_regex to capture $1, $2 and $3 for BFF/PXF
+        # Now we use $array_regex_qr to capture $1, $2 and $3 for BFF/PXF
         # NB: For others (e.g., MXF) we will have only $1 and $2
-        $key =~ m/$array_regex/;
+        $key =~ $array_regex_qr;
 
         #say "[$key] <$1> <$2> <$3>";
 
