@@ -606,8 +606,13 @@ sub remap_hash {
     # - phenotypicFeatures.featureType.id => BFF
     # - phenotypicFeatures.type.id        => PXF
     my $id_correspondence           = $self->{id_correspondence};
+
+    # Load values for the for loop
     my $exclude_properties_regex_qr = $self->{exclude_properties_regex_qr};
     my $misc_regex_qr = qr/1900-01-01|NA0000|P999Y|P9999Y|phenopacket_id/;
+
+    # Pre-compile a list of fixed scalar values to exclude into a hash for quick lookup
+    my %exclude_values = map { $_ => 1 } ('NA', 'NaN', 'Fake', 'None:No matching concept');
 
     # Now we proceed for each key
     for my $key ( keys %{$hash} ) {
@@ -639,10 +644,7 @@ sub remap_hash {
           if (
             ( ref($val) eq 'HASH' && !keys %{$val} )    # Discard {} (e.g.,subject.vitalStatus: {})
             || ( ref($val) eq 'ARRAY' && !@{$val} )     # Discard []
-            || $val eq 'NA'
-            || $val eq 'NaN'
-            || $val eq 'Fake'
-            || $val eq 'None:No matching concept'
+            || exists $exclude_values{$val}
             || $val =~ $misc_regex_qr
           );
 

@@ -3,6 +3,7 @@ Revision history for Perl distribution Pheno-Ranker
 0.07 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Excluded keys with {} or [] values (e.g. subject.vitalStatus: {})
+ - Precompiled regex patterns where possible
 
 0.06 2024-04-06T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
