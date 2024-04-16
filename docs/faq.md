@@ -137,6 +137,8 @@ Frequently Asked Questions
 
     ##### last change 2024-08-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+### Pre-processing
+
 ??? faq "How can I create a JSON file consisting of a subset of individuals?"
 
     You can use the tool `jq`:
@@ -147,9 +149,137 @@ Frequently Asked Questions
 
     # Use jq to filter the array based on the "id" values
     jq --argjson ids "$(printf '%s\n' "${ids[@]}" | jq -R -s -c 'split("\n")')" 'map(select(.id | IN($ids[])))' < individuals.json > subset.json
+
     ```
 
     ##### last change 2024-07-02 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+??? faq "I am using PXF and I would like to include a property with deeply nested arrays such as `interpretations.diagnosis.genomicInterpretations`. What do you suggest?"
+
+    The approach here is to transition from **array** properties to **objects**. By default, `Pheno-Ranker` handles this transition up to 1D. However, for more intricate scenarios, we recommend some preprocessing steps.
+
+    The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, and each element requires the `"id"` property (`subject_or_biosample_id`). This implies that users might be interested in the variants, but since `subject_or_biosample_id` will be in the flattened key, it will never match another patient. To address this, we'll transform our `PXF` data using `Python`:
+
+    Imagine you have an JSON file named `data.json`, like this one:
+    ```json
+    {
+      "foo": "bar",
+      "interpretations": [
+        {
+          "id": "SUBJECT_1",
+          "progressStatus": "SOLVED",
+          "diagnosis": {
+            "disease": {
+              "id": "OMIM:000001",
+              "label": "OMIM CONDITION"
+            },
+            "genomicInterpretations": [
+              {
+                "subjectOrBiosampleId": "SUBJECT_1",
+                "interpretationStatus": "CAUSATIVE",
+                "gene": {
+                  "valueId": "GENE1",
+                  "symbol": "*000001"
+                }
+              },
+              {
+                "subjectOrBiosampleId": "SUBJECT_1",
+                "interpretationStatus": "CAUSATIVE",
+                "gene": {
+                  "valueId": "GENE2",
+                  "symbol": "*000002"
+                }
+              }
+            ]
+          }
+        }
+      ],
+    }
+    ```
+    
+    We'll process it with Python:
+
+    ```python
+    import json
+    
+    # Function to transform data from a file
+    def transform_interpretations_from_file(file_path):
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+    
+        # Initialize a result dictionary preserving other root-level keys
+        transformed_data = {key: value for key, value in data.items() if key != "interpretations"}
+        transformed_data["interpretations"] = {}
+    
+        # Extract and process interpretations if they exist
+        if "interpretations" in data:
+            interpretations = data["interpretations"]
+            for interpretation in interpretations:
+                disease_id = interpretation["diagnosis"]["disease"]["id"]
+                # Create a dictionary for each interpretation, omitting "id" and transforming "diagnosis"
+                transformed_interpretation = {key: value for key, value in interpretation.items() if key != "diagnosis" and key != "id"}
+                transformed_interpretation['genomicInterpretations'] = {}
+    
+                # Process each genomic interpretation, omitting "subjectOrBiosampleId"
+                for genomic in interpretation["diagnosis"]["genomicInterpretations"]:
+                    gene_id = genomic["gene"]["valueId"]
+                    filtered_genomic = {k: v for k, v in genomic.items() if k != "subjectOrBiosampleId"}
+                    transformed_interpretation['genomicInterpretations'][gene_id] = filtered_genomic
+    
+                # Assign the transformed interpretation to the corresponding disease_id
+                transformed_data["interpretations"][disease_id] = transformed_interpretation
+    
+        return transformed_data
+    
+    # File path to JSON data
+    file_path = 'data.json'
+    
+    # Call the function with the file path
+    transformed_output = transform_interpretations_from_file(file_path)
+    
+    # Print the transformed data
+    print(json.dumps(transformed_output, indent=2))
+    ```
+
+    The final JSON will look like this:
+    ```json
+    {
+      "foo": "bar",
+      "interpretations": {
+        "OMIM:000001": {
+          "progressStatus": "SOLVED",
+          "genomicInterpretations": {
+            "GENE1": {
+              "interpretationStatus": "CAUSATIVE",
+              "gene": {
+                "valueId": "GENE1",
+                "symbol": "*000001"
+              }
+            },
+            "GENE2": {
+              "interpretationStatus": "CAUSATIVE",
+              "gene": {
+                "valueId": "GENE2",
+                "symbol": "*000002"
+              }
+            }
+          }
+        }
+      }
+    }
+    ```
+
+    Now you can run `Pheno-Ranker` as usual. The flattened keys will look like this:
+    ```json
+    "interpretations.OMIM:000001.genomicInterpretations.GENE1.gene.symbol.*000001" : 1,
+    "interpretations.OMIM:000001.genomicInterpretations.GENE1.interpretationStatus.CAUSATIVE" : 1,
+    "interpretations.OMIM:000001.genomicInterpretations.GENE2.gene.symbol.*000002" : 1,
+    "interpretations.OMIM:000001.genomicInterpretations.GENE2.interpretationStatus.CAUSATIVE" : 1,
+    "interpretations.OMIM:000001.progressStatus.SOLVED" : 1
+    ```
+    ##### last change 2024-14-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+### Post-processing
 
 ??? faq "How do I store `Pheno-Ranker`'s data in a relational database?"
 
@@ -172,6 +302,30 @@ Frequently Asked Questions
     Finally, store the data in your database as you will usually do.
 
     ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+??? faq "Can I Perform MDS with Jaccard Indices?"
+    Yes, you can perform Multidimensional Scaling (MDS) using a matrix of Jaccard indicess. To use MDS, which typically requires dissimilarity data, you'll need to convert your Jaccard similarity matrix into a dissimilarity matrix. This is done by subtracting the Jaccard similarity scores from 1, where the formula is `Dissimilarity = 1 - Similarity`. This conversion ensures that higher similarities translate into shorter distances for MDS, facilitating accurate low-dimensional representations of the data.
+
+    Example `R` code:
+
+    ```R
+    # Load the matrix of Jaccard similarities from a text file
+    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+    
+    # Convert Jaccard similarity matrix to a dissimilarity (distance) matrix
+    dissimilarity_matrix <- 1 - data
+    
+    # Perform classical Multidimensional Scaling (MDS) using the dissimilarity matrix
+    # 'eig=TRUE' allows the function to return eigenvalues
+    # 'k=2' sets the number of dimensions for the MDS output
+    fit <- cmdscale(dissimilarity_matrix, eig=TRUE, k=2)
+    
+    # Additional analysis and plotting code here
+    ...
+    ```
+
+    ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 
 
 ## Installation
