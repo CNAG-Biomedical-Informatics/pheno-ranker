@@ -319,6 +319,8 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     | 100K  |  -    |  -   |  6s   | <1GB |
     | 1M    |  -    |  -   |  1m   | <4GB |
 
+    (Imported `CSV` with 19 variables)
+
     1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
 
     !!! Note "* About RAM usage in cohort mode"

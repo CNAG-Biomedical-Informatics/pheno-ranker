@@ -6,7 +6,7 @@ Frequently Asked Questions
 
     `Pheno-Ranker` is an open-source toolkit developed for the semantic similarity analysis of phenotypic and clinical data. It natively supports GA4GH standards, such as [Phenopackets v2](pxf.md) and [Beacon v2](bff.md), using as input their JSON/YAML data exchange formats. Beyond these specific standards, Pheno-Ranker is designed to be highly versatile, capable of handling any data serialized into `JSON`, `YAML`, and `CSV` formats, extending its utility beyond the health data domain. Pheno-Ranker transforms hierarchical data into binary digit strings, enabling efficient similarity matching both within cohorts and between individual patients and reference cohorts. 
 
-    ##### last change 2024-29-24 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    ##### last change 2024-09-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Is `Pheno-Ranker` free?"
 
@@ -139,7 +139,7 @@ Frequently Asked Questions
 
 ### Pre-processing
 
-??? faq "How can I create a JSON file consisting of a subset of individuals?"
+??? faq "How can I create a `JSON` file consisting of a subset of individuals?"
 
     You can use the tool `jq`:
 
@@ -154,13 +154,32 @@ Frequently Asked Questions
 
     ##### last change 2024-07-02 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "I have noticed that in _cohort mode_, `Pheno-Ranker` takes as input an array of objects. Does it also support independent `JSON` files (one per patient)?"
+
+    The simple answer is _yes_. However, what actually happens under the hood is that each independent file is treated as a cohort, and a prefix (defaulting to 'CX_') is added to the primary_key ID. This does not affect the results. Additionally, in colored MDS plots, each patient represented in separate files will be distinguished with a different color.
+
+    If you prefer to combine all independent `JSON` files into a single `JSON` array, consider using one of the following alternatives:
+
+    With standard Linux tools (`awk`):
+
+    ```bash
+    awk 'BEGIN { print "[" } { if (NR != 1) print ","; print } END { print "]" }' *.json > combined.json
+    ```
+
+    With the tool `jq`:
+    ```bash
+    jq -s '.' *.json > combined.json
+    ```
+
+    ##### last change 2024-04-16 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 ??? faq "I am using PXF and I would like to include a property with deeply nested arrays such as `interpretations.diagnosis.genomicInterpretations`. What do you suggest?"
 
     The approach here is to transition from **array** properties to **objects**. By default, `Pheno-Ranker` handles this transition up to 1D. However, for more intricate scenarios, we recommend some preprocessing steps.
 
     The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, the key `"id"` may refer to a given patient, plus the key `subjectOrBiosampleId` referes to the same patient too!. This implies that users might be interested in the variants, but since patient ids will be in the flattened key, it will never match another patient. To address this, we'll transform our `PXF` data using `Python`:
 
-    Imagine you have an JSON file named `data.json`, like this one:
+    Imagine you have an `JSON` file named `data.json`, like this one:
     ```json
     {
       "foo": "bar",
@@ -295,7 +314,7 @@ Frequently Asked Questions
 
     This command will generate a set of intermediate files, and the one you'll need for queries is `my_export_data.ref_binary_hash.json`.
 
-    To convert the JSON data to CSV, you can use various methods, but we recommend using the `jq` tool:
+    To convert the `JSON` data to `CSV`, you can use various methods, but we recommend using the `jq` tool:
 
     ```bash
     jq -r 'to_entries[] | [.key, .value.binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,binary_digit_string"}{print}' > output.csv
@@ -329,8 +348,6 @@ Frequently Asked Questions
     ```
 
     ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
-
 
 ## Installation
 
