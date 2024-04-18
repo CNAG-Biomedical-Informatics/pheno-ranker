@@ -162,14 +162,35 @@ Frequently Asked Questions
 
     With standard Linux tools (`awk`):
 
-    ```bash
-    awk 'BEGIN { print "[" } { if (NR != 1) print ","; print } END { print "]" }' *.json > combined.json
-    ```
-
     With the tool `jq`:
     ```bash
     jq -s '.' *.json > combined.json
     ```
+
+    Alternatively, if you want to resort to `bash`:
+
+    ??? Example "See `bash` code:"
+
+        ```bash
+        #!/bin/bash
+        
+        # Start the JSON array
+        echo '['
+        
+        # Concatenate the JSON files
+        first=1
+        for file in *.json; do
+            if [[ $first -eq 1 ]]; then
+                first=0
+            else
+                echo ','
+            fi
+            cat "$file"
+        done
+        
+        # End the JSON array
+        echo ']'
+        ```
 
     ##### last change 2024-04-16 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
