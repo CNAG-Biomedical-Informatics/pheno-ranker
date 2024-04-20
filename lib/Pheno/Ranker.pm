@@ -386,7 +386,7 @@ sub run {
         $self->{include_terms} );
 
     # We have to check if we have BFF|PXF or others (unless defined at config)
-    add_attribute( $self, 'format', check_format($ref_data) )
+    $self->add_attribute( 'format', check_format($ref_data) )
       unless defined $self->{format};    # setter via sub
 
     # First we create:

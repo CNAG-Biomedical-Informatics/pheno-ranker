@@ -37,7 +37,7 @@
         OK, we are going to use the included [utility](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/csv2pheno_ranker/README.md) to convert `example.csv`:
         
         ```bash
-        ./csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name Id
+        csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name Id
         ```
         
         Where:
@@ -92,7 +92,7 @@
         Once you have these two files you can run `Pheno-Ranker` by using:
         
         ```bash
-        ./pheno-ranker -r example.json --config example_config.yaml
+        pheno-ranker -r example.json --config example_config.yaml
         ```
         
         Remember to always use `--config example_config.yaml`.
