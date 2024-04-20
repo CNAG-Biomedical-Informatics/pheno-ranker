@@ -202,7 +202,10 @@ sub validate_json {
     my @errors = $jv->validate($data);
 
     # Show error if any
-    say_errors( \@errors ) and die if @errors;
+    if (@errors) {
+        my $msg = say_errors( \@errors );
+        die qq/$msg\n/;
+    }
 
     # return data if ok
     return $data;
@@ -212,10 +215,7 @@ sub validate_json {
 sub say_errors {
 
     my $errors = shift;
-    if ( @{$errors} ) {
-        say join "\n", @{$errors};
-    }
-    return 1;
+    return @{$errors} ? join "\n", @{$errors} : 0;
 }
 
 sub coverage_stats {

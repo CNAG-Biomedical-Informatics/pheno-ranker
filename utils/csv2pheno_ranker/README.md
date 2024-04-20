@@ -11,9 +11,11 @@ csv2pheno-ranker -i &lt;input.csv> \[-options\]
 
      Options:
 
-       -generate-primary-key          Generates a primary key if absent. Use --primary-key-name to set its name.
-       -primary-key-name              Sets the name for the primary key. Must be a single, non-array field.
+       -generate-primary-key          Generates a primary key if absent. Use --primary-key-name to set its name
+       -primary-key-name              Sets the name for the primary key. Must be a single, non-array field
        -sep|separator                 Delimiter character for CSV files [;] e.g., --sep $'\t'
+       -output-dir                    Specify the directory where output files will be stored. If not specified, outputs will be placed in the same directory as the input file
+
 
      Generic Options;
        -debug                         Print debugging (from 1 to 5, being 5 max)
