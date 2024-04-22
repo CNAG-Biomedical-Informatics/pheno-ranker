@@ -321,6 +321,21 @@ Frequently Asked Questions
     "interpretations.OMIM:000001.genomicInterpretations.GENE2.interpretationStatus.CAUSATIVE" : 1,
     "interpretations.OMIM:000001.progressStatus.SOLVED" : 1
     ```
+
+    ??? Warning "Other examples of `PXF` nested array properties"
+
+        Find below another examples of deeply nested properties:
+
+        ```json
+        "biosamples.diagnosticMarkers",
+        "biosamples.pathologicalTnmFinding",
+        "biosamples.phenotypicFeatures",
+        "diseases.clinicalTnmFinding",
+        "diseases.diseaseStage",
+        "measurements.complexValue.typedQuantities",
+        "medicalActions.treatment.doseIntervals"
+        ```
+
     ##### last change 2024-14-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ### Post-processing

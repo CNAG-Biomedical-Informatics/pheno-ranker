@@ -106,7 +106,7 @@ sub _set_additional_config {
       ? qr/$self->{exclude_properties_regex}/
       : undef;                                                                # setter
     $self->{array_terms}    = $config->{array_terms} // ['foo'];              # setter (TBV)
-    $self->{array_regex}    = $config->{array_regex} // '^(\w+):(\d+)';       # setter (TBV)
+    $self->{array_regex}    = $config->{array_regex} // '^([\w\.]+):(\d+)';       # setter (TBV)
     $self->{array_regex_qr} = qr/$self->{array_regex}/;                       # setter (TBV)
     $self->{array_terms_regex_str} =
       '^(' . join( '|', map { "\Q$_\E" } @{ $self->{array_terms} } ) . '):';   # setter (TBV)

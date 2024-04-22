@@ -634,7 +634,7 @@ sub remap_hash {
 
         # The user can turn on age related values
         next
-          if ( $key =~ m/age(?!nt)|onset/i && !$self->{age} );    # $self->{age} [0|1]
+          if ( $key =~ m/\.age(?!nt)|onset/i && !$self->{age} );    # $self->{age} [0|1]
 
         # Load values
         my $val = $hash->{$key};
@@ -819,7 +819,7 @@ sub add_id2key {
         # NB: For others (e.g., MXF) we will have only $1 and $2
         $key =~ $array_regex_qr;
 
-        #say "[$key] <$1> <$2> <$3>";
+        #say "$array_regex_qr -- [$key] <$1> <$2> <$3>"; # $3 can be undefined
 
         my ( $tmp_key, $val );
 
