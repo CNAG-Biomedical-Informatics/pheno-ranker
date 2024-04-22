@@ -89,7 +89,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     array_terms: [genre]
     
     # Set the regex to identify array indexes, guiding their substitution within array elements
-    array_regex: '^(\w+):(\d+)'
+    array_regex: '^([^:]+):(\d+)'
     
     # Set the path to select values for substituting array indexes
     id_correspondence:

@@ -26,7 +26,7 @@ $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '0.06_1';
+our $VERSION   = '0.07';
 our $share_dir = dist_dir('Pheno-Ranker');
 
 # Set developoent mode
@@ -106,7 +106,7 @@ sub _set_additional_config {
       ? qr/$self->{exclude_properties_regex}/
       : undef;                                                                # setter
     $self->{array_terms}    = $config->{array_terms} // ['foo'];              # setter (TBV)
-    $self->{array_regex}    = $config->{array_regex} // '^([\w\.]+):(\d+)';       # setter (TBV)
+    $self->{array_regex}    = $config->{array_regex} // '^([^:]+):(\d+)';       # setter (TBV)
     $self->{array_regex_qr} = qr/$self->{array_regex}/;                       # setter (TBV)
     $self->{array_terms_regex_str} =
       '^(' . join( '|', map { "\Q$_\E" } @{ $self->{array_terms} } ) . '):';   # setter (TBV)
