@@ -29,15 +29,15 @@
         
         | Foo  | Bar         | Baz  |
         | ---  | ----------- | ---- |
-        | foo1 | bar1a, bar1b| baz1 |
-        | foo2 | bar2a, bar2b| baz2 |
+        | foo1 | bar1a,bar1b | baz1 |
+        | foo2 | bar2a,bar2b | baz2 |
         
         Column `Bar` is an array and columns `Foo`and `Baz` aren't. Your file does not have a column that can be used as an **identifier** for each row.
         
         OK, we are going to use the included [utility](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/csv2pheno_ranker/README.md) to convert `example.csv`:
         
         ```bash
-        csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name Id
+        csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name Id --array-separator ','
         ```
         
         Where:
@@ -45,6 +45,8 @@
         * `--generate-primary-key` forces the generation of a primary key field for each record in your CSV, if one does not already exist. Use this option when your data lacks a unique identifier. The name of the newly created primary key field should be specified using `--primary-key-name`.
 
         * `--primary-key-name Id` specifies the name `Id` for the primary key field. This option is used together with `--generate-primary-key` to name the newly generated primary key field, or alone, to identify the existing field to be used as a primary key in your CSV data. The specified field must be a single-value field (non-array).
+
+        * `--array-separator ','` specifies the delimiter for nested values in columns.
 
         One of the results will be this file named `example.json`:
         
