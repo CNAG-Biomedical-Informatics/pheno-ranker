@@ -1,5 +1,9 @@
 Revision history for Perl distribution Pheno-Ranker
 
+0.08 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+
+ - Foo
+
 0.07 2024-04-22T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Excluded keys with {} or [] values (e.g. subject.vitalStatus: {})
