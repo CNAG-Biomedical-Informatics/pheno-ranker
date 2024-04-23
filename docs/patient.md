@@ -106,10 +106,16 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     ??? Abstract "Obtaining additional information on the alignments"
 
-        You can create several files related to the reference --- target alignment by adding `--align`. Example:
+        You can create several files related to the reference --- target alignment by adding `--align`. By default it will create files (`alignment*`) in the current directory but you can specify a `</path/basename>`. Example:
 
         ```bash
-        pheno-ranker -r individuals.json individuals.json -t patient.json --align # (optional preffix)
+        pheno-ranker -r individuals.json individuals.json -t patient.json --align
+        ```
+
+        Or using a path + basename:
+       
+        ```bash
+        pheno-ranker -r individuals.json individuals.json -t patient.json --align /my/fav/dir/jobid-001-align
         ```
 
         Find below an extract of the alignment (`C1_107:week_0_arm_1 --- 107:week_0_arm_1`) extracted from `alignment.txt`:

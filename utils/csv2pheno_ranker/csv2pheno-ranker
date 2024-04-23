@@ -155,10 +155,7 @@ sub read_csv {
     my $generate_primary_key = $self->{generate_primary_key};
     my $sep                  = $self->{sep};
     my $array_sep            = $self->{array_sep};
-    use Data::Dumper;
     my $array_sep_qr         = qr/$array_sep/;
-        print Dumper $array_sep_qr;
-
 
     # Create a Text::CSV object with semicolon as the separator
     my $csv = Text::CSV_XS->new(
