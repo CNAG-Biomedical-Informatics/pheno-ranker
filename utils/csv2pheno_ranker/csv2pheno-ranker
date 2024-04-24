@@ -27,7 +27,7 @@ exit;
 
 sub process_csv {
 
-    my $VERSION   = '0.06';
+    my $VERSION   = '0.08';
     my $array_sep = '\|';
 
     # Reading arguments
