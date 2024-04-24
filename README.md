@@ -46,7 +46,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
      Options:
        -age                           Include age-related variables; excludes agent-like terms (BFF/PXF-only) [>no-age|age]
        -a, --align [path/basename]    Write alignment file(s). If not specified, default filenames are used [default: alignment.*]
-       -append-prefixes <prefix>      Prefix for primary_key when #cohorts >= 2 [default: C]
+       -append-prefixes <prefixes>    Prefixes for primary_key when #cohorts >= 2 [default: C]
        -config <file>                 YAML config file to modify default parameters [default: share/conf/config.yaml]
        -e, --export [path/basename]   Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
        -exclude-terms <terms>         Exclude BFF/PXF terms (e.g., --exclude-terms sex, id)
@@ -55,7 +55,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -max-number-var <number>       Maximum variables for binary string [default: 10000]
        -max-out <number>              Print only N comparisons [default: 50]
        -o, --out-file <file>          Output file path [default: -r matrix.txt | -t rank.txt]
-       -poi, --patients-of-interest   Export JSON for selected individual ids (dry-run)
+       -poi, --patients-of-interest <id_list>   Export JSON files for the selected individual IDs during a dry-run
        -poi-out-dir <directory>       Directory for JSON files (used with --poi)
        -similarity-metric-cohort <metric>  Similarity metric for cohort mode [>hamming|jaccard]
        -sort-by <metric>              Sort by Hamming distance or Jaccard index [>hamming|jaccard]

@@ -15,7 +15,7 @@
     
         * While it's acceptable not to include ontologies/terminologies, please maintain consistent nomenclature for values (e.g., avoid using `M` and `Male` to refer to the same concept).
     
-        * You can use any separator of your choice, but if you have nested values, they must be quoted and separated by commas (e.g., `valA, valB, "valC1, valC2", valD`).
+        * For columns, you can use any separator of your choice (default is `;`), but if you have nested values in columns, you must specify the delimiter with `--array-separator` (default is `|`).
     
         * `Pheno-Ranker` was built with speed in mind, but if you have more than 10K rows, be aware that the calculations may take more than a few seconds.
     
@@ -25,7 +25,7 @@
     
     === "Converting a CSV"
     
-        Imagine you have a file named `example.csv` that looks like this:
+        Imagine you have a file named `example.csv` that uses `;` as a column separator, and it looks like this:
         
         | Foo  | Bar         | Baz  |
         | ---  | ----------- | ---- |

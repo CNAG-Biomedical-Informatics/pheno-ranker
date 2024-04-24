@@ -258,7 +258,7 @@ sub create_config {
 
     # Set primary key
     if ( defined $primary_key_name ) {
-        die "<$primary_key_name> not found\n"
+        die "Primary-key <$primary_key_name> not found\n"
           unless ( exists $array->{$primary_key_name}
             || exists $non_array->{$primary_key_name} );
     }
