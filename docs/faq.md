@@ -424,78 +424,166 @@ Frequently Asked Questions
 
     Sure, you can. The sky is the limit :smile:. Below is an example created with `R` using [qgraph](https://www.rdocumentation.org/packages/qgraph/versions/1.9.8/topics/qgraph):
 
-    ??? Example "See code"
+    ???+ Tip "Reference cohort"
+        <figure markdown>
+         ![Pheno-Ranker](img/qgraph-cohort.png){width="350"}
+         <figcaption>REF qgraph plot</figcaption>
+        </figure>
 
-        First, we run `Pheno-Ranker` in _cohort mode_ using `jaccard` as a metric:
 
-        ```bash
-        pheno-ranker -r individuals.json --similarity-metric-cohort jaccard
-        ```
+        ??? Example "See code"
+    
+            First, we run `Pheno-Ranker` in _cohort mode_ using `jaccard` as a metric:
+    
+            ```bash
+            pheno-ranker -r individuals.json --similarity-metric-cohort jaccard
+            ```
+    
+            Now we plot the resulting `matrix.txt` file.
+    
+            #### Coloring Nodes and Edges:
+    
+            - **Nodes**: Colored based on the count of connections exceeding a specified threshold, using a gradient from red (fewer connections) to blue (more connections).
+            - **Edges**: Colored by weight, with blue for the strongest connections (weight > 0.90), green for strong connections (weight > 0.50), and red for weaker ones.
+    
+            ```R
+            #install.packages("qgraph")
+            library(qgraph)
+            data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
+            
+            # Start PNG device
+            png(filename = "qgraph.png", width = 1000, height = 1000,
+                units = "px", pointsize = 12, bg = "white", res = NA)
+            
+            # Toggle for coloring the last node black
+            colorLastNodeBlack <- FALSE  # Change to TRUE for black / FALSE to retain original color
+            
+            # Function to determine color based on threshold values
+            getColorBasedOnThreshold <- function(value, thresholdHigh, thresholdMid, colorHigh, colorMid, colorLow) {
+              if (value > thresholdHigh) {
+                return(colorHigh)
+              } else if (value > thresholdMid) {
+                return(colorMid)
+              } else {
+                return(colorLow)
+              }
+            }
+            
+            # Apply this function to each node and edge
+            node_thresholds <- apply(data, 1, function(x) sum(x > 0.9))
+            max_node_threshold <- max(node_thresholds)
+            min_node_threshold <- min(node_thresholds)
+            normalized_node_thresholds <- (node_thresholds - min_node_threshold) / (max_node_threshold - min_node_threshold)
+            
+            # Color nodes based on normalized threshold
+            node_colors <- colorRampPalette(c("red", "green", "blue"))(length(unique(normalized_node_thresholds)))
+            node_colors <- node_colors[as.integer(cut(normalized_node_thresholds, breaks = length(node_colors), include.lowest = TRUE))]
+            
+            # Conditionally color the last node black
+            if (colorLastNodeBlack) {
+                node_colors[length(node_colors)] <- "black"  # Last node in black
+            }
+            
+            # Edge colors with similar logic
+            edge_colors <- apply(data, c(1,2), function(x) getColorBasedOnThreshold(x, 0.90, 0.50, "blue", "green", "red"))
+            edge_colors <- matrix(edge_colors, nrow=nrow(data), ncol=ncol(data))
+            
+            # Create and plot the graph
+            qgraph(data,
+                   labels=colnames(data),
+                   layout='spring',
+                   label.font=2,  # Bold labels
+                   vsize=10,      # Node size
+                   threshold=0.50,  # Edge visibility threshold
+                   shape='circle',
+                   color=node_colors,  # Node colors
+                   edge.color=edge_colors,  # Edge colors
+                   edge.width=1)  # Edge width
+            
+            # Close the device to save the PNG file
+            dev.off()
+            ```
 
-        Now we plot the resulting `matrix.txt` file.
+    ???+ Tip "Reference cohort - Target patient"
 
-        #### Coloring Nodes and Edges:
+        <figure markdown>
+         ![Pheno-Ranker](img/qgraph-patient.png){width="350"}
+         <figcaption>REF-TAR qgraph plot</figcaption>
+        </figure>
 
-        - **Nodes**: Colored based on the count of connections exceeding a specified threshold, using a gradient from red (fewer connections) to blue (more connections).
-        - **Edges**: Colored by weight, with blue for the strongest connections (weight > 0.90), green for strong connections (weight > 0.50), and red for weaker ones.
 
-        ```R
-        #install.packages("qgraph")
-        library(qgraph)
-        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
-        
-        # Start PNG device
-        png(filename = "qgraph.png", width = 1000, height = 1000,
-            units = "px", pointsize = 12, bg = "white", res = NA)
-        
-        # Function to determine node color based on count of distances greater than threshold
-        get_node_color_based_on_count <- function(matrix, threshold) `R` {
-          counts <- apply(matrix, 1, function(x) sum(x > threshold))
-          max_count <- max(counts)
-          min_count <- min(counts)
-          normalized_counts <- (counts - min_count) / (max_count - min_count)
-          colors <- colorRampPalette(c("red", "green", "blue"))(length(unique(normalized_counts)))
-          node_colors <- colors[as.integer(cut(normalized_counts, breaks = length(colors), include.lowest = TRUE))]
-          return(node_colors)
-        }
-        
-        node_colors <- get_node_color_based_on_count(data, 0.9)
-        
-        # Function to determine edge color based on weight
-        get_edge_color <- function(weight) {
-          if (weight > 0.90) {
-            return("blue")
-          } else if (weight > 0.50) {
-            return("green")
-          } else {
-            return("red")
-          }
-        }
-        
-        # Apply this function to each edge weight correctly
-        edge_colors <- matrix(apply(data, MARGIN=c(1,2), get_edge_color), nrow=nrow(data), ncol=ncol(data))
-        
-        # Create and plot the graph
-        qgraph(data, 
-               labels=colnames(data), 
-               layout='spring', 
-               label.font=2,
-               vsize=10, 
-               threshold=0.50, 
-               shape='circle',
-               color=node_colors, 
-               edge.color=edge_colors, 
-               edge.width=1)
-        
-        # Close the device to save the PNG file
-        dev.off()
-        ```
+        ??? Example "See code"
+    
+            Again, we run `Pheno-Ranker` in _cohort mode_, adding `individuals.json` and `patient.json` as if they were two cohorts, using `jaccard` as a metric:
 
-    <figure markdown>
-     ![Pheno-Ranker](img/qgraph.png){width="350"}
-     <figcaption>qgraph plot</figcaption>
-    </figure>
+            ```bash
+            pheno-ranker -r individuals.json patient.json --append-prefixes REF TAR --similarity-metric-cohort jaccard
+            ```
 
+            Now we plot the resulting `matrix.txt` file, but this time the `TAR_107:week_0_arm_1` (last element) node is colored black to be more visible.
+    
+            #### Coloring Nodes and Edges:
+    
+            - **Nodes**: Colored based on the count of connections exceeding a specified threshold, using a gradient from red (fewer connections) to blue (more connections).
+            - **Edges**: Colored by weight, with blue for the strongest connections (weight > 0.90), green for strong connections (weight > 0.50), and red for weaker ones.
+    
+            ```R
+            #install.packages("qgraph")
+            library(qgraph)
+            data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
+            
+            # Start PNG device
+            png(filename = "qgraph.png", width = 1000, height = 1000,
+                units = "px", pointsize = 12, bg = "white", res = NA)
+            
+            # Toggle for coloring the last node black
+            colorLastNodeBlack <- TRUE  # Change to TRUE for black / FALSE to retain original color
+            
+            # Function to determine color based on threshold values
+            getColorBasedOnThreshold <- function(value, thresholdHigh, thresholdMid, colorHigh, colorMid, colorLow) {
+              if (value > thresholdHigh) {
+                return(colorHigh)
+              } else if (value > thresholdMid) {
+                return(colorMid)
+              } else {
+                return(colorLow)
+              }
+            }
+            
+            # Apply this function to each node and edge
+            node_thresholds <- apply(data, 1, function(x) sum(x > 0.9))
+            max_node_threshold <- max(node_thresholds)
+            min_node_threshold <- min(node_thresholds)
+            normalized_node_thresholds <- (node_thresholds - min_node_threshold) / (max_node_threshold - min_node_threshold)
+            
+            # Color nodes based on normalized threshold
+            node_colors <- colorRampPalette(c("red", "green", "blue"))(length(unique(normalized_node_thresholds)))
+            node_colors <- node_colors[as.integer(cut(normalized_node_thresholds, breaks = length(node_colors), include.lowest = TRUE))]
+            
+            # Conditionally color the last node black
+            if (colorLastNodeBlack) {
+                node_colors[length(node_colors)] <- "black"  # Last node in black
+            }
+            
+            # Edge colors with similar logic
+            edge_colors <- apply(data, c(1,2), function(x) getColorBasedOnThreshold(x, 0.90, 0.50, "blue", "green", "red"))
+            edge_colors <- matrix(edge_colors, nrow=nrow(data), ncol=ncol(data))
+            
+            # Create and plot the graph
+            qgraph(data,
+                   labels=colnames(data),
+                   layout='spring',
+                   label.font=2,  # Bold labels
+                   vsize=10,      # Node size
+                   threshold=0.50,  # Edge visibility threshold
+                   shape='circle',
+                   color=node_colors,  # Node colors
+                   edge.color=edge_colors,  # Edge colors
+                   edge.width=1)  # Edge width
+            
+            # Close the device to save the PNG file
+            dev.off()
+            ```
     ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ## Installation
