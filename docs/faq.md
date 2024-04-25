@@ -167,9 +167,9 @@ Frequently Asked Questions
     jq -s '.' *.json > combined.json
     ```
 
-    Alternatively, if you want to resort to `bash`:
+    Alternatively, if you want to resort to `Bash`:
 
-    ??? Example "See `bash` code:"
+    ??? Example "See `Bash` code:"
 
         ```bash
         #!/bin/bash
@@ -363,7 +363,14 @@ Frequently Asked Questions
     ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Can I Perform MDS with Jaccard Indices?"
-    Yes, you can perform Multidimensional Scaling (MDS) using a matrix of Jaccard indicess. To use MDS, which typically requires dissimilarity data, you'll need to convert your Jaccard similarity matrix into a dissimilarity matrix. This is done by subtracting the Jaccard similarity scores from 1, where the formula is `Dissimilarity = 1 - Similarity`. This conversion ensures that higher similarities translate into shorter distances for MDS, facilitating accurate low-dimensional representations of the data.
+    Yes, you can perform Multidimensional Scaling (MDS) using a matrix of Jaccard indices. To use MDS, which typically requires dissimilarity data, you'll need to convert your Jaccard similarity matrix into a dissimilarity matrix. This is done by subtracting the Jaccard similarity scores from 1, where the formula is:
+
+    $$ D = 1 - J $$
+    Where:
+    \( D \) is the dissimilarity.
+    \( J \) is the Jaccard index.
+
+    This conversion ensures that higher similarities translate into shorter distances for MDS, facilitating accurate low-dimensional representations of the data.
 
     Example `R` code:
 
@@ -382,6 +389,112 @@ Frequently Asked Questions
     # Additional analysis and plotting code here
     ...
     ```
+
+    ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+??? faq "Can I convert a Hamming distance matrix to a similarity matrix?"
+     
+    First of all, if you are seeking a similarity metric, you might want to consider using `jaccard` as a metric. However, if you wish to convert a distance-based matrix to a similarity matrix, you can use the following formula:
+     
+    $$ S = 1 - \frac{d}{n} $$
+    Where:
+    \( S \) is the similarity.
+    \( d \) is the Hamming distance.
+    \( n \) is the number of characters compared in the Hamming distance.
+     
+    Example `R` code:
+     
+    ```R
+    # Load the matrix of Hamming distances from a text file
+    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+    
+    # Set n (extracted with --export option)
+    n = 100
+     
+    # Convert Hamming distance to a similarity matrix
+    similarity_matrix <- 1 - (data / n)
+     
+    # Additional analysis and plotting code here
+    ...
+    ```
+
+    ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+??? faq "Can I create a network-graph plot from `Pheno-Ranker` output data?"
+
+    Sure, you can. The sky is the limit :smile:. Below is an example created with `R` using [qgraph](https://www.rdocumentation.org/packages/qgraph/versions/1.9.8/topics/qgraph):
+
+    ??? Example "See code"
+
+        First, we run `Pheno-Ranker` in _cohort mode_ using `jaccard` as a metric:
+
+        ```bash
+        pheno-ranker -r individuals.json --similarity-metric-cohort jaccard
+        ```
+
+        Now we plot the resulting `matrix.txt` file.
+
+        #### Coloring Nodes and Edges:
+
+        - **Nodes**: Colored based on the count of connections exceeding a specified threshold, using a gradient from red (fewer connections) to blue (more connections).
+        - **Edges**: Colored by weight, with blue for the strongest connections (weight > 0.90), green for strong connections (weight > 0.50), and red for weaker ones.
+
+        ```R
+        #install.packages("qgraph")
+        library(qgraph)
+        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
+        
+        # Start PNG device
+        png(filename = "qgraph.png", width = 1000, height = 1000,
+            units = "px", pointsize = 12, bg = "white", res = NA)
+        
+        # Function to determine node color based on count of distances greater than threshold
+        get_node_color_based_on_count <- function(matrix, threshold) `R` {
+          counts <- apply(matrix, 1, function(x) sum(x > threshold))
+          max_count <- max(counts)
+          min_count <- min(counts)
+          normalized_counts <- (counts - min_count) / (max_count - min_count)
+          colors <- colorRampPalette(c("red", "green", "blue"))(length(unique(normalized_counts)))
+          node_colors <- colors[as.integer(cut(normalized_counts, breaks = length(colors), include.lowest = TRUE))]
+          return(node_colors)
+        }
+        
+        node_colors <- get_node_color_based_on_count(data, 0.9)
+        
+        # Function to determine edge color based on weight
+        get_edge_color <- function(weight) {
+          if (weight > 0.90) {
+            return("blue")
+          } else if (weight > 0.50) {
+            return("green")
+          } else {
+            return("red")
+          }
+        }
+        
+        # Apply this function to each edge weight correctly
+        edge_colors <- matrix(apply(data, MARGIN=c(1,2), get_edge_color), nrow=nrow(data), ncol=ncol(data))
+        
+        # Create and plot the graph
+        qgraph(data, 
+               labels=colnames(data), 
+               layout='spring', 
+               label.font=2,
+               vsize=10, 
+               threshold=0.50, 
+               shape='circle',
+               color=node_colors, 
+               edge.color=edge_colors, 
+               edge.width=1)
+        
+        # Close the device to save the PNG file
+        dev.off()
+        ```
+
+    <figure markdown>
+     ![Pheno-Ranker](img/qgraph.png){width="350"}
+     <figcaption>qgraph plot</figcaption>
+    </figure>
 
     ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
