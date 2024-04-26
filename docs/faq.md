@@ -531,7 +531,10 @@ Frequently Asked Questions
             - **Edges**: Colored by weight, with blue for the strongest connections (weight > 0.90), green for strong connections (weight > 0.50), and red for weaker ones.
     
             ```R
-            #install.packages("qgraph")
+            # Install the necessary packages if not already installed
+            if (!requireNamespace("qgraph", quietly = TRUE)) {
+                install.packages("qgraph")
+            }
             library(qgraph)
             data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
             
