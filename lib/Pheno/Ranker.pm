@@ -16,6 +16,7 @@ use List::Util qw(all);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
+use Pheno::Ranker::Graph;
 
 use Exporter 'import';
 our @EXPORT_OK = qw($VERSION write_json);
@@ -212,7 +213,7 @@ has 'cli' => (
 
 # Miscellanea atributes here
 has [
-    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export export_basename log verbose age/
+    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export export_basename log verbose age cytoscape_json/
 ] => ( is => 'ro' );
 
 has [qw /append_prefixes reference_files patients_of_interest/] =>
@@ -274,6 +275,7 @@ sub run {
     my $align                  = $self->{align};
     my $align_basename         = $self->{align_basename};
     my $out_file               = $self->{out_file};
+    my $cytoscape_json         = $self->{cytoscape_json};
     my $cohort_files           = $self->{cohort_files};
     my $append_prefixes        = $self->{append_prefixes};
     my $primary_key            = $self->{primary_key};
@@ -415,6 +417,9 @@ sub run {
     # Perform cohort comparison
     cohort_comparison( $ref_binary_hash, $self ) unless $target_file;
 
+    # Write Cytoscape JSON if requested
+    matrix2graph({matrix => $out_file, graph =>$cytoscape_json, verbose => $self->{verbose}}) if $cytoscape_json;
+
     # Perform patient-to-cohort comparison and rank if (-t)
     if ($target_file) {
 
@@ -471,7 +476,7 @@ sub run {
         # Print Ranked results to STDOUT only if CLI
         say join "\n", @$results_rank if $cli;
 
-        # Write txt (
+        # Write txt 
         write_array2txt( { filepath => $out_file, data => $results_rank } );
 
         # Write TXT for alignment (ALWAYS!!)

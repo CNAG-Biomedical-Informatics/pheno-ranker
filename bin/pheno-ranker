@@ -32,6 +32,7 @@ use Pheno::Ranker qw($VERSION write_json);
 # Defining a few variables
 my $out_file_cohort  = 'matrix.txt';
 my $out_file_patient = 'rank.txt';
+my $out_file_graph   = 'graph.json';
 my $export_basename  = 'export';
 my $align_basename   = 'alignment';
 my $log_file         = 'pheno-ranker-log.json';
@@ -51,6 +52,7 @@ GetOptions(
     'include-hpo-ascendants'         => \my $include_hpo_ascendants,      # flag
     'export|e:s'                     => \my $export,                      # opt-string (defined)
     'align|a:s'                      => \my $align,                       # opt-string (defined)
+    'cytoscape-json:s'               => \my $cytoscape_json,              # opt-string (defined)
     'sort-by=s'                      => \my $sort_by,                     # string
     'similarity-metric-cohort=s'     => \my $similarity_metric_cohort,    # string
     'patients-of-interest|poi=s{1,}' => \my @patients_of_interest,        # array
@@ -78,6 +80,11 @@ pod2usage(
 my $out_file = $out_file_arg
   // ( $target_file ? $out_file_patient : $out_file_cohort );
 
+# Set cytoscape-json logic
+if (defined $cytoscape_json) {
+    $cytoscape_json = $cytoscape_json ? $cytoscape_json : $out_file_graph;
+}
+
 # Turning color off if argument <--no-color>
 $ENV{'ANSI_COLORS_DISABLED'} = 1 unless $color;
 
@@ -100,6 +107,7 @@ my $data = {
     export                   => $export,
     export_basename          => $export_basename,
     out_file                 => $out_file,
+    cytoscape_json           => $cytoscape_json,
     max_out                  => $max_out,
     max_number_var           => $max_number_var,
     sort_by                  => $sort_by,
@@ -209,6 +217,7 @@ pheno-ranker -r <individuals.json> -t <patient.json> [-options]
        -a, --align [path/basename]    Write alignment file(s). If not specified, default filenames are used [default: alignment.*]
        -append-prefixes <prefixes>    Prefixes for primary_key when #cohorts >= 2 [default: C]
        -config <file>                 YAML config file to modify default parameters [default: share/conf/config.yaml]
+       -cytoscape-json [file]         Graph file serialized in JSON compatible with Cytoscape [default: graph.json]
        -e, --export [path/basename]   Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
        -exclude-terms <terms>         Exclude BFF/PXF terms (e.g., --exclude-terms sex, id)
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
