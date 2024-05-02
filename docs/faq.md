@@ -422,7 +422,15 @@ Frequently Asked Questions
 
 ??? faq "Can I create network/graph plots from `Pheno-Ranker` output data?"
 
-    Sure, you can. The sky is the limit :smile:. Below are examples created with `R` using [qgraph](https://www.rdocumentation.org/packages/qgraph/versions/1.9.8/topics/qgraph) and [igraph](https://r.igraph.org/):
+    Absolutely, you can—the possibilities are endless! :smile:
+
+    `Pheno-Ranker` can generate graph data in [JSON format](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/graph.json) which is compatible with the [Cytoscape](https://cytoscape.org/) ecosystem. To create a graph, you can execute the following command:
+
+    ```bash
+    pheno-raker -r individuals.json --cytoscape-json cytoscape_graph.json
+    ```
+
+    Alternatively, you can use `R` for more graphical options. Here are some examples using the [qgraph](https://www.rdocumentation.org/packages/qgraph/versions/1.9.8/topics/qgraph) and [igraph](https://r.igraph.org/) packages:
 
     ???+ Tip "Reference cohort"
         <figure markdown>
