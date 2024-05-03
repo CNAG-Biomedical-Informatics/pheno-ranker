@@ -4,9 +4,10 @@ use strict;
 use warnings;
 use autodie;
 use feature qw(say);
+use JSON::XS;
 use Pheno::Ranker::IO;
 use Exporter 'import';
-our @EXPORT = qw(matrix2graph);
+our @EXPORT = qw(matrix2graph cytoscape2graph);
 use constant DEVEL_MODE => 0;
 
 ############################
@@ -18,12 +19,13 @@ use constant DEVEL_MODE => 0;
 sub matrix2graph {
 
     # *** IMPORTANT***
-    # Hard-coded in purpose to avoid dependencies (e.g.,Graph)
-    
-    my $arg     = shift;
-    my $input   = $arg->{matrix};
-    my $output  = $arg->{graph};
-    my $verbose = $arg->{verbose};
+    # Hard-coded in purpose to avoid using Graph unless necessary
+
+    my $arg         = shift;
+    my $input       = $arg->{matrix};
+    my $output      = $arg->{json};
+    my $verbose     = $arg->{verbose};
+    my $graph_stats = $arg->{graph_stats};
 
     # Open the matrix file to read
     open( my $matrix_fh, '<', $input );
@@ -77,5 +79,94 @@ sub matrix2graph {
     say "Writting <$output> file " if $verbose;
     write_json( { filepath => $output, data => \%graph } );
 
+    return defined $graph_stats ? \%graph : undef;
 }
+
+sub cytoscape2graph {
+
+    # This is a very time consuming function, that's why we only load data in Graph
+    # if the user asks for it
+    require Graph;
+
+    # Decode JSON to a Perl data structure
+    my $arg       = shift;
+    my $json_data = $arg->{graph};
+    my $output    = $arg->{output};
+
+    my @nodes = @{ $json_data->{elements}->{nodes} };
+    my @edges = @{ $json_data->{elements}->{edges} };
+
+    # Create a new Graph object
+    my $graph = Graph->new( undirected => 1 );
+
+    # Add nodes and edges to the graph
+    foreach my $node (@nodes) {
+        $graph->add_vertex( $node->{data}->{id} );
+    }
+
+    foreach my $edge (@edges) {
+        $graph->add_weighted_edge(
+            $edge->{data}->{source},
+            $edge->{data}->{target},
+            $edge->{data}->{weight}
+        );
+    }
+
+    # Now $graph contains the Graph object populated with the Cytoscape data
+    graph_stats( $graph, $output );
+    return 1;
+}
+
+sub graph_stats {
+
+    my ( $g, $out ) = @_;    # $out is the filename for output
+
+    # Open the output file
+    open( my $fh, '>', $out );
+
+    # Basic stats
+    print $fh "Number of vertices: ", scalar $g->vertices, "\n";
+    print $fh "Number of edges: ",    scalar $g->edges,    "\n";
+
+    # Checking connectivity and components
+    print $fh "Is connected: ", $g->is_connected, "\n";
+    print $fh "Connected Components: ", scalar $g->connected_components, "\n";
+
+    # Diameter and average path length, check if the graph is connected first
+    if ( $g->is_connected ) {
+        print $fh "Graph Diameter: ", ( join "->", $g->diameter ), "\n";
+        print $fh "Average Path Length: ", $g->average_path_length, "\n";
+    }
+
+    # Display degrees of all vertices
+    foreach my $v ( $g->vertices ) {
+        print $fh "Degree of vertex $v: ", $g->degree($v), "\n";
+    }
+
+    # Minimum Spanning Tree
+    my $mst = $g->MST_Kruskal;    # Assuming Kruskal's is available and appropriate
+    print $fh "MST has ", scalar $mst->edges, " edges\n";
+
+    # Calculate and write all pairs shortest paths and their lengths to the file
+    foreach my $u ( $g->vertices ) {
+        foreach my $v ( $g->vertices ) {
+            if ( $u ne $v ) {
+                my @path = $g->SP_Dijkstra( $u, $v );    # Get shortest path using Dijkstra's algorithm
+                if (@path) {
+                    my $distance = $g->path_length( $u, $v );    # Recompute
+                    print $fh "Shortest path from $u to $v is ",
+                      ( join "->", @path ), " [", scalar @path,
+                      "] with length $distance\n";
+                }
+                else {
+                    print $fh "No path from $u to $v\n";
+                }
+            }
+        }
+    }
+
+    # Close the output file
+    close $fh;
+}
+
 1;

@@ -213,7 +213,7 @@ has 'cli' => (
 
 # Miscellanea atributes here
 has [
-    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export export_basename log verbose age cytoscape_json/
+    qw/target_file weights_file out_file include_hpo_ascendants align align_basename export export_basename log verbose age cytoscape_json graph_stats/
 ] => ( is => 'ro' );
 
 has [qw /append_prefixes reference_files patients_of_interest/] =>
@@ -276,6 +276,7 @@ sub run {
     my $align_basename         = $self->{align_basename};
     my $out_file               = $self->{out_file};
     my $cytoscape_json         = $self->{cytoscape_json};
+    my $graph_stats            = $self->{graph_stats};
     my $cohort_files           = $self->{cohort_files};
     my $append_prefixes        = $self->{append_prefixes};
     my $primary_key            = $self->{primary_key};
@@ -417,8 +418,11 @@ sub run {
     # Perform cohort comparison
     cohort_comparison( $ref_binary_hash, $self ) unless $target_file;
 
-    # Write Cytoscape JSON if requested
-    matrix2graph({matrix => $out_file, graph =>$cytoscape_json, verbose => $self->{verbose}}) if $cytoscape_json;
+    # Create and write Cytoscape JSON if requested
+    my $graph = matrix2graph({matrix => $out_file, json =>$cytoscape_json, graph_stats => 1, verbose => $self->{verbose}}) if $cytoscape_json;
+
+    # Produce and write stats for graph
+    cytoscape2graph({graph=>$graph, output=> $graph_stats}) if defined $graph_stats;
 
     # Perform patient-to-cohort comparison and rank if (-t)
     if ($target_file) {

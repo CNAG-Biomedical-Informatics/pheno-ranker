@@ -51,6 +51,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -cytoscape-json [file]         Graph file serialized in JSON compatible with Cytoscape [default: graph.json]
        -e, --export [path/basename]   Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
        -exclude-terms <terms>         Exclude BFF/PXF terms (e.g., --exclude-terms sex, id)
+       -graph-stats [file]            Generates a text file with key graph metrics, for use with <-cytoscape-json>
        -include-hpo-ascendants        Include ascendant terms from the Human Phenotype Ontology (HPO)
        -include-terms <terms>         Include BFF/PXF terms (e.g., --include-terms diseases)
        -max-number-var <number>       Maximum variables for binary string [default: 10000]
