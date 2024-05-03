@@ -51,7 +51,7 @@ sub matrix2graph {
 
         # Process each value in the row corresponding to an edge
         for ( my $i = 0 ; $i < scalar @values ; $i++ ) {
-            if ( $values[$i] > $threshold ) {
+            if ( $values[$i] > $threshold ) { # 0 is discarded
                 push @edges,
                   {
                     data => {
@@ -92,6 +92,8 @@ sub cytoscape2graph {
     my $arg       = shift;
     my $json_data = $arg->{graph};
     my $output    = $arg->{output};
+    my $metric    = $arg->{metric};
+    my $jaccard   = $metric eq 'jaccard' ? 1 : 0;
 
     my @nodes = @{ $json_data->{elements}->{nodes} };
     my @edges = @{ $json_data->{elements}->{edges} };
@@ -108,23 +110,24 @@ sub cytoscape2graph {
         $graph->add_weighted_edge(
             $edge->{data}->{source},
             $edge->{data}->{target},
-            $edge->{data}->{weight}
+            $jaccard ? 1 - $edge->{data}->{weight} : $edge->{data}->{weight}
         );
     }
 
     # Now $graph contains the Graph object populated with the Cytoscape data
-    graph_stats( $graph, $output );
+    graph_stats( $graph, $output, $metric );
     return 1;
 }
 
 sub graph_stats {
 
-    my ( $g, $out ) = @_;    # $out is the filename for output
+    my ( $g, $out, $metric ) = @_;    # $out is the filename for output
 
     # Open the output file
     open( my $fh, '>', $out );
 
     # Basic stats
+    print $fh "Metric: ",             ucfirst($metric), "\n";
     print $fh "Number of vertices: ", scalar $g->vertices, "\n";
     print $fh "Number of edges: ",    scalar $g->edges,    "\n";
 
@@ -167,6 +170,7 @@ sub graph_stats {
 
     # Close the output file
     close $fh;
+    return 1;
 }
 
 1;

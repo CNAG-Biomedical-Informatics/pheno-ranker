@@ -1,3 +1,4 @@
+Metric: Hamming
 Number of vertices: 36
 Number of edges: 630
 Is connected: 1
