@@ -51,7 +51,7 @@ sub matrix2graph {
 
         # Process each value in the row corresponding to an edge
         for ( my $i = 0 ; $i < scalar @values ; $i++ ) {
-            if ( $values[$i] > $threshold ) { # 0 is discarded
+            if ( $values[$i] >= $threshold ) {
                 push @edges,
                   {
                     data => {
@@ -93,6 +93,7 @@ sub cytoscape2graph {
     my $json_data = $arg->{graph};
     my $output    = $arg->{output};
     my $metric    = $arg->{metric};
+    my $verbose   = $arg->{verbose};
     my $jaccard   = $metric eq 'jaccard' ? 1 : 0;
 
     my @nodes = @{ $json_data->{elements}->{nodes} };
@@ -115,16 +116,17 @@ sub cytoscape2graph {
     }
 
     # Now $graph contains the Graph object populated with the Cytoscape data
-    graph_stats( $graph, $output, $metric );
+    graph_stats( $graph, $output, $metric, $verbose );
     return 1;
 }
 
 sub graph_stats {
 
-    my ( $g, $out, $metric ) = @_;    # $out is the filename for output
+    my ( $g, $output, $metric ) = @_;
 
     # Open the output file
-    open( my $fh, '>', $out );
+    say "Writting <$output> file " if $verbose;
+    open( my $fh, '>', $output );
 
     # Basic stats
     print $fh "Metric: ",             ucfirst($metric), "\n";

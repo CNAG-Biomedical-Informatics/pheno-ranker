@@ -432,9 +432,10 @@ sub run {
     # Produce and write stats for graph
     cytoscape2graph(
         {
-            graph  => $graph,
-            output => $graph_stats,
-            metric => $similarity_metric_cohort
+            graph   => $graph,
+            output  => $graph_stats,
+            metric  => $similarity_metric_cohort,
+            verbose => $self->{verbose}
         }
     ) if defined $graph_stats;
 

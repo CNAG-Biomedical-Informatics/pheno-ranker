@@ -48,7 +48,7 @@ pheno-ranker -r &lt;individuals.json> -t &lt;patient.json> \[-options\]
        -a, --align [path/basename]    Write alignment file(s). If not specified, default filenames are used [default: alignment.*]
        -append-prefixes <prefixes>    Prefixes for primary_key when #cohorts >= 2 [default: C]
        -config <file>                 YAML config file to modify default parameters [default: share/conf/config.yaml]
-       -cytoscape-json [file]         Graph file serialized in JSON compatible with Cytoscape [default: graph.json]
+       -cytoscape-json [file]         Serializes the pairwise comparison matrix as an undirected graph in JSON, compatible with Cytoscape [default: graph.json]
        -e, --export [path/basename]   Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
        -exclude-terms <terms>         Exclude BFF/PXF terms (e.g., --exclude-terms sex, id)
        -graph-stats [file]            Generates a text file with key graph metrics, for use with <-cytoscape-json>
