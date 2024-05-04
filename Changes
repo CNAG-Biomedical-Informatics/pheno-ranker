@@ -1,12 +1,12 @@
 Revision history for Perl distribution Pheno-Ranker
 
-0.09 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+0.09 2024-05-04T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - csv2pheno-ranker guess for array fields now checks all rows instead of only the first one
- - Added lib/Pheno/Ranker/Graph.pm 
- - Added option --cytoscape-json to create a Cytoscape compatible graph
- - Added option --graph-stats that creates basic statistics via Graph CPAN module
- - Added Graph to cpanfile
+ - Enhanced the csv2pheno-ranker's guessing mechanism for array fields; now evaluates all rows instead of just the first one
+ - New module added: lib/Pheno/Ranker/Graph.pm
+ - Introduced a new command-line option '--cytoscape-json' to generate graphs compatible with Cytoscape
+ - Added a new option '--graph-stats' to compute basic statistics using the Graph CPAN module
+ - Updated cpanfile to include the Graph module
 
 0.08 2024-04-24T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
