@@ -2,6 +2,7 @@ name: Build and test
 
 on:
   workflow_dispatch
+  # Uncomment or modify these lines according to your needs
   # push:
   #   branches: 'main'
   # pull_request:
@@ -40,25 +41,27 @@ jobs:
       - name: Create and activate virtual environment
         run: |
           python -m venv venv
-          source venv/bin/activate
 
       - name: Install Python dependencies
         run: |
+          source venv/bin/activate
           python -m pip install --upgrade pip
-          pip install --no-cache-dir -r requirements.txt
+          pip install -r requirements.txt
 
-      - name: Run tests (no coverage)
+      - name: Set up Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl }}
-        
+
       - run: perl -V
 
-      - run: |
+      - name: Install Perl dependencies
+        run: |
           source venv/bin/activate
           cpanm -n --installdeps .
 
-      - run: |
+      - name: Execute Perl tests
+        run: |
           source venv/bin/activate
           prove -l t
 
@@ -67,6 +70,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          source venv/bin/activate
           perl Makefile.PL
           cpanm -n Devel::Cover::Report::Coveralls
           cover -test -report Coveralls
