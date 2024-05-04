@@ -186,4346 +186,2249 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ```bash
     pheno-ranker -r t/movies.json --cytoscape-json cytoscape.json --config t/movies_config.yaml
     ```
-     
+
+    !!! Question "Directed or undirected graph?" 
+        Note that the `cytoscape.json` file is serialized as JSON, consisting only of the upper right triangle of the symmetric matrix to avoid data repetition. The graph is intended to be interpreted as **undirected** for visual purposes. Ensure that your application logic or analysis tools interpret this accordingly if they rely on undirected connectivity.
+
     ??? Example "See `cytoscape.json`"
 
         ```json
-         {
-            "elements" : {
-               "edges" : [
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "ForrestGump",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "Goodfellas",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "PulpFiction",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "Se7en",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "SpiritedAway",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheDarkKnight",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheGodfather",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheMatrix",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "ThePianist",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Casablanca",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Casablanca",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "FightClub",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "ForrestGump",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Gladiator",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Goodfellas",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Inception",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Interstellar",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "PulpFiction",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Schindler'sList",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "Se7en",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "SpiritedAway",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheDarkKnight",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheGodfather",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheGreenMile",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheMatrix",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "ThePianist",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "CityofGod",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Casablanca",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "ForrestGump",
-                        "weight" : "5"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Inception",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Schindler'sList",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "Se7en",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheGreenMile",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheMatrix",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "ThePianist",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "FightClub",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Casablanca",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "CityofGod",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "FightClub",
-                        "weight" : "5"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Gladiator",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Goodfellas",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Inception",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Interstellar",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "PulpFiction",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Schindler'sList",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "Se7en",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "SpiritedAway",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheDarkKnight",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheGodfather",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheGreenMile",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheMatrix",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "ThePianist",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "5"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ForrestGump",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "Casablanca",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "Goodfellas",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "Inception",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "PulpFiction",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "Se7en",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheGodfather",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheMatrix",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "ThePianist",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Gladiator",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "Schindler'sList",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "Se7en",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "SpiritedAway",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheGreenMile",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheMatrix",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "ThePianist",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Goodfellas",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "Casablanca",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "CityofGod",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "Goodfellas",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "PulpFiction",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "Schindler'sList",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "Se7en",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheDarkKnight",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheGodfather",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheGreenMile",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheMatrix",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "ThePianist",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Inception",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "Goodfellas",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "Inception",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "PulpFiction",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "Se7en",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "SpiritedAway",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheDarkKnight",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheGodfather",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheGreenMile",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheMatrix",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Interstellar",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "FightClub",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Gladiator",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Goodfellas",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Inception",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "PulpFiction",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Schindler'sList",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "Se7en",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheDarkKnight",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheGodfather",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheMatrix",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "LifeisBeautiful",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Casablanca",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "CityofGod",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "FightClub",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "ForrestGump",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Gladiator",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Goodfellas",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Inception",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Interstellar",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Schindler'sList",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "Se7en",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "SpiritedAway",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheDarkKnight",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheGodfather",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheGreenMile",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheMatrix",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "ThePianist",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "5"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "PulpFiction",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Casablanca",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "CityofGod",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "FightClub",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "ForrestGump",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Gladiator",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Goodfellas",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Inception",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Interstellar",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "PulpFiction",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Schindler'sList",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "Se7en",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "SpiritedAway",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheDarkKnight",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheGodfather",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheGreenMile",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheMatrix",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "ThePianist",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SavingPrivateRyan",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "Se7en",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "SpiritedAway",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheDarkKnight",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheGodfather",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheMatrix",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "ThePianist",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Schindler'sList",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "CityofGod",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheGreenMile",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheMatrix",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "Se7en",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Casablanca",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "FightClub",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "ForrestGump",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Gladiator",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Goodfellas",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "PulpFiction",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Schindler'sList",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "Se7en",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheDarkKnight",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheGodfather",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheGreenMile",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheMatrix",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "ThePianist",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "SpiritedAway",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Casablanca",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "CityofGod",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "FightClub",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "ForrestGump",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Goodfellas",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Inception",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "PulpFiction",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Schindler'sList",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "Se7en",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheDarkKnight",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheGodfather",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheMatrix",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "ThePianist",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Inception",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "Se7en",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "SpiritedAway",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheGreenMile",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheMatrix",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheDarkKnight",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Casablanca",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "CityofGod",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "FightClub",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "ForrestGump",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Gladiator",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Goodfellas",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Inception",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Interstellar",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "PulpFiction",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Schindler'sList",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "Se7en",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "SpiritedAway",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheDarkKnight",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheGreenMile",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheMatrix",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "ThePianist",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGodfather",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "CityofGod",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "FightClub",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "Se7en",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheMatrix",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheGreenMile",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Casablanca",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Goodfellas",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Inception",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "PulpFiction",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Schindler'sList",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "Se7en",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "SpiritedAway",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheDarkKnight",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheGodfather",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheMatrix",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Casablanca",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "FightClub",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "ForrestGump",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Goodfellas",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Interstellar",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "PulpFiction",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "Se7en",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheDarkKnight",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheGodfather",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheMatrix",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheLordoftheRings:TheReturnoftheKing",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Casablanca",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "CityofGod",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "FightClub",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "ForrestGump",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Gladiator",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Goodfellas",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Inception",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Interstellar",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "PulpFiction",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Schindler'sList",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "Se7en",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "SpiritedAway",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheDarkKnight",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheGodfather",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheGreenMile",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "ThePianist",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheMatrix",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "FightClub",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "ForrestGump",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Goodfellas",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Inception",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Interstellar",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "PulpFiction",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "Se7en",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "SpiritedAway",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheDarkKnight",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheGodfather",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheGreenMile",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheMatrix",
-                        "weight" : "13"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "ThePianist",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Casablanca",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "CityofGod",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "FightClub",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "ForrestGump",
-                        "weight" : "5"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Gladiator",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Inception",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "PulpFiction",
-                        "weight" : "5"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Schindler'sList",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "Se7en",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheGreenMile",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheMatrix",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "ThePianist",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheShawshankRedemption",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "CityofGod",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "FightClub",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "ForrestGump",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Goodfellas",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Interstellar",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "PulpFiction",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Schindler'sList",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "Se7en",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "SpiritedAway",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheDarkKnight",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheGodfather",
-                        "weight" : "7"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheGreenMile",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheMatrix",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheSilenceoftheLambs",
-                        "target" : "TheUsualSuspects",
-                        "weight" : "8"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Casablanca",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "CityofGod",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "FightClub",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "ForrestGump",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Gladiator",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Goodfellas",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Inception",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Interstellar",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "LifeisBeautiful",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "PulpFiction",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "SavingPrivateRyan",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Schindler'sList",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "Se7en",
-                        "weight" : "6"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "SpiritedAway",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheDarkKnight",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheGodfather",
-                        "weight" : "9"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheGreenMile",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheLordoftheRings:TheFellowshipoftheRing",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheLordoftheRings:TheReturnoftheKing",
-                        "weight" : "14"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheMatrix",
-                        "weight" : "11"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "ThePianist",
-                        "weight" : "12"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheShawshankRedemption",
-                        "weight" : "10"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "source" : "TheUsualSuspects",
-                        "target" : "TheSilenceoftheLambs",
-                        "weight" : "8"
-                     }
-                  }
-               ],
-               "nodes" : [
-                  {
-                     "data" : {
-                        "id" : "Casablanca"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "CityofGod"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "FightClub"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "ForrestGump"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "Gladiator"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "Goodfellas"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "Inception"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "Interstellar"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "LifeisBeautiful"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "PulpFiction"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "SavingPrivateRyan"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "Schindler'sList"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "Se7en"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "SpiritedAway"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "StarWars:EpisodeV-TheEmpireStrikesBack"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheDarkKnight"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheGodfather"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheGreenMile"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheLordoftheRings:TheFellowshipoftheRing"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheLordoftheRings:TheReturnoftheKing"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheMatrix"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "ThePianist"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheShawshankRedemption"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheSilenceoftheLambs"
-                     }
-                  },
-                  {
-                     "data" : {
-                        "id" : "TheUsualSuspects"
-                     }
-                  }
-               ]
-            }
-         }
+        {
+           "elements" : {
+              "edges" : [
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "CityofGod",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "FightClub",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "ForrestGump",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "Gladiator",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "Goodfellas",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "Inception",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "Interstellar",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "PulpFiction",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "Schindler'sList",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "Se7en",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "SpiritedAway",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheDarkKnight",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheGodfather",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheGreenMile",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheMatrix",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "ThePianist",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Casablanca",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "FightClub",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "ForrestGump",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "Gladiator",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "Goodfellas",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "Inception",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "Interstellar",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "PulpFiction",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "Schindler'sList",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "Se7en",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "SpiritedAway",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheDarkKnight",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheGodfather",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheGreenMile",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheMatrix",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "ThePianist",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "CityofGod",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "ForrestGump",
+                       "weight" : "5"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "Gladiator",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "Goodfellas",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "Inception",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "Interstellar",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "PulpFiction",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "Schindler'sList",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "Se7en",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "SpiritedAway",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheDarkKnight",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheGodfather",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheGreenMile",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheMatrix",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "ThePianist",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "FightClub",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "Gladiator",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "Goodfellas",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "Inception",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "Interstellar",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "PulpFiction",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "Schindler'sList",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "Se7en",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "SpiritedAway",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheDarkKnight",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheGodfather",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheGreenMile",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheMatrix",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "ThePianist",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "5"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ForrestGump",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "Goodfellas",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "Inception",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "Interstellar",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "PulpFiction",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "Schindler'sList",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "Se7en",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "SpiritedAway",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheDarkKnight",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheGodfather",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheGreenMile",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheMatrix",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "ThePianist",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Gladiator",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "Inception",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "Interstellar",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "PulpFiction",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "Schindler'sList",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "Se7en",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "SpiritedAway",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheDarkKnight",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheGodfather",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheGreenMile",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheMatrix",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "ThePianist",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Goodfellas",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "Interstellar",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "PulpFiction",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "Schindler'sList",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "Se7en",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "SpiritedAway",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheDarkKnight",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheGodfather",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheGreenMile",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheMatrix",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "ThePianist",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Inception",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "LifeisBeautiful",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "PulpFiction",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "Schindler'sList",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "Se7en",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "SpiritedAway",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheDarkKnight",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheGodfather",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheGreenMile",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheMatrix",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Interstellar",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "PulpFiction",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "Schindler'sList",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "Se7en",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "SpiritedAway",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheDarkKnight",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheGodfather",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheGreenMile",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheMatrix",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "LifeisBeautiful",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "SavingPrivateRyan",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "Schindler'sList",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "Se7en",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "SpiritedAway",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheDarkKnight",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheGodfather",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheGreenMile",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheMatrix",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "ThePianist",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "5"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "PulpFiction",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "Schindler'sList",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "Se7en",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "SpiritedAway",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheDarkKnight",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheGodfather",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheGreenMile",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheMatrix",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "ThePianist",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SavingPrivateRyan",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "Se7en",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "SpiritedAway",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheDarkKnight",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheGodfather",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheGreenMile",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheMatrix",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "ThePianist",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Schindler'sList",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "SpiritedAway",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheDarkKnight",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheGodfather",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheGreenMile",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheMatrix",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "Se7en",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheDarkKnight",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheGodfather",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheGreenMile",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheMatrix",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "ThePianist",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "SpiritedAway",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheDarkKnight",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheGodfather",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheGreenMile",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheMatrix",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "ThePianist",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "StarWars:EpisodeV-TheEmpireStrikesBack",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheGodfather",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheGreenMile",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheMatrix",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheDarkKnight",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheGreenMile",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheMatrix",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "ThePianist",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "7"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGodfather",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "TheMatrix",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheGreenMile",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "target" : "TheLordoftheRings:TheReturnoftheKing",
+                       "weight" : "6"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "target" : "TheMatrix",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheFellowshipoftheRing",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheReturnoftheKing",
+                       "target" : "TheMatrix",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheReturnoftheKing",
+                       "target" : "ThePianist",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheReturnoftheKing",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheReturnoftheKing",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheLordoftheRings:TheReturnoftheKing",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "14"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheMatrix",
+                       "target" : "ThePianist",
+                       "weight" : "13"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheMatrix",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "9"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheMatrix",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheMatrix",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "11"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ThePianist",
+                       "target" : "TheShawshankRedemption",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ThePianist",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "ThePianist",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "12"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheShawshankRedemption",
+                       "target" : "TheSilenceoftheLambs",
+                       "weight" : "8"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheShawshankRedemption",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "10"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "source" : "TheSilenceoftheLambs",
+                       "target" : "TheUsualSuspects",
+                       "weight" : "8"
+                    }
+                 }
+              ],
+              "nodes" : [
+                 {
+                    "data" : {
+                       "id" : "Casablanca"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "CityofGod"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "FightClub"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "ForrestGump"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "Gladiator"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "Goodfellas"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "Inception"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "Interstellar"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "LifeisBeautiful"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "PulpFiction"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "SavingPrivateRyan"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "Schindler'sList"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "Se7en"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "SpiritedAway"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "StarWars:EpisodeV-TheEmpireStrikesBack"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheDarkKnight"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheGodfather"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheGreenMile"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheLordoftheRings:TheFellowshipoftheRing"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheLordoftheRings:TheReturnoftheKing"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheMatrix"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "ThePianist"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheShawshankRedemption"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheSilenceoftheLambs"
+                    }
+                 },
+                 {
+                    "data" : {
+                       "id" : "TheUsualSuspects"
+                    }
+                 }
+              ]
+           }
+        }
         ```         
         
-    You can also get summary statistics on the graph
+    You can also get summary statistics on the graph:
 
       
     ```bash

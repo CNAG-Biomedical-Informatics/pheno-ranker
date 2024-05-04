@@ -1,46 +1,46 @@
 Metric: Hamming
 Number of vertices: 36
-Number of edges: 666
+Number of edges: 630
 Is connected: 1
 Connected Components: 1
 Graph Diameter: 215:week_52_arm_1->305:week_0_arm_1
 Average Path Length: 23.5238095238095
-Degree of vertex 107:week_0_arm_1: 37
-Degree of vertex 107:week_2_arm_1: 37
-Degree of vertex 107:week_14_arm_1: 37
-Degree of vertex 125:week_0_arm_1: 37
-Degree of vertex 125:week_2_arm_1: 37
-Degree of vertex 125:week_14_arm_1: 37
-Degree of vertex 125:week_26_arm_1: 37
-Degree of vertex 125:week_52_arm_1: 37
-Degree of vertex 125:week_78_arm_1: 37
-Degree of vertex 215:week_0_arm_1: 37
-Degree of vertex 215:week_2_arm_1: 37
-Degree of vertex 215:week_14_arm_1: 37
-Degree of vertex 215:week_26_arm_1: 37
-Degree of vertex 215:week_52_arm_1: 37
-Degree of vertex 215:week_78_arm_1: 37
-Degree of vertex 257:week_0_arm_1: 37
-Degree of vertex 257:week_2_arm_1: 37
-Degree of vertex 257:week_14_arm_1: 37
-Degree of vertex 257:week_26_arm_1: 37
-Degree of vertex 275:week_0_arm_1: 37
-Degree of vertex 275:week_2_arm_1: 37
-Degree of vertex 275:week_14_arm_1: 37
-Degree of vertex 275:week_52_arm_1: 37
-Degree of vertex 305:week_0_arm_1: 37
-Degree of vertex 305:week_26_arm_1: 37
-Degree of vertex 305:week_52_arm_1: 37
-Degree of vertex 365:week_0_arm_1: 37
-Degree of vertex 365:week_2_arm_1: 37
-Degree of vertex 365:week_14_arm_1: 37
-Degree of vertex 365:week_26_arm_1: 37
-Degree of vertex 365:week_52_arm_1: 37
-Degree of vertex 527:week_0_arm_1: 37
-Degree of vertex 527:week_2_arm_1: 37
-Degree of vertex 527:week_14_arm_1: 37
-Degree of vertex 527:week_26_arm_1: 37
-Degree of vertex 527:week_52_arm_1: 37
+Degree of vertex 107:week_0_arm_1: 35
+Degree of vertex 107:week_2_arm_1: 35
+Degree of vertex 107:week_14_arm_1: 35
+Degree of vertex 125:week_0_arm_1: 35
+Degree of vertex 125:week_2_arm_1: 35
+Degree of vertex 125:week_14_arm_1: 35
+Degree of vertex 125:week_26_arm_1: 35
+Degree of vertex 125:week_52_arm_1: 35
+Degree of vertex 125:week_78_arm_1: 35
+Degree of vertex 215:week_0_arm_1: 35
+Degree of vertex 215:week_2_arm_1: 35
+Degree of vertex 215:week_14_arm_1: 35
+Degree of vertex 215:week_26_arm_1: 35
+Degree of vertex 215:week_52_arm_1: 35
+Degree of vertex 215:week_78_arm_1: 35
+Degree of vertex 257:week_0_arm_1: 35
+Degree of vertex 257:week_2_arm_1: 35
+Degree of vertex 257:week_14_arm_1: 35
+Degree of vertex 257:week_26_arm_1: 35
+Degree of vertex 275:week_0_arm_1: 35
+Degree of vertex 275:week_2_arm_1: 35
+Degree of vertex 275:week_14_arm_1: 35
+Degree of vertex 275:week_52_arm_1: 35
+Degree of vertex 305:week_0_arm_1: 35
+Degree of vertex 305:week_26_arm_1: 35
+Degree of vertex 305:week_52_arm_1: 35
+Degree of vertex 365:week_0_arm_1: 35
+Degree of vertex 365:week_2_arm_1: 35
+Degree of vertex 365:week_14_arm_1: 35
+Degree of vertex 365:week_26_arm_1: 35
+Degree of vertex 365:week_52_arm_1: 35
+Degree of vertex 527:week_0_arm_1: 35
+Degree of vertex 527:week_2_arm_1: 35
+Degree of vertex 527:week_14_arm_1: 35
+Degree of vertex 527:week_26_arm_1: 35
+Degree of vertex 527:week_52_arm_1: 35
 MST has 35 edges
 Shortest path from 107:week_0_arm_1 to 107:week_2_arm_1 is 107:week_0_arm_1->107:week_2_arm_1 [2] with length 24
 Shortest path from 107:week_0_arm_1 to 107:week_14_arm_1 is 107:week_0_arm_1->107:week_14_arm_1 [2] with length 23

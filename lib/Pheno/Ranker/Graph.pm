@@ -40,6 +40,9 @@ sub matrix2graph {
     my ( @nodes, @edges );
     my $threshold = 0.0;
 
+    # Initialize an index to keep track of the current row
+    my $current_index = 0;
+
     # Read each subsequent line
     while ( my $line = <$matrix_fh> ) {
         chomp $line;
@@ -49,8 +52,19 @@ sub matrix2graph {
         # Ensure each node is represented in the node array
         push @nodes, { data => { id => $node_id } };
 
-        # Process each value in the row corresponding to an edge
-        for ( my $i = 0 ; $i < scalar @values ; $i++ ) {
+        # Process each value in the row corresponding to an edge, but only in the upper triangle
+        # and explicitly skipping diagonal elements
+        # Undirected graph - Cytoscape.js settings:
+        # "style": [
+        #  {
+        #  "selector": "edge",
+        #  "style": {
+        #    "target-arrow-shape": "none"
+        #    }
+        #  }
+        # ]
+
+        for ( my $i = $current_index + 1 ; $i < scalar @headers ; $i++ ) {
             if ( $values[$i] >= $threshold ) {
                 push @edges,
                   {
@@ -62,6 +76,9 @@ sub matrix2graph {
                   };
             }
         }
+
+        # Increment the current row index
+        $current_index++;
     }
 
     # Close the matrix file handle
