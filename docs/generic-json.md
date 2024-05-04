@@ -83,7 +83,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     primary_key: title
     
     # Set the allowed terms or properties for use with include|exclude-terms
-    allowed_terms: [country,genre,year]
+    allowed_terms: [country,genre,year,title]
     
     # Set the terms which are arrays
     array_terms: [genre]
