@@ -37,7 +37,8 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: |
           brew install zbar
-          brew link zbar
+          mkdir ~/lib
+          ln -s $(brew --prefix zbar)/lib/libzbar.dylib ~/lib/libzbar.dylib
 
       - name: Create and activate virtual environment
         run: |
