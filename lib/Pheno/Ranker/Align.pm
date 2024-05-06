@@ -551,17 +551,22 @@ sub undef_excluded_phenotypicFeatures {
 
     my $hash = shift;
 
-    # Setting the property to undef (it will be discarded later)
-    if ( exists $hash->{phenotypicFeatures} ) {
-        @{ $hash->{phenotypicFeatures} } =
-          map { $_->{excluded} ? undef : $_ } @{ $hash->{phenotypicFeatures} };
-    }
-
     # *** IMPORTANT ***
-    # Because of setting to undef the excludd properties, it can happen that in
-    # the stats file we have phenotypicFeatures = 100% but t hen it turns out
-    # that some individuals have phenotypicFeatures = {} (all excluded)
-    return $hash;
+    # Due to properties being set to undef, it's possible for the coverage file to
+    # report phenotypicFeatures as 100%. However, this might be misleading because
+    # some individuals might actually have phenotypicFeatures = {} (indicating all
+    # features are excluded).
+    # Attempting to add the --enable-excluded-phenotypicFeatures option was considered
+    # to address this, but it made the implementation too convoluted for BFF/PXF.
+
+    if ( exists $hash->{phenotypicFeatures} ) {
+        for my $item ( @{ $hash->{phenotypicFeatures} } ) {
+
+            # exists and true
+            $item = undef
+              if ( exists $item->{excluded} && ${ $item->{excluded} } );
+        }
+    }
 }
 
 sub remap_hash {
@@ -600,7 +605,8 @@ sub remap_hash {
     #  - Works across any JSON data structure (without specific key requirements)
     #  - BUT profiling shows it's ~5-10% slower than 'Array to Hash then Fold'
     #  - Does not accommodate specific remappings like 'interpretations.diagnosis.genomicInterpretations'
-    $hash = fold( undef_excluded_phenotypicFeatures($hash) );
+    undef_excluded_phenotypicFeatures($hash);
+    $hash = fold($hash);
 
     # Load the hash that points to the hierarchy for ontology-term-id
     #  *** IMPORTANT ***
