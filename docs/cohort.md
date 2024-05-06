@@ -1,4 +1,4 @@
-_Cohort mode_ performs a **cross-comparison** of all individuals in a cohort(s) using as a metric the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) or the [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index). The resulting matrix can be further analyzed (e.g., with `R`) for cluster characterization or processed through dimensionality reduction.
+_Cohort mode_ performs a **cross-comparison** of all individuals in a cohort(s) using as a metric the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) or the [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index). The resulting matrix can be further analyzed (e.g., with `R`) for cluster characterization, dimensionality reduction or graph-based analytics.
 
 ???+ Example "Generic JSON tutorial"
     We created a [tutorial](generic-json.md) that deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
@@ -19,6 +19,9 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     ```
 
     This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
+
+    ??? Example "See `matrix.txt`"
+        --8<-- "tbl/matrix.md"
 
     ??? Tip "Defining the similarity metric"
         Use the flag `--similarity-metric-cohort`. The default value is `hamming`. The alternative value is `jaccard`.
@@ -41,9 +44,9 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
         This command will print how many variables per individual were actually used to perform the comparison. You can post-process the output to check for unbalanced data.
 
-    --8<-- "tbl/matrix.md"
+    ### Clustering
 
-     The matrix can be processed to obtain a heatmap:
+    The matrix can be processed to obtain a heatmap:
 
     ??? Example "R code"
         ```R
@@ -67,7 +70,9 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     </figure>
 
 
-    The same matrix can be processed with multidimensional scaling to reduce the dimensionality
+    ### Dimensionality reduction
+
+    The same matrix can be processed with multidimensional scaling to reduce the dimensionality.
 
     ??? Example "R code"
 
@@ -112,6 +117,23 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
        <figcaption>Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
+    ### Graph analytics
+
+    `Pheno-Ranker`has an option for creating a graph in `JSON`format, compatible with [Cytoscape](https://cytoscape.org/) ecoystem.
+
+    ??? Example "Bash code for Cytoscape-compatible graph/network"
+
+        ```bash
+        pheno-ranker -r individuals.json --cytoscape-json
+        ```
+        This command generates a `graph.json` file, as well as a `matrix.txt` file.
+
+        To produce summary statistics, use:
+
+        ```bash
+        pheno-ranker -r individuals.json --cytoscape-json --graph-stats
+        ```
+        This command will produce a file called `graph_stats.txt`. For additional information, see the [generic JSON tutorial](generic-json-tutorial.md).
 
 === "Inter-cohort"
 

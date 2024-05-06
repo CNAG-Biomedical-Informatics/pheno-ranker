@@ -27,7 +27,7 @@ exit;
 
 sub randomize_ga4gh {
 
-    my $VERSION = '0.04';
+    my $VERSION = '0.09';
     my $format  = 'bff';
     my $number  = 100;
     my $output  = 'individuals.json';
