@@ -428,21 +428,21 @@ Frequently Asked Questions
     pheno-raker -r individuals.json --cytoscape-json cytoscape_graph.json
     ```
 
-     If you like to get summary statistics for the graph use it in conjunction with `--graph-stats`, like this:
+    If you like to get summary statistics for the graph use it in conjunction with `--graph-stats`, like this:
     
-     ```bash
+    ```bash
     pheno-raker -r individuals.json --cytoscape-json cytoscape_graph.json --graph-stats my_graph_stats.txt
     ```
    
-     The file `my_graph_stats.txt` will include summary statistics and the [shortest path](https://en.wikipedia.org/wiki/Shortest_path_problem) between all nodes. Be aware that this calculation may be time-consuming for large graphs.
+    The file `my_graph_stats.txt` will include summary statistics and the [shortest path](https://en.wikipedia.org/wiki/Shortest_path_problem) between all nodes. Be aware that this calculation may be time-consuming for large graphs.
 
     Alternatively, you can use `R` for more graphical options. Here are some examples using the [qgraph](https://www.rdocumentation.org/packages/qgraph/versions/1.9.8/topics/qgraph) and [igraph](https://r.igraph.org/) packages:
 
     ???+ Tip "Reference cohort"
-        <figure markdown>
-         ![Pheno-Ranker](img/qgraph-cohort.png){width="350"}
-         <figcaption>REF qgraph plot</figcaption>
-        </figure>
+         <figure markdown>
+          ![Pheno-Ranker](img/qgraph-cohort.png){width="350"}
+          <figcaption>REF qgraph plot</figcaption>
+         </figure>
 
 
         ??? Example "See code"

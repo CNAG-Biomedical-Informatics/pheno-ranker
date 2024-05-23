@@ -13,6 +13,7 @@ use Moo;
 use Types::Standard qw(Str Int Num Enum ArrayRef HashRef Undef Bool);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
 use List::Util qw(all);
+use Hash::Util qw(lock_hash);
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Align;
 use Pheno::Ranker::Stats;
@@ -62,6 +63,9 @@ has 'config_file' => (
 
         # Set additional configuration parameters on $self
         $self->_set_additional_config( $config, $config_file );
+        
+        # Lock config data (keys+values)
+        lock_hash(%$config);
     }
 );
 
@@ -230,7 +234,7 @@ sub BUILD {
     my $self = shift;
 
     # ************************
-    # Start Miscellanea checks
+    # Start miscellanea checks
     # ************************
 
     # Check append_prefixes if provided
@@ -254,7 +258,7 @@ sub BUILD {
     }
 
     # **********************
-    # End Miscellanea checks
+    # End miscellanea checks
     # **********************
 }
 

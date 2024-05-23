@@ -564,9 +564,10 @@ sub undef_excluded_phenotypicFeatures {
 
             # exists and true
             $item = undef
-              if ( exists $item->{excluded} && ${ $item->{excluded} } );
+              if ( exists $item->{excluded} && $item->{excluded} );
         }
     }
+    return 1;
 }
 
 sub remap_hash {

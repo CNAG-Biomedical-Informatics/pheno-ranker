@@ -67,7 +67,7 @@ convert-pheno -iomop omop_dump.sql -obff individuals.json
 If you have to use the Athena-OHDSI database:
 
 ```bash
-convert-pheno -iomop omop_dump.sql -obff individuals.json --path-to-ohdsi-db ./ohdsi.db
+convert-pheno -iomop omop_dump.sql -obff individuals.json --path-to-ohdsi-db ./
 ```
 
 !!! Hint "Additional options"
