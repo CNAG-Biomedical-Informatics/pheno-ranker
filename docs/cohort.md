@@ -133,7 +133,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         ```bash
         pheno-ranker -r individuals.json --cytoscape-json --graph-stats
         ```
-        This command will produce a file called `graph_stats.txt`. For additional information, see the [generic JSON tutorial](generic-json-tutorial.md).
+        This command will produce a file called `graph_stats.txt`. For additional information, see the [generic JSON tutorial](generic-json.md).
 
 === "Inter-cohort"
 
