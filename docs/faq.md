@@ -425,13 +425,13 @@ Frequently Asked Questions
     `Pheno-Ranker` can generate graph data in [JSON format](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/graph.json) which is compatible with the [Cytoscape](https://cytoscape.org/) ecosystem. To create a graph, you can execute the following command:
 
     ```bash
-    pheno-raker -r individuals.json --cytoscape-json cytoscape_graph.json
+    pheno-ranker -r individuals.json --cytoscape-json cytoscape_graph.json
     ```
 
     If you like to get summary statistics for the graph use it in conjunction with `--graph-stats`, like this:
     
     ```bash
-    pheno-raker -r individuals.json --cytoscape-json cytoscape_graph.json --graph-stats my_graph_stats.txt
+    pheno-ranker -r individuals.json --cytoscape-json cytoscape_graph.json --graph-stats my_graph_stats.txt
     ```
    
     The file `my_graph_stats.txt` will include summary statistics and the [shortest path](https://en.wikipedia.org/wiki/Shortest_path_problem) between all nodes. Be aware that this calculation may be time-consuming for large graphs.
