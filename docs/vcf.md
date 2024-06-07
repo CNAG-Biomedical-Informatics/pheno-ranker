@@ -20,7 +20,7 @@ OK, so our goal is to compare samples within the VCF based on their genomic vari
 
 ??? Question "What is the source of your `VCF` test data?"
 
-    The dataset `test_1000G.vcf.gz` is a subset extracted from the 1000 Genomes Project, containing approximately 1K variations. For more detailed information, please visit [here](https://github.com/mrueda/beacon2-ri-tools/tree/main/test).
+    The dataset `test_1000G.vcf.gz` is a subset extracted from the 1000 Genomes Project, containing approximately 1K variations. For more detailed information, please visit [this page](https://github.com/mrueda/beacon2-ri-tools/tree/main/test).
 
 ???+ Danger "About VCF size and content"
 

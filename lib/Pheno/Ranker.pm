@@ -593,7 +593,7 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag
 
 =head1 METHODS
 
-There is only method named c<run>. See above the syntax.
+There is only method named C<run>. See above the syntax.
 
 For more information check the documentation:
 
