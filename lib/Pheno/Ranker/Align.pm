@@ -460,15 +460,21 @@ sub create_glob_and_ref_hashes {
 
         # For consistency, we obtain the primary_key for both BFF/PXF
         # from $_->{id} (not from subject.id)
-        my $id = $element->{$primary_key};
+        my $id;
+        if ( defined $element->{$primary_key} ) {
+            $id = sanitize_string( $element->{$primary_key} );
+        }
 
         # die if an individual does not have primary_key defined
-        die
-"Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n"
-          unless defined $id;
+        else {
+
+            die
+"Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n";
+        }
 
         # Remapping hash
         say "Flattening and remapping <id:$id> ..." if $self->{verbose};
+
         my $ref_hash = remap_hash(
             {
                 hash   => $element,
@@ -948,6 +954,17 @@ sub prune_keys_with_weight_zero {
         # Delete the key if its value is 0
         delete $hash_ref->{$key} if $hash_ref->{$key} == 0;
     }
+}
+
+sub sanitize_string {
+
+    my $string = shift;
+
+    # Replace wide characters with _
+    $string =~ s/[^\x00-\x7F]/_/g;    # Replace wide characters with _
+    $string =~ tr/ /_/;               # Replace \s by _
+                                      # Add more replacements as necessary for other characters you want to handle
+    return $string;
 }
 
 1;

@@ -36,8 +36,7 @@ use constant DEVEL_MODE => 0;
 
 # Misc variables
 my ( $config_sort_by, $config_similarity_metric_cohort,
-    $config_max_out, $config_max_number_var,
-    $config_seed,    @config_allowed_terms );
+    $config_max_out, $config_max_number_var, @config_allowed_terms );
 my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
 
 ############################################
@@ -56,6 +55,7 @@ has 'config_file' => (
         my $config = read_yaml($config_file);
 
         # Set basic configuration parameters
+        # NB: Global variables
         $self->_set_basic_config($config);
 
         # Validate and set exclusive configuration parameters
@@ -78,10 +78,6 @@ sub _set_basic_config {
       // 'hamming';
     $config_max_out        = $config->{max_out}        // 50;
     $config_max_number_var = $config->{max_number_var} // 10_000;
-    $config_seed =
-      ( defined $config->{seed} && Int->check( $config->{seed} ) )
-      ? $config->{seed}
-      : 123456789;
 }
 
 # Private Method: _validate_and_set_exclusive_config
@@ -116,9 +112,12 @@ sub _set_additional_config {
     $self->{array_terms_regex_str} =
       '^(' . join( '|', map { "\Q$_\E" } @{ $self->{array_terms} } ) . '):';   # setter (TBV)
     $self->{array_terms_regex_qr} = qr/$self->{array_terms_regex_str}/;        # setter (TBV)
-    $self->{format}               = $config->{format};                         #setter
+    $self->{format}               = $config->{format};                         # setter
+    $self->{seed} =                                                            # setter
+      ( defined $config->{seed} && Int->check( $config->{seed} ) )
+      ? $config->{seed}
+      : 123456789;
 
-    # Validate $config->{id_correspondence} for "real" array_terms
     if ( $self->{array_terms}[0] ne 'foo' ) {
         unless ( exists $config->{id_correspondence}
             && HashRef->check( $config->{id_correspondence} ) )
