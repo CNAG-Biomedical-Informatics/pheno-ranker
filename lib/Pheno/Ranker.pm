@@ -63,7 +63,7 @@ has 'config_file' => (
 
         # Set additional configuration parameters on $self
         $self->_set_additional_config( $config, $config_file );
-        
+
         # Lock config data (keys+values)
         lock_hash(%$config);
     }
@@ -396,6 +396,9 @@ sub run {
     $self->add_attribute( 'format', check_format($ref_data) )
       unless defined $self->{format};    # setter via sub
 
+    # Re-structure interpretations if PXF
+    restructure_pxf_interpretations( $ref_data, $self );
+
     # First we create:
     # - $glob_hash => hash with all the COHORT keys possible
     # - $ref_hash  => BIG hash with all individiduals' keys "flattened"
@@ -465,7 +468,7 @@ sub run {
         # We store {primary_key} as a variable as it might be deleted from $tar_data (--exclude-terms id)
         my $tar_data_id = $tar_data->{$primary_key};
 
-        # Now we load the rest of the hashes
+        # Now we load the rest of the hash
         my $tar_hash = {
             $tar_data_id => remap_hash(
                 {
@@ -475,6 +478,9 @@ sub run {
                 }
             )
         };
+
+        # Re-structure interpretations if PXF
+        restructure_pxf_interpretations($tar_data, $self);
 
         # *** IMPORTANT ***
         # The target binary is created from matches to $glob_hash

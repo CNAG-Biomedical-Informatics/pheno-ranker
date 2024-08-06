@@ -3,6 +3,7 @@ Revision history for Perl distribution Pheno-Ranker
 0.10 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Fixed UTF-8 printing issue for primary_key in 'matrix.txt'
+ - Added native support for interpretations nested properties up to 2D in PXF
 
 0.09 2024-05-04T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
