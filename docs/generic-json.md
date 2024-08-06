@@ -23,7 +23,7 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 </figure>
 
 ??? Question "What is a Moviepacket (MXF) file?"
-    A Moviepacket is an invented format :smile: designed to describe movies, analogous to Phenopackets v2 used for pheno-clinical data.
+    A Moviepacket is an invented data exchange format :smile: designed for movies, analogous to Phenotype Exchange Format ([PXF](pxf.md)) for pheno-clinical data.
 
 
 Imagine you have a catalog of 25 movies described in `JSON` format. Each movie has several `properties` (a.k.a. `terms`).

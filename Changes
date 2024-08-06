@@ -2,7 +2,7 @@ Revision history for Perl distribution Pheno-Ranker
 
 0.10 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Sanitized primary_key strings by converting wide characters and spaces to '_'
+ - Fixed UTF-8 printing issue for primary_key in 'matrix.txt'
 
 0.09 2024-05-04T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 

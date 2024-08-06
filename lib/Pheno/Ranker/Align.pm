@@ -59,7 +59,7 @@ sub cohort_comparison {
     my $switch    = $num_items > $max_items ? 1 : 0;
 
     # Opening file for output
-    open( my $fh, ">", $out_file );
+    open( my $fh, '>:encoding(UTF-8)', $out_file );
     say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
     # Initialize matrix for storing similarity
@@ -460,17 +460,8 @@ sub create_glob_and_ref_hashes {
 
         # For consistency, we obtain the primary_key for both BFF/PXF
         # from $_->{id} (not from subject.id)
-        my $id;
-        if ( defined $element->{$primary_key} ) {
-            $id = sanitize_string( $element->{$primary_key} );
-        }
-
-        # die if an individual does not have primary_key defined
-        else {
-
-            die
-"Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n";
-        }
+        my $id = $element->{$primary_key} 
+           or die "Sorry but the JSON document [$count] does not have the primary_key <$primary_key> defined\n";
 
         # Remapping hash
         say "Flattening and remapping <id:$id> ..." if $self->{verbose};
@@ -954,17 +945,6 @@ sub prune_keys_with_weight_zero {
         # Delete the key if its value is 0
         delete $hash_ref->{$key} if $hash_ref->{$key} == 0;
     }
-}
-
-sub sanitize_string {
-
-    my $string = shift;
-
-    # Replace wide characters with _
-    $string =~ s/[^\x00-\x7F]/_/g;    # Replace wide characters with _
-    $string =~ tr/ /_/;               # Replace \s by _
-                                      # Add more replacements as necessary for other characters you want to handle
-    return $string;
 }
 
 1;

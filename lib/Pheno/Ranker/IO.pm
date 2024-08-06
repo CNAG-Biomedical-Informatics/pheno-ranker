@@ -8,6 +8,7 @@ use Path::Tiny;
 use File::Basename;
 use File::Spec::Functions qw(catdir catfile);
 use List::Util qw(any);
+use Hash::Util qw(lock_hash);
 use YAML::XS qw(LoadFile DumpFile);
 use JSON::XS;
 
@@ -208,6 +209,9 @@ sub validate_json {
         my $msg = join "\n", @errors;
         die qq/$msg\n/;
     }
+
+    # Lock config data (keys+values)
+    lock_hash(%$data);
 
     # return data if ok
     return $data;
