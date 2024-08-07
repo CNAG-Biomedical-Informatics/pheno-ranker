@@ -352,7 +352,7 @@ sub restructure_pxf_interpretations {
 
     # Function to restructure individual interpretation
     my $restructure_interpretation = sub {
-        my ($interpretation)   = @_;
+        my $interpretation   = shift;
         my $disease_id         = $interpretation->{diagnosis}{disease}{id};
         my $new_interpretation = {
             progressStatus         => $interpretation->{progressStatus},
@@ -392,7 +392,7 @@ sub restructure_pxf_interpretations {
 
     # Helper function to process a data structure
     my $process_data = sub {
-        my ($data) = @_;
+        my $data = shift;
         return unless exists $data->{interpretations};
 
         my $new_data = {};
