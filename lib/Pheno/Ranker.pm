@@ -465,6 +465,9 @@ sub run {
 "Sorry, <$target_file> does not contain primary_key <$primary_key>. Are you using the right config file?\n"
           unless exists $tar_data->{$primary_key};
 
+        # Re-structure interpretations if PXF
+        restructure_pxf_interpretations($tar_data, $self);
+
         # We store {primary_key} as a variable as it might be deleted from $tar_data (--exclude-terms id)
         my $tar_data_id = $tar_data->{$primary_key};
 
@@ -478,9 +481,6 @@ sub run {
                 }
             )
         };
-
-        # Re-structure interpretations if PXF
-        restructure_pxf_interpretations($tar_data, $self);
 
         # *** IMPORTANT ***
         # The target binary is created from matches to $glob_hash

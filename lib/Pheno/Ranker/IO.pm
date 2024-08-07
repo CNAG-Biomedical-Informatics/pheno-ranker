@@ -11,6 +11,7 @@ use List::Util qw(any);
 use Hash::Util qw(lock_hash);
 use YAML::XS qw(LoadFile DumpFile);
 use JSON::XS;
+#use Data::Dumper;
 
 #use Sort::Naturally qw(nsort);
 use Exporter 'import';
@@ -350,9 +351,14 @@ sub restructure_pxf_interpretations {
     # Premature return if the format is not 'PXF'
     return unless $self->{format} eq 'PXF';
 
+    # Premature return if "interpretations" is excluded
+    return if (grep { $_ eq 'interpretations' } @{ $self->{exclude_terms} });
+
+    say "Restructuring <interpretations> in PXFs..." if defined $self->{verbose};
+
     # Function to restructure individual interpretation
     my $restructure_interpretation = sub {
-        my $interpretation   = shift;
+        my $interpretation     = shift;
         my $disease_id         = $interpretation->{diagnosis}{disease}{id};
         my $new_interpretation = {
             progressStatus         => $interpretation->{progressStatus},
@@ -366,9 +372,27 @@ sub restructure_pxf_interpretations {
             my $interpretation_data;
 
             if ( exists $genomic_interpretation->{variantInterpretation} ) {
-                $gene_id = $genomic_interpretation->{variantInterpretation}{variationDescriptor}{geneContext}{valueId};
-                $interpretation_data =
+                my $variant_interpretation =
                   $genomic_interpretation->{variantInterpretation};
+
+                # Check if geneContext with valueId exists
+                if (
+                    exists $variant_interpretation->{variationDescriptor}
+                    {geneContext}{valueId} )
+                {
+                    $gene_id = $variant_interpretation->{variationDescriptor}
+                      {geneContext}{valueId};
+                }
+
+                # Check if id within variationDescriptor exists as an alternative
+                elsif (
+                    exists $variant_interpretation->{variationDescriptor}{id} )
+                {
+                    $gene_id =
+                      $variant_interpretation->{variationDescriptor}{id};
+                }
+
+                $interpretation_data = $variant_interpretation;
             }
             elsif ( exists $genomic_interpretation->{geneDescriptor} ) {
                 $gene_id = $genomic_interpretation->{geneDescriptor}{valueId};
@@ -376,7 +400,7 @@ sub restructure_pxf_interpretations {
                   $genomic_interpretation->{geneDescriptor};
             }
 
-            $new_interpretation->{genomicInterpretations}->{$gene_id} = {
+            $new_interpretation->{genomicInterpretations}{$gene_id} = {
                 interpretationStatus =>
                   $genomic_interpretation->{interpretationStatus},
                 (
@@ -398,7 +422,8 @@ sub restructure_pxf_interpretations {
         my $new_data = {};
 
         foreach my $interpretation ( @{ $data->{interpretations} } ) {
-            my ( $disease_id, $new_interpretation ) = $restructure_interpretation->($interpretation);
+            my ( $disease_id, $new_interpretation ) =
+              $restructure_interpretation->($interpretation);
             $new_data->{$disease_id} = $new_interpretation;
         }
 

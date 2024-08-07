@@ -342,7 +342,7 @@ SKIP: {
     my $input_file = catfile( 't', 'interpretations_pxf.json' );
 
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'matrix_interpretations_pxf.txt' );
+    my $reference_file = catfile( 't', 'matrix_ref_interpretations_pxf.txt' );
 
     # The generated output file
     my ( undef, $tmp_file ) =

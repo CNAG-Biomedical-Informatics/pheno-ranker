@@ -1,3 +1,0 @@
-	Sample_1	Sample_2
-Sample_1	0	10
-Sample_2	10	0
