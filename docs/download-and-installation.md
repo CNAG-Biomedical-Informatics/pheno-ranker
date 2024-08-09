@@ -8,38 +8,18 @@ We provide several alternatives (containerized and non-containerized) for downlo
 ???+ Question "Which download method should I use?"
     It depends in which components you want to use and your fluency in performing installations on Linux environments.
 
-    The [CPAN](usage.md#from-cpan) based installation **(Method 3) is the easier** one.
+    The [CPAN](usage.md#method-1-from-cpan) based installation **(Method 1) is the easier** one.
 
     | Use case | Method  |
     | --  | -- |
-    | CLI |  3 (CPAN) |
-    | CLI (conda) | 4 (CPAN in Conda env) |
-    | CLI | 1 or 2 (Docker; no dependencies) |
+    | CLI |  1 (CPAN) |
+    | CLI (conda) | 2 (CPAN in Conda env) |
+    | CLI | 4 or 5 (Docker; no dependencies) |
     | Web App UI | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
-
-## Containerized
-
-With the containerized version you get:
-
-* Module
-* CLI (`pheno-ranker`)
-* Utilities:
-    * `bff-pxf-simulator`
-    * `bff-pxf-plot`
-    * `csv2pheno-ranker`
-    * QR code utilities
-
-=== "Method 1: From Docker Hub"
-
-    Please follow the instructions provided in this [README](usage.md#method-1-from-docker-hub).
-
-=== "Method 2: With Dockerfile"
-
-    Please follow the instructions provided in this [README](usage.md#method-2-with-dockerfile).
 
 ## Non-Containerized
 
-=== "Method 3: From CPAN"
+=== "Method 1: From CPAN"
 
     The core of software is a module implemented in `Perl` and it is available in the Comprehensive Perl Archive Network (CPAN). See the description [here](https://metacpan.org/pod/Pheno::Ranker).
 
@@ -57,9 +37,9 @@ With the containerized version you get:
 
         * `libperl-dev:` This package contains the headers and libraries necessary to compile C or C++ programs to link against the Perl library, enabling you to write Perl modules in C or C++.
 
-    To install it, plese see this [README](usage.md#from-cpan).
+    To install it, plese see this [README](usage.md#method-1-from-cpan).
 
-=== "Method 4: From CPAN in a **Conda** environment"
+=== "Method 2: From CPAN in a **Conda** environment"
 
      With the CPAN distribution you get:
 
@@ -133,7 +113,7 @@ With the containerized version you get:
     conda deactivate -n myenv
     ```
 
-=== "Method 5: From Github"
+=== "Method 3: From Github"
 
     With the non-containerized version from Github you get:
 
@@ -145,4 +125,24 @@ With the containerized version you get:
         * `csv2pheno-ranker`
         * QR code utilities
 
-    Please follow the instructions provided in this [README](usage.md#non-containerized).
+    Please follow the instructions provided in this [README](usage.md#method-3-from-github).
+
+## Containerized
+
+With the containerized version you get:
+
+* Module
+* CLI (`pheno-ranker`)
+* Utilities:
+    * `bff-pxf-simulator`
+    * `bff-pxf-plot`
+    * `csv2pheno-ranker`
+    * QR code utilities
+
+=== "Method 4: From Docker Hub"
+
+    Please follow the instructions provided in this [README](usage.md#method-4-from-docker-hub).
+
+=== "Method 5: With Dockerfile"
+
+    Please follow the instructions provided in this [README](usage.md#method-5-with-dockerfile).

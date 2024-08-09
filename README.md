@@ -2,7 +2,7 @@
   <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker"><img src="https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/docs/img/PR-logo.png" width="400" alt="Pheno-Ranker"></a>
 </p>
 <p align="center">
-    <em>Advancing Semantic Similarity Analysis of Phenotypic Data Stored in GA4GH Standards and Beyond</em>
+    <em>A Toolkit for Comparison of Phenotypic Data Stored in GA4GH Standards and Beyond</em>
 </p>
 
 [![Build and Test](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml)
@@ -85,9 +85,72 @@ Pheno-Ranker is a lightweight and easily to install tool specifically designed f
 
 # INSTALLATION
 
+## Non containerized
+
+The script runs on command-line Linux and it has been tested on Debian/RedHat/MacOS based distributions (only showing commands for Debian's). Perl 5 is installed by default on Linux, 
+but we will install a few CPAN modules with `cpanminus`.
+
+### Method 1: From CPAN
+
+First install system level dependencies:
+
+    sudo apt-get install cpanminus libperl-dev
+
+Now you have two choose between one of the 2 options below:
+
+**Option 1:** System-level installation:
+
+    cpanm --notest --sudo Pheno::Ranker
+    pheno-ranker -h
+
+**Option 2:** Install Pheno-Ranker and the dependencies at `~/perl5`
+
+    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+    cpanm --notest Pheno::Ranker
+    pheno-ranker --help
+
+To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+
+    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+
+### Method 2: From CPAN in a CONDA environment
+
+Please follow [these instructions](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_2_2).
+
+### Method 3: From Github
+
+    git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
+    cd pheno-ranker
+
+Install system level dependencies:
+
+    sudo apt-get install cpanminus libperl-dev
+
+Now you have two choose between one of the 2 options below:
+
+**Option 1:** Install dependencies (they're harmless to your system) as `sudo`:
+
+    cpanm --notest --sudo --installdeps .
+    bin/pheno-ranker --help            
+
+**Option 2:** Install the dependencies at `~/perl5`:
+
+    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+    cpanm --notest --installdeps .
+    bin/pheno-ranker --help
+
+To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+
+    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+
+_Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
+
+    sudo apt-get install python3-pip libzbar0
+    pip3 install -r requirements.txt
+
 ## Containerized
 
-### Method 1: From Docker Hub
+### Method 4: From Docker Hub
 
 Download a docker image (latest version - amd64|x86-64) from [Docker Hub](https://hub.docker.com/r/manuelrueda/pheno-ranker) by executing:
 
@@ -96,7 +159,7 @@ Download a docker image (latest version - amd64|x86-64) from [Docker Hub](https:
 
 See additional instructions below.
 
-### Method 2: With Dockerfile
+### Method 5: With Dockerfile
 
 Please download the `Dockerfile` from the repo:
 
@@ -106,7 +169,7 @@ And then run:
 
     docker buildx build -t cnag/pheno-ranker:latest .
 
-### Additional instructions for Methods 1 and 2
+### Additional instructions for Methods 4 and 5
 
 To run the container (detached) execute:
 
@@ -139,65 +202,6 @@ Then I will do something like this:
 
     # Now I use the alias to run the command (note that I use the flag --o to specify the filepath)
     pheno-ranker -r /data/individuals.json -o /data/matrix.txt
-
-## Non containerized
-
-The script runs on command-line Linux and it has been tested on Debian/RedHat/MacOS based distributions (only showing commands for Debian's). Perl 5 is installed by default on Linux, 
-but we will install a few CPAN modules with `cpanminus`.
-
-### From Github
-
-    git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
-    cd pheno-ranker
-
-Install system level dependencies:
-
-    sudo apt-get install cpanminus libperl-dev
-
-Now you have two choose between one of the 2 options below:
-
-**Option 1:** Install dependencies (they're harmless to your system) as `sudo`:
-
-    cpanm --notest --sudo --installdeps .
-    bin/pheno-ranker --help            
-
-**Option 2:** Install the dependencies at `~/perl5`:
-
-    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-    cpanm --notest --installdeps .
-    bin/pheno-ranker --help
-
-To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
-
-    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
-
-_Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
-
-    sudo apt-get install python3-pip libzbar0
-    pip3 install -r requirements.txt
-
-### From CPAN
-
-First install system level dependencies:
-
-    sudo apt-get install cpanminus libperl-dev
-
-Now you have two choose between one of the 2 options below:
-
-**Option 1:** System-level installation:
-
-    cpanm --notest --sudo Pheno::Ranker
-    pheno-ranker -h
-
-**Option 2:** Install Pheno-Ranker and the dependencies at `~/perl5`
-
-    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-    cpanm --notest Pheno::Ranker
-    pheno-ranker --help
-
-To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
-
-    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
 ### System requirements
 
