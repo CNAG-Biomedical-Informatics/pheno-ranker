@@ -31,6 +31,8 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
     The default output is named `matrix.txt` and it's a `N x N` bidimensional matrix with a pairwise comparison of all individuals.
 
+    For more information visit the [cohort mode](cohort.md) page.
+
 === "Patient mode"
 
     Basic run:
@@ -40,3 +42,6 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     ```
 
     The output will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See aditional details in the [Patient Mode](patient.md) page.
+   
+    For more information visit the [patient mode](patient.md) page.
+
