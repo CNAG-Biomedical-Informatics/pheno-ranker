@@ -123,12 +123,15 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
     
 === "Use Case B: Beacon v2 Network"
     
-    To facilitate Pheno-Ranker's integration into the Beacon v2 API ecosystem, we propose the addition of a specific term to the JSON Schema of the _individuals_ entry type in [Beacon v2 Models](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema). We propose two distinct pathways for query submission to enhance flexibility and security:
+    To facilitate Pheno-Ranker's integration into the Beacon v2 API ecosystem, we propose the addition of an optional term/propery to the JSON Schema of the __individuals_ entry type in  [Beacon v2 Models](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema). We propose two distinct pathways for query submission to enhance flexibility and security:
+
     
-    1. The first mirrors the method used within hospital networks, where queries utilize a precomputed vector. This approach ensures secure and swift similarity evaluations against an existing database. To facilitate this, a Beacon aggregator would periodically aggregate ontologies via the _filtering_terms_ endpoint from each Beacon v2 API, creating a global lookup table.
-    2. Alternatively, centers may submit queries using actual `JSON` data (either `BFF` or `PXF` objects`), which should be anonymized or meet the network's security standards. This option allows the recipient site to perform similarity analyses either on precomputed data or on-the-fly using Pheno-Ranker's CLI or module, offering greater adaptability.
+    1. The first mirrors the method used within hospital networks, where queries utilize a precomputed vector. This approach ensures secure and fast similarity evaluations against an existing database. To facilitate this, a Beacon aggregator would periodically aggregate ontology terms via the _filtering_terms_ endpoint from each Beacon v2 API, creating a global lookup table.
+
+    2. Alternatively, centers may submit queries using actual JSON data (either `BFF` or `PXF` objects), which should be anonymized or meet the network's security standards. This option allows the recipient site to perform similarity analyses either on their precomputed data or on-the-fly using Pheno-Ranker's CLI or module, offering greater adaptability.
+
     The response schema can either adhere to the Beacon v2 specification standards or be adapted to include similarity metrics, enhancing the utility and adaptability of the integration.
-    
+
     ??? Example "Draft Proposal for the JSON Schema of the `phenoRanker` property"
        
         Note: In YAML, subject to future modifications:
@@ -137,9 +140,14 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
         $schema: "https://json-schema.org/draft/2020-12/schema"
         type: object
         properties:
+          version:
+            type: string
+            description: "The global version of the schema."
+            example: "0.0.1"
+            enum: ["0.0.1"]  # Ensures the version is fixed to "0.0.1"
           phenoRanker:
             type: array
-            description: "Array of objects representing the phenoRanker data. Each object must contain exactly one of 'vector', 'bff', or 'pxf'."
+            description: "Array of objects representing the phenoRanker data. All objects must be of the same type: 'vector', 'bff', or 'pxf'."
             items:
               type: object
               properties:
@@ -148,7 +156,8 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
                   description: "Additional information about the phenoRanker object. This field is optional."
                   example: "This is a sample description for the phenoRanker object."
               oneOf:
-                - properties:
+                - type: object
+                  properties:
                     vector:
                       type: string
                       pattern: "^[01]+$"
@@ -156,25 +165,62 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
                       example: "1010101"
                     version:
                       type: string
-                      description: "The version of global lookup table for the phenoRanker object."
+                      description: "The version of the global lookup table for the phenoRanker object."
                       example: "1.0.0"
                   required:
                     - vector
                     - version
-                - properties:
+                  description: "Object representing the 'vector' data and associated version."
+                - type: object
+                  properties:
                     bff:
                       type: object
                       description: "Object representing the BFF data."
+                    version:
+                      type: string
+                      description: "The version of the BFF object."
+                      example: "2.0"
+                      enum: ["2.0"]
                   required:
                     - bff
-                - properties:
+                    - version
+                  description: "Object representing the 'bff' data."
+                - type: object
+                  properties:
                     pxf:
                       type: object
                       description: "Object representing the PXF data."
+                    version:
+                      type: string
+                      description: "The version of the PXF object."
+                      example: "2.0"
+                      enum: ["2.0"]
                   required:
                     - pxf
+                    - version
+                  description: "Object representing the 'pxf' data."
               description: "Object structure for each item in the phenoRanker array must contain exactly one of 'vector', 'bff', or 'pxf'."
+            allOf:
+              - if:
+                  contains:
+                    required: ["vector"]
+                then:
+                  items:
+                    required: ["vector"]
+              - if:
+                  contains:
+                    required: ["bff"]
+                then:
+                  items:
+                    required: ["bff"]
+              - if:
+                  contains:
+                    required: ["pxf"]
+                then:
+                  items:
+                    required: ["pxf"]
         required:
+          - version
           - phenoRanker
-        description: "Schema for phenoRanker property. Each object in the 'phenoRanker' array must contain exactly one of the specified properties: 'vector', 'bff', or 'pxf'."
+        description: "This is a proposal for the schema for the phenoRanker property. Each object in the 'phenoRanker' array must contain exactly one of the specified properties: 'vector', 'bff', or 'pxf', and all items in the array must be of the same type."
         ```

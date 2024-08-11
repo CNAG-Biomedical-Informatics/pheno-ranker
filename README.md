@@ -115,7 +115,7 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
 ### Method 2: From CPAN in a CONDA environment
 
-Please follow [these instructions](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_2_2).
+Please follow [these instructions](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_1_2).
 
 ### Method 3: From Github
 

@@ -104,4 +104,4 @@ If we are working with a target patient, the JSON file is flattened using the sa
 
 ## Step 5: Compute metrics
 
-Compute differents metrics depending on reference or target mode.
+Compute differents metrics depending on _cohort_ or _target_ mode.

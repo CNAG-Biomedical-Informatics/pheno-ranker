@@ -2,7 +2,7 @@
 
 ## Developers
 
-=== "Module + CLI"
+=== "Module + CLI + utils"
 
     * [Manuel Rueda](https://github.com/mrueda)
 

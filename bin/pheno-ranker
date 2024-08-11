@@ -303,7 +303,7 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
 =head3 Method 2: From CPAN in a CONDA environment
 
-Please follow L<these instructions|https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_2_2>.
+Please follow L<these instructions|https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_1_2>.
 
 =head3 Method 3: From Github
 
