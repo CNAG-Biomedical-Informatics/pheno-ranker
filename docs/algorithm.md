@@ -20,7 +20,7 @@ graph TD;
 
 ## Step 1: Flatten JSON for reference cohort(s)
 
-Each object containing one individual (loaded from [PXF](pxf.md) or [BFF](bff.md) files) for the reference cohort(s) is “flattened” into a one-dimensional hash data structure (i.e., associative array or lookup table) and the variables are initialized with weights of `1`. For terms that consist of arrays of objects (e.g., _phenotypicFeatures_), the element indices are replaced with the [CURIE](https://www.w3.org/TR/curie/)-style identifier (`"id"`) from the _required_ ontology class, instead of using the element index. We used an ad-hoc filtering (that can be changed with a configuration file) to remove variables that do not provide any value to the similarity. For instance:
+Each object containing one individual (loaded from [PXF](pxf.md) or [BFF](bff.md) files) for the reference cohort(s) is “flattened” into a one-dimensional hash data structure (i.e., associative array or lookup table) and the variables are initialized with weights of `1`. For terms that consist of arrays of objects (e.g., _phenotypicFeatures_), the element indices are replaced with the [CURIE](https://www.w3.org/TR/curie/)-style identifier (`"id"`) from the _required_ ontology class, instead of using the element index. We used an ad-hoc filtering (that can be changed with a configuration file) to filter out variables that do not provide any value to the similarity. For instance:
 
 ```json
 "sex": {
@@ -76,7 +76,7 @@ Note that the flattened keys maintain the original hierarchical relationships of
 
 ## Step 2: Generate global hash for reference cohort(s)
 
-We generate a global hash (i.e., lookup table) for the reference cohort(s) by utilizing the unique variable entries. The size of the hash depends on the number of variables present in the cohort. The algorithm is optimized to handle a large number of variables, even exceeding 100K (e.g., when considering genomic variation data such as SNPs). To address any potential limitations, the algorithm allows selecting a randomly subset of N random variables from the total available (with the flag `--max-number-var`).
+We generate a global hash for the reference cohort(s) by utilizing the unique variable entries. The size of the hash depends on the number of variables present in the cohort. The algorithm is optimized to handle a large number of variables, even exceeding 100K (e.g., when considering genomic variation data such as SNPs). To address any potential limitations, the algorithm allows selecting a randomly subset of N random variables from the total available (with the flag `--max-number-var`).
 
 ```json
 {
@@ -89,7 +89,7 @@ We generate a global hash (i.e., lookup table) for the reference cohort(s) by ut
 
 ## Step 3: One-hot encoding
 
-We use this global hash to represent categorical data in a numerical format via one-hot encoding. Thus, a binary digit string (or vector) that represents each individual in the reference cohort(s). If the variable exists in an individual, they will be assigned a value of `1`, and `0` otherwise. Each vector has a length equal to the vocabulary size and a value of `1` in the position corresponding to the index of the word in the vocabulary and `0`s elsewhere. This way, each individual will have a binary digit string that is as long as the global hash. 
+We use the global hash to convert categorical data into numerical form through one-hot encoding. For each individual in the reference cohort(s), we create a binary string (also referred in the text as “binary vector” or simply as “vector”) reflecting the variables in the global hash. The characters within this vector coincide with the global hash's sorted keys, marking a `1` for each variable present in an individual's data and a `0` for absent variables. The length of the vector corresponds to the number of keys in the global hash, ensuring a uniform representation of each individual's data in line with the global hash's size.
 
 ```json
 {
@@ -100,7 +100,7 @@ We use this global hash to represent categorical data in a numerical format via 
 
 ## Step 4: Flatten JSON for target patient
 
-If we are working with a target patient, the JSON file is flattened using the same procedure as in step one. Subsequently, the binary digit for the patient is calculated based on the global hash, excluding any patient-specific variables.
+When working with a target patient's data from a JSON file, it is flattened using the same method as described in step one. We then calculate the patient's binary vector using the global hash derived from the cohort, omitting any variables unique to the patient. This approach of excluding patient-specific variables makes it easier to search within unrelated databases that contain pre-computed data.
 
 ## Step 5: Compute metrics
 

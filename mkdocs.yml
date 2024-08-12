@@ -81,6 +81,7 @@ nav:
   - Technical details:
       - Implementation: implementation.md
       - Algorithm: algorithm.md
+      - User workflow: user-workflow.md
   - Utilities:
       - BFF/PXF plot: bff-pxf-plot.md 
       - BFF/PXF simulator: bff-pxf-simulator.md

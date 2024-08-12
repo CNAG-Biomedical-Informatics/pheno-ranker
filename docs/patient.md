@@ -25,7 +25,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         mv 107:week_0_arm_1.json patient.json
         ```
 
-    This will create the text file `rank.txt`.
+    This will create the **output** text file `rank.txt`.
 
     ???+ Abstract "`rank.txt` column names and meaning"
 
