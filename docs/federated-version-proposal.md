@@ -123,7 +123,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
     
 === "Use Case B: Beacon v2 Network"
     
-    To facilitate Pheno-Ranker's integration into the Beacon v2 API ecosystem, we propose the addition of an optional term/propery to the JSON Schema of the __individuals_ entry type in  [Beacon v2 Models](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema). We propose two distinct pathways for query submission to enhance flexibility and security:
+    To facilitate Pheno-Ranker's integration into the Beacon v2 API ecosystem, we propose the addition of an optional term/propery to the JSON Schema of the 'individuals' entry type in  [Beacon v2 Models](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema). We propose two distinct pathways for query submission to enhance flexibility and security:
 
     
     1. The first mirrors the method used within hospital networks, where queries utilize a precomputed vector. This approach ensures secure and fast similarity evaluations against an existing database. To facilitate this, a Beacon aggregator would periodically aggregate ontology terms via the _filtering_terms_ endpoint from each Beacon v2 API, creating a global lookup table.

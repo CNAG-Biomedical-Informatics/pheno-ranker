@@ -81,13 +81,13 @@ The script also accepts CSV files that have been pre-processed using the `csv2ph
 
 # SUMMARY
 
-Pheno-Ranker is a lightweight and easily to install tool specifically designed for performing semantic similarity analysis on phenotypic data structured in JSON format, such as Beacon v2 Models or Phenopackets v2.
+Pheno-Ranker is a lightweight and easy to install tool specifically designed for performing semantic similarity analysis on phenotypic data structured in JSON format, such as Beacon v2 Models or Phenopackets v2.
 
 # INSTALLATION
 
 ## Non containerized
 
-The script runs on command-line Linux and it has been tested on Debian/RedHat/MacOS based distributions (only showing commands for Debian's). Perl 5 is installed by default on Linux, 
+The script runs on command-line Linux and it has been tested on Debian/RedHat/macOS based distributions (only showing commands for Debian). Perl 5 is installed by default on Linux, 
 but we will install a few CPAN modules with `cpanminus`.
 
 ### Method 1: From CPAN
@@ -96,7 +96,7 @@ First install system level dependencies:
 
     sudo apt-get install cpanminus libperl-dev
 
-Now you have two choose between one of the 2 options below:
+Now you have to choose between one of the 2 options below:
 
 **Option 1:** System-level installation:
 
@@ -117,7 +117,7 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
 Please follow [these instructions](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_1_2).
 
-### Method 3: From Github
+### Method 3: From GitHub
 
     git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
     cd pheno-ranker
@@ -126,7 +126,7 @@ Install system level dependencies:
 
     sudo apt-get install cpanminus libperl-dev
 
-Now you have two choose between one of the 2 options below:
+Now you have to choose between one of the 2 options below:
 
 **Option 1:** Install dependencies (they're harmless to your system) as `sudo`:
 
@@ -167,7 +167,11 @@ Please download the `Dockerfile` from the repo:
 
 And then run:
 
+    # Docker Version 19.03 and Above (Supports buildx)
     docker buildx build -t cnag/pheno-ranker:latest .
+
+    # Docker Version Older than 19.03 (Does Not Support buildx)
+    docker build -t cnag/pheno-ranker:latest .
 
 ### Additional instructions for Methods 4 and 5
 
@@ -205,7 +209,7 @@ Then I will do something like this:
 
 ### System requirements
 
-    * Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOs, OpenSuse) should do as well.
+    * Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well.
       (It should also work on macOS and Windows Server, but we are only providing information for Linux here)
     * Perl 5 (>= 5.26 core; installed by default in most Linux distributions). Check the version with "perl -v".
     * >= 4GB of RAM
@@ -254,7 +258,7 @@ There are two modes of operation:
 
 # CITATION
 
-The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the the following reference:
+The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the following reference:
 
 Leist, I.C. et al., (2024). Pheno-Ranker: A Toolkit for Comparison of Phenotypic Data Stored in GA4GH Standards and Beyond. _Submitted_.
 
