@@ -23,6 +23,8 @@
 ^docs/
 ^nb/
 ^shared/r/
+^shared/ex/
+^shared/fig/
 ^utils/barcode/
 ^t/barcode\.t$
 ^utils/bff_pxf_plot/
