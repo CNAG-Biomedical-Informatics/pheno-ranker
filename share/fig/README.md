@@ -10,7 +10,7 @@ First, we create the file `individuals.json`:
 ```bash
 bff-pxf-simulator -n 100 \
                   -phenotypicFeatures 1 -max-phenotypicFeatures 2  \
-                  -diseases 1 -max-diseases 2 \ 
+                  -diseases 1 -max-diseases 2 \
                   -treatments 1 -max-treatments 2 \
                   -procedures 0 -exposures 0 \
                   --random-seed 123456789
@@ -83,7 +83,7 @@ Now the patient:
 ```bash
 bff-pxf-simulator -n 1 \
                   -phenotypicFeatures 2 -max-phenotypicFeatures 25 \
-                  --random-seed 987654321
+                  --random-seed 987654321 -o patient.json
 ```
 
 We run `Pheno-Ranker`:
@@ -110,7 +110,7 @@ bff-pxf-simulator -n 1 \
                   -phenotypicFeatures 3 -max-phenotypicFeatures 5 \
                   -diseases 3 -max-diseases 5 \
                   -treatments 3 -max-treatments 5 \
-                  --random-seed 987654321
+                  --random-seed 987654321 -o patient.json
 ```
 
 We run `Pheno-Ranker`:
@@ -123,6 +123,8 @@ pheno-ranker -r individuals.json -t patient.json -include-terms phenotypicFeatur
 
 ### A
 
+Create cohort:
+
 ```bash
 bff-pxf-simulator -n 10 \
                   -phenotypicFeatures 10 \
@@ -133,7 +135,16 @@ bff-pxf-simulator -n 10 \
                   --random-seed 123456789
 ```
 
+Run `Pheno-Ranker`:
+
+```bash
+pheno-ranker -r individuals.json
+```
+
+
 ### C
+
+Create cohort:
 
 ```bash
 bff-pxf-simulator -n 100 \
@@ -143,6 +154,12 @@ bff-pxf-simulator -n 100 \
                   -procedures 10 \
                   -exposures 10 \
                   --random-seed 123456789
+```
+
+Run `Pheno-Ranker`:
+
+```bash
+pheno-ranker -r individuals.json
 ```
 
 ## Supporting Figure 5
@@ -232,7 +249,7 @@ First, we download the file:
 wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/refs/heads/main/CINECA_synthetic_cohort_EUROPE_UK1/bff/individuals.json
 ```
 
-Now we run the utility
+Now we run the utility:
 
 ```bash
 bff-pxf-plot -i individuals.json
