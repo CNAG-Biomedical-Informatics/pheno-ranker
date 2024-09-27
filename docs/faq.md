@@ -38,7 +38,7 @@ Frequently Asked Questions
     To exclude a specific variable, you can use one of the following methods:
 
     1. Utilize the `--include-terms` or `--exclude-terms` options in the command-line interface (CLI).
-    2. Implement a regular expression (regex) in the configuration file using the `exclude_properties_regex` parameter.
+    2. Implement a regular expression (regex) in the configuration file using the `exclude_variables_regex` parameter.
     3. Assign a weight of zero to the variable in a weights file (indicated by the `--w` flag). This approach offers the most detailed control over variable exclusion.
 
     ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
