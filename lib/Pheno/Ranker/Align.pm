@@ -36,16 +36,14 @@ sub cohort_comparison {
 
     # Define the subroutine to be used
     my %similarity_function = (
-        'cosine' => \&cosine_similarity_fast,
-        'hamming' => \&hd_xs,
+        'hamming' => \&hd_fast,
         'jaccard' => \&jaccard_similarity_formatted
     );
 
     # Define values for diagonal elements depending on metric
     my %similarity_diagonal = (
         'hamming' => 0,
-        'jaccard' => 1,
-        'cosine'  => 1
+        'jaccard' => 1
     );
 
     # Use previous hashes to define stuff

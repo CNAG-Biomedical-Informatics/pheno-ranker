@@ -13,10 +13,20 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
 
+    First, we will download the file:
+    ```bash
+    wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/t/individuals.json
+    ```
+    And now we run `Pheno-Ranker`:
+    
     ```bash
     pheno-ranker -r individuals.json 
 
     ```
+
+    ??? Example "More input examples"
+       
+         You can find more input examples [here](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/ex).
 
     This process generates a `matrix.txt` file, containing the results of 36 x 36 pairwise comparisons, calculated using the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) metric.
 
@@ -43,6 +53,12 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         ```
 
         This command will print how many variables per individual were actually used to perform the comparison. You can post-process the output to check for unbalanced data.
+
+    ??? Example "Included R scripts"
+
+        You can find in the link below a few examples to perform clustering and multimensional scaling with your data:
+
+        [R scripts at GitHub](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r).
 
     ### Clustering
 
