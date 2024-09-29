@@ -220,6 +220,8 @@ Then I will do something like this:
 
 For executing pheno-ranker you will need a PXF/BFF file(s) in JSON|YAML format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
 
+You can download examples from [this location](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/ex).
+
 There are two modes of operation:
 
 - Cohort mode:

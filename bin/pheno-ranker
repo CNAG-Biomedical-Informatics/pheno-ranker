@@ -82,6 +82,11 @@ pod2usage(
       "<--graph_stats> only works in conjunction with <--cytoscape-json>\n",
     -exitval => 1
 ) if ( defined $graph_stats && !defined $cytoscape_json );
+pod2usage(
+    -message =>
+      "Weights file <$weights_file> does not exist\n",
+    -exitval => 1
+) if ( defined $weights_file && !-f $weights_file );
 
 # Set the name of the output
 my $out_file = $out_file_arg
@@ -406,6 +411,8 @@ Then I will do something like this:
 =head1 HOW TO RUN PHENO-RANKER
 
 For executing pheno-ranker you will need a PXF/BFF file(s) in JSON|YAML format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
+
+You can download examples from L<this location|https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/ex>.
 
 There are two modes of operation:
 
