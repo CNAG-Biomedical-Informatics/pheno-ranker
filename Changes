@@ -1,6 +1,6 @@
 Revision history for Perl distribution Pheno-Ranker
 
-0.11 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+0.11 2024-09-29T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Added support for BFF pedigrees (excluded by default via regex in config)
  - Discarded '_id|datasetId' keys using regex in config
