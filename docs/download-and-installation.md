@@ -6,16 +6,26 @@
 We provide several alternatives (containerized and non-containerized) for download and installation.
 
 ???+ Question "Which download method should I use?"
-    It depends in which components you want to use and your fluency in performing installations on Linux environments.
+    It depends on which components you want to use and your level of fluency in performing installations in Linux environments. Here are our recommendations:
 
-    The [CPAN](usage.md#method-1-from-cpan) based installation **(Method 1) is the easier** one.
+    | Use case      | Perl utils | Python utils | Method                                             |
+    |---------------|------------|--------------|----------------------------------------------------|
+    | CLI           | ✔          | ✘            | 1 (CPAN)                                           |
+    | CLI (conda)   | ✔          | ✘            | 2 (CPAN in Conda env)                              |
+    | CLI           | ✔          | ✔            | 4 or 5 (Docker; no dependencies)                   |
+    | Web App UI    |            |              | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
 
-    | Use case | Method  |
-    | --  | -- |
-    | CLI |  1 (CPAN) |
-    | CLI (conda) | 2 (CPAN in Conda env) |
-    | CLI | 4 or 5 (Docker; no dependencies) |
-    | Web App UI | [Here](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
+    ??? Note "Overview of Pheno-Ranker Apps and utilities"
+    
+        | Software Name                                                                                   | Language        | Type          | Short Description                              | Install Methods         | Documentation URL                                                                                 |
+        |-------------------------------------------------------------------------------------------------|-----------------|---------------|------------------------------------------------|-------------------------|---------------------------------------------------------------------------------------------------|
+        | `pheno-ranker`                                                                                | Perl 5          | CLI           | Compare cohort and patient data                | Docker, GitHub, CPAN    | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/)                               |
+        | Pheno-Ranker Web App                                                                        | R, JavaScript   | R Shiny App   | Web app user interface to the CLI              | Docker          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/)                            |
+        | **Utilities:**                                                                                  |                 |               |                                                |                         |                                                                                                   |
+        | `bff-pxf-plot`                                                                                | Python 3        | CLI           | Plot summary stats on BFF/PXF files            | Docker, GitHub          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-plot/)                  |
+        | `bff-pxf-simulator`                                                                           | Perl 5          | CLI           | Generate simulated BFF/PXF data                | Docker, GitHub, CPAN          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator/)             |
+        | `csv2pheno-ranker`                                                                            | Perl 5          | CLI           | Convert CSV to JSON for P-R CLI                | Docker, GitHub, CPAN          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import/)                    |
+        | `pheno-ranker2barcode`,<br> `barcode2pheno-ranker`,<br>`pheno-ranker2pdf`                  | Python 3        | CLI           | Convert P-R vector to QR codes/PDF report      | Docker, GitHub          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/qr-code-generator/)             |
 
 ## Non-Containerized
 

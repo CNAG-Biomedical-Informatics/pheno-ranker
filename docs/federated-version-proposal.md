@@ -148,7 +148,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
               apiVersion:
                 type: string
                 description: "The version of the Beacon API being used."
-                enum: ["2.0", “2.1”]
+                enum: ["2.0", "2.1"]
             required:
               - apiVersion
           query:
