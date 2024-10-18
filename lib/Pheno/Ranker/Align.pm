@@ -955,9 +955,14 @@ sub guess_label {
 
     my $input_string = shift;
 
-    # Match and capture \w after the last dot
-    if ( $input_string =~ /\.(\w+)$/ ) {
-        return $1;    # Return the part after the last dot
+    if (
+        $input_string =~ /\.      # Match a literal dot
+                       ([^\.]+)  # Match and capture everything except a dot
+                       $        # Anchor to the end of the string
+                      /x
+      )
+    {
+        return $1;
     }
 
     # If no dot is found, return the original string
