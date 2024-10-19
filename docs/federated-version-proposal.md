@@ -131,7 +131,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
 
     2. Alternatively, centers may submit queries using actual JSON data (either `BFF` or `PXF` objects), which should be anonymized or meet the network’s security standards. This option allows the recipient site to perform similarity analyses either on their precomputed data or on-the-fly using Pheno-Ranker’s CLI or module, offering greater adaptability.
 
-    The response schema can either adhere to the Beacon v2 specification standards or be adapted to include similarity metrics, enhancing the utility and adaptability of the integration.
+    The response schema can either adhere to the Beacon v2 specification or be adapted to include similarity metrics, enhancing the utility and adaptability of the integration.
 
     ??? Example "Draft Proposal for the JSON Schema of the `phenoRanker` Query Parameter" 
 
