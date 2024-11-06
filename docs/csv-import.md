@@ -96,7 +96,13 @@
         ```bash
         pheno-ranker -r example.json --config example_config.yaml
         ```
-        
+
+        If you want to exclude or include columns (i.e., terms) you can use the corresponding flag:
+
+        ```bash
+        pheno-ranker -r example.json --exclude-terms Id Foo --config example_config.yaml
+        ```
+
         Remember to always use `--config example_config.yaml`.
         
         Good luck!
