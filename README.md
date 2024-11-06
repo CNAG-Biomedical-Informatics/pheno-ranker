@@ -51,10 +51,10 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -config <file>                   YAML config file to modify default parameters [default: share/conf/config.yaml]
         -cytoscape-json [file]           Serializes the pairwise comparison matrix as an undirected graph in JSON, compatible with Cytoscape [default: graph.json]
         -e, --export [path/basename]     Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
-        -exclude-terms <terms>           Exclude BFF/PXF terms (e.g., --exclude-terms sex, id)
+        -exclude-terms <terms>           Exclude BFF/PXF terms (e.g., --exclude-terms sex, id) or CSV column names in JSON-derived from CSV 
         -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
         -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
-        -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases)
+        -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or CSV column names in JSON-derived from CSV
         -max-number-var <number>         Maximum variables for binary string [default: 10000]
         -max-out <number>                Print only N comparisons [default: 50]
         -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]
