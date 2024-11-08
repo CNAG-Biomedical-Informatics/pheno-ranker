@@ -18,12 +18,12 @@
         },
         "familyHistory": false,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -100,8 +100,8 @@
         },
         "dateOfProcedure": "2021-02-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -522,16 +522,16 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_copd /// Field Label=Comorbidities - COPD /// Field Note= /// Field Type=yesno"
       },
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_ms /// Field Label=Comorbidities - demyelating disease/multiple sclerosis /// Field Note= /// Field Type=yesno"
       },
@@ -562,16 +562,16 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_ad /// Field Label=Comorbidities - atopic dermatitis /// Field Note= /// Field Type=yesno"
       },
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_cancer /// Field Label=Comorbidities - cancer /// Field Note= /// Field Type=yesno"
       },
@@ -594,8 +594,8 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_lipids /// Field Label=Comorbidities - Hyper-/dyslipidemia /// Field Note= /// Field Type=yesno"
       },
@@ -610,8 +610,8 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_other_ai /// Field Label=Comorbidities - other autoimmune disease /// Field Note= /// Field Type=yesno"
       },
@@ -625,8 +625,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -655,8 +655,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -689,8 +689,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -723,8 +723,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -757,8 +757,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -791,8 +791,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -825,8 +825,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -859,8 +859,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -893,8 +893,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -918,12 +918,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -942,8 +942,8 @@
         },
         "dateOfProcedure": "2021-07-12",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -958,8 +958,8 @@
         },
         "dateOfProcedure": "2021-07-12",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -1371,8 +1371,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -1390,12 +1390,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -1809,8 +1809,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -1839,12 +1839,12 @@
         },
         "familyHistory": true,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -1905,8 +1905,8 @@
         },
         "dateOfProcedure": "2020-11-16",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -1921,8 +1921,8 @@
         },
         "dateOfProcedure": "2020-11-16",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -2342,8 +2342,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -2372,8 +2372,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2406,8 +2406,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2440,8 +2440,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2474,8 +2474,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2508,8 +2508,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2542,8 +2542,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2576,8 +2576,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2610,8 +2610,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -2635,12 +2635,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -2659,8 +2659,8 @@
         },
         "dateOfProcedure": "2021-03-13",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -2675,8 +2675,8 @@
         },
         "dateOfProcedure": "2021-03-13",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -3088,8 +3088,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -3107,12 +3107,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -3131,8 +3131,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -3544,8 +3544,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -3563,12 +3563,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -3982,8 +3982,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -4001,12 +4001,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -4025,8 +4025,8 @@
         },
         "dateOfProcedure": "2021-08-25",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -4041,8 +4041,8 @@
         },
         "dateOfProcedure": "2021-08-25",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -4609,8 +4609,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -4628,12 +4628,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -5171,8 +5171,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -5201,12 +5201,12 @@
         },
         "familyHistory": false,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -5283,8 +5283,8 @@
         },
         "dateOfProcedure": "2020-12-14",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -5299,8 +5299,8 @@
         },
         "dateOfProcedure": "2020-12-14",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -5315,8 +5315,8 @@
         },
         "dateOfProcedure": "2020-12-14",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -5331,8 +5331,8 @@
         },
         "dateOfProcedure": "2020-12-14",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -5742,8 +5742,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -5773,8 +5773,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -5783,13 +5783,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 3
           }
@@ -5804,8 +5804,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -5835,8 +5835,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -5845,13 +5845,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 2
           }
@@ -5876,8 +5876,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -5906,8 +5906,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -5940,8 +5940,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -5974,8 +5974,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -6008,8 +6008,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -6042,8 +6042,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -6076,8 +6076,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -6110,8 +6110,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -6144,8 +6144,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -6169,12 +6169,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -6193,8 +6193,8 @@
         },
         "dateOfProcedure": "2021-05-29",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -6209,8 +6209,8 @@
         },
         "dateOfProcedure": "2021-05-29",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -6225,8 +6225,8 @@
         },
         "dateOfProcedure": "2021-05-29",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -6241,8 +6241,8 @@
         },
         "dateOfProcedure": "2021-05-29",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -6652,8 +6652,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -6683,8 +6683,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -6693,13 +6693,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 3
           }
@@ -6714,8 +6714,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -6745,8 +6745,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -6755,13 +6755,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 2
           }
@@ -6778,8 +6778,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -6797,12 +6797,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -6821,8 +6821,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -6837,8 +6837,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -7219,8 +7219,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -7238,12 +7238,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -7262,8 +7262,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -7644,8 +7644,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -7663,12 +7663,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -7687,8 +7687,8 @@
         },
         "dateOfProcedure": "2022-03-03",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -7703,8 +7703,8 @@
         },
         "dateOfProcedure": "2022-03-03",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -7719,8 +7719,8 @@
         },
         "dateOfProcedure": "2022-03-03",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -8285,8 +8285,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -8316,8 +8316,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -8347,8 +8347,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -8378,8 +8378,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -8388,13 +8388,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 1
           }
@@ -8411,8 +8411,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -8430,12 +8430,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -8911,8 +8911,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -8941,12 +8941,12 @@
         },
         "familyHistory": false,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -9007,8 +9007,8 @@
         },
         "dateOfProcedure": "2021-10-28",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -9023,8 +9023,8 @@
         },
         "dateOfProcedure": "2021-10-28",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -9039,8 +9039,8 @@
         },
         "dateOfProcedure": "2021-10-28",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -9055,8 +9055,8 @@
         },
         "dateOfProcedure": "2021-10-28",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -9621,8 +9621,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -9631,13 +9631,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 3
           }
@@ -9663,16 +9663,16 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_copd /// Field Label=Comorbidities - COPD /// Field Note= /// Field Type=yesno"
       },
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_ms /// Field Label=Comorbidities - demyelating disease/multiple sclerosis /// Field Note= /// Field Type=yesno"
       },
@@ -9703,16 +9703,16 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_ad /// Field Label=Comorbidities - atopic dermatitis /// Field Note= /// Field Type=yesno"
       },
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_cancer /// Field Label=Comorbidities - cancer /// Field Note= /// Field Type=yesno"
       },
@@ -9735,8 +9735,8 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_lipids /// Field Label=Comorbidities - Hyper-/dyslipidemia /// Field Note= /// Field Type=yesno"
       },
@@ -9751,8 +9751,8 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_other_ai /// Field Label=Comorbidities - other autoimmune disease /// Field Note= /// Field Type=yesno"
       },
@@ -9766,8 +9766,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -9796,8 +9796,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -9830,8 +9830,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -9864,8 +9864,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -9898,8 +9898,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -9932,8 +9932,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -9966,8 +9966,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -10000,8 +10000,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -10034,8 +10034,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -10059,12 +10059,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -10083,8 +10083,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -10099,8 +10099,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -10667,8 +10667,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -10686,12 +10686,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -10710,8 +10710,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -10726,8 +10726,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -11294,8 +11294,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -11313,12 +11313,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -11918,8 +11918,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -11948,12 +11948,12 @@
         },
         "familyHistory": false,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -12014,8 +12014,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -12030,8 +12030,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -12046,8 +12046,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -12062,8 +12062,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -12473,8 +12473,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -12504,8 +12504,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -12514,13 +12514,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 3
           }
@@ -12535,8 +12535,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -12566,8 +12566,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -12576,13 +12576,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 3
           }
@@ -12607,8 +12607,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -12637,8 +12637,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12671,8 +12671,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12705,8 +12705,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12739,8 +12739,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12773,8 +12773,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12807,8 +12807,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12841,8 +12841,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12875,8 +12875,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -12900,12 +12900,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -12924,8 +12924,8 @@
         },
         "dateOfProcedure": "2021-04-19",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -12940,8 +12940,8 @@
         },
         "dateOfProcedure": "2021-04-19",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -12956,8 +12956,8 @@
         },
         "dateOfProcedure": "2021-04-19",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -13336,8 +13336,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -13346,13 +13346,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 1
           }
@@ -13369,8 +13369,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -13388,12 +13388,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -13412,8 +13412,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -13428,8 +13428,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -13841,8 +13841,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -13860,12 +13860,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -13884,8 +13884,8 @@
         },
         "dateOfProcedure": "2022-08-13",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -13900,8 +13900,8 @@
         },
         "dateOfProcedure": "2022-08-13",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -13916,8 +13916,8 @@
         },
         "dateOfProcedure": "2022-08-13",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -14482,8 +14482,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -14513,8 +14513,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -14544,8 +14544,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -14575,8 +14575,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -14585,13 +14585,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 1
           }
@@ -14608,8 +14608,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -14638,12 +14638,12 @@
         },
         "familyHistory": false,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -14738,8 +14738,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -14754,8 +14754,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -14770,8 +14770,8 @@
         },
         "dateOfProcedure": "2021-01-04",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -15222,8 +15222,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -15252,8 +15252,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15286,8 +15286,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15320,8 +15320,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15354,8 +15354,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15388,8 +15388,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15422,8 +15422,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15456,8 +15456,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15490,8 +15490,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -15515,12 +15515,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -15934,8 +15934,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -15953,12 +15953,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -15977,8 +15977,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -16545,8 +16545,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -16575,12 +16575,12 @@
         },
         "familyHistory": false,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -16641,8 +16641,8 @@
         },
         "dateOfProcedure": "2021-01-05",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -16657,8 +16657,8 @@
         },
         "dateOfProcedure": "2021-01-05",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -16673,8 +16673,8 @@
         },
         "dateOfProcedure": "2021-01-05",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -16689,8 +16689,8 @@
         },
         "dateOfProcedure": "2021-01-05",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -17069,8 +17069,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -17100,8 +17100,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -17110,13 +17110,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 3
           }
@@ -17131,8 +17131,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -17162,8 +17162,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -17172,13 +17172,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 2
           }
@@ -17203,8 +17203,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -17233,8 +17233,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17267,8 +17267,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17301,8 +17301,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17335,8 +17335,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17369,8 +17369,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17403,8 +17403,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17437,8 +17437,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17471,8 +17471,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -17496,12 +17496,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -17520,8 +17520,8 @@
         },
         "dateOfProcedure": "2021-04-16",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -17536,8 +17536,8 @@
         },
         "dateOfProcedure": "2021-04-16",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -17552,8 +17552,8 @@
         },
         "dateOfProcedure": "2021-04-16",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -17963,8 +17963,8 @@
       },
       {
         "assayCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "date": "1900-01-01",
         "measurementValue": {
@@ -17973,13 +17973,13 @@
               "high": null,
               "low": null,
               "unit": {
-                "id": "NCIT:NA0000",
-                "label": "NA"
+                "id": "NCIT:C126101",
+                "label": "Not Available"
               }
             },
             "unit": {
-              "id": "NCIT:NA0000",
-              "label": "NA"
+              "id": "NCIT:C126101",
+              "label": "Not Available"
             },
             "value": 1
           }
@@ -17996,8 +17996,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -18015,12 +18015,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -18039,8 +18039,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -18055,8 +18055,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -18468,8 +18468,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -18487,12 +18487,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -18937,8 +18937,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -18956,12 +18956,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -18980,8 +18980,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -19548,8 +19548,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -19578,12 +19578,12 @@
         },
         "familyHistory": true,
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -19644,8 +19644,8 @@
         },
         "dateOfProcedure": "2021-04-12",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -19660,8 +19660,8 @@
         },
         "dateOfProcedure": "2021-04-12",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -20237,16 +20237,16 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_copd /// Field Label=Comorbidities - COPD /// Field Note= /// Field Type=yesno"
       },
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_ms /// Field Label=Comorbidities - demyelating disease/multiple sclerosis /// Field Note= /// Field Type=yesno"
       },
@@ -20277,16 +20277,16 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_ad /// Field Label=Comorbidities - atopic dermatitis /// Field Note= /// Field Type=yesno"
       },
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_cancer /// Field Label=Comorbidities - cancer /// Field Note= /// Field Type=yesno"
       },
@@ -20309,8 +20309,8 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_lipids /// Field Label=Comorbidities - Hyper-/dyslipidemia /// Field Note= /// Field Type=yesno"
       },
@@ -20325,8 +20325,8 @@
       {
         "excluded": true,
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "comorb_other_ai /// Field Label=Comorbidities - other autoimmune disease /// Field Note= /// Field Type=yesno"
       },
@@ -20340,8 +20340,8 @@
       },
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -20370,8 +20370,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20404,8 +20404,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20438,8 +20438,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20472,8 +20472,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20506,8 +20506,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20540,8 +20540,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20574,8 +20574,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20608,8 +20608,8 @@
         },
         "cumulativeDose": {
           "unit": {
-            "id": "NCIT:NA0000",
-            "label": "NA"
+            "id": "NCIT:C126101",
+            "label": "Not Available"
           },
           "value": -1
         },
@@ -20633,12 +20633,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -20657,8 +20657,8 @@
         },
         "dateOfProcedure": "2021-09-06",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       },
       {
@@ -20673,8 +20673,8 @@
         },
         "dateOfProcedure": "2021-09-06",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -21086,8 +21086,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -21105,12 +21105,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -21534,12 +21534,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -22015,8 +22015,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }
@@ -22034,12 +22034,12 @@
           "label": "Inflammatory Bowel Disease"
         },
         "severity": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "stage": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -22058,8 +22058,8 @@
         },
         "dateOfProcedure": "1900-01-01",
         "procedureCode": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         }
       }
     ],
@@ -22626,8 +22626,8 @@
     "phenotypicFeatures": [
       {
         "featureType": {
-          "id": "NCIT:NA0000",
-          "label": "NA"
+          "id": "NCIT:C126101",
+          "label": "Not Available"
         },
         "notes": "rectal_bleeding /// Field Label=Rectal bleeding score /// Field Note= /// Field Type=radio"
       }

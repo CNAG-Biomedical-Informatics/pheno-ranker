@@ -3,6 +3,7 @@ Revision history for Perl distribution Pheno-Ranker
 0.13 2024-XX-XXT00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Added term 'phenotypicFeatures' to PXF in bff-pxf-plot
+ - Changed { id => 'NCIT:NA0000', label => 'NA' } to { id => 'NCIT:C126101', label => 'Not Available' }
 
 0.12 2024-10-18T00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
