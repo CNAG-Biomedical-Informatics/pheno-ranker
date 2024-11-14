@@ -19,7 +19,7 @@
     
         * `Pheno-Ranker` was built with speed in mind, but if you have more than 10K rows, be aware that the calculations may take more than a few seconds.
     
-        * Qualitative values are preferred over quantitative ones. If you have quantitative values (numbers, and in particular floating ones), we recommend that you re-encode them as ranges. This way, the comparison will make more sense.
+        * Qualitative values are preferred over quantitative ones. If you have quantitative values (numbers, and in particular floating ones), we recommend that you discretize them as ranges. In any case, if your data contain both by quantitative and qualitative variables you may wanna check [Factor Analysis of Mixed data](https://en.wikipedia.org/wiki/Factor_analysis_of_mixed_data).
     
     Ok, let's convert a CSV then.
     
