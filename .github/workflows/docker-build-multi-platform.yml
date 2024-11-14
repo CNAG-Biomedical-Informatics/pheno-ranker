@@ -36,10 +36,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and Push Multi-Platform Docker Image
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/arm/v7 \
-            -t ***/pheno-ranker:test \
-          # -t ***/pheno-ranker:latest \
+            -t your_dockerhub_username/pheno-ranker:test \
             --push .
