@@ -15,7 +15,7 @@ jobs:
 
       - name: Get version
         id: get_version
-        run: echo "::set-output name=VERSION::$(cat VERSION)"
+        run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
       - name: Set up Git user
         run: |
@@ -23,10 +23,10 @@ jobs:
           git config --local user.name "GitHub Action"
 
 #      - name: Create tag
-#        run: git tag -a ${{ steps.get_version.outputs.VERSION }} -m 'Tagging version ${{ steps.get_version.outputs.VERSION }}' ${{ github.sha }}
+#        run: git tag -a ${{ env.VERSION }} -m 'Tagging version ${{ env.VERSION }}' ${{ github.sha }}
 
 #      - name: Push tag to repository
-#        run: git push origin ${{ steps.get_version.outputs.VERSION }}
+#        run: git push origin ${{ env.VERSION }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -42,5 +42,5 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/arm/v7 \
             -t manuelrueda/pheno-ranker:test \
-#            -t manuelrueda/pheno-ranker:latest \
+            #-t manuelrueda/pheno-ranker:latest \
             --push .
