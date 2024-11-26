@@ -2,7 +2,7 @@
   <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker"><img src="https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/docs/img/PR-logo.png" width="400" alt="Pheno-Ranker"></a>
 </p>
 <p align="center">
-    <em>A Toolkit for Comparison of Phenotypic Data Stored in GA4GH Standards and Beyond</em>
+    <em>Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond</em>
 </p>
 
 [![Build and Test](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml)
@@ -262,7 +262,7 @@ There are two modes of operation:
 
 The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the following reference:
 
-Leist, I.C. et al., (2024). Pheno-Ranker: A Toolkit for Comparison of Phenotypic Data Stored in GA4GH Standards and Beyond. _Submitted_.
+Leist, I.C. et al., (2024). Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond. _BMC Bioinformatics_. DOI: 10.1186/s12859-024-05993-2
 
 # AUTHOR 
 
