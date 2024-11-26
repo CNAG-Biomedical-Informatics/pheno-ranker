@@ -28,7 +28,9 @@ graph LR
 <figcaption>Diagram showing Pheno-Ranker implementation</figcaption>
 
 !!! Tip "Which one should I use?"
-    Start with the `Pheno-Ranker` [Web App UI](https://pheno-ranker.cnag.eu) for a practical introduction. When you're ready for more advanced features, turn to the [CLI](usage.md).
+    - **For a quick and practical start**, try the [`Pheno-Ranker` Web App UI](https://pheno-ranker.cnag.eu). It's an intuitive, browser-based interface for straightforward usage.
+    - **For advanced features**, explore the [Command-Line Interface (CLI)](usage.md), which offers greater control and flexibility.
+    - **For desktop users**, we provide an [experimental desktop GUI](https://github.com/mrueda/pheno-ranker-app). This is a simple graphical interface for the CLI, designed for local use but still in an early stage of development.
 
 ## Utilities
 
