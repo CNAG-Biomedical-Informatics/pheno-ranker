@@ -70,7 +70,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         library("pheatmap")
     
         # Read in the input file as a matrix
-        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
     
         # Save image
         png(filename = "heatmap.png", width = 1000, height = 1000,
@@ -97,7 +97,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         library(ggrepel)
         
         # Read in the input file as a matrix 
-        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+        data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
         
         #perform multidimensional scaling
         fit <- cmdscale(data, eig=TRUE, k=2)

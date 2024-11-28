@@ -123,7 +123,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
     
 === "Use Case B: Beacon v2 Network"
     
-    Currently, the `/individuals` endpoint from the Beacon v2 API can be queried, and as long as the user has appropriate access to the record-level data, the results can be parsed and saved in a text file (i.e., `BFF`). `Pheno-Ranker` can then be executed locally, either via the command-line interface (CLI) or through the Web App UI. While this approach works, it becomes cumbersome when the goal is to search for similar patients across multiple Beacon instances.  
+    Currently, the `/individuals` endpoint from the Beacon v2 API can be queried, and, as long as the user has appropriate access to the record-level data, the response can be parsed and saved as a text file (i.e., `BFF`). `Pheno-Ranker` can then be executed locally, either via the command-line interface (CLI) or through the Web App UI. While this approach works, it becomes cumbersome when the goal is to search for similar patients across multiple Beacon instances.  
 
     To facilitate `Pheno-Ranker`’s integration into the Beacon v2 API ecosystem, we propose two distinct pathways for query submission to enhance flexibility and security (both requiring `POST` requests):
     

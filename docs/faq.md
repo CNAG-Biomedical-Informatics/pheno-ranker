@@ -243,7 +243,7 @@ Frequently Asked Questions
 
     ```R
     # Load the matrix of Jaccard similarities from a text file
-    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
     
     # Convert Jaccard similarity matrix to a dissimilarity (distance) matrix
     dissimilarity_matrix <- 1 - data
@@ -273,7 +273,7 @@ Frequently Asked Questions
      
     ```R
     # Load the matrix of Hamming distances from a text file
-    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1))
+    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
     
     # Set n (extracted with --export option)
     n = 100
@@ -286,6 +286,32 @@ Frequently Asked Questions
     ```
 
     ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+??? faq "How can I convert a Hamming distance matrix to a standardized matrix??"
+
+    We recommed using `R` for this task. See example below:
+
+    Example `R` code:
+
+    ```R
+    # Load the matrix of Hamming distances from a text file
+    data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
+
+    # Step 2: Extract numeric matrix
+    numeric_matrix <- as.matrix(data)  # Assumes non-numeric first column is already set as row.names
+
+    # Step 3: Standardize to z-scores
+    z_score_matrix <- scale(numeric_matrix)
+
+    # Step 4: Reassemble the matrix with labels
+    standardized_matrix <- as.data.frame(z_score_matrix)
+    row.names(standardized_matrix) <- row.names(data)
+
+    # Step 5: Save the standardized matrix
+    write.table(standardized_matrix, "standardized_matrix.txt", sep = "\t", quote = FALSE, col.names = NA)
+    ```
+
+    ##### last change 2024-11-26 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Can I create network/graph plots from `Pheno-Ranker` output data?"
 
@@ -335,7 +361,7 @@ Frequently Asked Questions
                 install.packages("qgraph")
             }
             library(qgraph)
-            data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
+            data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
             
             # Start PNG device
             png(filename = "qgraph.png", width = 1000, height = 1000,
@@ -419,7 +445,7 @@ Frequently Asked Questions
                 install.packages("qgraph")
             }
             library(qgraph)
-            data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names=FALSE))
+            data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
             
             # Start PNG device
             png(filename = "qgraph.png", width = 1000, height = 1000,
@@ -561,7 +587,7 @@ Frequently Asked Questions
 
 ??? faq "From where can I download the software?"
 
-    Should you opt for the **command-line interface**, we suggest obtaining the software from the [CPAN distribution](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/#method-1-from-cpan), which additionally includes the utility [bff-pxf-simulator](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator).
+    Should you opt for the **command-line interface**, we suggest obtaining the software from the [CPAN distribution](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/#method-1-from-cpan), which additionally includes the utility [bff-pxf-simulator](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator) and the `CSV` [importer](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import). You can find addtional information [here](download-and-installation.md).
 
     ##### last change 2024-29-03 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
