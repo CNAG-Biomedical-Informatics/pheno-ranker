@@ -143,6 +143,12 @@ Frequently Asked Questions
 
     ##### last change 2024-08-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "What is the difference between *Pheno-Ranker Web App UI* and *Pheno-Ranker App*?"
+
+    The [Web App UI](https://pheno-ranker.cnag.eu) is a fully functional web user interface built with `R-Shiny`. The [App](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app) is a graphical user interface (GUI) in `Python` designed for those who prefer not to use the command-line interface (CLI). While still experimental, we aim to improve it in the future by incorporating AI agents.
+
+    ##### last change 2023-11-27 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 ### Pre-processing
 
 ??? faq "How can I create a `JSON` file consisting of a subset of individuals?"
@@ -287,7 +293,7 @@ Frequently Asked Questions
 
     ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-??? faq "How can I convert a Hamming distance matrix to a standardized matrix??"
+??? faq "How can I convert a Hamming distance matrix to a standardized matrix?"
 
     We recommed using `R` for this task. See example below:
 
