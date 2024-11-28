@@ -22,8 +22,7 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
     The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, the key `"id"` may refer to a given patient, plus the key `subjectOrBiosampleId` referes to the same patient too!. This implies that users might be interested in the variants, but since patient ids will be in the flattened key, it will never match another patient.
 
-    `Pheno-Ranker` will handle this for you for the term `interpretations`. The approach taken is to transition from **array** properties to **objects**.
-
+    `Pheno-Ranker` will handle this for you for the term `interpretations`. The approach taken is to transition from **array** data structures to **objects**.
 
     Imagine you have a `PXF` data that looks like this:
     ```json
@@ -98,7 +97,7 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
     ??? Warning "Other examples of `PXF` nested array properties"
 
-        Find below another examples of deeply nested properties. For these you have to pre-process your data:
+        Find below another examples of deeply nested properties.
 
         ```json
         "biosamples.diagnosticMarkers",
@@ -109,6 +108,13 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
         "measurements.complexValue.typedQuantities",
         "medicalActions.treatment.doseIntervals"
         ```
+
+		If issues arise, we recommend addressing them by either:  
+ 
+        1. **Filtering** problematic variables using the config file
+        2. **Preprocessing** the `JSON` data, such as converting arrays into objects.
+
+        Any new issues specific to `BFF/PXF` will be addressed by our team as they arise.
 
 === "Cohort mode"
 
