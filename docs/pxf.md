@@ -111,10 +111,10 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
 		If issues arise, we recommend addressing them by either:  
  
-        1. **Filtering** problematic variables using the config file
+        1. **Filtering out** problematic variables using the config file
         2. **Preprocessing** the `JSON` data, such as converting arrays into objects.
 
-        Any new issues specific to `BFF/PXF` will be addressed by our team as they arise.
+        Any _critical_ issues specific to `BFF/PXF` will be addressed by our team as they arise.
 
 === "Cohort mode"
 
