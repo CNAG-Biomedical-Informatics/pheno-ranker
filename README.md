@@ -27,6 +27,19 @@
 
 **Web App UI**: <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
 
+# Table of contents
+- [Description](#description)
+  - [Name](#name)
+  - [Synopsis](#synopsis)
+  - [Summary](#summary)
+- [Installation](#installation)
+  - [Non-Containerized](#non-containerized)
+  - [Containerized](#containerized)
+- [How to run pheno-ranker](#how-to-run-pheno-ranker)
+- [Citation](#citation)
+  - [Author](#author)
+- [License](#copyright-and-license)
+
 # NAME
 
 pheno-ranker: A script that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
@@ -71,15 +84,9 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -v, --verbose                    Verbosity on
         -V, --version                    Print version
 
-# DESCRIPTION
-
-pheno-ranker: A script that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
-
-The script also accepts CSV files that have been pre-processed using the `csv2pheno-ranker` utility (included).
-
 # SUMMARY
 
-Pheno-Ranker is a lightweight and easy to install tool specifically designed for performing semantic similarity analysis on phenotypic data structured in JSON format, such as Beacon v2 Models or Phenopackets v2.
+Pheno-Ranker is a lightweight, easy-to-install tool for performing semantic similarity analysis on phenotypic data in JSON/YAML formats, including Beacon v2 Models and Phenopackets v2. It also supports pre-processed CSV files prepared using the included `csv2pheno-ranker` utility.
 
 # INSTALLATION
 
