@@ -7,19 +7,21 @@
     !!! Warning "About inter-cohort analysis with CSV"
         Please note that performing inter-cohort analysis may be difficult due to potential inconsistencies or lack of common variables across different CSVs.
     
-    ??? Hint "Notes on CSV quality"
+    ??? Hint "Best practices for CSV data quality"
     
         Here are a few important considerations regarding the CSV format. Most of these are common-sense guidelines:
-    
+              
         * Ensure there are no duplicated column names (headers).
-    
+           
         * While it's acceptable not to include ontologies/terminologies, please maintain consistent nomenclature for values (e.g., avoid using `M` and `Male` to refer to the same concept).
-    
+              
         * For columns, you can use any separator of your choice (default is `;`), but if you have nested values in columns, you must specify the delimiter with `--array-separator` (default is `|`).
-    
+                 
         * `Pheno-Ranker` was built with speed in mind, but if you have more than 10K rows, be aware that the calculations may take more than a few seconds.
     
-        * Qualitative values are preferred over quantitative ones. If you have quantitative values (numbers, and in particular floating ones), we recommend that you discretize them as ranges. In any case, if your data contain both by quantitative and qualitative variables you may wanna check [Factor Analysis of Mixed data](https://en.wikipedia.org/wiki/Factor_analysis_of_mixed_data).
+        * Qualitative values are preferred over quantitative ones. If your data includes quantitative values (especially numerical or floating-point numbers), we recommend discretizing them into ranges.
+    
+        If your dataset contains both quantitative and qualitative variables, consider exploring [Factor Analysis of Mixed Data](https://en.wikipedia.org/wiki/Factor_analysis_of_mixed_data). Alternatively, if your data is purely numeric, you may find [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) useful.
     
     Ok, let's convert a CSV then.
     
