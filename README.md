@@ -90,6 +90,8 @@ Pheno-Ranker is a lightweight, easy-to-install tool for performing semantic simi
 
 # INSTALLATION
 
+If you plan to only use `pheno-ranker` CLI, we recommend installing it via CPAN. See details below.
+
 ## Non containerized
 
 The script runs on command-line Linux and it has been tested on Debian/RedHat/macOS based distributions (only showing commands for Debian). Perl 5 is installed by default on Linux, 
