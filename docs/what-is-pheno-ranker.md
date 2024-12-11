@@ -1,15 +1,28 @@
 # What is Pheno-Ranker?
 
-`Pheno-Ranker` is an **open-source** software toolkit for _individual-level_ **comparison of phenotypic data**. As input, it accepts `JSON/YAML` data exchange formats from [Beacon v2](bff.md) and [Phenopackets v2](pxf.md) data models, as well as any data structure encoded in `JSON`, `YAML`, and `CSV` formats, extending its utility beyond the health data domain.
+`Pheno-Ranker` is an **open-source** software toolkit designed for _individual-level_ **comparison of phenotypic data**. It supports multiple data formats, making it versatile for use beyond the health data domain.
 
-<figure markdown>
- ![Pheno-Ranker](img/PR-logo.png){width="350"}
- <figcaption>Pheno-Ranker logo</figcaption>
-</figure>
+## Key Features
+- Accepts data in `JSON`, `YAML`, and `CSV` formats.
+- Compatible with [Beacon v2](bff.md) and [Phenopackets v2](pxf.md) models.
+- Extensible for non-health-related datasets.
 
-!!! Tip "Use"
+## How to Use Pheno-Ranker
 
-    `Pheno-Ranker` core is is a [Perl module](https://metacpan.org/pod/Pheno::Ranker) that can be operated as a:
+`Pheno-Ranker` is built on a robust [Perl module](https://metacpan.org/pod/Pheno::Ranker), offering multiple interfaces for flexibility:
 
-    * [Command-line tool](cohort.md)
-    * [Web App UI](https://pheno-ranker.cnag.eu)
+- **[Command-line Tool](usage.md#synopsis)**: For direct data processing and automation.
+- **[Web App UI](https://pheno-ranker.cnag.eu)**: A user-friendly interface for visual interaction.
+
+## Listen to the Paper: Audio Edition
+
+!!! Abstract "Podcast-Style Audio Format"
+
+    Explore the key insights of this paper in audio format! Perfect for learning on the go or through immersive narration.
+
+    <audio controls>
+      <source src="media/Notebook_LLM.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    Made with [Notebook LLM](https://notebooklm.google.com)
