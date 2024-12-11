@@ -27,6 +27,9 @@
 
 **Web App UI**: <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
 
+**Pheno-Ranker App**: <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app" target="_blank">https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app</a>
+
+
 # Table of contents
 - [Description](#description)
   - [Name](#name)
