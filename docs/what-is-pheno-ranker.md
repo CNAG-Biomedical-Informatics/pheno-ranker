@@ -4,7 +4,7 @@
 
 ## Key Features
 - Accepts data in `JSON`, `YAML`, and `CSV` formats.
-- Compatible with [Beacon v2](bff.md) and [Phenopackets v2](pxf.md) models.
+- Compatible with [Beacon v2](bff.md) and [Phenopackets v2](pxf.md) data models.
 - Extensible for non-health-related datasets.
 
 ## How to Use Pheno-Ranker
@@ -21,7 +21,7 @@
     Explore the key insights of this paper in audio format! Perfect for learning on the go or through immersive narration.
 
     <audio controls>
-      <source src="media/pheno-ranker-notebook-llm.mp3" type="audio/mpeg">
+      <source src="../media/pheno-ranker-notebook-llm.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
 
