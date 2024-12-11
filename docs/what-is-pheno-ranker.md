@@ -21,7 +21,7 @@
     Explore the key insights of this paper in audio format! Perfect for learning on the go or through immersive narration.
 
     <audio controls>
-      <source src="media/Notebook_LLM.mp3" type="audio/mpeg">
+      <source src="media/pheno-ranker-notebook-llm.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
 
