@@ -27,7 +27,7 @@ We provide several alternatives (containerized and non-containerized) for downlo
         | `csv2pheno-ranker`                                                                            | Perl 5          | CLI           | Convert CSV to JSON for P-R CLI                | Docker, GitHub, CPAN          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import/)                    |
         | `pheno-ranker2barcode`,<br> `barcode2pheno-ranker`,<br>`pheno-ranker2pdf`                  | Python 3        | CLI           | Convert P-R vector to QR codes/PDF report      | Docker, GitHub          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/qr-code-generator/)             |
         | **Experimental:**                                                                                  |                 |               |                                                |                         |                                                                                                   |
-        | Pheno-Ranker App                                                                                | Python 3        | Desktop GUI           | Desktop graphical interface to the `pheno-ranker` CLI            | Docker | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker-app)                  |
+        | Pheno-Ranker App                                                                                | Python 3        | Desktop GUI           | Desktop graphical interface to the `pheno-ranker` CLI            | Docker | [Link](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app)                  |
 
 ## Non-Containerized
 
