@@ -18,7 +18,7 @@
 
 !!! Abstract "Podcast-Style Audio Format"
 
-    Explore the key insights of this paper in audio format! Perfect for learning on the go or through immersive narration.
+    Explore the key insights of [Pheno-Ranker paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-024-05993-2) in audio format! Perfect for learning on the go or through immersive narration.
 
     <audio controls>
       <source src="../media/pheno-ranker-notebook-llm.mp3" type="audio/mpeg">

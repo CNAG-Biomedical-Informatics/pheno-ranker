@@ -17,6 +17,8 @@
 [![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
 [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg)
 
+---
+
 **Documentation**: <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker</a>
 
 **Google Colab tutorial**: <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg</a>
@@ -29,6 +31,7 @@
 
 **Pheno-Ranker App**: <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app" target="_blank">https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app</a>
 
+---
 
 # Table of contents
 - [Description](#description)

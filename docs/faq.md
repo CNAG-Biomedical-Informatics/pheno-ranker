@@ -6,7 +6,18 @@ Frequently Asked Questions
 
     `Pheno-Ranker` is an open-source toolkit developed for the semantic similarity analysis of phenotypic and clinical data. It natively supports GA4GH standards, such as [Phenopackets v2](pxf.md) and [Beacon v2](bff.md), using as input their JSON/YAML data exchange formats. Beyond these specific standards, Pheno-Ranker is designed to be highly versatile, capable of handling any data serialized into `JSON`, `YAML`, and `CSV` formats, extending its utility beyond the health data domain. Pheno-Ranker transforms hierarchical data into binary digit strings, enabling efficient similarity matching both within cohorts and between individual patients and reference cohorts. 
 
-    ##### last change 2024-09-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    !!! Abstract "Podcast-Style Audio Format"
+    
+        Explore the key insights of [Pheno-Ranker paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-024-05993-2) in audio format! Perfect for learning on the go or through immersive narration.
+    
+        <audio controls>
+          <source src="../media/pheno-ranker-notebook-llm.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+    
+        Made with [Notebook LLM](https://notebooklm.google.com)
+
+    ##### last change 2024-12-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Is `Pheno-Ranker` free?"
 
@@ -597,3 +608,8 @@ Frequently Asked Questions
 
     ##### last change 2024-29-03 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "Do you have a way of installing `R` (+ plotting libraries) along with Pheno-Ranker?"
+
+    We deliberately omitted R installation to prevent the Docker images from becoming too large or slowing down the installation process. However, you can build a custom image that includes R by uncommenting a few lines in the [Dockerfile](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/Dockerfile). For detailed instructions on building an image from a `Dockerfile`, please refer to [this guide](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker?tab=readme-ov-file#method-5-with-dockerfile).
+
+    ##### Last updated: 2024-12-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)

@@ -26,6 +26,8 @@ We provide several alternatives (containerized and non-containerized) for downlo
         | `bff-pxf-simulator`                                                                           | Perl 5          | CLI           | Generate simulated BFF/PXF data                | Docker, GitHub, CPAN          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator/)             |
         | `csv2pheno-ranker`                                                                            | Perl 5          | CLI           | Convert CSV to JSON for P-R CLI                | Docker, GitHub, CPAN          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import/)                    |
         | `pheno-ranker2barcode`,<br> `barcode2pheno-ranker`,<br>`pheno-ranker2pdf`                  | Python 3        | CLI           | Convert P-R vector to QR codes/PDF report      | Docker, GitHub          | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker/qr-code-generator/)             |
+        | **Experimental:**                                                                                  |                 |               |                                                |                         |                                                                                                   |
+        | Pheno-Ranker App                                                                                | Python 3        | Desktop GUI           | Desktop graphical interface to the `pheno-ranker` CLI            | Docker | [Link](https://cnag-biomedical-informatics.github.io/pheno-ranker-app)                  |
 
 ## Non-Containerized
 
