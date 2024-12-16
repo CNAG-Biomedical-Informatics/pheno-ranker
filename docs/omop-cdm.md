@@ -40,17 +40,7 @@ echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
     The database file is available at this [link](https://drive.google.com/drive/folders/1-5Ywf-hhwb8bX1sRNV2Tf3EjH4TCaC8P?usp=sharing) (~2.2GB). The database may be needed when using `-iomop`.
 
-    To download, in Linux you can use `wget`, `curl`, or `aria2c`:
-
-    ```bash
-    wget 'https://drive.google.com/uc?export=download&id=1-Ls1nmgxp-iW-8LkRIuNNdNytXa8kgNw&confirm=t' -O ohdsi.db --no-check-certificate
-    or
-    curl -L 'https://drive.google.com/uc?export=download&id=1-Ls1nmgxp-iW-8LkRIuNNdNytXa8kgNw&confirm=t' > ohdsi.db
-    or
-    aria2c -x2 'https://drive.google.com/uc?export=download&id=1-Ls1nmgxp-iW-8LkRIuNNdNytXa8kgNw&confirm=t' -o ohdsi.db
-    ```
-
-    (you can install `wget`, `curl`, or `aria2c` by typing `sudo apt install wget`, `sudo apt install curl`, or `sudo apt install aria2`.)
+    See latest download installations [here](https://github.com/CNAG-Biomedical-Informatics/convert-pheno?tab=readme-ov-file#how-to-run-convert-pheno).
 
     Once downloaded, use the options `--ohdsi-db` and `--path-to-ohdsi-db`
 

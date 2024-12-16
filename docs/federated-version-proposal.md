@@ -127,7 +127,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
 
     To facilitate `Pheno-Ranker`’s integration into the Beacon v2 API ecosystem, we propose two distinct pathways for query submission to enhance flexibility and security (both requiring `POST` requests):
     
-    1. The first method mirrors the approach used in hospital networks, where queries leverage a precomputed vector. This ensures secure and efficient similarity evaluations against an existing database. To support this, a Beacon aggregator would periodically gather ontology terms via the _filtering_terms_ endpoint from each Beacon v2 API, thereby creating a global lookup table
+    1. The first method mirrors the approach used in hospital networks, where queries leverage a precomputed vector. This ensures secure and efficient similarity evaluations against an existing database. To support this, a Beacon aggregator would periodically gather ontology terms via the _filtering_terms_ endpoint from each Beacon v2 API, thereby creating a global lookup table.
 
     2. Alternatively, centers may submit queries using actual JSON data (either `BFF` or `PXF` objects), which should be anonymized or meet the network’s security standards. This option allows the recipient site to perform similarity analyses either on their precomputed data or on-the-fly using Pheno-Ranker’s CLI or module, offering greater adaptability.
 
