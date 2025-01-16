@@ -1,8 +1,8 @@
 Revision history for Perl distribution Pheno-Ranker
 
-1.01 2024-XX-XX:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Foo
+ - DockerHub images now support Linux amd64 and arm64 (M-based Macs)
 
 1.00 2024-11-27:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
