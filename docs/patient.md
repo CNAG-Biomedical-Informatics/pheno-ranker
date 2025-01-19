@@ -102,6 +102,8 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
         In _Patient mode_, the global vector is formed using variables solely from the reference cohort(s), not the patient's. The `primary_key` (`id` in this context) is automatically included, leading to a distance of 1 due to the mismatch in the individual's `id` field.
 
+        If you want to visualize the differences in **all variables** (i.e., the union of _reference(s)_ and _target_), simply add the _target_ as another cohort in `--r`. This way, the variables from the patient will be included in the reference vector.
+
         Note that you can exclude `id` by adding `--exclude-terms id`.
 
 ???+ Abstract "Obtaining additional information on the alignments"
