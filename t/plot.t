@@ -9,7 +9,7 @@ use File::Compare;
 # TEST 1 #
 ##########
 SKIP: {
-    skip "Skipping PNG comparison tests on macOS", 1 if $^O eq 'darwin';
+    skip "Skipping PNG comparison tests on macOS", 1 if $^O eq 'darwin'; # mrueda 01/17/25
 
     {
         # The command line script to be tested
