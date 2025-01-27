@@ -3,7 +3,7 @@ package Pheno::Ranker::Compare;
 use strict;
 use warnings;
 use autodie;
-use feature qw(say);
+use feature    qw(say);
 use List::Util qw(any shuffle first);
 use Data::Dumper;
 use Sort::Naturally qw(nsort);
@@ -129,6 +129,8 @@ sub compare_and_rank {
 
     my $arg             = shift;
     my $glob_hash       = $arg->{glob_hash};
+    my $ref_hash        = $arg->{ref_hash};
+    my $tar_hash        = $arg->{tar_hash};
     my $ref_binary_hash = $arg->{ref_binary_hash};
     my $tar_binary_hash = $arg->{tar_binary_hash};
     my $weight          = $arg->{weight};
@@ -151,6 +153,9 @@ sub compare_and_rank {
     my $tar_str_weighted =
       $tar_binary_hash->{$tar}{binary_digit_string_weighted};
 
+    # Load TAR number of vars
+    my $target_vars = keys %{ $tar_hash->{$tar} };
+
     for my $key ( keys %{$ref_binary_hash} ) {    # No need to sort
 
         # Load REF binary string
@@ -163,6 +168,14 @@ sub compare_and_rank {
           hd_fast( $ref_str_weighted, $tar_str_weighted );
         $score->{$key}{jaccard} =
           jaccard_similarity( $ref_str_weighted, $tar_str_weighted );
+
+        # Load REF number of vars
+        $score->{$key}{reference_vars} = keys %{ $ref_hash->{$key} };
+
+        # Load INTERSECT of vars
+        $score->{$key}{intersect} =
+          scalar( grep { exists $ref_hash->{$key}{$_} }
+              keys %{ $tar_hash->{$tar} } );
 
         # Add values
         push @{ $stat->{hamming_data} }, $score->{$key}{hamming};
@@ -179,7 +192,9 @@ sub compare_and_rank {
         'HAMMING-DISTANCE', 'DISTANCE-Z-SCORE',
         'DISTANCE-P-VALUE', 'DISTANCE-Z-SCORE(RAND)',
         'JACCARD-INDEX',    'JACCARD-Z-SCORE',
-        'JACCARD-P-VALUE'
+        'JACCARD-P-VALUE',  'REFERENCE-VARS',
+        'TARGET-VARS',      'INTERSECT',
+        'COMPLETENESS(%)'
     );
     my $header  = join "\t", @headers;
     my @results = $header;
@@ -282,6 +297,11 @@ sub compare_and_rank {
         my $jaccard_p_value_from_z_score =
           p_value_from_z_score( 1 - $jaccard_z_score );
 
+        # Compute Completeness (T/R) * 100
+        my $reference_vars = $score->{$key}{reference_vars};
+        my $intersect      = $score->{$key}{intersect};
+        my $completeness   = $intersect / $reference_vars * 100;
+
         # Create a hash with formats
         my $format = {
             'RANK'          => { value => $count,          format => undef },
@@ -304,6 +324,10 @@ sub compare_and_rank {
               { value => $jaccard_z_score, format => '%7.3f' },
             'JACCARD-P-VALUE' =>
               { value => $jaccard_p_value_from_z_score, format => '%12.7f' },
+            'REFERENCE-VARS'  => { value => $reference_vars, format => '%6d' },
+            'TARGET-VARS'     => { value => $target_vars,    format => '%6d' },
+            'INTERSECT'       => { value => $intersect,      format => '%6d' },
+            'COMPLETENESS(%)' => { value => $completeness,   format => '%8.2f' }
         };
 
         # Serialize results
@@ -354,6 +378,10 @@ sub compare_and_rank {
                 jaccard_distance   => 1 - $score->{$key}{jaccard},
                 format             => $self->{format},
                 alignment          => $$alignment_str_ascii,
+                reference_vars     => $reference_vars,
+                target_vars        => $target_vars,
+                intersect          => $intersect,
+                completeness       => $completeness
             };
 
         }
@@ -618,11 +646,13 @@ sub remap_hash {
 
     # Load values for the for loop
     my $exclude_variables_regex_qr = $self->{exclude_variables_regex_qr};
-    my $misc_regex_qr = qr/1900-01-01|NA0000|NCIT:C126101|P999Y|P9999Y|phenopacket_id/;
+    my $misc_regex_qr =
+      qr/1900-01-01|NA0000|NCIT:C126101|P999Y|P9999Y|phenopacket_id/;
 
     # Pre-compile a list of fixed scalar values to exclude into a hash for quick lookup
     my %exclude_values =
-      map { $_ => 1 } ( 'NA', 'NaN', 'Fake', 'None:No matching concept', 'Not Available' );
+      map { $_ => 1 }
+      ( 'NA', 'NaN', 'Fake', 'None:No matching concept', 'Not Available' );
 
     # Now we proceed for each key
     for my $key ( keys %{$hash} ) {
@@ -845,8 +875,8 @@ sub add_id2key {
                 #       $1         $2                 $3
                 # <medicalActions> <0> <treatment.routeOfAdministration.id>
                 my $subkey = ( split /\./, $3 )[0];    # treatment
-                $correspondence = first { $_ =~ m/^$subkey/ }
-                @{ $id_correspondence->{$1} };         # treatment.agent.id
+                $correspondence =
+                  first { $_ =~ m/^$subkey/ } @{ $id_correspondence->{$1} };   # treatment.agent.id
             }
             else {
                 $correspondence = $id_correspondence->{$1};
