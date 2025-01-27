@@ -1,4 +1,4 @@
-package Pheno::Ranker::Align;
+package Pheno::Ranker::Compare;
 
 use strict;
 use warnings;

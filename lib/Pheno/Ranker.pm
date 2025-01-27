@@ -15,7 +15,7 @@ use File::ShareDir::ProjectDistDir qw(dist_dir);
 use List::Util qw(all);
 use Hash::Util qw(lock_hash);
 use Pheno::Ranker::IO;
-use Pheno::Ranker::Align;
+use Pheno::Ranker::Compare;
 use Pheno::Ranker::Stats;
 use Pheno::Ranker::Graph;
 
