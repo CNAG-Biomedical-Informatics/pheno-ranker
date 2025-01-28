@@ -75,6 +75,36 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         * `JACCARD-INDEX`: The Jaccard similarity coefficient between the reference and target individuals' vectors. The Jaccard Index for binary digit strings is a measure that calculates the similarity between two strings by dividing the number of positions where both have a `1` by the number of positions where at least one has a `1`.
         * `JACCARD-Z-SCORE`: The `Z-score` calculated from all comparisons between patients and the reference cohort.
         * `JACCARD-P-VALUE`: The statistical significance of the observed `JACCARD-Z-SCORE`.
+        * `REFERENCE-VARS`: The total number of variables for the reference.
+        * `TARGET-VARS`: The total number of variables for the target.
+        * `INTERSECT`: The intersection of variables between reference and target.
+        * `INTERSECT-RATE(%)`: The percentage of intersected variables with respect the total number of variables in the target.
+        ??? Tip "`INTERSECT-RATE(%)` calculation"
+
+            The INTERSECT-RATE measures the overlap of variables between reference and target by calculating the proportion of shared variables relative to the total number of variables in the target.
+
+	        * Intersection Count: The number of variables that exist in both the reference and target sets.
+
+            $$
+            \text{INTERSECT-RATE(\%)} = \frac{\text{Intersection Count}}{\text{Number of Variables in Target}} \times 100
+            $$
+
+            This metric expresses the overlap as a percentage, where 0% means no overlap and 100% means complete overlap with the target variables.
+
+        * `COMPLETENESS(%)`: The percentage of intersected variables with respect the total number of variables in the reference.
+
+        ??? Tip "`COMPLETENESS(%)` calculation"
+
+            The COMPLETENESS measures the overlap of variables between reference and target by calculating the proportion of shared variables relative to the total number of variables in the reference.
+
+            * Intersection Count: The number of variables that exist in both the reference and target sets.
+
+            $$
+            \text{COMPLETENESS(\%)} = \frac{\text{Intersection Count}}{\text{Number of Variables in Reference}} \times 100
+            $$
+
+            This metric expresses the overlap as a percentage, where 0% means no overlap and 100% means complete overlap with the reference variables.
+
          
     ??? Example "See results from `rank.txt`"
 
