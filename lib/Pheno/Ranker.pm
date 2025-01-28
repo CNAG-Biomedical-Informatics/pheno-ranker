@@ -36,7 +36,7 @@ use constant DEVEL_MODE => 0;
 
 # Misc variables
 my ( $config_sort_by, $config_similarity_metric_cohort,
-    $config_max_out, $config_max_number_var, @config_allowed_terms );
+    $config_max_out, $config_max_number_vars, @config_allowed_terms );
 my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
 
 ############################################
@@ -77,7 +77,7 @@ sub _set_basic_config {
     $config_similarity_metric_cohort = $config->{similarity_metric_cohort}
       // 'hamming';
     $config_max_out        = $config->{max_out}        // 50;
-    $config_max_number_var = $config->{max_number_var} // 10_000;
+    $config_max_number_vars = $config->{max_number_vars} // 10_000;
 }
 
 # Private Method: _validate_and_set_exclusive_config
@@ -160,10 +160,10 @@ has max_out => (
     isa     => Int
 );
 
-has max_number_var => (
-    default => $config_max_number_var,
+has max_number_vars => (
+    default => $config_max_number_vars,
     is      => 'ro',
-    coerce  => sub { $_[0] // $config_max_number_var },
+    coerce  => sub { $_[0] // $config_max_number_vars },
     lazy    => 1,
     isa     => Int
 );
@@ -405,11 +405,11 @@ sub run {
     my ( $glob_hash, $ref_hash ) =
       create_glob_and_ref_hashes( $ref_data, $weight, $self );
 
-    # Limit the number of variables if > $self-{max_number_var}
+    # Limit the number of variables if > $self-{max_number_vars}
     # *** IMPORTANT ***
     # Change only performed in $glob_hash
     $glob_hash = randomize_variables( $glob_hash, $self )
-      if keys %$glob_hash > $self->{max_number_var};
+      if keys %$glob_hash > $self->{max_number_vars};
 
     # Second we peform one-hot encoding for each individual
     my $ref_binary_hash = create_binary_digit_string( $glob_hash, $ref_hash );
@@ -494,6 +494,8 @@ sub run {
           = compare_and_rank(
             {
                 glob_hash       => $glob_hash,
+                ref_hash        => $ref_hash,
+                tar_hash        => $tar_hash,
                 ref_binary_hash => $ref_binary_hash,
                 tar_binary_hash => $tar_binary_hash,
                 weight          => $weight,

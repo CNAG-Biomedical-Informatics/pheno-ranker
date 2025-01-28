@@ -164,18 +164,17 @@ sub compare_and_rank {
         say "Comparing <id:$key> --- <id:$tar>" if $self->{verbose};
         say "REF:$ref_str_weighted\nTAR:$tar_str_weighted\n"
           if ( defined $self->{debug} && $self->{debug} > 1 );
+
+        # Hamming
         $score->{$key}{hamming} =
           hd_fast( $ref_str_weighted, $tar_str_weighted );
-        $score->{$key}{jaccard} =
+
+        # Intersect and Jaccard
+        ( $score->{$key}{intersect}, $score->{$key}{jaccard} ) =
           jaccard_similarity( $ref_str_weighted, $tar_str_weighted );
 
         # Load REF number of vars
         $score->{$key}{reference_vars} = keys %{ $ref_hash->{$key} };
-
-        # Load INTERSECT of vars
-        $score->{$key}{intersect} =
-          scalar( grep { exists $ref_hash->{$key}{$_} }
-              keys %{ $tar_hash->{$tar} } );
 
         # Add values
         push @{ $stat->{hamming_data} }, $score->{$key}{hamming};
@@ -186,15 +185,15 @@ sub compare_and_rank {
 
     # Initialize a few variables
     my @headers = (
-        'RANK',             'REFERENCE(ID)',
-        'TARGET(ID)',       'FORMAT',
-        'LENGTH',           'WEIGHTED',
-        'HAMMING-DISTANCE', 'DISTANCE-Z-SCORE',
-        'DISTANCE-P-VALUE', 'DISTANCE-Z-SCORE(RAND)',
-        'JACCARD-INDEX',    'JACCARD-Z-SCORE',
-        'JACCARD-P-VALUE',  'REFERENCE-VARS',
-        'TARGET-VARS',      'INTERSECT',
-        'COMPLETENESS(%)'
+        'RANK',              'REFERENCE(ID)',
+        'TARGET(ID)',        'FORMAT',
+        'LENGTH',            'WEIGHTED',
+        'HAMMING-DISTANCE',  'DISTANCE-Z-SCORE',
+        'DISTANCE-P-VALUE',  'DISTANCE-Z-SCORE(RAND)',
+        'JACCARD-INDEX',     'JACCARD-Z-SCORE',
+        'JACCARD-P-VALUE',   'REFERENCE-VARS',
+        'TARGET-VARS',       'INTERSECT',
+        'INTERSECT-RATE(%)', 'COMPLETENESS(%)'
     );
     my $header  = join "\t", @headers;
     my @results = $header;
@@ -297,9 +296,11 @@ sub compare_and_rank {
         my $jaccard_p_value_from_z_score =
           p_value_from_z_score( 1 - $jaccard_z_score );
 
-        # Compute Completeness (T/R) * 100
+        # Compute Intersect-Rate (I/T) * 100
+        #         Completeness   (T/R) * 100
         my $reference_vars = $score->{$key}{reference_vars};
         my $intersect      = $score->{$key}{intersect};
+        my $intersect_rate = $intersect / $target_vars * 100;
         my $completeness   = $intersect / $reference_vars * 100;
 
         # Create a hash with formats
@@ -324,10 +325,12 @@ sub compare_and_rank {
               { value => $jaccard_z_score, format => '%7.3f' },
             'JACCARD-P-VALUE' =>
               { value => $jaccard_p_value_from_z_score, format => '%12.7f' },
-            'REFERENCE-VARS'  => { value => $reference_vars, format => '%6d' },
-            'TARGET-VARS'     => { value => $target_vars,    format => '%6d' },
-            'INTERSECT'       => { value => $intersect,      format => '%6d' },
-            'COMPLETENESS(%)' => { value => $completeness,   format => '%8.2f' }
+            'REFERENCE-VARS' => { value => $reference_vars, format => '%6d' },
+            'TARGET-VARS'    => { value => $target_vars,    format => '%6d' },
+            'INTERSECT'      => { value => $intersect,      format => '%6d' },
+            'INTERSECT-RATE(%)' =>
+              { value => $intersect_rate, format => '%8.2f' },
+            'COMPLETENESS(%)' => { value => $completeness, format => '%8.2f' }
         };
 
         # Serialize results
@@ -381,6 +384,7 @@ sub compare_and_rank {
                 reference_vars     => $reference_vars,
                 target_vars        => $target_vars,
                 intersect          => $intersect,
+                intersect_rate     => $intersect_rate,
                 completeness       => $completeness
             };
 
@@ -526,7 +530,7 @@ sub create_glob_and_ref_hashes {
 sub randomize_variables {
 
     my ( $glob_hash, $self ) = @_;
-    my $max  = $self->{max_number_var};
+    my $max  = $self->{max_number_vars};
     my $seed = $self->{seed};
 
     # set random seed

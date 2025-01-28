@@ -72,7 +72,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
         -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
         -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
-        -max-number-var <number>         Maximum variables for binary string [default: 10000]
+        -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
         -max-out <number>                Print only N comparisons [default: 50]
         -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]
         -poi, --patients-of-interest <id_list>   Export JSON files for the selected individual IDs during a dry-run

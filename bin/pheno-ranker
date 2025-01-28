@@ -49,7 +49,7 @@ GetOptions(
     'append-prefixes=s{1,}'          => \my @append_prefixes,             # array
     'out-file|o=s'                   => \my $out_file_arg,                # string
     'max-out:i'                      => \my $max_out,                     # integer
-    'max-number-var:i'               => \my $max_number_var,              # integer
+    'max-number-vars:i'              => \my $max_number_vars,             # integer
     'include-hpo-ascendants'         => \my $include_hpo_ascendants,      # flag
     'export|e:s'                     => \my $export,                      # opt-string (defined)
     'align|a:s'                      => \my $align,                       # opt-string (defined)
@@ -125,7 +125,7 @@ my $data = {
     cytoscape_json           => $cytoscape_json,
     graph_stats              => $graph_stats,
     max_out                  => $max_out,
-    max_number_var           => $max_number_var,
+    max_number_vars          => $max_number_vars,
     sort_by                  => $sort_by,
     similarity_metric_cohort => $similarity_metric_cohort,
     patients_of_interest     => \@patients_of_interest,
@@ -248,7 +248,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
      -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
      -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
      -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
-     -max-number-var <number>         Maximum variables for binary string [default: 10000]
+     -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
      -max-out <number>                Print only N comparisons [default: 50]
      -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]
      -poi, --patients-of-interest <id_list>   Export JSON files for the selected individual IDs during a dry-run
