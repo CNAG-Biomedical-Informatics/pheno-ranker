@@ -8,6 +8,7 @@ use Test::More tests => 9;        # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
 use lib ( './lib', '../lib' );
+#use Data::Dumper;
 
 use constant IS_WINDOWS => ( $^O eq 'MSWin32' || $^O eq 'cygwin' ) ? 1 : 0;
 
@@ -88,7 +89,6 @@ SKIP: {
 
     # This one goes via module to be captured by Devel::Cover
     my $patient_file   = catfile( 't', 'patient.json' );
-    my $reference_file = catfile( 't', 'rank_weight_ref_sorted.txt' );
     my $weights_file   = catfile( 't', 'weights.yaml' );
 
     {
@@ -129,7 +129,7 @@ SKIP: {
         # *** IMPORTANT ****
         # We only compare NUMERIC results, not ASCII alignment!!!
         my $align_file;
-        $reference_file = catfile( 't', 'ref_align.csv' );
+        my $reference_file = catfile( 't', 'ref_align.csv' );
         $align_file     = catfile( 't', 'tar_align.csv' );
         ok(
             compare_sorted_files( $align_file, $reference_file ),
@@ -410,6 +410,5 @@ sub compare_sorted_files {
     close $fh2;
 
     # Compare arrays directly
-    return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1,
-      @lines2;
+    return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1, @lines2;
 }

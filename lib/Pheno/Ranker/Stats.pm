@@ -24,18 +24,30 @@ sub jaccard_similarity {
 
     my ( $str1, $str2 ) = @_;
 
-    # NB: It does not take into account 0 --- 0
+    # Initialize intersection and union counts
     my ( $intersection, $union ) = ( 0, 0 );
-    for my $i ( 0 .. length($str1) - 1 ) {
+
+    # Ensure both strings are of the same length
+    my $length = length($str1);
+    die "Strings must be of the same length" unless $length == length($str2);
+
+    for my $i ( 0 .. $length - 1 ) {
         my $char1 = substr( $str1, $i, 1 );
         my $char2 = substr( $str2, $i, 1 );
 
+        # Increment union if either character is '1'
         if ( $char1 eq '1' || $char2 eq '1' ) {
             $union++;
-            $intersection++ if $char1 eq '1' && $char2 eq '1';
+            # Increment intersection if both characters are '1'
+            $intersection++ if ( $char1 eq '1' && $char2 eq '1' );
         }
     }
-    return $union == 0 ? 0 : $intersection / $union;
+
+    # Calculate Jaccard similarity
+    my $jaccard = $union == 0 ? 0 : $intersection / $union;
+
+    # Return both intersection and Jaccard similarity
+    return ($intersection, $jaccard);
 }
 
 sub jaccard_similarity_formatted {

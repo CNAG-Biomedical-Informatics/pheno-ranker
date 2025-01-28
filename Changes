@@ -3,7 +3,8 @@ Revision history for Perl distribution Pheno-Ranker
 1.02 2025-0X-XX:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Renamed 'Align.pm' to 'Compare.pm'
- - Added 3 new columns to 'rank.txt' Completeness 
+ - Added new columns to 'rank.txt' (REFERENCE-VARS,TARGET-VARS,INTERSECT,INTERSECT-RATE(%),COMPLETENESS(%))
+ - Changed '--max-number-var' to '--max-numer-vars' to avoid my own mistakes :-)
 
 1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
