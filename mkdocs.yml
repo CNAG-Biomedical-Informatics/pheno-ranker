@@ -93,6 +93,8 @@ nav:
       - openEHR: open-ehr.md
       - OMOP-CDM: omop-cdm.md 
       - VCF: vcf.md
+  - Use Cases:
+      - Phenopacket Corpus: phenopacket-corpus.md
   - Help:
       - Google colab: https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB
       - Usage: usage.md
