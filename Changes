@@ -5,6 +5,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Renamed 'Align.pm' to 'Compare.pm'
  - Added new columns to 'rank.txt' (REFERENCE-VARS,TARGET-VARS,INTERSECT,INTERSECT-RATE(%),COMPLETENESS(%))
  - Changed '--max-number-var' to '--max-numer-vars' to avoid my own mistakes :-)
+ - Added term 'interpretations' to PXF in bff-pxf-plot
 
 1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
