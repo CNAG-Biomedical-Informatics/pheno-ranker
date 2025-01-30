@@ -1,0 +1,27 @@
+| RANK | REFERENCE(ID) | TARGET(ID) | FORMAT | LENGTH | WEIGHTED | HAMMING-DISTANCE | DISTANCE-Z-SCORE | DISTANCE-P-VALUE | DISTANCE-Z-SCORE(RAND) | JACCARD-INDEX | JACCARD-Z-SCORE | JACCARD-P-VALUE | REFERENCE-VARS | TARGET-VARS | INTERSECT | INTERSECT-RATE(%) | COMPLETENESS(%) |
+|----|-------------|----------|------|------|--------|----------------|----------------|----------------|----------------------|-------------|---------------|---------------|--------------|-----------|---------|-----------------|---------------|
+| 1 | Interstellar | Interstellar | MXF |      7 | False |    0 |  -3.994 |    0.0000325 |  -2.6458 |   1.000 |   4.529 |    0.0002087 |      7 |      7 |      7 |   100.00 |   100.00 |
+| 2 | SavingPrivateRyan | Interstellar | MXF |     10 | False |    7 |  -0.846 |    0.1988972 |   1.2649 |   0.300 |   0.438 |    0.7129606 |      6 |      7 |      3 |    42.86 |    50.00 |
+| 3 | TheGreenMile | Interstellar | MXF |     11 | False |    8 |  -0.396 |    0.3461273 |   1.5076 |   0.273 |   0.279 |    0.7646809 |      7 |      7 |      3 |    42.86 |    42.86 |
+| 4 | Inception | Interstellar | MXF |     11 | False |    8 |  -0.396 |    0.3461273 |   1.5076 |   0.273 |   0.279 |    0.7646809 |      7 |      7 |      3 |    42.86 |    42.86 |
+| 5 | TheSilenceoftheLambs | Interstellar | MXF |     11 | False |    8 |  -0.396 |    0.3461273 |   1.5076 |   0.273 |   0.279 |    0.7646809 |      7 |      7 |      3 |    42.86 |    42.86 |
+| 6 | TheShawshankRedemption | Interstellar | MXF |     10 | False |    8 |  -0.396 |    0.3461273 |   1.8974 |   0.200 |  -0.146 |    0.8742001 |      5 |      7 |      2 |    28.57 |    40.00 |
+| 7 | FightClub | Interstellar | MXF |     10 | False |    8 |  -0.396 |    0.3461273 |   1.8974 |   0.200 |  -0.146 |    0.8742001 |      5 |      7 |      2 |    28.57 |    40.00 |
+| 8 | Gladiator | Interstellar | MXF |     11 | False |    8 |  -0.396 |    0.3461273 |   1.5076 |   0.273 |   0.279 |    0.7646809 |      7 |      7 |      3 |    42.86 |    42.86 |
+| 9 | Se7en | Interstellar | MXF |     11 | False |    8 |  -0.396 |    0.3461273 |   1.5076 |   0.273 |   0.279 |    0.7646809 |      7 |      7 |      3 |    42.86 |    42.86 |
+| 10 | PulpFiction | Interstellar | MXF |     11 | False |    9 |   0.054 |    0.5215214 |   2.1106 |   0.182 |  -0.253 |    0.8948480 |      6 |      7 |      2 |    28.57 |    33.33 |
+| 11 | TheMatrix | Interstellar | MXF |     11 | False |    9 |   0.054 |    0.5215214 |   2.1106 |   0.182 |  -0.253 |    0.8948480 |      6 |      7 |      2 |    28.57 |    33.33 |
+| 12 | CityofGod | Interstellar | MXF |     11 | False |    9 |   0.054 |    0.5215214 |   2.1106 |   0.182 |  -0.253 |    0.8948480 |      6 |      7 |      2 |    28.57 |    33.33 |
+| 13 | TheGodfather | Interstellar | MXF |     11 | False |    9 |   0.054 |    0.5215214 |   2.1106 |   0.182 |  -0.253 |    0.8948480 |      6 |      7 |      2 |    28.57 |    33.33 |
+| 14 | ForrestGump | Interstellar | MXF |     11 | False |    9 |   0.054 |    0.5215214 |   2.1106 |   0.182 |  -0.253 |    0.8948480 |      6 |      7 |      2 |    28.57 |    33.33 |
+| 15 | TheLordoftheRings:TheFellowshipoftheRing | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 16 | Goodfellas | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 17 | TheDarkKnight | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 18 | StarWars:EpisodeV-TheEmpireStrikesBack | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 19 | Schindler'sList | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 20 | LifeisBeautiful | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 21 | Casablanca | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 22 | SpiritedAway | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 23 | TheLordoftheRings:TheReturnoftheKing | Interstellar | MXF |     12 | False |   10 |   0.504 |    0.6927786 |   2.3094 |   0.167 |  -0.341 |    0.9100849 |      7 |      7 |      2 |    28.57 |    28.57 |
+| 24 | ThePianist | Interstellar | MXF |     13 | False |   12 |   1.403 |    0.9197335 |   3.0509 |   0.077 |  -0.866 |    0.9689622 |      7 |      7 |      1 |    14.29 |    14.29 |
+| 25 | TheUsualSuspects | Interstellar | MXF |     13 | False |   12 |   1.403 |    0.9197335 |   3.0509 |   0.077 |  -0.866 |    0.9689622 |      7 |      7 |      1 |    14.29 |    14.29 |
