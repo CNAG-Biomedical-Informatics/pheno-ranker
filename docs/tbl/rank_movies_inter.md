@@ -1,0 +1,12 @@
+| RANK | REFERENCE(ID) | TARGET(ID) | FORMAT | LENGTH | WEIGHTED | HAMMING-DISTANCE | DISTANCE-Z-SCORE | DISTANCE-P-VALUE | DISTANCE-Z-SCORE(RAND) | JACCARD-INDEX | JACCARD-Z-SCORE | JACCARD-P-VALUE | REFERENCE-VARS | TARGET-VARS | INTERSECT | INTERSECT-RATE(%) | COMPLETENESS(%) |
+|----|-------------|----------|------|------|--------|----------------|----------------|----------------|----------------------|-------------|---------------|---------------|--------------|-----------|---------|-----------------|---------------|
+| 1 | NETFLIX_Interstellar | Interstellar | MXF |      4 | False |    0 |  -3.561 |    0.0001845 |  -2.0000 |   1.000 |   4.387 |    0.0003529 |      4 |      4 |      4 |   100.00 |   100.00 |
+| 2 | HBO_Interstellar | Interstellar | MXF |      4 | False |    0 |  -3.561 |    0.0001845 |  -2.0000 |   1.000 |   4.387 |    0.0003529 |      4 |      4 |      4 |   100.00 |   100.00 |
+| 3 | NETFLIX_Inception | Interstellar | MXF |      6 | False |    4 |  -0.779 |    0.2179810 |   0.8165 |   0.333 |   0.675 |    0.6275454 |      4 |      4 |      2 |    50.00 |    50.00 |
+| 4 | NETFLIX_TheShawshankRedemption | Interstellar | MXF |      5 | False |    4 |  -0.779 |    0.2179810 |   1.3416 |   0.200 |  -0.068 |    0.8572146 |      2 |      4 |      1 |    25.00 |    50.00 |
+| 5 | NETFLIX_TheLordoftheRings:TheReturnoftheKing | Interstellar | MXF |      6 | False |    4 |  -0.779 |    0.2179810 |   0.8165 |   0.333 |   0.675 |    0.6275454 |      4 |      4 |      2 |    50.00 |    50.00 |
+| 6 | HBO_TheLordoftheRings:TheFellowshipoftheRing | Interstellar | MXF |      6 | False |    4 |  -0.779 |    0.2179810 |   0.8165 |   0.333 |   0.675 |    0.6275454 |      4 |      4 |      2 |    50.00 |    50.00 |
+| 7 | HBO_Inception | Interstellar | MXF |      6 | False |    4 |  -0.779 |    0.2179810 |   0.8165 |   0.333 |   0.675 |    0.6275454 |      4 |      4 |      2 |    50.00 |    50.00 |
+| 8 | HBO_TheLordoftheRings:TheReturnoftheKing | Interstellar | MXF |      6 | False |    4 |  -0.779 |    0.2179810 |   0.8165 |   0.333 |   0.675 |    0.6275454 |      4 |      4 |      2 |    50.00 |    50.00 |
+| 9 | NETFLIX_FightClub | Interstellar | MXF |      5 | False |    4 |  -0.779 |    0.2179810 |   1.3416 |   0.200 |  -0.068 |    0.8572146 |      2 |      4 |      1 |    25.00 |    50.00 |
+| 10 | HBO_FightClub | Interstellar | MXF |      5 | False |    4 |  -0.779 |    0.2179810 |   1.3416 |   0.200 |  -0.068 |    0.8572146 |      2 |      4 |      1 |    25.00 |    50.00 |

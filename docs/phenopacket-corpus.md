@@ -16,6 +16,14 @@ unzip all_phenopackets.zip
 dos2unix */*/*.json
 ```
 
+??? Note "Hint"
+
+    We used `0.1.20`. You can reproduce this example with the folowing list of files:
+    
+    ```bash
+    --8<-- "data/combined.txt"
+    ```
+
 As this is an exercise, instead of using all `PXF` files, we will randomly select 1000 and create a JSON array file named `combined.json`:
 
 ```bash
@@ -66,7 +74,7 @@ Rscript ../pheno-ranker/share/r/mds.R
 From now on, we will focus on the `phenotypicFeatures` term, as ideally, we would like to use them to classify patients.
 
 ```bash
-../pheno-ranker/bin/pheno-ranker -r combined.json -include-terms phenotypicFeatures -e
+../pheno-ranker/bin/pheno-ranker -r combined.json -include-terms phenotypicFeatures
 Rscript ../pheno-ranker/share/r/mds.R
 ```
 
@@ -75,15 +83,13 @@ Rscript ../pheno-ranker/share/r/mds.R
      ![Output](img/phenopacket-corpus/mds-phenotypicFeatures.png){ width="600" }
     </figure>
 
-In the command above, we used the `-e` option, which exports intermediate files. We'll use some of these files below.
 
-Now, let's examine the distribution of terms across patients. There are many ways to do this, but here we will use some `jq` magic to get the counts.
+Now, let's examine the distribution of terms across patients. There are many ways to do this, but here we will a `Perl`script.
 
-```bash
-jq -r 'to_entries | map([.key, (.value | length)]) | (["key", "count"] | @csv), (.[] | @csv)' export.ref_hash.json > counts.csv
-Rscript histogram.R
-```
-
+??? Example "See Perl code"
+    ```perl
+    --8<-- "scripts/count_phenotypicFeatures.pl"
+    ```
 Now, we will use `R` to plot a histogram.
 
 ??? Example "See R code"
@@ -97,12 +103,9 @@ Now, we will use `R` to plot a histogram.
      ![Output](img/phenopacket-corpus/histogram_with_mean_median.png){ width="600" }
     </figure>
 
-??? Tip "What happens with excluded features"
-     We are not using features set to `"excluded": true`.
-
 ### Colored by Disease
 
-We will use `Pheno-Ranker` output to fetch the diseases so that we can color the MDS plot. Let's start by running a job:
+We will use `Pheno-Ranker` output to fetch the diseases so that we can color the MDS plot. We will use  the `-e` option, which exports intermediate files. Let's start by running a job:
 
 ```bash
 ../pheno-ranker/bin/pheno-ranker -r combined.json -include-terms diseases -e
