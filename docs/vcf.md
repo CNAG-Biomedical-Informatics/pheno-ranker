@@ -135,18 +135,8 @@ bin/pheno-ranker -r output.json -t HG00096.json -config output_config.yaml
 ```
 
 ??? Abstract "See results"
-    |RANK | REFERENCE(ID) | TARGET(ID) | FORMAT | LENGTH | WEIGHTED | HAMMING-DISTANCE | DISTANCE-Z-SCORE | DISTANCE-P-VALUE | DISTANCE-Z-SCORE(RAND) | JACCARD-INDEX | JACCARD-Z-SCORE | JACCARD-P-VALUE|
-    |- |    -    |    -    | -   |    -   |  -    |    - |    -    |      -       |      -   |    -    |    -    |     -    |
-    |1 | HG00096 | HG00096 | CSV |   1043 | False |    0 |  -3.440 |    0.0002913 | -32.2955 |   1.000 |   3.549 |    0.0053956|
-    |2 | HG01537 | HG00096 | CSV |   1050 | False |   14 |  -2.712 |    0.0033449 | -31.5396 |   0.987 |   2.778 |    0.0377136|
-    |3 | HG03598 | HG00096 | CSV |   1054 | False |   22 |  -2.296 |    0.0108361 | -31.1101 |   0.979 |   2.342 |    0.0898655|
-    |4 | HG04141 | HG00096 | CSV |   1055 | False |   24 |  -2.192 |    0.0141860 | -31.0030 |   0.977 |   2.233 |    0.1087819|
-    |5 | HG04033 | HG00096 | CSV |   1055 | False |   24 |  -2.192 |    0.0141860 | -31.0030 |   0.977 |   2.233 |    0.1087819|
-    |6 | HG00237 | HG00096 | CSV |   1056 | False |   26 |  -2.088 |    0.0183923 | -30.8960 |   0.975 |   2.125 |    0.1303610|
-    |7 | NA12827 | HG00096 | CSV |   1057 | False |   28 |  -1.984 |    0.0236175 | -30.7891 |   0.974 |   2.017 |    0.1546849|
-    |8 | NA21116 | HG00096 | CSV |   1057 | False |   28 |  -1.984 |    0.0236175 | -30.7891 |   0.974 |   2.017 |    0.1546849|
-    |9 | NA20534 | HG00096 | CSV |   1057 | False |   28 |  -1.984 |    0.0236175 | -30.7891 |   0.974 |   2.017 |    0.1546849|
-    |10 | HG00234 | HG00096 | CSV |   1057 | False |   28 |  -1.984 |    0.0236175 | -30.7891 |   0.974 |   2.017 |    0.1546849|
+
+    --8<-- "tbl/rank_vcf.md"
 
 Sample `HG01537` is the closest. It has a distance of 14 to `HG00096` and a _p_-value = 0.0033449.
 
