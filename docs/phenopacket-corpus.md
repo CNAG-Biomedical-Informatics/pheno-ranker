@@ -127,6 +127,25 @@ We will use `R` to plot by disease:
      ![Output](img/phenopacket-corpus/mds_color_by_disease.png){ width="600" }
     </figure>
 
+### Graph
+
+We will create a graph but we will be using only dta from 50 patients to make it faster.
+
+```bash
+jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
+../pheno-ranker/bin/pheno-ranker -r combined_small.json -include-terms phenotypicFeatures -similarity-metric-cohort jaccard --cytoscape-json corpus_cytoscape.json
+``` 
+
+???+ Example "Display plot"
+
+    <div id="cy1" style="width: 100%; height: 500px; border: 1px solid black;"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadCytoscapeGraph("cy1", "/data/corpus_cytoscape.json", 50);
+      });
+    </script>
+
 ## Patient Mode
 
 Now, we will choose patient `PMID_35344616_A2` to search for similar patients. We already know from the figures above that this patient is related to at least three other patients.

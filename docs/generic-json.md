@@ -170,7 +170,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     `Pheno-ranker` can export `matrix.txt` in a `JSON` format that is compatible with [Cytoscape](https://cytoscape.org) ecosystem:
 
     ```bash
-    pheno-ranker -r t/movies.json --cytoscape-json cytoscape.json --config t/movies_config.yaml
+    pheno-ranker -r t/movies.json --cytoscape-json cytoscape.json --graph-stats graph_stats.txt --config t/movies_config.yaml
     ```
 
     !!! Question "Directed or undirected graph?" 
@@ -178,16 +178,23 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ??? Example "See `cytoscape.json`"
 
-        ```json
-        --8<-- "data/cytoscape.json"
-        ```         
-        
-    You can also get summary statistics on the graph:
 
-      
-    ```bash
-    pheno-ranker -r t/movies.json --cytoscape-json cytoscape.json --graph-stats graph_stats.txt --config t/movies_config.yaml
-    ```
+        ```json
+        --8<-- "data/movies_cytoscape.json"
+        ```
+
+    ???+ Example "Display plot"
+    
+        <div id="cy2" style="width: 100%; height: 500px; border: 1px solid black;"></div>
+    
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            loadCytoscapeGraph("cy2", "/data/movies_cytoscape.json", 50);
+          });
+        </script>
+
+        
+    You can also get summary statistics on the graph, in this case `1 - Jaccard`.:
 
     ??? Example "See `graph_stats.txt`"
     
