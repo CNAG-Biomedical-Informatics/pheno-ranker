@@ -142,7 +142,7 @@ jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        loadCytoscapeGraph("cy1", "./data/corpus_cytoscape.json", 50);
+        loadCytoscapeGraph("cy1", "https://cnag-biomedical-informatics.github.io/pheno-ranker/data/corpus_cytoscape.json", 50);
       });
     </script>
 
