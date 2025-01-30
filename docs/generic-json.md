@@ -189,7 +189,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     
         <script>
           document.addEventListener("DOMContentLoaded", function () {
-            loadCytoscapeGraph("cy2", "./data/movies_cytoscape.json", 50);
+            loadCytoscapeGraph("cy2", "https://cnag-biomedical-informatics.github.io/pheno-ranker/data/movies_cytoscape.json", 50);
           });
         </script>
 
