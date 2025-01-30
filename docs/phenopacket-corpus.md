@@ -16,19 +16,19 @@ unzip all_phenopackets.zip
 dos2unix */*/*.json
 ```
 
-??? Note "Hint"
-
-    We used `0.1.20`. You can reproduce this example with the folowing list of files:
-    
-    ```bash
-    --8<-- "data/combined.txt"
-    ```
-
 As this is an exercise, instead of using all `PXF` files, we will randomly select 1000 and create a JSON array file named `combined.json`:
 
 ```bash
 jq -s '.' $(ls -1 */*/*.json | shuf -n 1000) > combined.json
 ```
+
+??? Note "About reproducibility"
+
+    We used `0.1.20`. You can reproduce this example with the folowing list of files:
+
+    ```bash
+    --8<-- "data/combined.txt"
+    ```
 
 # Analytics
 
@@ -142,7 +142,7 @@ jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        loadCytoscapeGraph("cy1", "/data/corpus_cytoscape.json", 50);
+        loadCytoscapeGraph("cy1", "./data/corpus_cytoscape.json", 50);
       });
     </script>
 
