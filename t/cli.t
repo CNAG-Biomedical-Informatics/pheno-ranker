@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 use File::Spec::Functions qw(catfile);
 use File::Temp qw{ tempfile };    # core
-use Test::More tests => 9;        # Indicate the number of tests you want to run
+use Test::More tests => 10;        # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
 use lib ( './lib', '../lib' );
@@ -396,6 +396,147 @@ SKIP: {
     );
 }
 
+##########
+# TEST 10 #
+##########
+# Test for rank.txt by comparing REFERENCE(ID) column
+
+{
+    # The reference rank.txt file
+    my $reference_rank_file = catfile( 't', 'rank.txt' );
+    my $input_file = catfile( 't', 'individuals.json' );
+    my $target_file = catfile( 't', 'patient.json' );
+
+    # The generated output rank.txt file
+    my ( undef, $generated_rank_file ) = tempfile( DIR => 't', SUFFIX => ".txt", UNLINK => 1 );
+
+    my $ranker = Pheno::Ranker->new(
+        {
+            "age"             => 0,
+            "align"           => "",
+            "align_basename"  => "t/tar_align",
+            "append_prefixes" => [],
+
+            #"cli"                    => undef,
+            "config_file"              => undef,
+            "debug"                    => undef,
+            "exclude_terms"            => [],
+            "export"                   => undef,
+            "hpo_file"                 => undef,
+            "include_hpo_ascendants"   => undef,
+            "include_terms"            => [],
+            "log"                      => "",
+            "max_number_vars"           => undef,
+            "max_out"                  => 36,
+            "out_file"                 => $generated_rank_file,
+            "patients_of_interest"     => [],
+            "poi_out_dir"              => undef,
+            "reference_files"          => [$input_file],  # Adjust if necessary
+            "sort_by"                  => undef,
+            "similarity_metric_cohort" => undef,
+            "target_file"              => $target_file,
+            "verbose"                  => undef,
+            "weights_file"             => undef
+        }
+    );
+
+    # Method 'run'
+    $ranker->run;
+
+    # Hardcoded reference IDs from rank.txt
+    my @expected_ids = (
+        '107:week_0_arm_1',
+        '125:week_0_arm_1',
+        '275:week_0_arm_1',
+        '215:week_0_arm_1',
+        '305:week_0_arm_1',
+        '365:week_0_arm_1',
+        '107:week_14_arm_1',
+        '125:week_2_arm_1',
+        '527:week_14_arm_1',
+        '125:week_14_arm_1',
+        '527:week_2_arm_1',
+        '125:week_26_arm_1',
+        '107:week_2_arm_1',
+        '527:week_0_arm_1',
+        '365:week_2_arm_1',
+        '275:week_2_arm_1',
+        '365:week_14_arm_1',
+        '305:week_26_arm_1',
+        '215:week_26_arm_1',
+        '215:week_2_arm_1',
+        '215:week_14_arm_1',
+        '257:week_0_arm_1',
+        '365:week_26_arm_1',
+        '275:week_14_arm_1',
+        '527:week_26_arm_1',
+        '215:week_78_arm_1',
+        '125:week_78_arm_1',
+        '527:week_52_arm_1',
+        '125:week_52_arm_1',
+        '365:week_52_arm_1',
+        '305:week_52_arm_1',
+        '257:week_14_arm_1',
+        '257:week_2_arm_1',
+        '215:week_52_arm_1',
+        '257:week_26_arm_1',
+        '275:week_52_arm_1',
+    );
+
+    # Extract REFERENCE(ID)s from generated rank.txt
+    my @generated_ids = extract_reference_ids($generated_rank_file);
+
+    # Compare the two arrays as multisets
+    my %expected_count;
+    $expected_count{$_}++ for @expected_ids;
+
+    my %generated_count;
+    $generated_count{$_}++ for @generated_ids;
+
+    my $pass = 1;
+
+    foreach my $id (keys %expected_count) {
+        if (!exists $generated_count{$id}) {
+            diag("ID '$id' is missing in the generated output.");
+            $pass = 0;
+        } elsif ($expected_count{$id} != $generated_count{$id}) {
+            diag("ID '$id' has count $expected_count{$id} in reference vs $generated_count{$id} in output.");
+            $pass = 0;
+        }
+    }
+
+    foreach my $id (keys %generated_count) {
+        if (!exists $expected_count{$id}) {
+            diag("ID '$id' is extra in the generated output.");
+            $pass = 0;
+        }
+    }
+
+    ok($pass, qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/);
+}
+
+# Subroutine to extract REFERENCE(ID) from a rank.txt file
+sub extract_reference_ids {
+    my ($file) = @_;
+    open my $fh, '<', $file;
+
+    my @ids;
+    while ( my $line = <$fh> ) {
+        chomp $line;
+        next if $line =~ /^RANK\s+/;    # Skip header line
+        next if $line =~ /^\s*$/;       # Skip empty lines
+
+        my @columns = split /\s+/, $line;
+        if ( @columns >= 2 ) {
+            push @ids, $columns[1];
+        }
+    }
+
+    close $fh;
+    return @ids;
+}
+
+
 sub compare_sorted_files {
 
     my ( $file1, $file2 ) = @_;
@@ -410,5 +551,7 @@ sub compare_sorted_files {
     close $fh2;
 
     # Compare arrays directly
-    return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1, @lines2;
+    return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1,
+      @lines2;
 }
+
