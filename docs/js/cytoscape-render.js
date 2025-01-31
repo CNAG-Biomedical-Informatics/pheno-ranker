@@ -51,7 +51,7 @@ window.loadCytoscapeGraph = function(containerId, jsonPath, repoName, limit = 10
             const nodeIds = new Set(limitedNodes.map(node => node.data.id));
 
             // Define maximum edges per node and minimum weight for edge filtering
-            const maxEdgesPerNode = 3;
+            const maxEdgesPerNode = 5;
             const minWeight = 0;
 
             // Create a map to count edges per node to enforce maxEdgesPerNode

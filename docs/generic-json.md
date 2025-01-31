@@ -194,8 +194,6 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
            });
         </script>
         
-    You can also get summary statistics on the graph, in this case `1 - Jaccard`:
-
     ??? Example "See `graph_stats.txt`"
     
         ```bash
