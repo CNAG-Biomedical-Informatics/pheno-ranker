@@ -129,11 +129,11 @@ We will use `R` to plot by disease:
 
 ### Graph
 
-We will create a graph but we will be using only dta from 50 patients to make it faster.
+We will create a graph but we will be using only data from 50 patients to make it faster.
 
 ```bash
 jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
-../pheno-ranker/bin/pheno-ranker -r combined_small.json -include-terms phenotypicFeatures -similarity-metric-cohort jaccard --cytoscape-json corpus_cytoscape.json
+../pheno-ranker/bin/pheno-ranker -r combined_small.json -include-terms phenotypicFeatures --cytoscape-json corpus_cytoscape.json
 ``` 
 
 ???+ Example "Display plot"
