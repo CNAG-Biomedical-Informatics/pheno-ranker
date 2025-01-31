@@ -154,6 +154,13 @@ Frequently Asked Questions
 
     ##### last change 2024-08-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+
+??? faq "Should I use **Hamming** distance or **Jaccard** index?"
+
+    This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. We recommend checking results with both and assessing them rationally.
+
+    ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 ??? faq "What is the difference between *Pheno-Ranker Web App UI* and *Pheno-Ranker App*?"
 
     The [Web App UI](https://pheno-ranker.cnag.eu) is a fully functional web user interface built with `R-Shiny`. The [App](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app) is a graphical user interface (GUI) in `Python` designed for those who prefer not to use the command-line interface (CLI). While still experimental, we aim to improve it in the future by incorporating AI agents.

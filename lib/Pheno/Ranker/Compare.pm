@@ -300,8 +300,8 @@ sub compare_and_rank {
         #         Completeness   (T/R) * 100
         my $reference_vars = $score->{$key}{reference_vars};
         my $intersect      = $score->{$key}{intersect};
-        my $intersect_rate = $intersect / $target_vars * 100;
-        my $completeness   = $intersect / $reference_vars * 100;
+        my $intersect_rate = ($target_vars == 0) ? 0 : ($intersect / $target_vars) * 100;
+        my $completeness = ($reference_vars == 0) ? 0 : ($intersect / $reference_vars) * 100;
 
         # Create a hash with formats
         my $format = {

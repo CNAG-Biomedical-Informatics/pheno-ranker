@@ -168,6 +168,8 @@ Now, we run it in **patient** mode.
 ???+ Example "See Results"
     --8<-- "tbl/PMID_35344616_A2.md"
 
+There might be cases where you want to retain `phenotypicFeatures` set to `"excluded": true`. For instance, when you want to match individuals with the same diseases but lacking some features. Use `--retain-excluded-phenotypicFeatures` for that.
+
 # Citation
 
 Please if you find use any ot this information for your research please cite:
