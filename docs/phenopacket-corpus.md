@@ -167,3 +167,12 @@ Now, we run it in **patient** mode.
 
 ???+ Example "See Results"
     --8<-- "tbl/PMID_35344616_A2.md"
+
+# Citation
+
+Please if you find use any ot this information for your research please cite:
+
+1.	[Phenopacket Corpus](https://www.cell.com/hgg-advances/fulltext/S2666-2477(24)00111-8). 
+
+2.	[Pheno-Ranker publication](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-024-05993-2).
+
