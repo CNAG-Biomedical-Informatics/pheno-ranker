@@ -580,26 +580,34 @@ sub prune_excluded_included {
     return 1;
 }
 
-sub undef_excluded_phenotypicFeatures {
 
-    my $hash = shift;
+sub set_excluded_phenotypicFeatures {
 
-    # *** IMPORTANT ***
-    # Due to properties being set to undef, it's possible for the coverage file to
-    # report phenotypicFeatures as 100%. However, this might be misleading because
-    # some individuals might actually have phenotypicFeatures = {} (indicating all
-    # features are excluded).
-    # Attempting to add the --enable-excluded-phenotypicFeatures option was considered
-    # to address this, but it made the implementation too convoluted for BFF/PXF.
+    my ($hash, $switch, $format) = @_;
 
-    if ( exists $hash->{phenotypicFeatures} ) {
-        for my $item ( @{ $hash->{phenotypicFeatures} } ) {
+    # Ensure phenotypicFeatures exist before processing
+    return 1 unless exists $hash->{phenotypicFeatures};
 
-            # exists and true
-            $item = undef
-              if ( exists $item->{excluded} && $item->{excluded} );
+    foreach my $feature (@{ $hash->{phenotypicFeatures} }) {
+        # Skip if 'excluded' is not set or false
+        next unless $feature->{excluded};
+
+         # NB: remaining phenotypicFeatures:1.excluded 
+         #     will be discarded by $exclude_variables_regex_qr later
+        if ($switch) {
+            # Determine the correct ID field based on the format
+            my $id_field = $format eq 'BFF' ? 'featureType' : 'type';
+            # Append '_excluded' to the appropriate ID
+            $feature->{$id_field}{id} .= '_excluded';
+        }
+        else {
+            # Remove the feature by setting it to undef
+            $feature = undef;
+            # Due to properties being set to undef, it's possible for the coverage file to
+            # report phenotypicFeatures as 100% by all "excluded" = true
         }
     }
+
     return 1;
 }
 
@@ -608,10 +616,11 @@ sub remap_hash {
     my $arg    = shift;
     my $hash   = $arg->{hash};
     my $weight = $arg->{weight};
-    my $self   = $arg->{self};
+    my $self   = $arg->{self}; # $self from $arg
     my $nodes  = $self->{nodes};
     my $edges  = $self->{edges};
     my $format = $self->{format};
+    my $switch = $self->{retain_excluded_phenotypicFeatures};
     my $out_hash;
 
     # Do some pruning excluded / included
@@ -639,7 +648,7 @@ sub remap_hash {
     #  - Works across any JSON data structure (without specific key requirements)
     #  - BUT profiling shows it's ~5-10% slower than 'Array to Hash then Fold'
     #  - Does not accommodate specific remappings like 'interpretations.diagnosis.genomicInterpretations'
-    undef_excluded_phenotypicFeatures($hash);
+    set_excluded_phenotypicFeatures($hash, $switch, $format);
     $hash = fold($hash);
 
     # Load the hash that points to the hierarchy for ontology-term-id
@@ -671,7 +680,6 @@ sub remap_hash {
         # Some can be "rescued" by adding the ontology as ($1)
         # NB1: We discard _labels too!!
         # NB2: info|metaData are always discarded
-
         next
           if ( defined $exclude_variables_regex_qr
             && $key =~ $exclude_variables_regex_qr );
