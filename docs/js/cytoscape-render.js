@@ -106,9 +106,9 @@ window.loadCytoscapeGraph = function(containerId, jsonPath, limit = 100, page = 
                     {
                         selector: 'edge',
                         style: {
-                            'width': function(ele) { return (parseFloat(ele.data('weight')) >= minWeight ? 2 : 1); },
-                            'line-color': function(ele) { return (parseFloat(ele.data('weight')) >= minWeight ? '#FF4136' : '#999'); },
-                            'opacity': function(ele) { return (parseFloat(ele.data('weight')) >= minWeight ? 0.8 : 0.3); },
+                            'width': function(ele) { return (parseFloat(ele.data("weight")) >= minWeight ? 2 : 1); },
+                            'line-color': function(ele) { return (parseFloat(ele.data("weight")) >= minWeight ? '#FF4136' : '#999'); },
+                            'opacity': function(ele) { return (parseFloat(ele.data("weight")) >= minWeight ? 0.8 : 0.3); },
                             'curve-style': 'bezier',
                             'target-arrow-shape': 'triangle', // Adds arrowheads for directionality
                             'target-arrow-color': '#FF4136',

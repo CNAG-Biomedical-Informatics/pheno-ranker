@@ -186,13 +186,12 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ???+ Example "Display plot"
     
         <div id="cy2" style="width: 100%; height: 500px; border: 1px solid black;"></div>
-    
+       
         <script>
           document.addEventListener("DOMContentLoaded", function () {
-            loadCytoscapeGraph("cy2", "https://cnag-biomedical-informatics.github.io/pheno-ranker/data/movies_cytoscape.json", 50);
-          });
+            loadCytoscapeGraph("cy2", "/data/movies_cytoscape.json", 50);
+           });
         </script>
-
         
     You can also get summary statistics on the graph, in this case `1 - Jaccard`.:
 
