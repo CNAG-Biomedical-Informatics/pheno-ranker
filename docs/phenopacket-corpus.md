@@ -138,10 +138,10 @@ jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
 
 ???+ Example "Display plot"
 
-     <div id="cy1" style="width: 100%; height: 500px; border: 1px solid black;"></div>
         <script>
           document.addEventListener("DOMContentLoaded", function () {
-            loadCytoscapeGraph("cy1", "/data/corpus_cytoscape.json", 50);
+            const repoName = "pheno-ranker"; // Change this if needed
+            loadCytoscapeGraph("cy1", "/data/corpus_cytoscape.json", repoName, 50);
            });
         </script>
 

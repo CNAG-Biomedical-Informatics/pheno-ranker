@@ -13,8 +13,22 @@ if (!window.cyInstances) {
  * @param {number} page - Page number for pagination
  * @param {function} callback - Callback function after loading the graph
  */
-window.loadCytoscapeGraph = function(containerId, jsonPath, limit = 100, page = 1, callback) {
-    fetch(jsonPath)
+window.loadCytoscapeGraph = function(containerId, jsonPath, repoName, limit = 100, page = 1, callback) {
+    if (!jsonPath || !repoName) {
+        console.error("Error: Both jsonPath and repoName must be provided.");
+        return;
+    }
+
+    // Detect if running on GitHub Pages
+    let baseUrl = window.location.origin;
+    if (window.location.hostname.includes("github.io")) {
+        baseUrl += "/" + repoName; // Append GitHub repo name
+    }
+
+    const fullJsonPath = baseUrl + "/" + jsonPath;
+    console.log("Loading Cytoscape JSON from:", fullJsonPath);
+
+    fetch(fullJsonPath)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -23,7 +37,7 @@ window.loadCytoscapeGraph = function(containerId, jsonPath, limit = 100, page = 
         })
         .then(data => {
             // Validate the structure of the JSON data
-            if (!data.elements || !data.elements.nodes || !data.elements.edges) {
+            if (!data.elements || !Array.isArray(data.elements.nodes) || !Array.isArray(data.elements.edges)) {
                 throw new Error("Invalid JSON structure. Expected 'elements' with 'nodes' and 'edges'.");
             }
 
