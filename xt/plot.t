@@ -19,10 +19,10 @@ SKIP: {
         my $input_file = catfile( 't', 'individuals.json' );
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'plot', 'bff.png' );
+        my $reference_file = catfile( 'xt', 'plot', 'bff.png' );
 
         # The output files
-        my $output_file = catfile( 't' , 'plot', 'bff_tmp.png' );
+        my $output_file = catfile( 'xt' , 'plot', 'bff_tmp.png' );
 
         # Run the command line
         system("$script -i $input_file -o $output_file");
@@ -50,10 +50,10 @@ SKIP: {
         my $input_file = catfile( 't', 'pxf_random_100.json' );
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'plot', 'pxf.png' );
+        my $reference_file = catfile( 'xt', 'plot', 'pxf.png' );
 
         # The output files
-        my $output_file = catfile( 't' , 'plot', 'pxf_tmp.png' );
+        my $output_file = catfile( 'xt' , 'plot', 'pxf_tmp.png' );
 
         # Run the command line
         system("$script -i $input_file -o $output_file");
