@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 use File::Spec::Functions qw(catfile);
 use File::Temp            qw{ tempfile };    # core
-use Test::More tests => 12;                  # Indicate the number of tests you want to run
+use Test::More tests => 13;                  # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
 use lib ( './lib', '../lib' );
@@ -24,7 +24,7 @@ my $input_file = catfile( 't', 'individuals.json' );
 
 SKIP: {
     # Linux commands don't run on windows
-    skip qq{Sipping WIn32 tests}, 11 if IS_WINDOWS;
+    skip qq{Sipping WIn32 tests}, 12 if IS_WINDOWS;
 
     ##########
     # TEST 2 #
@@ -261,12 +261,6 @@ SKIP: {
         # Method 'run'
         $ranker->run;
 
-        # Run the command line script with the input file, and redirect the output to the output_file
-        # *** IMPORTANT ***
-        # Tests performed via system("foo") are not read by Devel::Cover
-        # my $script = catfile( './bin', 'pheno-ranker' );
-        # system("$script -r $input_file -o $tmp_file");
-
         # Compare the output_file and the reference_file
         ok(
             compare( $tmp_file, $reference_file ) == 0,
@@ -320,12 +314,6 @@ SKIP: {
 
         # Method 'run'
         $ranker->run;
-
-        # Run the command line script with the input file, and redirect the output to the output_file
-        # *** IMPORTANT ***
-        # Tests performed via system("foo") are not read by Devel::Cover
-        # my $script = catfile( './bin', 'pheno-ranker' );
-        # system("$script -r $input_file -o $tmp_file");
 
         # Compare the output_file and the reference_file
         ok(
@@ -383,12 +371,6 @@ SKIP: {
         # Method 'run'
         $ranker->run;
 
-        # Run the command line script with the input file, and redirect the output to the output_file
-        # *** IMPORTANT ***
-        # Tests performed via system("foo") are not read by Devel::Cover
-        # my $script = catfile( './bin', 'pheno-ranker' );
-        # system("$script -r $input_file -o $tmp_file");
-
         # Compare the output_file and the reference_file
         ok(
             compare( $tmp_file, $reference_file ) == 0,
@@ -404,7 +386,6 @@ SKIP: {
     {
         # The reference rank.txt file
         my $reference_rank_file = catfile( 't', 'rank.txt' );
-        my $input_file          = catfile( 't', 'individuals.json' );
         my $target_file         = catfile( 't', 'patient.json' );
 
         # The generated output rank.txt file
@@ -504,12 +485,12 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
     }
 
 ###########
-# TEST 11 #
+    # TEST 11 #
 ###########
 
     {
         # The reference file to compare the output with
-        my $input_file    = catfile( 't', 'pxf_excluded_true.json' );
+        my $input_file     = catfile( 't', 'pxf_excluded_true.json' );
         my $reference_file = catfile( 't', 'pxf_excluded_true_matrix.txt' );
 
         # The generated output file
@@ -550,12 +531,6 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
         # Method 'run'
         $ranker->run;
 
-        # Run the command line script with the input file, and redirect the output to the output_file
-        # *** IMPORTANT ***
-        # Tests performed via system("foo") are not read by Devel::Cover
-        # my $script = catfile( './bin', 'pheno-ranker' );
-        # system("$script -r $input_file -o $tmp_file");
-
         # Compare the output_file and the reference_file
         ok(
             compare( $tmp_file, $reference_file ) == 0,
@@ -564,7 +539,7 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
     }
 
 ###########
-# TEST 12 #
+    # TEST 12 #
 ###########
 
     {
@@ -581,9 +556,11 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "align"           => "",
                 "align_basename"  => "t/tar_align",
                 "append_prefixes" => [],
-                "glob_hash_file"  => catfile ('t', 'export.glob_hash.json'),
-                "ref_hash_file"  => catfile ('t', 'export.ref_hash.json'),
-                "ref_binary_hash_file"  => catfile ('t', 'export.ref_binary_hash.json'),
+                "glob_hash_file"  => catfile( 't', 'export.glob_hash.json' ),
+                "ref_hash_file"   => catfile( 't', 'export.ref_hash.json' ),
+                "ref_binary_hash_file" =>
+                  catfile( 't', 'export.ref_binary_hash.json' ),
+
                 #"cli"                    => undef,
                 "config_file"              => undef,
                 "debug"                    => undef,
@@ -610,12 +587,6 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
         # Method 'run'
         $ranker->run;
 
-        # Run the command line script with the input file, and redirect the output to the output_file
-        # *** IMPORTANT ***
-        # Tests performed via system("foo") are not read by Devel::Cover
-        # my $script = catfile( './bin', 'pheno-ranker' );
-        # system("$script -r $input_file -o $tmp_file");
-
         # Compare the output_file and the reference_file
         ok(
             compare( $tmp_file, $reference_file ) == 0,
@@ -623,6 +594,58 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
         );
     }
 
+###########
+    # TEST 13 #
+###########
+
+    {
+        # The reference file to compare the output with
+        my $input_file     = catfile( 't', 'individuals.json.gz' );
+        my $reference_file = catfile( 't', 'matrix_ref.txt' );
+
+        # The generated output file
+        my ( undef, $tmp_file ) =
+          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+
+        my $ranker = Pheno::Ranker->new(
+            {
+                "age"             => 0,
+                "align"           => "",
+                "align_basename"  => "t/tar_align",
+                "append_prefixes" => [],
+
+                #"cli"                    => undef,
+                "config_file"              => undef,
+                "debug"                    => undef,
+                "exclude_terms"            => [],
+                "export"                   => undef,
+                "hpo_file"                 => undef,
+                "include_hpo_ascendants"   => undef,
+                "include_terms"            => [],
+                "log"                      => "",
+                "max_number_vars"          => undef,
+                "max_out"                  => 36,
+                "out_file"                 => $tmp_file,
+                "patients_of_interest"     => [],
+                "poi_out_dir"              => undef,
+                "reference_files"          => [$input_file],
+                "sort_by"                  => undef,
+                "similarity_metric_cohort" => undef,
+                "target_file"              => undef,
+                "verbose"                  => undef,
+                "weights_file"             => undef
+            }
+        );
+
+        # Method 'run'
+        $ranker->run;
+
+        # Compare the output_file and the reference_file
+        ok(
+            compare( $tmp_file, $reference_file ) == 0,
+            qq/Output matches the <$reference_file> file/
+        );
+    }
 
 }
 
@@ -664,4 +687,3 @@ sub compare_sorted_files {
     return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1,
       @lines2;
 }
-

@@ -116,9 +116,14 @@ if ( defined $import_prefix ) {
     }
 
     # Generate file names based on import_prefix
-    $glob_hash_file       = $import_prefix . '.glob_hash.json';
-    $ref_hash_file        = $import_prefix . '.ref_hash.json';
-    $ref_binary_hash_file = $import_prefix . '.ref_binary_hash.json';
+    my $base_glob       = $import_prefix . '.glob_hash.json';
+    my $base_ref        = $import_prefix . '.ref_hash.json';
+    my $base_ref_binary = $import_prefix . '.ref_binary_hash.json';
+
+    # Use the helper to check for .gz versions if needed.
+    $glob_hash_file       = resolve_file($base_glob);
+    $ref_hash_file        = resolve_file($base_ref);
+    $ref_binary_hash_file = resolve_file($base_ref_binary);
 }
 
 # Set cytoscape-json logic
@@ -196,6 +201,21 @@ sub handle_option {
         pod2usage( -message => $message, -exitval => 1 ) if $target_file;
         $$option_ref = $$option_ref ? $$option_ref : $default;
     }
+}
+
+sub resolve_file {
+
+    my $base = shift;
+
+    # If the base file exists, use it.
+    return $base if -e $base;
+
+    # If a gzipped version exists, use that.
+    my $gz = $base . '.gz';
+    return $gz if -e $gz;
+
+    # If neither exists, just return the base file (you might want to warn or error here)
+    return $base;
 }
 
 sub write_log {

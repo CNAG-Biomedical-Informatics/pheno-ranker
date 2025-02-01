@@ -8,6 +8,8 @@ Revision history for Perl distribution Pheno-Ranker
  - Added term 'interpretations' to PXF in bff-pxf-plot
  - Added flag '--retain-excluded-phenotypicFeatures' to enable using "excluded": true in the comparisons
  - Added flag '--import-prefix' to enable using pre-computed data for the cohorts
+ - Added support for .gz input JSON/YAML files
+ - Added 'share/hpo_diseases'
 
 1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
