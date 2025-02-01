@@ -1,27 +1,22 @@
 # Data Origin
 
-https://hpo.jax.org/data/annotations
+[HPO Annotations](https://hpo.jax.org/data/annotations)
 
 # Download Date
 
-January-25, 2025
+**January 25, 2025**
 
-# Files:
+# Downloaded Files
 
-### Used `data/genes_to_phenotype.txt`
+I don't have a local copy of the files. Please download them from the [HPO website](https://hpo.jax.org/data/annotations).
 
-### Non-used `data/phenotype_to_genes.txt` HAS ANCESTORS
+### Used: `genes_to_phenotype.txt`
+### Not Used: `phenotype_to_genes.txt` (Contains Ancestors)
 
 # Usage
 
 ```bash
-perl scripts/hpo_disease_converter.pl -i data/genes_to_phenotype.txt -f bff
-perl scripts/hpo_disease_converter.pl -i data/genes_to_phenotype.txt -f pxf
+perl scripts/hpo_disease_converter.pl -i genes_to_phenotype.txt -f bff
+perl scripts/hpo_disease_converter.pl -i genes_to_phenotype.txt -f pxf
 gzip *json
 ```
-
-# HPO Citation
-
-Gargano MA, et al. The Human Phenotype Ontology in 2024: phenotypes around the world. Nucleic Acids Res. 2024 Jan 5;52(D1):D1333-D1346. doi: 10.1093/nar/gkad1005. PMID: 37953324; PMCID: PMC10767975., [doi](https://doi.org/10.1093/nar/gkad1005)
-
-
