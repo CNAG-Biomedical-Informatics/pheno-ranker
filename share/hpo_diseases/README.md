@@ -20,3 +20,10 @@ perl scripts/hpo_disease_converter.pl -i genes_to_phenotype.txt -f bff
 perl scripts/hpo_disease_converter.pl -i genes_to_phenotype.txt -f pxf
 gzip *json
 ```
+
+# HPO Citation
+
+Gargano MA, et al. The Human Phenotype Ontology in 2024: phenotypes around the world.
+Nucleic Acids Res. 2024 Jan 5;52(D1):D1333-D1346.
+[DOI: 10.1093/nar/gkad1005](DOI: 10.1093/nar/gkad1005)
+PMID: 37953324; PMCID: PMC10767975.

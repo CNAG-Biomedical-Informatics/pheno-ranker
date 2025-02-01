@@ -63,23 +63,23 @@ GetOptions(
     'exclude-terms=s{1,11}'              => \my @exclude_terms,               # array
     'retain-excluded-phenotypicFeatures' => \
       my $retain_excluded_phenotypicFeatures,                                 # flag
-    'import-prefix=s' => \my $import_prefix,                                  # string
-    'config=s'        => \my $config_file,                                    # string
-    'age!'            => \$age,                                               # flag
-    'help|?'          => \my $help,                                           # flag
-    'log:s'           => \my $log,                                            # opt-string (defined)
-    'man'             => \my $man,                                            # flag
-    'debug=i'         => \my $debug,                                          # integer
-    'verbose|'        => \my $verbose,                                        # flag
-    'color!'          => \$color,                                             # flag
-    'version|V'       => sub { say "$0 Version $VERSION"; exit; }
+    'precomputed-ref-prefix=s' => \my $precomputed_ref_prefix,                # string
+    'config=s'                 => \my $config_file,                           # string
+    'age!'                     => \$age,                                      # flag
+    'help|?'                   => \my $help,                                  # flag
+    'log:s'                    => \my $log,                                   # opt-string (defined)
+    'man'                      => \my $man,                                   # flag
+    'debug=i'                  => \my $debug,                                 # integer
+    'verbose|'                 => \my $verbose,                               # flag
+    'color!'                   => \$color,                                    # flag
+    'version|V'                => sub { say "$0 Version $VERSION"; exit; }
 ) or pod2usage(2);
 pod2usage(1)                              if $help;
 pod2usage( -verbose => 2, -exitval => 0 ) if $man;
 pod2usage(
     -message => "Please specify a reference-cohort(s) with <--r>\n",
     -exitval => 1
-) unless ( @reference_files || $import_prefix );
+) unless ( @reference_files || $precomputed_ref_prefix );
 pod2usage(
     -message =>
       "<--graph_stats> only works in conjunction with <--cytoscape-json>\n",
@@ -96,7 +96,7 @@ my $out_file = $out_file_arg
 
 # Set import data
 my ( $glob_hash_file, $ref_hash_file, $ref_binary_hash_file );
-if ( defined $import_prefix ) {
+if ( defined $precomputed_ref_prefix ) {
 
     # Check if any incompatible parameters are provided
     my $has_incompatible_options =
@@ -110,15 +110,15 @@ if ( defined $import_prefix ) {
     if ($has_incompatible_options) {
         pod2usage(
             -message =>
-"Sorry, but <--reference/age/hpo-ascendants/retain-excluded-phenotypicFeatures/weights/append-prefixes> are incompatible with --import <$import_prefix>\n",
+"Sorry, but <--reference/age/hpo-ascendants/retain-excluded-phenotypicFeatures/weights/append-prefixes> are incompatible with --import <$precomputed_ref_prefix>\n",
             -exitval => 1
         );
     }
 
-    # Generate file names based on import_prefix
-    my $base_glob       = $import_prefix . '.glob_hash.json';
-    my $base_ref        = $import_prefix . '.ref_hash.json';
-    my $base_ref_binary = $import_prefix . '.ref_binary_hash.json';
+    # Generate file names based on precomputed_ref_prefix
+    my $base_glob       = $precomputed_ref_prefix . '.glob_hash.json';
+    my $base_ref        = $precomputed_ref_prefix . '.ref_hash.json';
+    my $base_ref_binary = $precomputed_ref_prefix . '.ref_binary_hash.json';
 
     # Use the helper to check for .gz versions if needed.
     $glob_hash_file       = resolve_file($base_glob);
@@ -167,7 +167,7 @@ my $data = {
     include_terms                      => \@include_terms,
     exclude_terms                      => \@exclude_terms,
     retain_excluded_phenotypicFeatures => $retain_excluded_phenotypicFeatures,
-    import_prefix                      => $import_prefix,
+    precomputed_ref_prefix             => $precomputed_ref_prefix,
     glob_hash_file                     => $glob_hash_file,
     ref_hash_file                      => $ref_hash_file,
     ref_binary_hash_file               => $ref_binary_hash_file,
@@ -300,7 +300,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
      -e, --export [path/basename]     Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
      -exclude-terms <terms>           Exclude BFF/PXF terms (e.g., --exclude-terms sex, id) or column names in JSON-derived from CSV 
      -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
-     -import-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
+     -prp, --precomputed-ref-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
      -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
      -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
      -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
