@@ -3,12 +3,12 @@ Revision history for Perl distribution Pheno-Ranker
 1.02 2025-0X-XX:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Renamed 'Align.pm' to 'Compare.pm'
- - Added new columns to 'rank.txt' (REFERENCE-VARS,TARGET-VARS,INTERSECT,INTERSECT-RATE(%),COMPLETENESS(%))
- - Changed '--max-number-var' to '--max-numer-vars' to avoid my own mistakes :-)
- - Added term 'interpretations' to PXF in bff-pxf-plot
- - Added flag '--retain-excluded-phenotypicFeatures' to enable using "excluded": true in the comparisons
- - Added flag '--import-prefix' to enable using pre-computed data for the cohorts
- - Added support for .gz input JSON/YAML files
+ - Expanded 'rank.txt' with new columns: REFERENCE-VARS, TARGET-VARS, INTERSECT, INTERSECT-RATE(%), COMPLETENESS(%)
+ - Renamed '--max-number-var' to '--max-number-vars' to prevent mistakes
+ - Added "interpretations" to PXF in *bff-pxf-plot*
+ - Introduced '--retain-excluded-phenotypicFeatures' to include "excluded": true in comparisons
+ - Added '--import-prefix' for pre-computed cohort data
+ - Enabled support for .gz JSON/YAML inputs
  - Added 'share/hpo_diseases'
 
 1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
