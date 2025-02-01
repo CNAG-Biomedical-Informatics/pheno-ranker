@@ -100,17 +100,17 @@ if ( defined $import_prefix ) {
 
     # Check if any incompatible parameters are provided
     my $has_incompatible_options =
-         @include_terms
-      || @exclude_terms
+         @reference_files
+      || @append_prefixes
+      || $age
       || defined $include_hpo_ascendants
       || defined $retain_excluded_phenotypicFeatures
-      || defined $weights_file
-      || @reference_files;
+      || defined $weights_file;
 
     if ($has_incompatible_options) {
         pod2usage(
             -message =>
-"Sorry, but <--include/exclude-terms/hpo-ascendants/retain-excluded-phenotypicFeatures/weights/reference> are incompatible with --import <$import_prefix>\n",
+"Sorry, but <--reference/age/hpo-ascendants/retain-excluded-phenotypicFeatures/weights/append-prefixes> are incompatible with --import <$import_prefix>\n",
             -exitval => 1
         );
     }

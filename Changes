@@ -7,6 +7,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Changed '--max-number-var' to '--max-numer-vars' to avoid my own mistakes :-)
  - Added term 'interpretations' to PXF in bff-pxf-plot
  - Added flag '--retain-excluded-phenotypicFeatures' to enable using "excluded": true in the comparisons
+ - Added flag '--import-prefix' to enable using pre-computed data for the cohorts
 
 1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
