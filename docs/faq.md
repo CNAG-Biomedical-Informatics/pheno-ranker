@@ -165,21 +165,24 @@ Frequently Asked Questions
 
     Yes, starting with version **1.02**, it is possible to use pre-computed data. This can be useful if you always perform a patient search on a given database.
 
-    First, you have to export intermediate files:
+    First, you have to export intermediate files, make sure you select the terms you want to include or exclude as they will be final:
 
     ```bash
-    pheno-ranker -r individuals.json -e my_export_prefix
+    pheno-ranker -r individuals.json -e my_export_prefix --include-terms phenotypicFeatures
     ```
 
-    Then, you can re-use the exported data as:
+    Then, you can re-use the exported data using the flag `--prp|precomputed-ref-prefix`. Note that that the include/exclude terms only will apply to the target as the reference vector is fixed:
 
     ```bash
-    pheno-ranker --import-preffix my_export_prefix -t patient.json --sort-by jaccard
+    pheno-ranker --prp my_export_prefix -t patient.json --include-terms phenotypicFeatures --sort-by jaccard
     ```
      
     Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{global_hash,ref_hash,ref_binary_hash}.json`.
 
     Note that the exported `JSON` files can also be **gzipped**.
+
+    !!! Warning "What happens if I don't exclude/include terms in patient mode?"
+        As the global vector is built using the reference cohort(s), it's really not that important. However, one value that can be affected is the **INTERSECT-RATE(%)**, as it uses all the variables for the target. If you don't restrict it, it may account for terms not present in the precomputed data.
 
     ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
