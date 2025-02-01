@@ -300,8 +300,10 @@ sub compare_and_rank {
         #         Completeness   (T/R) * 100
         my $reference_vars = $score->{$key}{reference_vars};
         my $intersect      = $score->{$key}{intersect};
-        my $intersect_rate = ($target_vars == 0) ? 0 : ($intersect / $target_vars) * 100;
-        my $completeness = ($reference_vars == 0) ? 0 : ($intersect / $reference_vars) * 100;
+        my $intersect_rate =
+          ( $target_vars == 0 ) ? 0 : ( $intersect / $target_vars ) * 100;
+        my $completeness =
+          ( $reference_vars == 0 ) ? 0 : ( $intersect / $reference_vars ) * 100;
 
         # Create a hash with formats
         my $format = {
@@ -580,29 +582,32 @@ sub prune_excluded_included {
     return 1;
 }
 
-
 sub set_excluded_phenotypicFeatures {
 
-    my ($hash, $switch, $format) = @_;
+    my ( $hash, $switch, $format ) = @_;
 
     # Ensure phenotypicFeatures exist before processing
     return 1 unless exists $hash->{phenotypicFeatures};
 
-    foreach my $feature (@{ $hash->{phenotypicFeatures} }) {
+    foreach my $feature ( @{ $hash->{phenotypicFeatures} } ) {
+
         # Skip if 'excluded' is not set or false
         next unless $feature->{excluded};
 
-         # NB: remaining phenotypicFeatures:1.excluded 
-         #     will be discarded by $exclude_variables_regex_qr later
+        # NB: remaining phenotypicFeatures:1.excluded
+        #     will be discarded by $exclude_variables_regex_qr later
         if ($switch) {
+
             # Determine the correct ID field based on the format
             my $id_field = $format eq 'BFF' ? 'featureType' : 'type';
+
             # Append '_excluded' to the appropriate ID
             $feature->{$id_field}{id} .= '_excluded';
         }
         else {
             # Remove the feature by setting it to undef
             $feature = undef;
+
             # Due to properties being set to undef, it's possible for the coverage file to
             # report phenotypicFeatures as 100% by all "excluded" = true
         }
@@ -616,7 +621,7 @@ sub remap_hash {
     my $arg    = shift;
     my $hash   = $arg->{hash};
     my $weight = $arg->{weight};
-    my $self   = $arg->{self}; # $self from $arg
+    my $self   = $arg->{self};                                  # $self from $arg
     my $nodes  = $self->{nodes};
     my $edges  = $self->{edges};
     my $format = $self->{format};
@@ -648,7 +653,7 @@ sub remap_hash {
     #  - Works across any JSON data structure (without specific key requirements)
     #  - BUT profiling shows it's ~5-10% slower than 'Array to Hash then Fold'
     #  - Does not accommodate specific remappings like 'interpretations.diagnosis.genomicInterpretations'
-    set_excluded_phenotypicFeatures($hash, $switch, $format);
+    set_excluded_phenotypicFeatures( $hash, $switch, $format );
     $hash = fold($hash);
 
     # Load the hash that points to the hierarchy for ontology-term-id

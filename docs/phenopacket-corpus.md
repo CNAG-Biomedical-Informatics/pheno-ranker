@@ -2,7 +2,7 @@ Here we will describe how to use `Pheno-Ranker` with the data from the recently 
 
 # Data Download
 
-We will download the data from their GitHub repository. If you don't have `wget`, `dos2unix`, and `jq`, please install them using:
+We will download the data from their GitHub repository (BSD3 open-source license). If you don't have `wget`, `dos2unix`, and `jq`, please install them using:
 
 ```bash
 sudo apt install wget dos2unix jq

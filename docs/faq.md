@@ -4,7 +4,7 @@ Frequently Asked Questions
 
 ??? faq "What does `Pheno-Ranker` do?"
 
-    `Pheno-Ranker` is an open-source toolkit developed for the semantic similarity analysis of phenotypic and clinical data. It natively supports GA4GH standards, such as [Phenopackets v2](pxf.md) and [Beacon v2](bff.md), using as input their JSON/YAML data exchange formats. Beyond these specific standards, Pheno-Ranker is designed to be highly versatile, capable of handling any data serialized into `JSON`, `YAML`, and `CSV` formats, extending its utility beyond the health data domain. Pheno-Ranker transforms hierarchical data into binary digit strings, enabling efficient similarity matching both within cohorts and between individual patients and reference cohorts. 
+    `Pheno-Ranker` is an open-source toolkit developed for the semantic similarity analysis of phenotypic and clinical data. It natively supports GA4GH standards, such as [Phenopackets v2](pxf.md) and [Beacon v2](bff.md), using as input their JSON/YAML data exchange formats. Beyond these specific standards, Pheno-Ranker is designed to be highly versatile, capable of handling any data serialized into `JSON`, `YAML`, and `CSV` (categorical) formats, extending its utility beyond the health data domain. Pheno-Ranker transforms hierarchical data into binary digit strings, enabling efficient similarity matching both within cohorts and between individual patients and reference cohorts. 
 
     !!! Abstract "Podcast-Style Audio Format"
     
@@ -160,6 +160,27 @@ Frequently Asked Questions
     This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. We recommend checking results with both and assessing them rationally.
 
     ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
+??? faq "Can I use pre-computed data?"
+
+    Yes, starting with version **1.02**, it is possible to use pre-computed data. This can be useful if you always perform a patient search on a given database.
+
+    First, you have to export intermediate files:
+
+    ```bash
+    pheno-ranker -r individuals.json -e my_export_prefix
+    ```
+
+    Then, you can re-use the exported data as:
+
+    ```bash
+    pheno-ranker --import-preffix my_export_prefix -t patient.json --sort-by jaccard
+    ```
+     
+    Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{global_hash,ref_hash,ref_binary_hash}.json`.
+
+    ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 
 ??? faq "What is the difference between *Pheno-Ranker Web App UI* and *Pheno-Ranker App*?"
 
