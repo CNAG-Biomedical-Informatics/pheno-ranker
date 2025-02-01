@@ -179,6 +179,8 @@ Frequently Asked Questions
      
     Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{global_hash,ref_hash,ref_binary_hash}.json`.
 
+    Note that the exported `JSON` files can also be **gzipped**.
+
     ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 
