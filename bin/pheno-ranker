@@ -64,6 +64,7 @@ GetOptions(
     'retain-excluded-phenotypicFeatures' => \
       my $retain_excluded_phenotypicFeatures,                                 # flag
     'precomputed-ref-prefix=s' => \my $precomputed_ref_prefix,                # string
+    'max-matrix-items-in-ram=i' => \my $max_matrix_items_in_ram,            # integer
     'config=s'                 => \my $config_file,                           # string
     'age!'                     => \$age,                                      # flag
     'help|?'                   => \my $help,                                  # flag
@@ -168,6 +169,7 @@ my $data = {
     exclude_terms                      => \@exclude_terms,
     retain_excluded_phenotypicFeatures => $retain_excluded_phenotypicFeatures,
     precomputed_ref_prefix             => $precomputed_ref_prefix,
+    max_matrix_items_in_ram            => $max_matrix_items_in_ram,
     glob_hash_file                     => $glob_hash_file,
     ref_hash_file                      => $ref_hash_file,
     ref_binary_hash_file               => $ref_binary_hash_file,
@@ -303,6 +305,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
      -prp, --precomputed-ref-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
      -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
      -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
+     -max-matrix-items-in-ram <number>   In cohort mode, set max items before switching to RAM-efficient mode (default: 5000)
      -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
      -max-out <number>                Print only N comparisons [default: 50]
      -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]

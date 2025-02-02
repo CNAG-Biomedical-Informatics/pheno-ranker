@@ -21,6 +21,7 @@ my $data = {
     "include_hpo_ascendants"   => undef,
     "include_terms"            => [],
     "log"                      => "",
+    "max_matrix_items_in_ram" => undef,
     "max_number_vars"           => undef,
     "max_out"                  => 36,
     "patients_of_interest"     => [],

@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 use File::Spec::Functions qw(catfile);
 use File::Temp            qw{ tempfile };    # core
-use Test::More tests => 13;                  # Indicate the number of tests you want to run
+use Test::More tests => 14;                  # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
 use lib ( './lib', '../lib' );
@@ -24,7 +24,7 @@ my $input_file = catfile( 't', 'individuals.json' );
 
 SKIP: {
     # Linux commands don't run on windows
-    skip qq{Sipping WIn32 tests}, 12 if IS_WINDOWS;
+    skip qq{Sipping WIn32 tests}, 13 if IS_WINDOWS;
 
     ##########
     # TEST 2 #
@@ -54,6 +54,7 @@ SKIP: {
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $tmp_file,
@@ -108,6 +109,7 @@ SKIP: {
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => "matrix.txt",
@@ -191,6 +193,7 @@ SKIP: {
                 "include_hpo_ascendants" => undef,
                 "include_terms"          => [],
                 "log"                    => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"        => undef,
                 "max_out"                => 36,
                 "out_file"               => $tmp_file,
@@ -244,6 +247,7 @@ SKIP: {
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $tmp_file,
@@ -298,6 +302,7 @@ SKIP: {
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $tmp_file,
@@ -354,6 +359,7 @@ SKIP: {
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $tmp_file,
@@ -408,6 +414,7 @@ SKIP: {
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $generated_rank_file,
@@ -513,6 +520,7 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "include_hpo_ascendants"             => undef,
                 "include_terms"                      => [],
                 "log"                                => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"                    => undef,
                 "max_out"                            => 36,
                 "out_file"                           => $tmp_file,
@@ -570,6 +578,7 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $tmp_file,
@@ -623,6 +632,7 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "include_hpo_ascendants"   => undef,
                 "include_terms"            => [],
                 "log"                      => "",
+                "max_matrix_items_in_ram" => undef,
                 "max_number_vars"          => undef,
                 "max_out"                  => 36,
                 "out_file"                 => $tmp_file,
@@ -646,6 +656,62 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
             qq/Output matches the <$reference_file> file/
         );
     }
+
+###########
+    # TEST 13 #
+###########
+ # max_matrix_items_in_ram
+
+    {
+        # The reference file to compare the output with
+        my $input_file     = catfile( 't', 'individuals.json.gz' );
+        my $reference_file = catfile( 't', 'matrix_ref.txt' );
+
+        # The generated output file
+        my ( undef, $tmp_file ) =
+          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+
+        my $ranker = Pheno::Ranker->new(
+            {
+                "age"             => 0,
+                "align"           => "",
+                "align_basename"  => "t/tar_align",
+                "append_prefixes" => [],
+
+                #"cli"                    => undef,
+                "config_file"              => undef,
+                "debug"                    => undef,
+                "exclude_terms"            => [],
+                "export"                   => undef,
+                "hpo_file"                 => undef,
+                "include_hpo_ascendants"   => undef,
+                "include_terms"            => [],
+                "log"                      => "",
+                "max_matrix_items_in_ram" => 500, 
+                "max_number_vars"          => undef,
+                "max_out"                  => 36,
+                "out_file"                 => $tmp_file,
+                "patients_of_interest"     => [],
+                "poi_out_dir"              => undef,
+                "reference_files"          => [$input_file],
+                "sort_by"                  => undef,
+                "similarity_metric_cohort" => undef,
+                "target_file"              => undef,
+                "verbose"                  => undef,
+                "weights_file"             => undef
+            }
+        );
+
+        # Method 'run'
+        $ranker->run;
+
+        # Compare the output_file and the reference_file
+        ok(
+            compare( $tmp_file, $reference_file ) == 0,
+            qq/Output matches the <$reference_file> file/
+        );
+    }
+
 
 }
 

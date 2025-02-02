@@ -1,6 +1,6 @@
 # What is Pheno-Ranker?
 
-`Pheno-Ranker` is an **open-source** software toolkit designed for _individual-level_ **comparison of phenotypic data at scale**. It efficiently handles **large-scale** comparisons and supports multiple data formats, making it versatile for use beyond the health data domain.
+`Pheno-Ranker` is an **open-source** software toolkit designed for _individual-level_ **comparison of phenotypic data**. It efficiently handles **large-scale** comparisons and supports **multiple data formats**, making it versatile for use beyond the health data domain.
 
 ## Key Features
 - Accepts data in `JSON`, `YAML`, and `CSV` formats.
