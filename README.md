@@ -73,6 +73,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -prp, --precomputed-ref-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
         -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
         -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
+        -max-matrix-items-in-ram <number>   In cohort mode, set max items before switching to RAM-efficient mode (default: 5000)
         -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
         -max-out <number>                Print only N comparisons [default: 50]
         -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]

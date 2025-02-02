@@ -36,7 +36,7 @@ use constant DEVEL_MODE => 0;
 
 # Misc variables
 my ( $config_sort_by, $config_similarity_metric_cohort,
-    $config_max_out, $config_max_number_vars, @config_allowed_terms );
+    $config_max_out, $config_max_number_vars, $config_max_matrix_items_in_ram, @config_allowed_terms );
 my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
 
 ############################################
@@ -75,6 +75,7 @@ sub _set_basic_config {
       // 'hamming';
     $config_max_out         = $config->{max_out}         // 50;
     $config_max_number_vars = $config->{max_number_vars} // 10_000;
+    $config_max_matrix_items_in_ram  = $config->{max_matrix_items_in_ram} // 5_000;
 }
 
 # Private Method: _validate_and_set_exclusive_config
@@ -161,6 +162,14 @@ has max_number_vars => (
     isa     => Int
 );
 
+has max_matrix_items_in_ram => (
+    default => $config_max_matrix_items_in_ram,
+    is      => 'ro',
+    coerce  => sub { $_[0] // $config_max_matrix_items_in_ram },
+    lazy    => 1,
+    isa     => Int
+);
+
 has hpo_file => (
     default => catfile( $share_dir, 'db', 'hp.json' ),
     coerce  => sub { $_[0] // catfile( $share_dir, 'db', 'hp.json' ) },
@@ -192,7 +201,7 @@ has [qw/include_terms exclude_terms/] => (
     default => sub { [] },
 );
 
-has 'cli' => (
+has cli => (
     is      => 'ro',
     isa     => Bool,
     default => 0,

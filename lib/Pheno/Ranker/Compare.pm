@@ -25,75 +25,110 @@ sub check_format {
 }
 
 sub cohort_comparison {
+
     my ( $ref_binary_hash, $self ) = @_;
     my $out_file          = $self->{out_file};
     my $similarity_metric = $self->{similarity_metric_cohort};
 
-    # Inform about the start of the comparison process
-    say "Performing COHORT comparison" if $self->{debug} || $self->{verbose};
+    # Define limit #items for switching to whole matrix calculation
+    my $max_items = $self->{max_matrix_items_in_ram};
 
-    # Define the subroutine to be used for similarity calculations
+    # Inform about the start of the comparison process
+    say "Performing COHORT comparison"
+      if ( $self->{debug} || $self->{verbose} );
+
+    # Define the subroutine to be used
     my %similarity_function = (
         'hamming' => \&hd_fast,
-        'jaccard' => \&jaccard_similarity_formatted,
+        'jaccard' => \&jaccard_similarity_formatted
     );
 
-    # Define diagonal values for each metric
+    # Define values for diagonal elements depending on metric
     my %similarity_diagonal = (
         'hamming' => 0,
-        'jaccard' => 1,
+        'jaccard' => 1
     );
 
+    # Use previous hashes to define stuff
     my $metric              = $similarity_function{$similarity_metric};
     my $similarity_diagonal = $similarity_diagonal{$similarity_metric};
 
-    # Sort keys for consistent ordering
-    my @sorted_keys = nsort( keys %{$ref_binary_hash} );
-    my $num_items   = scalar @sorted_keys;
+    # Sorting keys of the hash
+    my @sorted_keys_ref_binary_hash = nsort( keys %{$ref_binary_hash} );
+    my $num_items                   = scalar @sorted_keys_ref_binary_hash;
 
-    # Open output file for writing
+    # Define $switch for going from RAM to all calculations
+    my $switch = $num_items > $max_items ? 1 : 0;
+
+    say "RAM efficient mode is: "
+      . ( $switch ? "on" : "off" )
+      . " (max_matrix_items_in_ram: $max_items)"
+      if ( $self->{debug} || $self->{verbose} );
+
+    # Opening file for output
     open( my $fh, '>:encoding(UTF-8)', $out_file );
-    say $fh "\t" . join( "\t", @sorted_keys );
+    say $fh "\t", join "\t", @sorted_keys_ref_binary_hash;
 
-    # Initialize a matrix to store computed upper-triangle similarities
+    # Initialize matrix for storing similarity
     my @matrix;
 
-    # Loop over each row of the matrix
-    for my $i ( 0 .. $#sorted_keys ) {
-        say "Calculating <" . $sorted_keys[$i] . "> against the cohort..."
+    # Iterate over items (I elements)
+    for my $i ( 0 .. $#sorted_keys_ref_binary_hash ) {
+        say "Calculating <"
+          . $sorted_keys_ref_binary_hash[$i]
+          . "> against the cohort..."
           if $self->{verbose};
-        my $str1 = $ref_binary_hash->{ $sorted_keys[$i] }{binary_digit_string_weighted};
+        my $str1 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$i] }
+          {binary_digit_string_weighted};
 
-        # Print the row header (first column)
-        print $fh $sorted_keys[$i];
+        # Print first column (w/o \t)
+        print $fh $sorted_keys_ref_binary_hash[$i];
 
-        # Loop over each column
-        for my $j ( 0 .. $#sorted_keys ) {
+        # Iterate for pairwise comparisons (J elements)
+        for my $j ( 0 .. $#sorted_keys_ref_binary_hash ) {
+            my $str2 = $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
+              {binary_digit_string_weighted};
             my $similarity;
 
-            if ( $i == $j ) {
-                # Diagonal elements: use preset value
-                $similarity = $similarity_diagonal;
-            }
-            elsif ( $j > $i ) {
-                # Compute similarity for the upper triangle
-                my $str2 = $ref_binary_hash->{ $sorted_keys[$j] }{binary_digit_string_weighted};
-                $similarity = $metric->( $str1, $str2 );
-                $matrix[$i][$j] = $similarity;
+            if ($switch) {
+
+                # For large datasets compute upper and lower triange
+                my $str2 =
+                  $ref_binary_hash->{ $sorted_keys_ref_binary_hash[$j] }
+                  {binary_digit_string_weighted};
+                $similarity =
+                  $i == $j ? $similarity_diagonal : $metric->( $str1, $str2 );
             }
             else {
-                # Use the mirrored value from the already computed upper triangle
-                $similarity = $matrix[$j][$i];
+                if ( $i == $j ) {
+
+                    # Similarity for diagonal elements
+                    $similarity = $similarity_diagonal;
+                }
+                elsif ( $j > $i ) {
+
+                    # Compute similarity for large cohorts or upper triangle
+                    $similarity = $metric->( $str1, $str2 );
+                    $matrix[$i][$j] = $similarity;
+                }
+                else {
+                    # Use precomputed similarity from lower triangle
+                    $similarity = $matrix[$j][$i];
+                }
             }
-            # Print each similarity value with a tab delimiter
+
+            # Print a tab before each similarity
             print $fh "\t", $similarity;
         }
+
         print $fh "\n";
     }
 
+    # Close the file handle
     close $fh;
 
-    say "Matrix saved to <$out_file>" if $self->{debug} || $self->{verbose};
+    # Inform about the completion of the matrix computation
+    say "Matrix saved to <$out_file>" if ( $self->{debug} || $self->{verbose} );
     return 1;
 }
 
