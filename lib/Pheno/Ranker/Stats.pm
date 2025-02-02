@@ -47,7 +47,7 @@ sub jaccard_similarity {
     my $jaccard = $union == 0 ? 0 : $intersection / $union;
 
     # Return both intersection and Jaccard similarity
-    return ($intersection, $jaccard);
+    return ($jaccard, $intersection);
 }
 
 sub jaccard_similarity_formatted {
@@ -56,7 +56,7 @@ sub jaccard_similarity_formatted {
 # mrueda Dec-27-23
 # Direct formatting in jaccard_similarity adds minor overhead (verified by testing),
 # but prevents errors on some CPAN FreeBSD architectures.
-    my $result = jaccard_similarity(@_);
+    my ($result, undef) = jaccard_similarity(@_);
     return sprintf( "%.6f", $result );
 }
 
