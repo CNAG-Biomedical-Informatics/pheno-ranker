@@ -34,7 +34,7 @@
 ---
 
 # Table of contents
-- [Description](#description)
+- Description
   - [Name](#name)
   - [Synopsis](#synopsis)
   - [Summary](#summary)
