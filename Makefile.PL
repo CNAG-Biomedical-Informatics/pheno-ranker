@@ -3,8 +3,22 @@ use warnings;
 use utf8;
 use ExtUtils::MakeMaker;
 use File::ShareDir::Install;
+use File::Find;
 
-install_share dist => 'share';
+# Define the share directory
+my $share_dir = 'share';
+
+# Collect only allowed files (excluding unwanted subdirectories)
+my @files;
+find(
+    sub {
+        return if $File::Find::name =~ m{^share/(hpo_diseases|fig)/};
+        push @files, $File::Find::name if -f;  # Only include files
+    },
+    $share_dir
+);
+
+install_share( dist => $share_dir, \@files );  # Pass filtered list
 
 my $GITHUB_URL = 'https://github.com/CNAG-Biomedical-Informatics/pheno-ranker';
 

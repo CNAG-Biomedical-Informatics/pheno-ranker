@@ -3,19 +3,18 @@ use strict;
 use warnings;
 use JSON::XS;
 
-# Check for input file argument
-my $input_file = shift @ARGV or die "Usage: $0 <input.json>\n";
+# Read from STDIN only
+if (-t STDIN) {  # Check if STDIN is empty (no piped input)
+    print STDERR "Usage: zcat input.json.gz | $0\n";
+    print STDERR "       cat input.json | $0\n";
+    exit 1;
+}
 
-# Open the input file
-open my $fh, '<', $input_file or die "Cannot open '$input_file': $!\n";
-
-# Read the entire JSON content from the file
+# Read the entire JSON content from STDIN
 my $json_text = do {
     local $/;
-    <$fh>;
+    <STDIN>;
 };
-
-close $fh;
 
 # Decode JSON
 my $json = JSON::XS->new->utf8->decode($json_text);

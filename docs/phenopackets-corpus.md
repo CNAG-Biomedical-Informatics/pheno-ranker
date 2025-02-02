@@ -2,7 +2,7 @@ Here we will describe how to use `Pheno-Ranker` with the data from the recently 
 
 # Data Download
 
-We will download the data from their GitHub repository (BSD3 open-source license). If you don't have `wget`, `dos2unix`, and `jq`, please install them using:
+We will download the data from the **Monarch Initiative** `phenopacket-store` GitHub repository [BSD3 open-source license](https://opensource.org/license/bsd-3-clause). If you don't have `wget`, `dos2unix`, and `jq`, please install them using:
 
 ```bash
 sudo apt install wget dos2unix jq
@@ -43,7 +43,7 @@ From now on, we assume that you can find the `pheno-ranker` directory at `../`. 
 ??? Example "Display plot"
 
     <figure markdown>
-     ![Output](img/phenopacket-corpus/output_plots.png){ width="600" }
+     ![Output](img/phenopackets-corpus/output_plots.png){ width="600" }
     </figure>
 
 ## Cohort Mode
@@ -68,10 +68,10 @@ Rscript ../pheno-ranker/share/r/mds.R
 ???+ Example "Display plot"
 
     <figure markdown>
-     ![Output](img/phenopacket-corpus/mds.png){ width="600" }
+     ![Output](img/phenopackets-corpus/mds.png){ width="600" }
     </figure>
 
-From now on, we will focus on the `phenotypicFeatures` term, as ideally, we would like to use them to classify patients.
+From now on, we will focus on the `phenotypicFeatures` terms, as ideally, we would like to use them to classify patients.
 
 ```bash
 ../pheno-ranker/bin/pheno-ranker -r combined.json -include-terms phenotypicFeatures
@@ -80,7 +80,7 @@ Rscript ../pheno-ranker/share/r/mds.R
 
 ???+ Example "Display plot"
     <figure markdown>
-     ![Output](img/phenopacket-corpus/mds-phenotypicFeatures.png){ width="600" }
+     ![Output](img/phenopackets-corpus/mds-phenotypicFeatures.png){ width="600" }
     </figure>
 
 
@@ -90,6 +90,10 @@ Now, let's examine the distribution of terms across patients. There are many way
     ```perl
     --8<-- "scripts/count_phenotypicFeatures.pl"
     ```
+```bash
+cat combined.json | ./count_phenotypicFeatures.pl > counts.csv
+```
+
 Now, we will use `R` to plot a histogram.
 
 ??? Example "See R code"
@@ -100,7 +104,7 @@ Now, we will use `R` to plot a histogram.
 ???+ Example "Display plot"
 
     <figure markdown>
-     ![Output](img/phenopacket-corpus/histogram_with_mean_median.png){ width="600" }
+     ![Output](img/phenopackets-corpus/histogram_with_mean_median.png){ width="600" }
     </figure>
 
 ### Colored by Disease
@@ -124,7 +128,7 @@ We will use `R` to plot by disease:
 ???+ Example "Display plot"
 
     <figure markdown>
-     ![Output](img/phenopacket-corpus/mds_color_by_disease.png){ width="600" }
+     ![Output](img/phenopackets-corpus/mds_color_by_disease.png){ width="600" }
     </figure>
 
 ### Graph

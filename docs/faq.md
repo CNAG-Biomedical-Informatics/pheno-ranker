@@ -157,13 +157,17 @@ Frequently Asked Questions
 
 ??? faq "Should I use **Hamming** distance or **Jaccard** index?"
 
-    This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. We recommend checking results with both and assessing them rationally.
+    This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. Note also that **Hamming** distance calculation is **faster** than **Jaccard** (**O(N) vs. O(N) to O(N log N)**), and this difference becomes noticeable when comparing thousands of variables.
+
+    We recommend checking results with both and assessing them rationally. 
 
     ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Can I use pre-computed data?"
 
-    Yes, starting with version **1.02**, it is possible to use pre-computed data. This can be useful if you always perform a patient search on a given database.
+    Yes, starting with version **1.02**, it is possible to use pre-computed data. In general, you don't want to do this, as the calculation is **fast enough** to be started from scratch each time. 
+
+    There is an **exception** when you have to compare patients multiple times to a **very large (>2K) reference cohort(s)**. For instance, when matching patients against the [OMIM database](omim-database.md).
 
     First, you have to export intermediate files, make sure you select the terms you want to include or exclude as they will be final:
 
@@ -257,7 +261,7 @@ Frequently Asked Questions
 
 ### Post-processing
 
-??? faq "How do I store `Pheno-Ranker`'s data in a relational database?"
+??? faq "How do I store `Pheno-Ranker`'s binary string vectors in a `CSV`"
 
     First, export intermediate files using the following command:
 
@@ -274,8 +278,6 @@ Frequently Asked Questions
     ```
 
     The results are now stored at `output.csv`
-
-    Finally, store the data in your database as you will usually do.
 
     ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
