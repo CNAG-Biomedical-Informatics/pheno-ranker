@@ -6,7 +6,7 @@ This guide explains how to use `Pheno-Ranker` with data from the [OMIM Database]
 
 Starting from version **1.02**, `Pheno-Ranker` includes **disease-based** cohorts: one for the [OMIM Database](https://omim.org) and another for the [ORPHAnet Database](https://www.orpha.net/).
 
-For more details on how these cohorts were created, refer to [this repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/hpo_diseases). If you use this data in your research, please check the citation section.
+For more details on how these cohorts were created, refer to [this repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/diseases/hpo/). If you use this data in your research, please check the citation section.
 
 !!! Hint "Additional disease-based cohorts"
     In addition to the **OMIM** cohort in `BFF` format, we also provide an **ORPHA** cohort.
@@ -20,7 +20,7 @@ sudo apt install wget jq
 We assume that you have `R` installed and can install its required packages.
 
 ```bash
-wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/share/hpo_diseases/omim.pxf.json.gz
+wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/share/diseases/hpo/omim.pxf.json.gz
 ```
 
 Here, we will use the `PXF` version of the disease-based cohort.
