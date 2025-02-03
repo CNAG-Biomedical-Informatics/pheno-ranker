@@ -8,7 +8,7 @@
 
 # Downloaded Files
 
-I don't have a local copy of the files. Please download them from the [HPO website](https://hpo.jax.org/data/annotations).
+I don't have a local copy of the annotation files. Please download them from the [HPO website](https://hpo.jax.org/data/annotations).
 
 ### Used: `genes_to_phenotype.txt`
 ### Not Used: `phenotype_to_genes.txt` (Contains Ancestors)
@@ -20,6 +20,17 @@ perl scripts/hpo_disease_converter.pl -i genes_to_phenotype.txt -f bff
 perl scripts/hpo_disease_converter.pl -i genes_to_phenotype.txt -f pxf
 gzip *json
 ```
+
+This will create **disease-based** reference cohorts for **OMIM** and **ORPHA** for both `BFF` and `PXF` data exchange formats.
+
+```bash
+omim.pxf.json.gz
+omim.bff.json.gz
+orpha.bff.json.gz
+orpha.bff.json.gz
+```
+
+Each object mimics an individual, containing all the HPO ontology terms associated with a given disease.
 
 # HPO Citation
 
