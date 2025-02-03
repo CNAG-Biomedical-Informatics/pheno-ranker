@@ -26,7 +26,7 @@ def plot_data(data, output_file):
 
     # Define histogram and pie chart keys for both formats
     if is_pxf:
-        histogram_keys = ["diseases", "measurements", "medicalActions", "phenotypicFeatures"]
+        histogram_keys = ["diseases", "interpretations", "measurements", "medicalActions", "phenotypicFeatures"]
         pie_chart_keys = ["sex", "vitalStatus"]
         main_title = "Phenotype Exchange Format"
     else:
