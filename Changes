@@ -10,7 +10,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Introduced '--retain-excluded-phenotypicFeatures' to include "excluded": true in comparisons
  - Added '--precomputed-ref-prefix' for pre-computed cohort data
  - Enabled support for .gz JSON/YAML inputs
- - Added 'share/hpo_diseases'
+ - Added 'share/diseases' with disease-based reference cohorts
  - Introduced '--max-matrix-items-in-ram' as option (+ config) to speed up jobs for users with enough RAM
 
 1.01 2025-01-16:00:00Z (Manuel Rueda <mrueda@cpan.org>)
