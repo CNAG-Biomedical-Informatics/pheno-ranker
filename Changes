@@ -6,7 +6,7 @@ Revision history for Perl distribution Pheno-Ranker
  - Expanded 'rank.txt' with new columns: REFERENCE-VARS, TARGET-VARS, INTERSECT, INTERSECT-RATE(%), COMPLETENESS(%)
  - Renamed '--max-number-var' to '--max-number-vars' to prevent mistakes
  - Moved t/plot.t to xt/ as Python libraries caused issues in GitHub builds
- - Added "interpretations" to PXF in *bff-pxf-plot*
+ - Added "interpretations" to PXF in 'bff-pxf-plot'
  - Introduced '--retain-excluded-phenotypicFeatures' to include "excluded": true in comparisons
  - Added '--precomputed-ref-prefix' for pre-computed cohort data
  - Enabled support for .gz JSON/YAML inputs

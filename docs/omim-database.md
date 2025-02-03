@@ -121,7 +121,7 @@ zcat omim.pxf.json.gz | jq -c '.[]' | shuf -n 50 | jq -s '.' > omim_small.json
 
 We will attempt to match patient `PMID_35344616_A2` from the [Phenopackets Corpus](phenopackets-corpus.md) to its disease (OMIM:268310) in **OMIM**. See the [Phenopackets Corpus](phenopackets-corpus.md) tutorial for instructions on obtaining a `PXF` file for the patient.
 
-Sorting by **Jaccard** index is recommended, as data **completeness** is below 30%. From the top three, selecting by **INTERSECT-RATE(%)** ranks the match at **#1**.
+Sorting by **Jaccard** index is recommended, as data **completeness** is below 30%. From the top three, selecting by **INTERSECT-RATE(%)** ranks the match at **1**.
 
 ```bash
 ../pheno-ranker/bin/pheno-ranker -r omim.pxf.json.gz -t PMID_35344616_A2.json -include-terms phenotypicFeatures -sort-by jaccard -max-out 5
