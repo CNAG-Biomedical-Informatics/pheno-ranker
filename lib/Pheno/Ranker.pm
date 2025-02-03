@@ -28,7 +28,7 @@ $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '1.02_1';
+our $VERSION   = '1.02';
 our $share_dir = dist_dir('Pheno-Ranker');
 
 # Set development mode
