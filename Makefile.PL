@@ -47,7 +47,7 @@ WriteMakefile(
         'Math::CDF'                      => 0,
         'Data::Fake'                     => '0.006',
         'Graph'                          => '0.9727',
-        'Inline::C'                      => 'o.82'
+        'Inline::C'                      => '0.82'
     },
     EXE_FILES => [
         'bin/pheno-ranker',
