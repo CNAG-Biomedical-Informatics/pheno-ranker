@@ -70,7 +70,6 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -e, --export [path/basename]     Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
         -exclude-terms <terms>           Exclude BFF/PXF terms (e.g., --exclude-terms sex, id) or column names in JSON-derived from CSV 
         -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
-        -prp, --precomputed-ref-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
         -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
         -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
         -max-matrix-items-in-ram <number>   In cohort mode, set max items before switching to RAM-efficient mode (default: 5000)
@@ -79,6 +78,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]
         -poi, --patients-of-interest <id_list>   Export JSON files for the selected individual IDs during a dry-run
         -poi-out-dir <directory>         Directory for JSON files (used with --poi)
+        -prp, --precomputed-ref-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
         -retain-excluded-phenotypicFeatures     Retains features set to "excluded": true by appending '_excluded' to their IDs
         -similarity-metric-cohort <metric>  Similarity metric for cohort mode [>hamming|jaccard]
         -sort-by <metric>                Sort by Hamming distance or Jaccard index [>hamming|jaccard]
