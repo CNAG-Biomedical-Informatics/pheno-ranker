@@ -4,12 +4,12 @@ This guide explains how to use `Pheno-Ranker` with data from the [OMIM Database]
 
 ## Data Download
 
-Starting from version **1.02**, `Pheno-Ranker` includes **disease-based** cohorts: one for the [OMIM Database](https://omim.org) and another for the [ORPHAnet Database](https://www.orpha.net/).
+Starting from version **1.02**, `Pheno-Ranker` includes **disease-based** cohorts: one for the [OMIM Database](https://omim.org) and another for the [ORPHAnet Database](https://www.orpha.net/). 
+
+!!! Hint "Which data exchange formats"
+    We provide two data exchange formats, `PXF` (Phenotype Exchange Format) and `BFF` (Beacon Friendly Format).
 
 For more details on how these cohorts were created, refer to [this repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/diseases/hpo/). If you use this data in your research, please check the citation section.
-
-!!! Hint "Additional disease-based cohorts"
-    In addition to the **OMIM** cohort in `BFF` format, we also provide an **ORPHA** cohort.
 
 If you installed the code via GitHub or Docker, the disease-based cohorts should already be available. Otherwise, follow these steps to download them. Ensure that `wget` and `jq` are installed:
 
@@ -91,11 +91,6 @@ This computation takes about **5 minutes** (1 core @ Apple M2 Pro).
     <figure markdown>
      ![Output](img/omim-database/mds-phenotypicFeatures.png){ width="600" }
     </figure>
-
-```bash
-../pheno-ranker/bin/pheno-ranker -r combined.json -include-terms phenotypicFeatures
-Rscript ../pheno-ranker/share/r/mds.R
-```
 
 ### Graph Representation
 
