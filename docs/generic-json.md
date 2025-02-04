@@ -311,4 +311,4 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
 
     !!! Note "* About RAM usage in cohort mode"
-        After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--matrix-storage-threshold` argument.
+        After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--max-matrix-items-in-ram` argument.
