@@ -18,10 +18,8 @@ RUN apt-get update && \
     perl-doc \
     vim \
     sudo \
-
     libgsl-dev \
     libjson-xs-perl \
-
     libperl-dev \
     python3-pip \
     libzbar0
