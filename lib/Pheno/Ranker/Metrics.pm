@@ -4,8 +4,12 @@ use strict;
 use warnings;
 use autodie;
 use feature qw(say);
-use Data::Dumper;
-use Math::CDF qw(pnorm pbinom);
+
+#use Data::Dumper;
+use File::HomeDir;
+use File::Path            qw(make_path);
+use File::Spec::Functions qw(catdir);
+use Math::CDF             qw(pnorm pbinom);
 use Statistics::Descriptive;
 
 use Exporter 'import';
@@ -13,6 +17,17 @@ our @EXPORT =
   qw(hd_fast jaccard_similarity jaccard_similarity_formatted estimate_hamming_stats z_score p_value_from_z_score _p_value add_stats);
 
 use constant DEVEL_MODE => 0;
+
+# Define a hidden directory in the user's home for Inline's compiled code
+my $inline_dir = catdir( File::HomeDir->my_home, '.Inline' );
+
+# Create the directory if it does not exist
+unless ( -d $inline_dir ) {
+    make_path($inline_dir) or die "Cannot create directory $inline_dir: $!";
+}
+
+# Configure Inline C to use this directory
+use Inline C => Config => directory => $inline_dir;
 
 # Inline C implementation using XS style (old-style syntax)
 use Inline C => <<'END_C';
