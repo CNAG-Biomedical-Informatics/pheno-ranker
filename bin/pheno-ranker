@@ -22,7 +22,6 @@ use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Data::Dumper;
 use Sys::Hostname;
-use File::Path qw(remove_tree);
 use POSIX                          qw(strftime);
 use Term::ANSIColor                qw(:constants);
 use File::ShareDir::ProjectDistDir qw(dist_dir);
@@ -192,9 +191,6 @@ $ranker->run();
 # Create log if <--log>
 write_log( $log ? $log : $log_file, $data, $VERSION )
   if defined $log;
-
-# Delete '_Inline' dir
-remove_tree('_Inline') if -d '_Inline';
 
 ####################
 # END PHENO-RANKER #
