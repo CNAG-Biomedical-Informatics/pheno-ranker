@@ -8,13 +8,13 @@
 
     ???+ Example "BFF plots"
         <figure markdown>
-         ![BFF plots](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/t/plot/bff.png){width="800"}
+         ![BFF plots](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/xt/plot/bff.png){width="800"}
          <figcaption>Beacon Friendly Format plots</figcaption>
         </figure>
 
     ??? Example "PXF plots"
         <figure markdown>
-         ![PXF plots](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/t/plot/pxf.png){width="800"}
+         ![PXF plots](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/xt/plot/pxf.png){width="800"}
          <figcaption>Phenotype Exchange Format</figcaption>
         </figure>
 
