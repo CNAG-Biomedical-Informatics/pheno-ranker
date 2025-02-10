@@ -398,7 +398,9 @@ I<Optional:> If you want to use C<utils/barcode> or C<utils/bff_pxf_plot>:
 
 =head2 Containerized
 
-=head3 Method 4: From Docker Hub
+=head3 Method 4: From Docker Hub 
+
+(Estimated Time: Approximately 10 seconds)
 
 Download the latest version of the Docker image (supports both amd64 and arm64 architectures) from L<Docker Hub|https://hub.docker.com/r/manuelrueda/pheno-ranker> by executing:
 
@@ -408,6 +410,8 @@ Download the latest version of the Docker image (supports both amd64 and arm64 a
 See additional instructions below.
 
 =head3 Method 5: With Dockerfile
+
+(Estimated Time: Approximately 1 minute)
 
 Please download the C<Dockerfile> from the repo:
 

@@ -166,7 +166,9 @@ _Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
 
 ## Containerized
 
-### Method 4: From Docker Hub
+### Method 4: From Docker Hub 
+
+(Estimated Time: Approximately 10 seconds)
 
 Download the latest version of the Docker image (supports both amd64 and arm64 architectures) from [Docker Hub](https://hub.docker.com/r/manuelrueda/pheno-ranker) by executing:
 
@@ -176,6 +178,8 @@ Download the latest version of the Docker image (supports both amd64 and arm64 a
 See additional instructions below.
 
 ### Method 5: With Dockerfile
+
+(Estimated Time: Approximately 1 minute)
 
 Please download the `Dockerfile` from the repo:
 
