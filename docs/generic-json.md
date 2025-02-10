@@ -290,25 +290,3 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ??? Example "See `rank.txt`"
 
         --8<-- "tbl/rank_movies_inter.md"
- 
-=== "Timings"
-
-    Expected times and memory:
-
-    | Rows  |Cohort |      | Patient|      | 
-    | ---   |------ |----- | ----   | ---  |
-    |Number | Time  | RAM  | Time  | RAM  |
-    | 100   | 0.5s  | <1GB | <0.5s | <1GB |
-    | 1K    | 1s    | <1GB | <0.5s | <1GB |
-    | 5K    | 15s   | <1GB | <0.5s | <1GB |
-    | 10K   | 1m    | <1GB*| <1s   | <1GB |
-    | 50K   | 1h    | <1GB*|  3s   | <1GB |
-    | 100K  |  -    |  -   |  6s   | <1GB |
-    | 1M    |  -    |  -   |  1m   | <4GB |
-
-    (Imported `CSV` with 19 variables)
-
-    1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
-
-    !!! Note "* About RAM usage in cohort mode"
-        After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--max-matrix-items-in-ram` argument.

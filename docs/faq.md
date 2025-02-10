@@ -54,6 +54,28 @@ Frequently Asked Questions
 
     ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
+??? faq "Do you have estimates on CPU time and RAM depending on size?"
+
+    Expected times and memory using an imported `CSV` with 19 variables:
+    
+    | Rows  |Cohort |      | Patient|      |
+    | ---   |------ |----- | ----   | ---  |
+    |Number | Time  | RAM  | Time  | RAM  |
+    | 100   | 0.5s  | <1GB | <0.5s | <1GB |
+    | 1K    | 1s    | <1GB | <0.5s | <1GB |
+    | 5K    | 15s   | <1GB | <0.5s | <1GB |
+    | 10K   | 1m    | <1GB*| <1s   | <1GB |
+    | 50K   | 1h    | <1GB*|  3s   | <1GB |
+    | 100K  |  -    |  -   |  6s   | <1GB |
+    | 1M    |  -    |  -   |  1m   | <4GB | 
+
+    1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
+
+    !!! Note "* About RAM usage in cohort mode"
+        After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--max-matrix-items-in-ram` argument.
+
+    ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+
 ??? faq "Can I use `pedigrees` term in `BFF`?"
 
     A priori, you can, but the term `pedigrees` is excluded by default via [configuration file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/share/conf/config.yaml). Pedigrees are often case-related, so the information is not relevant for comparison to other cases. Additionally, it contains deeply nested data structures. If you want to include it, please modify the default configuration file and use it with the `--config <your-config-file>` option.
@@ -154,7 +176,6 @@ Frequently Asked Questions
 
     ##### last change 2024-08-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-
 ??? faq "Should I use **Hamming** distance or **Jaccard** index?"
 
     This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. Note also that **Hamming** distance calculation is **faster** than **Jaccard** (**O(N) vs. O(N) to O(N log N)**), and this difference becomes noticeable when comparing thousands of variables.
@@ -189,7 +210,6 @@ Frequently Asked Questions
         As the global vector is built using the reference cohort(s), it's really not that important. However, one value that can be affected is the **INTERSECT-RATE(%)**, as it uses all the variables for the target. If you don't restrict it, it may account for terms not present in the precomputed data.
 
     ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 
 ??? faq "What is the difference between *Pheno-Ranker Web App UI* and *Pheno-Ranker App*?"
 

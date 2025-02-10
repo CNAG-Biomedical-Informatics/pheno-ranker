@@ -175,19 +175,19 @@ sub p_value_from_z_score {
 sub add_stats {
 
     my $array = shift;
-    my $hash_out;
+    my %hash_out;
     my $stat = Statistics::Descriptive::Full->new();
     $stat->add_data($array);
-    $hash_out->{mean}   = $stat->mean();
-    $hash_out->{sd}     = $stat->standard_deviation();
-    $hash_out->{count}  = $stat->count();
-    $hash_out->{per25}  = $stat->percentile(25);
-    $hash_out->{per75}  = $stat->percentile(75);
-    $hash_out->{min}    = $stat->min();
-    $hash_out->{max}    = $stat->max();
-    $hash_out->{median} = $stat->median();
-    $hash_out->{sum}    = $stat->sum();
+    $hash_out{mean}   = $stat->mean();
+    $hash_out{sd}     = $stat->standard_deviation();
+    $hash_out{count}  = $stat->count();
+    $hash_out{per25}  = $stat->percentile(25);
+    $hash_out{per75}  = $stat->percentile(75);
+    $hash_out{min}    = $stat->min();
+    $hash_out{max}    = $stat->max();
+    $hash_out{median} = $stat->median();
+    $hash_out{sum}    = $stat->sum();
 
-    return $hash_out;
+    return \%hash_out;
 }
 1;
