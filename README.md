@@ -129,6 +129,10 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
+To **update** to the newest version (showing commands for Option 2):
+
+    cpanm Pheno::Ranker
+
 ### Method 2: From CPAN in a CONDA environment
 
 Please follow [these instructions](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_1_2).
@@ -164,10 +168,6 @@ Now you have to choose between one of the 2 options below:
 To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
-
-To **update** to the newest version (showing commands for Option 2):
-
-    cpanm Pheno::Ranker
 
 _Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
 
