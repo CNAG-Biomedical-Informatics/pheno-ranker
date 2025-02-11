@@ -9,7 +9,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/CNAG-Biomedical-Informatics/pheno-ranker/badge.svg?branch=main)](https://coveralls.io/github/CNAG-Biomedical-Informatics/pheno-ranker?branch=main)
 [![CPAN Publish](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml)
 [![Kwalitee Score](https://cpants.cpanauthors.org/dist/Pheno-Ranker.svg)](https://cpants.cpanauthors.org/dist/Pheno-Ranker)
-![version](https://img.shields.io/badge/version-1.03-28a745)
+![version](https://img.shields.io/badge/version-1.04-28a745)
 [![Docker Build](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build.yml)
 [![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/pheno-ranker?icon=docker&label=pulls)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
 [![Docker Image Size](https://badgen.net/docker/size/manuelrueda/pheno-ranker?icon=docker&label=image%20size)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
@@ -135,8 +135,14 @@ Please follow [these instructions](https://cnag-biomedical-informatics.github.io
 
 ### Method 3: From GitHub
 
+To clone the repository for the first time:
+
     git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
     cd pheno-ranker
+
+To update an existing clone, navigate to the repository folder and run:
+
+    git pull
 
 Install system level dependencies:
 
@@ -158,6 +164,10 @@ Now you have to choose between one of the 2 options below:
 To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+
+To **update** to the newest version (showing commands for Option 2):
+
+    cpanm Pheno::Ranker
 
 _Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
 
