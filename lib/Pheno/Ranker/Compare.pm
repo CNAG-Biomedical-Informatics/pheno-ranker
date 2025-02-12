@@ -1051,4 +1051,22 @@ sub binary_to_base64 {
     return encode_base64( $compressed, "" );
 }
 
+sub _base64_to_binary {
+
+    my ($b64_string, $original_length) = @_;
+    
+    # Decode the Base64 encoded compressed data
+    my $compressed_data = decode_base64($b64_string);
+    
+    # Decompress the data back to raw bytes
+    my $raw_data = uncompress($compressed_data)
+      or die "Decompression failed: $Compress::Zlib::gzerrno\n";
+    
+    # Convert the raw bytes back into a binary string (sequence of 0s and 1s)
+    my $binary_string = unpack("B*", $raw_data);
+    
+    # Trim the binary string to the original length to remove any padded bits
+    return substr($binary_string, 0, $original_length);
+}
+
 1;
