@@ -2,7 +2,7 @@ Revision history for Perl distribution Pheno-Ranker
 
 1.05 2025-02-11:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Added key 'base64' to *.ref_binary_hash.json
+ - Added key 'zlib_base64_*' to *.ref_binary_hash.json
 
 1.04 2025-02-11:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
