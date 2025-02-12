@@ -299,10 +299,10 @@ Frequently Asked Questions
 
     The results are now stored at `output.csv`
 
-    Please note that the file `my_export_data.ref_binary_hash.json` also has the string encoded in `base64`. For storing it you could use:
+    Please note that the file `my_export_data.ref_binary_hash.json` also has the string zlib-compressed and encoded in `base64`. For storing it you could use:
 
     ```bash
-    jq -r 'to_entries[] | [.key, .value.base64_binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,base64_binary_digit_string"}{print}' > output.csv
+    jq -r 'to_entries[] | [.key, .value.zlib_base64_binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,zlib_base64_binary_digit_string"}{print}' > output.csv
     ``` 
 
     ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)

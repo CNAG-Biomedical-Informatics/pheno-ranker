@@ -8,6 +8,7 @@ use List::Util qw(any shuffle first);
 use Data::Dumper;
 use Sort::Naturally qw(nsort);
 use MIME::Base64;
+use Compress::Zlib qw(compress);
 use Hash::Fold fold => { array_delimiter => ':' };
 use Pheno::Ranker::Metrics;
 
@@ -964,12 +965,11 @@ sub create_binary_digit_string {
 
         if ( defined $export ) {
 
-            # Convert binary string to Base64
-            $out_hash->{$individual_id}{base64_binary_digit_string} =
-              binary_to_base64($binary_str);
-            $out_hash->{$individual_id}{base64_digit_string_weighted} =
-              binary_to_base64($binary_str_weighted);
-
+            # Convert zlib-compressed binary string to Base64
+            $out_hash->{$individual_id}{zlib_base64_binary_digit_string} =
+              binary_to_base64(compress($binary_str));
+            $out_hash->{$individual_id}{zlib_base64_digit_string_weighted} =
+              binary_to_base64(compress($binary_str_weighted));
         }
 
     }
@@ -1036,6 +1036,7 @@ sub guess_label {
     # If no dot is found, return the original string
     return $input_string;
 }
+
 
 sub binary_to_base64 {
 
