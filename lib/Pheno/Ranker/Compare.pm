@@ -7,6 +7,7 @@ use feature    qw(say);
 use List::Util qw(any shuffle first);
 use Data::Dumper;
 use Sort::Naturally qw(nsort);
+use MIME::Base64;
 use Hash::Fold fold => { array_delimiter => ':' };
 use Pheno::Ranker::Metrics;
 
@@ -187,7 +188,7 @@ sub compare_and_rank {
         push @{ $stat->{hamming_data} }, $score->{$key}{hamming};
         push @{ $stat->{jaccard_data} }, $score->{$key}{jaccard};
     }
- 
+
     # Stats are only computed once (no overhead)
     $stat->{hamming_stats} = add_stats( $stat->{hamming_data} );
     $stat->{jaccard_stats} = add_stats( $stat->{jaccard_data} );
@@ -937,7 +938,7 @@ sub add_id2key {
 
 sub create_binary_digit_string {
 
-    my ( $glob_hash, $cmp_hash ) = @_;
+    my ( $export, $glob_hash, $cmp_hash ) = @_;
     my $out_hash;
 
     # *** IMPORTANT ***
@@ -960,6 +961,17 @@ sub create_binary_digit_string {
         $out_hash->{$individual_id}{binary_digit_string} = $binary_str;
         $out_hash->{$individual_id}{binary_digit_string_weighted} =
           $binary_str_weighted;
+
+        if ( defined $export ) {
+
+            # Convert binary string to Base64
+            $out_hash->{$individual_id}{base64_binary_digit_string} =
+              binary_to_base64($binary_str);
+            $out_hash->{$individual_id}{base64_digit_string_weighted} =
+              binary_to_base64($binary_str_weighted);
+
+        }
+
     }
     return $out_hash;
 }
@@ -1024,5 +1036,21 @@ sub guess_label {
     # If no dot is found, return the original string
     return $input_string;
 }
+
+sub binary_to_base64 {
+
+    my $binary_string = shift;
+    my $packed        = pack( "B*", $binary_string );    # Convert binary string to raw bytes
+    return encode_base64( $packed, "" );                 # Base64 encode (without newlines)
+}
+
+sub base64_to_binary {
+
+    my $base64_key = shift;
+
+    my $decoded = decode_base64($base64_key);            # Decode from Base64
+    return unpack( "B*", $decoded );                     # Convert back to binary string
+}
+
 
 1;
