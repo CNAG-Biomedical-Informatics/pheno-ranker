@@ -965,11 +965,11 @@ sub create_binary_digit_string {
 
         if ( defined $export ) {
 
-            # Convert zlib-compressed binary string to Base64
+            # Convert string => raw bytes > zlib-compres => Base64
             $out_hash->{$individual_id}{zlib_base64_binary_digit_string} =
-              binary_to_base64(compress($binary_str));
+              binary_to_base64($binary_str);
             $out_hash->{$individual_id}{zlib_base64_digit_string_weighted} =
-              binary_to_base64(compress($binary_str_weighted));
+              binary_to_base64($binary_str_weighted);
         }
 
     }
@@ -1037,21 +1037,18 @@ sub guess_label {
     return $input_string;
 }
 
-
 sub binary_to_base64 {
 
     my $binary_string = shift;
-    my $packed        = pack( "B*", $binary_string );    # Convert binary string to raw bytes
-    return encode_base64( $packed, "" );                 # Base64 encode (without newlines)
+
+    # Convert binary string (e.g. "0010...") to raw bytes
+    my $raw_data = pack( "B*", $binary_string );
+
+    # Compress the raw data (note: compressing very short data may not save space)
+    my $compressed = compress($raw_data);
+
+    # Base64 encode the compressed data, without any newline breaks
+    return encode_base64( $compressed, "" );
 }
-
-sub base64_to_binary {
-
-    my $base64_key = shift;
-
-    my $decoded = decode_base64($base64_key);            # Decode from Base64
-    return unpack( "B*", $decoded );                     # Convert back to binary string
-}
-
 
 1;

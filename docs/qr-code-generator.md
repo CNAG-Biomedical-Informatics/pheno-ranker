@@ -33,8 +33,11 @@
         
         ```bash
         ./pheno-ranker2barcode -i my_export_name.ref_binary_hash.json -o my_fav_dir --no-compress
+
         ```
-        
+        !!! Hint "About compression"
+            If you don't include the `--no-compress` option, by default the binary digit string will be compressed using `zlib` and then encoded in `base64`. This reduces the string size, allowing more variables to be encoded in the QR code.
+
         This will create 1 `png` image (inside `my_fav_dir`) for each individual in `individuals.json`. Like this one:
         <figure markdown>
          ![Pheno-Ranker](img/107_week_0_arm_1.png){width="350"}
