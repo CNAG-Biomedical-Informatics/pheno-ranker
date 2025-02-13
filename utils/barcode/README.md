@@ -6,6 +6,8 @@ When you run `pheno-ranker` use the flag `--e`. This will export the following f
 - `export.ref_binary_hash.json`
 - ...
 
+See also this [link](https://cnag-biomedical-informatics.github.io/pheno-ranker/qr-code-generator/).
+
 ## pheno-ranker2barcode
 
 ```
