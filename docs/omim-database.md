@@ -71,7 +71,7 @@ Ensure that the `pheno-ranker` directory is set correctly.
 time ../pheno-ranker/bin/pheno-ranker -r omim.pxf.json.gz --include-terms phenotypicFeatures --max-matrix-items-in-ram 10000 -e omim
 ```
 
-This calculation takes approximately **2 minutes** (1 core @ Apple M2 Pro). The `--max-matrix-items-in-ram 10000` flag increases efficiency by using RAM, making the process **2x faster**.
+This calculation takes approximately **1 min 40 sec** (1 core @ Apple M2 Pro). The `--max-matrix-items-in-ram 10000` flag increases efficiency by using RAM, making the process **2x faster**.
 
 Since a **6,471 × 6,471** matrix is too large for a heatmap, we will use **multidimensional scaling** (`mds.R` script).
 
@@ -125,13 +125,13 @@ Sorting by **Jaccard** index is recommended, as data **completeness** is below 3
 ???+ Example "See Results"
     --8<-- "tbl/omim_PMID_35344616_A2.md"
 
-This process takes **~20 seconds**. For a much faster approach using **precomputed data**, run:
+This process takes **~10 seconds**. For a much faster approach using **precomputed data**, run:
 
 ```bash
 ../pheno-ranker/bin/pheno-ranker -prp omim -t PMID_35344616_A2.json -include-terms phenotypicFeatures -sort-by jaccard -max-out 5
 ```
 
-With **precomputed data**, the calculation takes only **< 1  seconds** while yielding identical results.
+With **precomputed data**, the calculation takes only **0.5 seconds** while yielding identical results.
 
 ## Citation
 

@@ -56,7 +56,7 @@ Frequently Asked Questions
 
 ??? faq "Do you have estimates on CPU time and RAM depending on size?"
 
-    Expected times and memory using an imported `CSV` with 19 variables:
+    Expected times and memory using an imported `CSV` with 19 columns:
     
     | Rows  |Cohort |      | Patient|      |
     | ---   |------ |----- | ----   | ---  |

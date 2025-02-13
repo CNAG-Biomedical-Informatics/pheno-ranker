@@ -637,7 +637,7 @@ sub remap_hash {
     my $edges  = $self->{edges};
     my $format = $self->{format};
     my $switch = $self->{retain_excluded_phenotypicFeatures};
-    my $out_hash;
+    my %out_hash;
 
     # Do some pruning excluded / included
     prune_excluded_included( $hash, $self );
@@ -728,7 +728,7 @@ sub remap_hash {
         if ( defined $edges && $val =~ /^HP:/ ) {
             my $ascendants =
               add_hpo_ascendants( $tmp_key_at_variable_level, $nodes, $edges );
-            $out_hash->{$_} = 1 for @$ascendants;    # weight 1 for now
+            $out_hash{$_} = 1 for @$ascendants;    # weight 1 for now
         }
 
         ##################
@@ -755,7 +755,7 @@ sub remap_hash {
             # We allow for assigning weights by TERM (e.g., 1D)
             # but VARIABLE level takes precedence to TERM
 
-            $out_hash->{$tmp_key_at_variable_level} =
+            $out_hash{$tmp_key_at_variable_level} =
 
               # VARIABLE LEVEL
               # NB: exists stringifies the weights
@@ -773,7 +773,7 @@ sub remap_hash {
         else {
 
             # Assign a weight of 1 if no users weights
-            $out_hash->{$tmp_key_at_variable_level} = 1;
+            $out_hash{$tmp_key_at_variable_level} = 1;
 
         }
 
@@ -790,7 +790,7 @@ sub remap_hash {
 
     # *** IMPORTANT ***
     # We have to return an object {} when undef
-    return $out_hash // {};
+    return \%out_hash // {};
 }
 
 sub add_hpo_ascendants {

@@ -144,10 +144,10 @@ Sample `HG01537` is the closest. It has a distance of 14 to `HG00096` and a _p_-
 
 We are going to compress all variant information (1042 variations) into QR-codes
 
-* First we are going to export the needed files:
+* First we are going to export the needed files, excluding the primary key 'Sample ID':
 
 ```bash
-bin/pheno-ranker -r output.json -config output_config.yaml --export
+bin/pheno-ranker -r output.json -config output_config.yaml -exclude-terms 'Sample ID' --export
 ```
 
 * Now we use the included utility `pheno-ranker2barcode`:
