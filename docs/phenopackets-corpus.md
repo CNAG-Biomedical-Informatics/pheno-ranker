@@ -151,6 +151,40 @@ jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
        });
      </script>
 
+### Converting data to QR-codes
+
+`Pheno-Ranker` allows you to convert your data into [QR-codes](qr-code-generator.md).  Let's try an example.
+
+1. First we export intermediate files. This time we will include `phenotypicFeatures` only:
+
+```bash
+../pheno-ranker/bin/pheno-ranker -r combined.json -include-terms phenotypicFeatures -e
+```
+
+2. We use barcode [utilities](../utils/barcode/README.md) to create the codes as `PNG` images:
+
+```bash
+../pheno-ranker/utils/barcode/pheno-ranker2barcode -i export.ref_binary_hash.json 
+
+```
+
+This will create 1,000 `PNG` images inside the directory `qr_codes` .
+
+??? Example "See QR codes for the first 10 samples"
+    <figure markdown>
+     ![QR](img/phenopackets-corpus/phenopackets-corpus-qr.png){ width="600" }
+     <figcaption>QR codes for 10 samples</figcaption>
+    </figure>
+
+
+3. To decode the `PNG` and create a `CSV`:
+
+```bash
+../pheno-ranker/utils/barcode/barcode2pheno-ranker -t export.glob_hash.json -i qr_codes/* -o combined.qr.json --generate-csv
+
+```
+
+
 ## Patient Mode
 
 Now, we will choose patient `PMID_35344616_A2` to search for similar patients. We already know from the figures above that this patient is related to at least three other patients.
