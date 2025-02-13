@@ -53,13 +53,18 @@ def decompress_binary_string(compressed_bytes):
 
 
 def generate_qr_from_data(binary_digit_string, output_path, qr_version, compress=True):
+    # Check if non-compressed mode is being used with a very long binary string.
+    if not compress and len(binary_digit_string) > 1000:
+        raise ValueError("Error: The binary digit string exceeds 1,000 characters in non-compressed mode. "
+                         "Please use the default --compress option.")
+
     if compress:
         # Compress and then base64 encode the data
         compressed_data = compress_binary_string(binary_digit_string, compress)
         data_to_encode = base64.b64encode(compressed_data)
     else:
-        # If not compressing, use the binary digit string directly
-        data_to_encode = binary_digit_string
+        # Prepend a non-numeric character to force byte mode and then encode to bytes
+        data_to_encode = ("b" + binary_digit_string).encode('utf-8')
 
     # Create QR code
     qr = qrcode.QRCode(
