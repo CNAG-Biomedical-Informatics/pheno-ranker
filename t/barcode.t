@@ -83,7 +83,7 @@ SKIP: {
         my $script = catfile( 'utils', 'barcode', 'pheno-ranker2pdf' );
 
         # Input file for the command line script, if needed
-        my $qr   = catfile( 't',    'qr_codes', '107_week_0_arm_1.compressed.png' );
+        my $qr   = catfile( 't',    'qr_codes', '107_week_0_arm_1.png' );
         my $logo = catfile( 'docs', 'img',      'PR-logo.png' );
         my $json = catfile( 't',    'qr_codes', 'output.json' );
 
@@ -155,7 +155,7 @@ SKIP: {
         my $template_file = catfile( 't', 'export.glob_hash.json' );
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'qr_codes', 'output.json' );
+        my $reference_file = catfile( 't', 'qr_codes', 'output.compressed.json' );
 
         # The output files
         my $output_dir  = catdir( 't', 'qr_codes' );
