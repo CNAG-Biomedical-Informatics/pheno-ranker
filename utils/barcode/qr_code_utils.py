@@ -51,7 +51,6 @@ def decompress_binary_string(compressed_bytes):
         print("Error in decompression:", e)
         return ''
 
-
 def generate_qr_from_data(binary_digit_string, output_path, qr_version, compress=True):
     # Check if non-compressed mode is being used with a very long binary string.
     if not compress and len(binary_digit_string) > 1000:
@@ -63,8 +62,8 @@ def generate_qr_from_data(binary_digit_string, output_path, qr_version, compress
         compressed_data = compress_binary_string(binary_digit_string, compress)
         data_to_encode = base64.b64encode(compressed_data)
     else:
-        # Prepend a non-numeric character to force byte mode and then encode to bytes
-        data_to_encode = ("b" + binary_digit_string).encode('utf-8')
+        # Prepend a unique marker to force byte mode
+        data_to_encode = ("UNCOMP:" + binary_digit_string).encode('utf-8')
 
     # Create QR code
     qr = qrcode.QRCode(
@@ -99,33 +98,29 @@ def decode_qr_code(filepath):
     qr_data = data[0].data
 
     try:
-        # Try to base64 decode the data (assuming it might be compressed)
-        try:
-            base64_decoded_data = base64.b64decode(qr_data)
-        except base64.binascii.Error:
-            # If base64 decoding fails, assume data is not base64 encoded (hence, uncompressed)
-            base64_decoded_data = qr_data
+        # Decode as UTF-8 to inspect the string
+        decoded_str = qr_data.decode('utf-8', errors='ignore')
+        
+        # If the string starts with our unique non-compressed marker, remove it.
+        if decoded_str.startswith("UNCOMP:"):
+            binary_digit_string = decoded_str[len("UNCOMP:"):]
+            is_compressed = False
+            return qr_data, binary_digit_string, is_compressed
 
-        # Try to decompress the data
+        # Otherwise, assume the data is base64 encoded (i.e., compressed)
+        base64_decoded_data = base64.b64decode(qr_data)
         try:
             decompressed_data = zlib.decompress(base64_decoded_data)
-            # If decompression succeeds, process it further
             decompressed_and_reverted_string = decompressed_data.decode().replace('2', '0').replace('3', '1')
             is_compressed = True
         except zlib.error:
-            # If decompression fails, assume the data is uncompressed
             decompressed_and_reverted_string = base64_decoded_data.decode('utf-8', errors='ignore')
             is_compressed = False
-
-        # Print the final decompressed and reverted string for verification
-        #print("Decompressed and reverted string:", decompressed_and_reverted_string)  # Diagnostic print
 
         return qr_data, decompressed_and_reverted_string, is_compressed
     except Exception as e:
         print(f"Error during decoding: {e}")
         return None, None, False
-
-    return qr_data, decompressed_and_reverted_string, is_compressed
 
 def is_data_compressed(qr_data):
     # Check the first character to determine if data is compressed
@@ -203,18 +198,25 @@ def decode_qr_codes_to_json(file_paths, json_template):
 
     return results
 
-def generate_csv_from_pngs(png_folder, csv_file_path):
+def generate_csv_from_pngs(png_files, csv_file_path):
     with open(csv_file_path, 'w', newline='\n') as csvfile:
-        csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, escapechar='\\')
+        csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"',
+                               quoting=csv.QUOTE_MINIMAL, escapechar='\\')
         csvwriter.writerow(["Name_of_PNG", "Raw_QR_Data", "Processed_Data", "Was_Compressed"])
 
-        for png_file in glob.glob(os.path.join(png_folder, '*.png')):
+        for png_file in png_files:
             qr_data, processed_data, was_compressed = decode_qr_code(png_file)
 
             if qr_data is not None:
-                # Convert raw QR data to a string format for CSV
-                qr_raw_str = qr_data.decode('utf-8', errors='ignore') if isinstance(qr_data, bytes) else str(qr_data)
-                csvwriter.writerow([os.path.basename(png_file), qr_raw_str, processed_data, was_compressed])
+                # If qr_data is bytes, decode it to a string.
+                if isinstance(qr_data, bytes):
+                    qr_raw_str = qr_data.decode('utf-8', errors='ignore')
+                else:
+                    qr_raw_str = str(qr_data)
+                csvwriter.writerow([os.path.basename(png_file),
+                                    qr_raw_str,
+                                    processed_data,
+                                    was_compressed])
             else:
                 print(f"Failed to decode QR code in file: {png_file}")
 
@@ -252,5 +254,6 @@ def main_decode():
     save_json_file(decoded_data, args.output)
     print(f"Decoded data saved to {args.output}")
     if args.generate_csv:
-        generate_csv_from_pngs(os.path.dirname(args.input[0]), args.csv_file)
+        # Pass the list of PNG file paths directly
+        generate_csv_from_pngs(args.input, args.csv_file)
         print(f"CSV file generated at {args.csv_file}")
