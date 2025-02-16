@@ -7,8 +7,11 @@ LABEL org.opencontainers.image.authors="Manuel Rueda <manuel.rueda@cnag.eu>"
 # Set the environment variable to prevent interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
+
+sudo apt-get --reinstall install libc-bin
 # Update package lists and install system dependencies
 RUN apt-get update && \
+    apt-get -y --reinstall install libc-bin \
     apt-get -y install \
     gcc \
     unzip \
