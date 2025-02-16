@@ -9,7 +9,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update package lists and install system dependencies
 RUN apt-get update && \
-    apt-get -y --reinstall install libc-bin \
     apt-get -y install \
     gcc \
     unzip \
