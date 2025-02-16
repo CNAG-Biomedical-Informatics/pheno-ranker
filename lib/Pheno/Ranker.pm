@@ -28,7 +28,7 @@ $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '1.04_1';
+our $VERSION   = '1.05';
 our $share_dir = dist_dir('Pheno-Ranker');
 
 # Set development mode
@@ -457,6 +457,7 @@ sub _load_reference_cohort_data {
 sub _compute_cohort_metrics {
     my ( $self, $ref_data, $weight, $primary_key, $target_file ) = @_;
     my $export = $self->{export};
+    
     my $coverage_stats = coverage_stats($ref_data);
     die
 "--include-terms <@{$self->{include_terms}}> does not exist in the cohort(s)\n"
@@ -484,7 +485,7 @@ sub _compute_cohort_metrics {
     }
 
     # Second we peform one-hot encoding for each individual
-    my $ref_binary_hash = create_binary_digit_string( $export, $glob_hash, $ref_hash );
+    my $ref_binary_hash = create_binary_digit_string( $export, $weight, $glob_hash, $ref_hash );
 
     # Hashes to be serialized to JSON if <--export>
     my $hash2serialize = {
@@ -548,7 +549,7 @@ sub _process_patient_data {
     # The target binary is created from matches to $glob_hash
     # Thus, it does not include variables ONLY present in TARGET
 
-    my $tar_binary_hash = create_binary_digit_string( $export, $glob_hash, $tar_hash );
+    my $tar_binary_hash = create_binary_digit_string( $export, $weight, $glob_hash, $tar_hash );
     my (
         $results_rank,        $results_align, $alignment_ascii,
         $alignment_dataframe, $alignment_csv
