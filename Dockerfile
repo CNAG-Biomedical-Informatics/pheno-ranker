@@ -1,5 +1,5 @@
-#FROM perl:5.36-bullseye
-FROM perl:stable-bullseye
+FROM perl:5.38-bullseye
+#FROM perl:stable-bullseye
 
 # File Author / Maintainer
 LABEL org.opencontainers.image.authors="Manuel Rueda <manuel.rueda@cnag.eu>"
