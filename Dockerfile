@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.authors="Manuel Rueda <manuel.rueda@cnag.eu>"
 
 # Set the environment variable to prevent interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/usr/local/sbin:/usr/sbin:/sbin:${PATH}"
 
 # Update package lists and install system dependencies
 RUN apt-get update && \
