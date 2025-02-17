@@ -9,20 +9,38 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update package lists and install system dependencies
 RUN apt-get update && \
-    apt-get -y install \
-    gcc \
-    unzip \
-    make \
-    git \
-    cpanminus \
-    perl-doc \
-    vim \
-    sudo \
-    libgsl-dev \
-    libjson-xs-perl \
-    libperl-dev \
-    python3-pip \
-    libzbar0
+    apt-get install -y libc-bin && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        unzip \
+        make \
+        git \
+        cpanminus \
+        perl-doc \
+        vim \
+        sudo \
+        libgsl-dev \
+        libjson-xs-perl \
+        libperl-dev \
+        python3-pip \
+        libzbar0 || true && \
+    dpkg --purge --force-all libc-bin && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        unzip \
+        make \
+        git \
+        cpanminus \
+        perl-doc \
+        vim \
+        sudo \
+        libgsl-dev \
+        libjson-xs-perl \
+        libperl-dev \
+        python3-pip \
+        libzbar0 && \
+    rm -rf /var/lib/apt/lists/*
 #    r-base \        # (optional)
 #    r-base-dev      # (optional)
 
