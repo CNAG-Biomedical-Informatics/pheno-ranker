@@ -737,7 +737,6 @@ sub extract_reference_ids {
 }
 
 sub compare_sorted_files {
-
     my ( $file1, $file2 ) = @_;
 
     open my $fh1, '<', $file1;

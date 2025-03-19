@@ -303,7 +303,7 @@ sub run {
         $ref_binary_hash = read_json( $self->{ref_binary_hash_file} );
 
         # Set format explicitly (for example, to 'PXF')
-        $self->add_attribute( 'format', 'PXF' );
+        $self->_add_attribute( 'format', 'PXF' );
 
         $hash2serialize = {
             glob_hash       => $glob_hash,
@@ -466,7 +466,7 @@ sub _compute_cohort_metrics {
 
     # We have to check if we have BFF|PXF or others (unless defined at config)
 
-    $self->add_attribute( 'format', check_format($ref_data) )
+    $self->_add_attribute( 'format', check_format($ref_data) )
       unless defined $self->{format};
     restructure_pxf_interpretations( $ref_data, $self );
 
@@ -615,7 +615,7 @@ sub _perform_graph_calculations {
     return $graph;
 }
 
-sub add_attribute {
+sub _add_attribute {
     my ( $self, $name, $value ) = @_;
     $self->{$name} = $value;
     return 1;
