@@ -197,7 +197,6 @@ write_log( $log ? $log : $log_file, $data, $VERSION )
 ####################
 
 sub handle_option {
-
     my ( $option_ref, $message, $target_file, $default ) = @_;
     if ( defined $$option_ref ) {
         pod2usage( -message => $message, -exitval => 1 ) if $target_file;
@@ -206,7 +205,6 @@ sub handle_option {
 }
 
 sub resolve_file {
-
     my $base = shift;
 
     # If the base file exists, use it.
@@ -221,7 +219,6 @@ sub resolve_file {
 }
 
 sub write_log {
-
     my ( $log, $data, $VERSION ) = @_;
 
     # NB: Darwin does not have nproc to show #logical-cores, using sysctl instead
@@ -265,7 +262,6 @@ sub write_log {
 }
 
 sub program_header {
-
     my $VERSION = shift;
     my $str     = <<EOF;
 ****************************************
