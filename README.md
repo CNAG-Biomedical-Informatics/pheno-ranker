@@ -19,17 +19,17 @@
 
 ---
 
-**Documentation**: <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker</a>
+**📘 Documentation:** <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker</a>
 
-**Google Colab tutorial**: <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg</a>
+**📓 Google Colab tutorial:** <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg</a>
 
-**CPAN Distribution**: <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
+**📦 CPAN Distribution:** <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
 
-**Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
+**🐳 Docker Hub Image:** <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
 
-**Web App UI**: <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
+**🌐 Web App UI:** <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
 
-**Pheno-Ranker App**: <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app" target="_blank">https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app</a>
+**🧰 Pheno-Ranker App:** <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app" target="_blank">https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app</a>
 
 ---
 
