@@ -91,6 +91,21 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
        <figcaption>Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
     </figure>
 
+    Or the dimensionality can be reduced with UMAP:
+
+    ??? Example "R code"
+
+        ```R
+        --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/share/r/umap.R"
+        ```
+
+    <figure markdown>
+       ![MDS](img/umap.png){ width="800" }
+       <figcaption>UMAP of a intra-cohort pairwise comparison</figcaption>
+    </figure>
+
+
+
     ### Graph analytics
 
     `Pheno-Ranker`has an option for creating a graph in `JSON`format, compatible with [Cytoscape](https://cytoscape.org/) ecoystem.
