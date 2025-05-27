@@ -2,7 +2,7 @@ Revision history for Perl distribution Pheno-Ranker
 
 1.06 2025-05-27:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
- - Replace --max_matrix_items_in_ram by --max_matrix_records_in_ram
+ - Replace --max-matrix-items-in-ram by --max-matrix-records-in-ram
 
 1.05 2025-02-17:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
