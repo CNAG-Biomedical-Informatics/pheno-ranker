@@ -72,7 +72,7 @@ Frequently Asked Questions
     1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
 
     !!! Note "* About RAM usage in cohort mode"
-        After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--max-matrix-items-in-ram` argument.
+        After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--max-matrix-records-in-ram` argument.
 
     ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
