@@ -31,7 +31,7 @@ sub cohort_comparison {
     my $similarity_metric = $self->{similarity_metric_cohort};
 
     # Define limit #items for switching to whole matrix calculation
-    my $max_items = $self->{max_matrix_items_in_ram};
+    my $max_items = $self->{max_matrix_records_in_ram};
 
     # Inform about the start of the comparison process
     say "Performing COHORT comparison"
@@ -62,7 +62,7 @@ sub cohort_comparison {
 
     say "RAM efficient mode is: "
       . ( $switch ? "on" : "off" )
-      . " (max_matrix_items_in_ram: $max_items)"
+      . " (max_matrix_records_in_ram: $max_items)"
       if ( $self->{debug} || $self->{verbose} );
 
     # Opening file for output

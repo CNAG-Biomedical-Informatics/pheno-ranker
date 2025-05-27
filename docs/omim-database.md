@@ -68,10 +68,10 @@ We begin with a simple calculation in **cohort** mode. In the run, we will also 
 Ensure that the `pheno-ranker` directory is set correctly.
 
 ```bash
-time ../pheno-ranker/bin/pheno-ranker -r omim.pxf.json.gz --include-terms phenotypicFeatures --max-matrix-items-in-ram 10000 -e omim
+time ../pheno-ranker/bin/pheno-ranker -r omim.pxf.json.gz --include-terms phenotypicFeatures --max-matrix-records-in-ram 10000 -e omim
 ```
 
-This calculation takes approximately **1 min 40 sec** (1 core @ Apple M2 Pro). The `--max-matrix-items-in-ram 10000` flag increases efficiency by using RAM, making the process **2x faster**.
+This calculation takes approximately **1 min 40 sec** (1 core @ Apple M2 Pro). The `--max-matrix-records-in-ram 10000` flag increases efficiency by using RAM, making the process **2x faster**.
 
 Since a **6,471 × 6,471** matrix is too large for a heatmap, we will use **multidimensional scaling** (`mds.R` script).
 
