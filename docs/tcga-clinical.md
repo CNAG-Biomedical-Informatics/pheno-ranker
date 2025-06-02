@@ -1,15 +1,18 @@
-
 # Using `Pheno-Ranker` with TCGA Clinical Data
 
 This guide explains how to use `Pheno-Ranker` with data from [TCGA](https://portal.gdc.cancer.gov), obtained via the **Genomic Data Commons Data Portal**.
 
+!!! Warning "About this example"
+
+    This example demonstrates how to process and use the data. It is not intended to yield scientific conclusions.
+ 
 ## Data Download
 
 1. We are going to perform a data download by visiting the following URL:
 
 [**Cohort Builder**](https://portal.gdc.cancer.gov/analysis_page?app=CohortBuilder&tab=general)
 
-2. Then switch to **Table View**.
+2. Then switch to **Table View**. Select **TCGA**.
 
 3. Next, download as **TSV**. You will likely end up with a file like: `clinical.cohort.2025-06-02.tar.gz`.
 
@@ -123,7 +126,7 @@ time ../pheno-ranker/bin/pheno-ranker -prp tcga -t PR_00000001.json --config cli
 
 Feel free to browse `align*` files.
 
-This is what looked like in my case for Rank 2 (yours may be different). Note we have a few **Non reported** values. If you don't want to include them, replace them by "NA" when creating tehe `TSV` as we did above.
+This is what looked like in my case for Rank 2 (yours may be different). Note we have a few **[Nn]ot [Rr]eported** values. If you don't want to include them, replace them by "NA" when creating the `TSV` as we did above.
 
 ```bash
 PR_00001192 PR_00000001 
