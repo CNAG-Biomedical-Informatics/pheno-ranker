@@ -28,15 +28,18 @@ $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Global variables:
 $Data::Dumper::Sortkeys = 1;
-our $VERSION   = '1.06';
+our $VERSION   = '1.07';
 our $share_dir = dist_dir('Pheno-Ranker');
 
 # Set development mode
 use constant DEVEL_MODE => 0;
 
 # Misc variables
-my ( $config_sort_by, $config_similarity_metric_cohort,
-    $config_max_out, $config_max_number_vars, $config_max_matrix_records_in_ram, @config_allowed_terms );
+my (
+    $config_sort_by,                   $config_similarity_metric_cohort,
+    $config_max_out,                   $config_max_number_vars,
+    $config_max_matrix_records_in_ram, @config_allowed_terms
+);
 my $default_config_file = catfile( $share_dir, 'conf', 'config.yaml' );
 
 ############################################
@@ -73,9 +76,10 @@ sub _set_basic_config {
     $config_sort_by                  = $config->{sort_by} // 'hamming';
     $config_similarity_metric_cohort = $config->{similarity_metric_cohort}
       // 'hamming';
-    $config_max_out         = $config->{max_out}         // 50;
-    $config_max_number_vars = $config->{max_number_vars} // 10_000;
-    $config_max_matrix_records_in_ram  = $config->{max_matrix_records_in_ram} // 5_000;
+    $config_max_out                   = $config->{max_out}         // 50;
+    $config_max_number_vars           = $config->{max_number_vars} // 10_000;
+    $config_max_matrix_records_in_ram = $config->{max_matrix_records_in_ram}
+      // 5_000;
 }
 
 # Private Method: _validate_and_set_exclusive_config
@@ -319,6 +323,25 @@ sub run {
           $self->_load_reference_cohort_data( $reference_files, $primary_key,
             $append_prefixes );
 
+        #-------------------------------
+        # Write json for $poi if --poi |
+        #-------------------------------
+        # *** IMPORTANT ***
+        # It will exit when done (dry-run)
+        if (@$poi ){
+        write_poi(
+            {
+                ref_data    => $ref_data,
+                poi         => $poi,
+                poi_out_dir => $poi_out_dir,
+                primary_key => $primary_key,
+                verbose     => $self->{verbose}
+            }
+          );
+          # premature return
+          return 1;
+         }
+
         # -----------------------------------------------------
         # Load weights file and HPO data if needed
         # -----------------------------------------------------
@@ -457,7 +480,7 @@ sub _load_reference_cohort_data {
 sub _compute_cohort_metrics {
     my ( $self, $ref_data, $weight, $primary_key, $target_file ) = @_;
     my $export = $self->{export};
-    
+
     my $coverage_stats = coverage_stats($ref_data);
     die
 "--include-terms <@{$self->{include_terms}}> does not exist in the cohort(s)\n"
@@ -485,7 +508,8 @@ sub _compute_cohort_metrics {
     }
 
     # Second we peform one-hot encoding for each individual
-    my $ref_binary_hash = create_binary_digit_string( $export, $weight, $glob_hash, $ref_hash );
+    my $ref_binary_hash =
+      create_binary_digit_string( $export, $weight, $glob_hash, $ref_hash );
 
     # Hashes to be serialized to JSON if <--export>
     my $hash2serialize = {
@@ -520,7 +544,7 @@ sub _process_patient_data {
     my $out_file        = $params->{out_file};
     my $cli             = $params->{cli};
     my $verbose         = $params->{verbose};
-    my $export         =  $self->{export};
+    my $export          = $self->{export};
 
     my $tar_data = array2object(
         io_yaml_or_json( { filepath => $target_file, mode => 'read' } ) );
@@ -549,7 +573,8 @@ sub _process_patient_data {
     # The target binary is created from matches to $glob_hash
     # Thus, it does not include variables ONLY present in TARGET
 
-    my $tar_binary_hash = create_binary_digit_string( $export, $weight, $glob_hash, $tar_hash );
+    my $tar_binary_hash =
+      create_binary_digit_string( $export, $weight, $glob_hash, $tar_hash );
     my (
         $results_rank,        $results_align, $alignment_ascii,
         $alignment_dataframe, $alignment_csv

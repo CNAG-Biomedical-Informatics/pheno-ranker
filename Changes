@@ -1,5 +1,9 @@
 Revision history for Perl distribution Pheno-Ranker
 
+1.07 2025-06-00:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+
+ - Bring back to life --patient-of-interest (--poi)
+
 1.06 2025-05-27:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Replace --max-matrix-items-in-ram by --max-matrix-records-in-ram
