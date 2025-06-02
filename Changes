@@ -1,5 +1,9 @@
 Revision history for Perl distribution Pheno-Ranker
 
+1.08 2025-0X-XX:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+
+ - Foo
+
 1.07 2025-06-02:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Bring back to life --patient-of-interest (--poi)
