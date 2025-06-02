@@ -1,4 +1,4 @@
-FROM perl:stable-bullseye
+FROM perl:stable-bookworm
 
 LABEL org.opencontainers.image.authors="Manuel Rueda <manuel.rueda@cnag.eu>"
 
