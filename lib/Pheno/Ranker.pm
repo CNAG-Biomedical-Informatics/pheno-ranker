@@ -222,7 +222,8 @@ has [
 has [qw/append_prefixes reference_files patients_of_interest/] =>
   ( default => sub { [] }, is => 'ro' );
 
-has [qw/glob_hash_file ref_hash_file ref_binary_hash_file/] => ( is => 'ro' );
+has [qw/glob_hash_file ref_hash_file ref_binary_hash_file coverage_stats_file/]
+  => ( is => 'ro' );
 
 ##########################################
 # End declaring attributes for the class #
@@ -288,14 +289,18 @@ sub run {
       unless -d $export_dir;
 
     # -----------------------------------------------------
-    # Check for precomputed data (glob_hash, ref_hash, ref_binary_hash)
+    # Check for precomputed data (glob_hash, ref_hash, ref_binary_hash, coverage_stats)
     # -----------------------------------------------------
     my $has_precomputed =
          defined $self->{glob_hash_file}
       && defined $self->{ref_hash_file}
-      && defined $self->{ref_binary_hash_file};
+      && defined $self->{ref_binary_hash_file}
+      && defined $self->{coverage_stats_file};
 
-    my ( $glob_hash, $ref_hash, $ref_binary_hash, $hash2serialize );
+    my (
+        $glob_hash,      $ref_hash, $ref_binary_hash,
+        $coverage_stats, $hash2serialize
+    );
 
     if ($has_precomputed) {
 
@@ -305,9 +310,10 @@ sub run {
         $glob_hash       = read_json( $self->{glob_hash_file} );
         $ref_hash        = read_json( $self->{ref_hash_file} );
         $ref_binary_hash = read_json( $self->{ref_binary_hash_file} );
+        $coverage_stats  = read_json( $self->{coverage_stats_file} );
 
-        # Set format explicitly (for example, to 'PXF')
-        $self->_add_attribute( 'format', 'PXF' );
+        # Set format from *.coverage_stats.json
+        $self->_add_attribute( 'format', $coverage_stats->{format} );
 
         $hash2serialize = {
             glob_hash       => $glob_hash,
@@ -328,19 +334,20 @@ sub run {
         #-------------------------------
         # *** IMPORTANT ***
         # It will exit when done (dry-run)
-        if (@$poi ){
-        write_poi(
-            {
-                ref_data    => $ref_data,
-                poi         => $poi,
-                poi_out_dir => $poi_out_dir,
-                primary_key => $primary_key,
-                verbose     => $self->{verbose}
-            }
-          );
-          # premature return
-          return 1;
-         }
+        if (@$poi) {
+            write_poi(
+                {
+                    ref_data    => $ref_data,
+                    poi         => $poi,
+                    poi_out_dir => $poi_out_dir,
+                    primary_key => $primary_key,
+                    verbose     => $self->{verbose}
+                }
+            );
+
+            # premature return
+            return 1;
+        }
 
         # -----------------------------------------------------
         # Load weights file and HPO data if needed
@@ -481,16 +488,17 @@ sub _compute_cohort_metrics {
     my ( $self, $ref_data, $weight, $primary_key, $target_file ) = @_;
     my $export = $self->{export};
 
-    my $coverage_stats = coverage_stats($ref_data);
+    # We have to check if we have BFF|PXF or others (unless defined at config)
+    $self->_add_attribute( 'format', check_format($ref_data) )
+      unless defined $self->{format};
+
+    my $coverage_stats = coverage_stats( $ref_data, $self->{format} );
     die
 "--include-terms <@{$self->{include_terms}}> does not exist in the cohort(s)\n"
       unless check_existence_of_include_terms( $coverage_stats,
         $self->{include_terms} );
 
-    # We have to check if we have BFF|PXF or others (unless defined at config)
-
-    $self->_add_attribute( 'format', check_format($ref_data) )
-      unless defined $self->{format};
+    # Restructure PXF
     restructure_pxf_interpretations( $ref_data, $self );
 
     # First we create:
