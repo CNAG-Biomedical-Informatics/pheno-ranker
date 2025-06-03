@@ -136,7 +136,7 @@ PR_00000906:
   "cases.case_id" : "01b7e692-d0cf-462f-9bbf-3ddb1572d025"
 ```
 
-Inside `alignment.txt`:
+Inside `alignment.txt` (note that I omitted lines wth this pattern `/^0 ----- 0 |/`)
 
 ```bash
 #RANK   REFERENCE(ID)   TARGET(ID)  FORMAT  LENGTH  WEIGHTED    HAMMING-DISTANCE    DISTANCE-Z-SCORE    DISTANCE-P-VALUE    DISTANCE-Z-SCORE(RAND)  JACCARD-INDEX   JACCARD-Z-SCORE JACCARD-P-VALUE REFERENCE-VARS  TARGET-VARS INTERSECT   INTERSECT-RATE(%)   COMPLETENESS(%) 
