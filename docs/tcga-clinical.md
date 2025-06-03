@@ -8,13 +8,11 @@ This guide explains how to use `Pheno-Ranker` with data from [TCGA](https://port
  
 ## Data Download
 
-1. We are going to perform a data download by visiting the following URL:
+1. We are going to perform a data download by visiting the following link: [Cohort Builder](https://portal.gdc.cancer.gov/analysis_page?app=CohortBuilder&tab=general)
 
-[**Cohort Builder**](https://portal.gdc.cancer.gov/analysis_page?app=CohortBuilder&tab=general)
+2. In Project, select a few named **TCGA**. Then click in "CASES" and switch to **Table View**. 
 
-2. Then switch to **Table View**. Select **TCGA**.
-
-3. Next, download as **TSV**. You will likely end up with a file like: `clinical.cohort.2025-06-02.tar.gz`.
+3. Next, click in **TSV** to download the data. You will likely end up with a file like: `clinical.cohort.2025-06-02.tar.gz`.
 
 ```bash
 # Change the filename to match yours!
