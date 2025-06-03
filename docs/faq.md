@@ -190,13 +190,13 @@ Frequently Asked Questions
 
     There is an **exception** when you have to compare patients multiple times to a **very large (>2K) reference cohort(s)**. For instance, when matching patients against the [OMIM database](omim-database.md).
 
-    First, you have to export intermediate files, make sure you select the terms you want to include or exclude as they will be final:
+    First, you have to export intermediate files, **make sure you select the terms you want to include or exclude as they will be final**:
 
     ```bash
     pheno-ranker -r individuals.json -e my_export_prefix --include-terms phenotypicFeatures
     ```
 
-    Then, you can re-use the exported data using the flag `--prp|precomputed-ref-prefix`. Note that that the include/exclude terms only will apply to the target as the reference vector is fixed:
+    Then, you can re-use the exported data using the flag `--prp|precomputed-ref-prefix`. Note that that the **include/exclude terms only will apply to the target as the reference vector is fixed**:
 
     ```bash
     pheno-ranker --prp my_export_prefix -t patient.json --include-terms phenotypicFeatures --sort-by jaccard

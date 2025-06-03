@@ -111,11 +111,18 @@ if ( defined $precomputed_ref_prefix ) {
       || defined $retain_excluded_phenotypicFeatures
       || defined $weights_file;
 
+    my @incompatible_flags = (
+        '--reference',      '--age',
+        '--hpo-ascendants', '--retain-excluded-phenotypicFeatures',
+        '--weights',        '--append-prefixes'
+    );
+
     if ($has_incompatible_options) {
+        my $flags_str = join( "\n", @incompatible_flags );
         pod2usage(
             -message =>
-"Sorry, but <--reference/age/hpo-ascendants/retain-excluded-phenotypicFeatures/weights/append-prefixes> are incompatible with --prp <$precomputed_ref_prefix>\n",
-            -exitval => 1
+"Sorry, but the options\n$flags_str\nare incompatible with --prp <$precomputed_ref_prefix>\n",
+            -exitval => 1,
         );
     }
 
