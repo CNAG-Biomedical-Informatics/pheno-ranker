@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: Build and release Pheno::Ranker to CPAN
     steps:
       - uses: actions/checkout@v2
