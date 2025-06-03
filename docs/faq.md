@@ -202,7 +202,7 @@ Frequently Asked Questions
     pheno-ranker --prp my_export_prefix -t patient.json --include-terms phenotypicFeatures --sort-by jaccard
     ```
      
-    Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{global_hash,ref_hash,ref_binary_hash}.json`.
+    Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{global_hash,ref_hash,ref_binary_hash,coverage_stats}.json`.
 
     Note that the exported `JSON` files can also be **gzipped**.
 
