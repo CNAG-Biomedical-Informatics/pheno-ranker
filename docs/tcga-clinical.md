@@ -71,7 +71,8 @@ Simply open `clinical_filtered_config.yaml` with your favorite text editor and a
 exclude_variables_regex: 'datetime|days_to_|cases.case_id|cases.submitter_id|demographic.demographic_id|demographic.submitter_id|diagnoses.diagnosis_id|diagnoses.submitter_id|project.project_id|treatments.protocol_identifier|treatments.submitter_id|treatments.treatment_id|age_of|treatment_dose|age_at|year_of_birth'
 ```
 
-!!! Warning “Quantitative data”
+!!! Warning "Quantitative data"
+
     In this exercise, we have decided to get rid of numerical data. In a real example, we would have created **bins for quantitative variables**.
 
 Now run the calculation again:
