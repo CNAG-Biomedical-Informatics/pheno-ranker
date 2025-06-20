@@ -15,7 +15,7 @@ Frequently Asked Questions
           Your browser does not support the audio element.
         </audio>
     
-        Made with [Notebook LLM](https://notebooklm.google.com)
+        Made with [Notebook LM](https://notebooklm.google.com)
 
     ##### last change 2024-12-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 

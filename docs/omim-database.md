@@ -11,7 +11,7 @@ Starting from version **1.02**, `Pheno-Ranker` includes **disease-based** cohort
 
 For more details on how these cohorts were created, refer to [this repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/diseases/hpo/). If you use this data in your research, please check the citation section.
 
-If you installed the code via GitHub or Docker, the disease-based cohorts should already be available. Otherwise, follow these steps to download them. Ensure that `wget` and `jq` are installed:
+If you installed the code via GitHub or Docker, the disease-based cohorts should already be available at `share/diseases/hpo/`. Otherwise, follow these steps to download them. Ensure that `wget` and `jq` are installed:
 
 ```bash
 sudo apt install wget jq
