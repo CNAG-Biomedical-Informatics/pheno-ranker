@@ -25,4 +25,4 @@
       Your browser does not support the audio element.
     </audio>
 
-    Made with [Notebook LLM](https://notebooklm.google.com)
+    Made with [Notebook LM](https://notebooklm.google.com)
