@@ -28,8 +28,7 @@ The file we will use is `clinical.tsv`.
 4. If you didn't select a specific cohort, you will end up with a TSV covering >45K cases and >100K rows. That might be a bit too much, so we will downsample to ~5K cases and replace empty values (and not reported) with "NA":
 
 ```bash
-head -5001 clinical.tsv |sed -e "s/'--/NA/g" -e 's/no[tn] reported/NA/ig' > clinical_filtered.tsv
-
+head -5001 clinical.tsv | sed -e "s/'--/NA/g" -e 's/[Nn]ot reported/NA/ig' > clinical_filtered.tsv
 ```
 
 5. Now we will convert the TSV to a format ready for `Pheno-Ranker`, using the `csv2pheno-ranker` utility. Since the primary key `case_id` appears multiple times, we will generate a new primary key so the objects don't overwrite each other:
@@ -134,7 +133,7 @@ PR_00000906:
   "cases.case_id" : "01b7e692-d0cf-462f-9bbf-3ddb1572d025"
 ```
 
-Inside `alignment.txt` (note that I omitted lines wth this pattern `/^0 ----- 0 |/`)
+Inside `alignment.txt` (note that I omitted lines with this pattern `/^0 ----- 0 |/`)
 
 ```bash
 #RANK   REFERENCE(ID)   TARGET(ID)  FORMAT  LENGTH  WEIGHTED    HAMMING-DISTANCE    DISTANCE-Z-SCORE    DISTANCE-P-VALUE    DISTANCE-Z-SCORE(RAND)  JACCARD-INDEX   JACCARD-Z-SCORE JACCARD-P-VALUE REFERENCE-VARS  TARGET-VARS INTERSECT   INTERSECT-RATE(%)   COMPLETENESS(%) 
@@ -150,6 +149,19 @@ REF -- TAR
 0 --xxx 1 | (w:  1|d:  1|cd:  1|) diagnoses.site_of_resection_or_biopsy.Thorax, NOS (Thorax, NOS)
 1 ----- 1 | (w:  1|d:  0|cd:  1|) diagnoses.tissue_or_organ_of_origin.Breast, NOS (Breast, NOS)
 ```
+
+### All-to-All Precomputed Similarity
+
+We’ve precomputed pairwise similarity scores for every GDC case (including TCGA projects) 🔢 and stored them in a backend database 💾. Our proof-of-concept web app lets you enter any GDC case ID (`TAR-UUID`) or filter by any database column—🔎 and instantly retrieve the top five most similar cases.
+
+[Go to the Pheno-Ranker Use Cases Playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/). Note that you will need to select TCGA tab.
+
+
+!!! Warning "Proof-of-concept 🚧"
+    Please note that the current interface is experimental—we welcome your feedback 💬 and are actively working on new features ✨, performance optimizations ⚙️, and an improved user experience 😊.
+
+    At this time, we don’t display the matched HPO terms—this feature will be available in a future release. However, each result includes a clickable link to the corresponding GDC case entry, so you can quickly review the detailed information.  
+
 
 ## Citation
 

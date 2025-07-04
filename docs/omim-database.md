@@ -133,6 +133,18 @@ This process takes **~10 seconds**. For a much faster approach using **precomput
 
 With **precomputed data**, the calculation takes only **0.5 seconds** while yielding identical results.
 
+### All-to-All Precomputed Similarity
+
+We’ve precomputed pairwise similarity scores for every OMIM entry 🔢 and stored them in a backend database 💾. Our proof-of-concept web app lets you enter any OMIM ID (`TAR-UUID`) or filter by any database column—🔎 and instantly retrieve the top five most similar diseases.
+
+[Go to the Pheno-Ranker Use Cases Playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/).
+
+!!! Warning "Proof-of-concept 🚧"
+    Please note that the current interface is experimental—we welcome your feedback 💬 and are actively working on new features ✨, performance optimizations ⚙️, and an improved user experience 😊.
+
+    At this time, we don’t display the matched HPO terms—this feature will be available in a future release. However, each result includes a clickable link to the corresponding OMIM entry, so you can quickly review the detailed information.  
+
+
 ## Citation
 
 If you use this information in your research, please cite the following:
