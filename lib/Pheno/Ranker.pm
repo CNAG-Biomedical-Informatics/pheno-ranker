@@ -660,7 +660,7 @@ sub _add_attribute {
 
 =head1 NAME
 
-Convert::Pheno - A module that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
+Pheno::Ranker - A module that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
   
 =head1 SYNOPSIS
 
