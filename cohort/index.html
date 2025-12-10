@@ -1,0 +1,3561 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pheno-Ranker Documentation">
+      
+      
+        <meta name="author" content="Manuel Rueda, PhD">
+      
+      
+      
+        <link rel="prev" href="../download-and-installation/">
+      
+      
+        <link rel="next" href="../patient/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/favicon-2x.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>👥 Cohort mode - Pheno-Ranker Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/theme_overrides.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Pheno-Ranker Documentation" class="md-header__button md-logo" aria-label="Pheno-Ranker Documentation" data-md-component="logo">
+      
+  <img src="../img/iconhex.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pheno-Ranker Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              👥 Cohort mode
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mrueda/pheno-ranker" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Pheno-Ranker
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pheno-Ranker Documentation" class="md-nav__button md-logo" aria-label="Pheno-Ranker Documentation" data-md-component="logo">
+      
+  <img src="../img/iconhex.svg" alt="logo">
+
+    </a>
+    Pheno-Ranker Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mrueda/pheno-ranker" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Pheno-Ranker
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏠 Introduction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🏠 Introduction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what-is-pheno-ranker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ❓ What is Pheno-Ranker?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📂 Input formats
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📂 Input formats
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧬 BFF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pxf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📦 PXF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../other-formats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Other formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../download-and-installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⬇️ Download & Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pheno-ranker.cnag.eu" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌐 Web App User Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚙️ Modes of operation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ⚙️ Modes of operation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    👥 Cohort mode
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    👥 Cohort mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dimensionality-reduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimensionality reduction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph analytics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    👤 Patient mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠 Technical details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛠 Technical details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏗 Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚙️  Algorithm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧭 User workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧰 Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🧰 Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bff-pxf-plot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📈 BFF/PXF plot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bff-pxf-simulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 BFF/PXF simulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csv-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📊 CSV import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qr-code-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔲 QR code generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Use Cases
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🚀 Use Cases
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phenopackets-corpus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 Phenopacket Corpus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../omim-database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧬 OMIM Database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tcga-clinical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎗️ TCGA Clinical
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔗 Formats Beyond BFF/PXF
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔗 Formats Beyond BFF/PXF
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generic-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📜 Generic JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csv-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📊 CSV import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../open-ehr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    💊 openEHR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../omop-cdm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 OMOP-CDM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vcf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧬 VCF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ❓ Help
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ❓ Help
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg#scrollTo=8tbJ0f5-hJAB" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📖 Google Colab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠 Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤔 FAQs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏗 Addendum
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🏗 Addendum
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../federated-version-proposal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Federated version proposal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ℹ️ About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ℹ️ About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📄 About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📖 Citation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>👥 Cohort mode</h1>
+
+<p><em>Cohort mode</em> performs a <strong>cross-comparison</strong> of all individuals in a cohort(s) using as a metric the <a href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> or the <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard index</a>. The resulting matrix can be further analyzed (e.g., with <code>R</code>) using unsupervised learning techniques such as cluster characterization, dimensionality reduction, or graph-based analytics.</p>
+<details class="example" open="open">
+<summary>Generic JSON tutorial</summary>
+<p>We created a <a href="../generic-json/">tutorial</a> that deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of <code>Pheno-Ranker</code>, as starting with familiar examples can help you better grasp its usage.</p>
+<p>Once you are comfortable with the concepts using movie data, you will find it easier to apply <code>Pheno-Ranker</code> to real GA4GH standards. For specific examples, please refer to the <a href="./">cohort</a> and <a href="../patient/">patient</a> pages in this documentation.</p>
+</details>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>When using the <code>Pheno-ranker</code> command-line interface, simply ensure the <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis">correct syntax</a> is provided.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Intra-cohort</label><label for="__tabbed_1_2">Inter-cohort</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>For this example, we'll use <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json"><code>individuals.json</code></a>, which contains a <code>JSON</code> array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.</p>
+<p>First, we will download the file:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>wget<span class="w"> </span>https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/t/individuals.json
+</span></code></pre></div>
+And now we run <code>Pheno-Ranker</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>
+</span></code></pre></div>
+<details class="example">
+<summary>More input examples</summary>
+<p>You can find more input examples <a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/ex">here</a>.</p>
+</details>
+<p>This process generates a <code>matrix.txt</code> file, containing the results of 36 x 36 pairwise comparisons, calculated using the <a href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> metric.</p>
+<details class="example">
+<summary>See <code>matrix.txt</code></summary>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>107:week_0_arm_1</th>
+<th>107:week_2_arm_1</th>
+<th>107:week_14_arm_1</th>
+<th>125:week_0_arm_1</th>
+<th>125:week_2_arm_1</th>
+<th>125:week_14_arm_1</th>
+<th>125:week_26_arm_1</th>
+<th>125:week_52_arm_1</th>
+<th>125:week_78_arm_1</th>
+<th>215:week_0_arm_1</th>
+<th>215:week_2_arm_1</th>
+<th>215:week_14_arm_1</th>
+<th>215:week_26_arm_1</th>
+<th>215:week_52_arm_1</th>
+<th>215:week_78_arm_1</th>
+<th>257:week_0_arm_1</th>
+<th>257:week_2_arm_1</th>
+<th>257:week_14_arm_1</th>
+<th>257:week_26_arm_1</th>
+<th>275:week_0_arm_1</th>
+<th>275:week_2_arm_1</th>
+<th>275:week_14_arm_1</th>
+<th>275:week_52_arm_1</th>
+<th>305:week_0_arm_1</th>
+<th>305:week_26_arm_1</th>
+<th>305:week_52_arm_1</th>
+<th>365:week_0_arm_1</th>
+<th>365:week_2_arm_1</th>
+<th>365:week_14_arm_1</th>
+<th>365:week_26_arm_1</th>
+<th>365:week_52_arm_1</th>
+<th>527:week_0_arm_1</th>
+<th>527:week_2_arm_1</th>
+<th>527:week_14_arm_1</th>
+<th>527:week_26_arm_1</th>
+<th>527:week_52_arm_1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>107:week_0_arm_1</td>
+<td>0</td>
+<td>24</td>
+<td>23</td>
+<td>6</td>
+<td>23</td>
+<td>23</td>
+<td>24</td>
+<td>43</td>
+<td>40</td>
+<td>16</td>
+<td>27</td>
+<td>29</td>
+<td>27</td>
+<td>49</td>
+<td>32</td>
+<td>29</td>
+<td>45</td>
+<td>45</td>
+<td>50</td>
+<td>14</td>
+<td>25</td>
+<td>30</td>
+<td>51</td>
+<td>18</td>
+<td>26</td>
+<td>45</td>
+<td>20</td>
+<td>25</td>
+<td>26</td>
+<td>30</td>
+<td>45</td>
+<td>24</td>
+<td>24</td>
+<td>23</td>
+<td>32</td>
+<td>43</td>
+</tr>
+<tr>
+<td>107:week_2_arm_1</td>
+<td>24</td>
+<td>0</td>
+<td>3</td>
+<td>22</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>23</td>
+<td>18</td>
+<td>30</td>
+<td>7</td>
+<td>9</td>
+<td>7</td>
+<td>29</td>
+<td>10</td>
+<td>47</td>
+<td>25</td>
+<td>25</td>
+<td>28</td>
+<td>30</td>
+<td>5</td>
+<td>10</td>
+<td>31</td>
+<td>32</td>
+<td>4</td>
+<td>25</td>
+<td>34</td>
+<td>5</td>
+<td>6</td>
+<td>8</td>
+<td>25</td>
+<td>42</td>
+<td>2</td>
+<td>3</td>
+<td>10</td>
+<td>23</td>
+</tr>
+<tr>
+<td>107:week_14_arm_1</td>
+<td>23</td>
+<td>3</td>
+<td>0</td>
+<td>21</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>22</td>
+<td>19</td>
+<td>29</td>
+<td>6</td>
+<td>8</td>
+<td>6</td>
+<td>28</td>
+<td>11</td>
+<td>46</td>
+<td>24</td>
+<td>24</td>
+<td>29</td>
+<td>29</td>
+<td>4</td>
+<td>9</td>
+<td>30</td>
+<td>31</td>
+<td>5</td>
+<td>24</td>
+<td>33</td>
+<td>4</td>
+<td>5</td>
+<td>9</td>
+<td>24</td>
+<td>41</td>
+<td>3</td>
+<td>2</td>
+<td>11</td>
+<td>22</td>
+</tr>
+<tr>
+<td>125:week_0_arm_1</td>
+<td>6</td>
+<td>22</td>
+<td>21</td>
+<td>0</td>
+<td>21</td>
+<td>21</td>
+<td>22</td>
+<td>41</td>
+<td>38</td>
+<td>14</td>
+<td>25</td>
+<td>27</td>
+<td>25</td>
+<td>47</td>
+<td>30</td>
+<td>29</td>
+<td>43</td>
+<td>43</td>
+<td>48</td>
+<td>12</td>
+<td>23</td>
+<td>28</td>
+<td>49</td>
+<td>16</td>
+<td>24</td>
+<td>43</td>
+<td>18</td>
+<td>23</td>
+<td>24</td>
+<td>28</td>
+<td>43</td>
+<td>24</td>
+<td>22</td>
+<td>21</td>
+<td>30</td>
+<td>41</td>
+</tr>
+<tr>
+<td>125:week_2_arm_1</td>
+<td>23</td>
+<td>3</td>
+<td>2</td>
+<td>21</td>
+<td>0</td>
+<td>2</td>
+<td>3</td>
+<td>22</td>
+<td>19</td>
+<td>29</td>
+<td>6</td>
+<td>8</td>
+<td>6</td>
+<td>28</td>
+<td>11</td>
+<td>46</td>
+<td>24</td>
+<td>24</td>
+<td>29</td>
+<td>29</td>
+<td>4</td>
+<td>9</td>
+<td>30</td>
+<td>31</td>
+<td>5</td>
+<td>24</td>
+<td>33</td>
+<td>4</td>
+<td>5</td>
+<td>9</td>
+<td>24</td>
+<td>41</td>
+<td>3</td>
+<td>2</td>
+<td>11</td>
+<td>22</td>
+</tr>
+<tr>
+<td>125:week_14_arm_1</td>
+<td>23</td>
+<td>3</td>
+<td>2</td>
+<td>21</td>
+<td>2</td>
+<td>0</td>
+<td>3</td>
+<td>22</td>
+<td>19</td>
+<td>29</td>
+<td>6</td>
+<td>8</td>
+<td>6</td>
+<td>28</td>
+<td>11</td>
+<td>46</td>
+<td>24</td>
+<td>24</td>
+<td>29</td>
+<td>29</td>
+<td>4</td>
+<td>9</td>
+<td>30</td>
+<td>31</td>
+<td>5</td>
+<td>24</td>
+<td>33</td>
+<td>4</td>
+<td>5</td>
+<td>9</td>
+<td>24</td>
+<td>41</td>
+<td>3</td>
+<td>2</td>
+<td>11</td>
+<td>22</td>
+</tr>
+<tr>
+<td>125:week_26_arm_1</td>
+<td>24</td>
+<td>2</td>
+<td>3</td>
+<td>22</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>23</td>
+<td>18</td>
+<td>30</td>
+<td>7</td>
+<td>9</td>
+<td>7</td>
+<td>29</td>
+<td>10</td>
+<td>47</td>
+<td>25</td>
+<td>25</td>
+<td>28</td>
+<td>30</td>
+<td>5</td>
+<td>10</td>
+<td>31</td>
+<td>32</td>
+<td>4</td>
+<td>25</td>
+<td>34</td>
+<td>5</td>
+<td>6</td>
+<td>8</td>
+<td>25</td>
+<td>42</td>
+<td>2</td>
+<td>3</td>
+<td>10</td>
+<td>23</td>
+</tr>
+<tr>
+<td>125:week_52_arm_1</td>
+<td>43</td>
+<td>23</td>
+<td>22</td>
+<td>41</td>
+<td>22</td>
+<td>22</td>
+<td>23</td>
+<td>0</td>
+<td>7</td>
+<td>49</td>
+<td>26</td>
+<td>28</td>
+<td>26</td>
+<td>8</td>
+<td>15</td>
+<td>26</td>
+<td>4</td>
+<td>4</td>
+<td>9</td>
+<td>49</td>
+<td>24</td>
+<td>29</td>
+<td>10</td>
+<td>51</td>
+<td>25</td>
+<td>4</td>
+<td>53</td>
+<td>24</td>
+<td>25</td>
+<td>29</td>
+<td>4</td>
+<td>21</td>
+<td>23</td>
+<td>22</td>
+<td>15</td>
+<td>2</td>
+</tr>
+<tr>
+<td>125:week_78_arm_1</td>
+<td>40</td>
+<td>18</td>
+<td>19</td>
+<td>38</td>
+<td>19</td>
+<td>19</td>
+<td>18</td>
+<td>7</td>
+<td>0</td>
+<td>46</td>
+<td>23</td>
+<td>25</td>
+<td>23</td>
+<td>13</td>
+<td>10</td>
+<td>31</td>
+<td>9</td>
+<td>9</td>
+<td>12</td>
+<td>46</td>
+<td>21</td>
+<td>26</td>
+<td>15</td>
+<td>48</td>
+<td>20</td>
+<td>9</td>
+<td>50</td>
+<td>21</td>
+<td>22</td>
+<td>24</td>
+<td>9</td>
+<td>26</td>
+<td>18</td>
+<td>19</td>
+<td>10</td>
+<td>7</td>
+</tr>
+<tr>
+<td>215:week_0_arm_1</td>
+<td>16</td>
+<td>30</td>
+<td>29</td>
+<td>14</td>
+<td>29</td>
+<td>29</td>
+<td>30</td>
+<td>49</td>
+<td>46</td>
+<td>0</td>
+<td>33</td>
+<td>27</td>
+<td>33</td>
+<td>43</td>
+<td>38</td>
+<td>37</td>
+<td>51</td>
+<td>51</td>
+<td>56</td>
+<td>12</td>
+<td>31</td>
+<td>34</td>
+<td>45</td>
+<td>22</td>
+<td>32</td>
+<td>51</td>
+<td>18</td>
+<td>31</td>
+<td>30</td>
+<td>36</td>
+<td>51</td>
+<td>34</td>
+<td>30</td>
+<td>29</td>
+<td>38</td>
+<td>49</td>
+</tr>
+<tr>
+<td>215:week_2_arm_1</td>
+<td>27</td>
+<td>7</td>
+<td>6</td>
+<td>25</td>
+<td>6</td>
+<td>6</td>
+<td>7</td>
+<td>26</td>
+<td>23</td>
+<td>33</td>
+<td>0</td>
+<td>12</td>
+<td>2</td>
+<td>32</td>
+<td>15</td>
+<td>50</td>
+<td>28</td>
+<td>28</td>
+<td>33</td>
+<td>33</td>
+<td>8</td>
+<td>13</td>
+<td>34</td>
+<td>35</td>
+<td>9</td>
+<td>28</td>
+<td>29</td>
+<td>8</td>
+<td>9</td>
+<td>13</td>
+<td>28</td>
+<td>45</td>
+<td>7</td>
+<td>6</td>
+<td>15</td>
+<td>26</td>
+</tr>
+<tr>
+<td>215:week_14_arm_1</td>
+<td>29</td>
+<td>9</td>
+<td>8</td>
+<td>27</td>
+<td>8</td>
+<td>8</td>
+<td>9</td>
+<td>28</td>
+<td>25</td>
+<td>27</td>
+<td>12</td>
+<td>0</td>
+<td>12</td>
+<td>26</td>
+<td>17</td>
+<td>50</td>
+<td>30</td>
+<td>30</td>
+<td>35</td>
+<td>23</td>
+<td>10</td>
+<td>13</td>
+<td>28</td>
+<td>37</td>
+<td>11</td>
+<td>30</td>
+<td>31</td>
+<td>10</td>
+<td>9</td>
+<td>15</td>
+<td>30</td>
+<td>47</td>
+<td>9</td>
+<td>8</td>
+<td>17</td>
+<td>28</td>
+</tr>
+<tr>
+<td>215:week_26_arm_1</td>
+<td>27</td>
+<td>7</td>
+<td>6</td>
+<td>25</td>
+<td>6</td>
+<td>6</td>
+<td>7</td>
+<td>26</td>
+<td>23</td>
+<td>33</td>
+<td>2</td>
+<td>12</td>
+<td>0</td>
+<td>32</td>
+<td>15</td>
+<td>50</td>
+<td>28</td>
+<td>28</td>
+<td>33</td>
+<td>33</td>
+<td>8</td>
+<td>13</td>
+<td>34</td>
+<td>35</td>
+<td>9</td>
+<td>28</td>
+<td>29</td>
+<td>8</td>
+<td>9</td>
+<td>13</td>
+<td>28</td>
+<td>45</td>
+<td>7</td>
+<td>6</td>
+<td>15</td>
+<td>26</td>
+</tr>
+<tr>
+<td>215:week_52_arm_1</td>
+<td>49</td>
+<td>29</td>
+<td>28</td>
+<td>47</td>
+<td>28</td>
+<td>28</td>
+<td>29</td>
+<td>8</td>
+<td>13</td>
+<td>43</td>
+<td>32</td>
+<td>26</td>
+<td>32</td>
+<td>0</td>
+<td>21</td>
+<td>30</td>
+<td>10</td>
+<td>10</td>
+<td>15</td>
+<td>47</td>
+<td>30</td>
+<td>33</td>
+<td>4</td>
+<td>57</td>
+<td>31</td>
+<td>10</td>
+<td>55</td>
+<td>30</td>
+<td>29</td>
+<td>35</td>
+<td>10</td>
+<td>27</td>
+<td>29</td>
+<td>28</td>
+<td>21</td>
+<td>8</td>
+</tr>
+<tr>
+<td>215:week_78_arm_1</td>
+<td>32</td>
+<td>10</td>
+<td>11</td>
+<td>30</td>
+<td>11</td>
+<td>11</td>
+<td>10</td>
+<td>15</td>
+<td>10</td>
+<td>38</td>
+<td>15</td>
+<td>17</td>
+<td>15</td>
+<td>21</td>
+<td>0</td>
+<td>39</td>
+<td>17</td>
+<td>17</td>
+<td>20</td>
+<td>38</td>
+<td>13</td>
+<td>18</td>
+<td>23</td>
+<td>40</td>
+<td>12</td>
+<td>17</td>
+<td>42</td>
+<td>13</td>
+<td>14</td>
+<td>16</td>
+<td>17</td>
+<td>34</td>
+<td>10</td>
+<td>11</td>
+<td>2</td>
+<td>15</td>
+</tr>
+<tr>
+<td>257:week_0_arm_1</td>
+<td>29</td>
+<td>47</td>
+<td>46</td>
+<td>29</td>
+<td>46</td>
+<td>46</td>
+<td>47</td>
+<td>26</td>
+<td>31</td>
+<td>37</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+<td>30</td>
+<td>39</td>
+<td>0</td>
+<td>24</td>
+<td>24</td>
+<td>29</td>
+<td>31</td>
+<td>44</td>
+<td>47</td>
+<td>28</td>
+<td>37</td>
+<td>45</td>
+<td>24</td>
+<td>37</td>
+<td>44</td>
+<td>43</td>
+<td>49</td>
+<td>24</td>
+<td>7</td>
+<td>47</td>
+<td>46</td>
+<td>39</td>
+<td>26</td>
+</tr>
+<tr>
+<td>257:week_2_arm_1</td>
+<td>45</td>
+<td>25</td>
+<td>24</td>
+<td>43</td>
+<td>24</td>
+<td>24</td>
+<td>25</td>
+<td>4</td>
+<td>9</td>
+<td>51</td>
+<td>28</td>
+<td>30</td>
+<td>28</td>
+<td>10</td>
+<td>17</td>
+<td>24</td>
+<td>0</td>
+<td>2</td>
+<td>7</td>
+<td>47</td>
+<td>22</td>
+<td>27</td>
+<td>8</td>
+<td>49</td>
+<td>23</td>
+<td>2</td>
+<td>51</td>
+<td>22</td>
+<td>23</td>
+<td>27</td>
+<td>2</td>
+<td>23</td>
+<td>25</td>
+<td>24</td>
+<td>17</td>
+<td>4</td>
+</tr>
+<tr>
+<td>257:week_14_arm_1</td>
+<td>45</td>
+<td>25</td>
+<td>24</td>
+<td>43</td>
+<td>24</td>
+<td>24</td>
+<td>25</td>
+<td>4</td>
+<td>9</td>
+<td>51</td>
+<td>28</td>
+<td>30</td>
+<td>28</td>
+<td>10</td>
+<td>17</td>
+<td>24</td>
+<td>2</td>
+<td>0</td>
+<td>7</td>
+<td>47</td>
+<td>22</td>
+<td>27</td>
+<td>8</td>
+<td>49</td>
+<td>23</td>
+<td>2</td>
+<td>51</td>
+<td>22</td>
+<td>23</td>
+<td>27</td>
+<td>2</td>
+<td>23</td>
+<td>25</td>
+<td>24</td>
+<td>17</td>
+<td>4</td>
+</tr>
+<tr>
+<td>257:week_26_arm_1</td>
+<td>50</td>
+<td>28</td>
+<td>29</td>
+<td>48</td>
+<td>29</td>
+<td>29</td>
+<td>28</td>
+<td>9</td>
+<td>12</td>
+<td>56</td>
+<td>33</td>
+<td>35</td>
+<td>33</td>
+<td>15</td>
+<td>20</td>
+<td>29</td>
+<td>7</td>
+<td>7</td>
+<td>0</td>
+<td>52</td>
+<td>27</td>
+<td>32</td>
+<td>13</td>
+<td>46</td>
+<td>26</td>
+<td>7</td>
+<td>56</td>
+<td>27</td>
+<td>28</td>
+<td>22</td>
+<td>7</td>
+<td>28</td>
+<td>28</td>
+<td>29</td>
+<td>20</td>
+<td>9</td>
+</tr>
+<tr>
+<td>275:week_0_arm_1</td>
+<td>14</td>
+<td>30</td>
+<td>29</td>
+<td>12</td>
+<td>29</td>
+<td>29</td>
+<td>30</td>
+<td>49</td>
+<td>46</td>
+<td>12</td>
+<td>33</td>
+<td>23</td>
+<td>33</td>
+<td>47</td>
+<td>38</td>
+<td>31</td>
+<td>47</td>
+<td>47</td>
+<td>52</td>
+<td>0</td>
+<td>27</td>
+<td>30</td>
+<td>45</td>
+<td>18</td>
+<td>28</td>
+<td>47</td>
+<td>12</td>
+<td>27</td>
+<td>26</td>
+<td>32</td>
+<td>47</td>
+<td>32</td>
+<td>30</td>
+<td>29</td>
+<td>38</td>
+<td>49</td>
+</tr>
+<tr>
+<td>275:week_2_arm_1</td>
+<td>25</td>
+<td>5</td>
+<td>4</td>
+<td>23</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>24</td>
+<td>21</td>
+<td>31</td>
+<td>8</td>
+<td>10</td>
+<td>8</td>
+<td>30</td>
+<td>13</td>
+<td>44</td>
+<td>22</td>
+<td>22</td>
+<td>27</td>
+<td>27</td>
+<td>0</td>
+<td>7</td>
+<td>28</td>
+<td>29</td>
+<td>3</td>
+<td>22</td>
+<td>31</td>
+<td>2</td>
+<td>3</td>
+<td>7</td>
+<td>22</td>
+<td>43</td>
+<td>5</td>
+<td>4</td>
+<td>13</td>
+<td>24</td>
+</tr>
+<tr>
+<td>275:week_14_arm_1</td>
+<td>30</td>
+<td>10</td>
+<td>9</td>
+<td>28</td>
+<td>9</td>
+<td>9</td>
+<td>10</td>
+<td>29</td>
+<td>26</td>
+<td>34</td>
+<td>13</td>
+<td>13</td>
+<td>13</td>
+<td>33</td>
+<td>18</td>
+<td>47</td>
+<td>27</td>
+<td>27</td>
+<td>32</td>
+<td>30</td>
+<td>7</td>
+<td>0</td>
+<td>31</td>
+<td>34</td>
+<td>8</td>
+<td>27</td>
+<td>34</td>
+<td>7</td>
+<td>6</td>
+<td>12</td>
+<td>27</td>
+<td>48</td>
+<td>10</td>
+<td>9</td>
+<td>18</td>
+<td>29</td>
+</tr>
+<tr>
+<td>275:week_52_arm_1</td>
+<td>51</td>
+<td>31</td>
+<td>30</td>
+<td>49</td>
+<td>30</td>
+<td>30</td>
+<td>31</td>
+<td>10</td>
+<td>15</td>
+<td>45</td>
+<td>34</td>
+<td>28</td>
+<td>34</td>
+<td>4</td>
+<td>23</td>
+<td>28</td>
+<td>8</td>
+<td>8</td>
+<td>13</td>
+<td>45</td>
+<td>28</td>
+<td>31</td>
+<td>0</td>
+<td>55</td>
+<td>29</td>
+<td>8</td>
+<td>53</td>
+<td>28</td>
+<td>27</td>
+<td>33</td>
+<td>8</td>
+<td>29</td>
+<td>31</td>
+<td>30</td>
+<td>23</td>
+<td>10</td>
+</tr>
+<tr>
+<td>305:week_0_arm_1</td>
+<td>18</td>
+<td>32</td>
+<td>31</td>
+<td>16</td>
+<td>31</td>
+<td>31</td>
+<td>32</td>
+<td>51</td>
+<td>48</td>
+<td>22</td>
+<td>35</td>
+<td>37</td>
+<td>35</td>
+<td>57</td>
+<td>40</td>
+<td>37</td>
+<td>49</td>
+<td>49</td>
+<td>46</td>
+<td>18</td>
+<td>29</td>
+<td>34</td>
+<td>55</td>
+<td>0</td>
+<td>30</td>
+<td>49</td>
+<td>22</td>
+<td>29</td>
+<td>30</td>
+<td>26</td>
+<td>49</td>
+<td>36</td>
+<td>32</td>
+<td>31</td>
+<td>40</td>
+<td>51</td>
+</tr>
+<tr>
+<td>305:week_26_arm_1</td>
+<td>26</td>
+<td>4</td>
+<td>5</td>
+<td>24</td>
+<td>5</td>
+<td>5</td>
+<td>4</td>
+<td>25</td>
+<td>20</td>
+<td>32</td>
+<td>9</td>
+<td>11</td>
+<td>9</td>
+<td>31</td>
+<td>12</td>
+<td>45</td>
+<td>23</td>
+<td>23</td>
+<td>26</td>
+<td>28</td>
+<td>3</td>
+<td>8</td>
+<td>29</td>
+<td>30</td>
+<td>0</td>
+<td>23</td>
+<td>32</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>23</td>
+<td>44</td>
+<td>4</td>
+<td>5</td>
+<td>12</td>
+<td>25</td>
+</tr>
+<tr>
+<td>305:week_52_arm_1</td>
+<td>45</td>
+<td>25</td>
+<td>24</td>
+<td>43</td>
+<td>24</td>
+<td>24</td>
+<td>25</td>
+<td>4</td>
+<td>9</td>
+<td>51</td>
+<td>28</td>
+<td>30</td>
+<td>28</td>
+<td>10</td>
+<td>17</td>
+<td>24</td>
+<td>2</td>
+<td>2</td>
+<td>7</td>
+<td>47</td>
+<td>22</td>
+<td>27</td>
+<td>8</td>
+<td>49</td>
+<td>23</td>
+<td>0</td>
+<td>51</td>
+<td>22</td>
+<td>23</td>
+<td>27</td>
+<td>2</td>
+<td>23</td>
+<td>25</td>
+<td>24</td>
+<td>17</td>
+<td>4</td>
+</tr>
+<tr>
+<td>365:week_0_arm_1</td>
+<td>20</td>
+<td>34</td>
+<td>33</td>
+<td>18</td>
+<td>33</td>
+<td>33</td>
+<td>34</td>
+<td>53</td>
+<td>50</td>
+<td>18</td>
+<td>29</td>
+<td>31</td>
+<td>29</td>
+<td>55</td>
+<td>42</td>
+<td>37</td>
+<td>51</td>
+<td>51</td>
+<td>56</td>
+<td>12</td>
+<td>31</td>
+<td>34</td>
+<td>53</td>
+<td>22</td>
+<td>32</td>
+<td>51</td>
+<td>0</td>
+<td>31</td>
+<td>30</td>
+<td>36</td>
+<td>51</td>
+<td>38</td>
+<td>34</td>
+<td>33</td>
+<td>42</td>
+<td>53</td>
+</tr>
+<tr>
+<td>365:week_2_arm_1</td>
+<td>25</td>
+<td>5</td>
+<td>4</td>
+<td>23</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>24</td>
+<td>21</td>
+<td>31</td>
+<td>8</td>
+<td>10</td>
+<td>8</td>
+<td>30</td>
+<td>13</td>
+<td>44</td>
+<td>22</td>
+<td>22</td>
+<td>27</td>
+<td>27</td>
+<td>2</td>
+<td>7</td>
+<td>28</td>
+<td>29</td>
+<td>3</td>
+<td>22</td>
+<td>31</td>
+<td>0</td>
+<td>3</td>
+<td>7</td>
+<td>22</td>
+<td>43</td>
+<td>5</td>
+<td>4</td>
+<td>13</td>
+<td>24</td>
+</tr>
+<tr>
+<td>365:week_14_arm_1</td>
+<td>26</td>
+<td>6</td>
+<td>5</td>
+<td>24</td>
+<td>5</td>
+<td>5</td>
+<td>6</td>
+<td>25</td>
+<td>22</td>
+<td>30</td>
+<td>9</td>
+<td>9</td>
+<td>9</td>
+<td>29</td>
+<td>14</td>
+<td>43</td>
+<td>23</td>
+<td>23</td>
+<td>28</td>
+<td>26</td>
+<td>3</td>
+<td>6</td>
+<td>27</td>
+<td>30</td>
+<td>4</td>
+<td>23</td>
+<td>30</td>
+<td>3</td>
+<td>0</td>
+<td>8</td>
+<td>23</td>
+<td>44</td>
+<td>6</td>
+<td>5</td>
+<td>14</td>
+<td>25</td>
+</tr>
+<tr>
+<td>365:week_26_arm_1</td>
+<td>30</td>
+<td>8</td>
+<td>9</td>
+<td>28</td>
+<td>9</td>
+<td>9</td>
+<td>8</td>
+<td>29</td>
+<td>24</td>
+<td>36</td>
+<td>13</td>
+<td>15</td>
+<td>13</td>
+<td>35</td>
+<td>16</td>
+<td>49</td>
+<td>27</td>
+<td>27</td>
+<td>22</td>
+<td>32</td>
+<td>7</td>
+<td>12</td>
+<td>33</td>
+<td>26</td>
+<td>6</td>
+<td>27</td>
+<td>36</td>
+<td>7</td>
+<td>8</td>
+<td>0</td>
+<td>27</td>
+<td>48</td>
+<td>8</td>
+<td>9</td>
+<td>16</td>
+<td>29</td>
+</tr>
+<tr>
+<td>365:week_52_arm_1</td>
+<td>45</td>
+<td>25</td>
+<td>24</td>
+<td>43</td>
+<td>24</td>
+<td>24</td>
+<td>25</td>
+<td>4</td>
+<td>9</td>
+<td>51</td>
+<td>28</td>
+<td>30</td>
+<td>28</td>
+<td>10</td>
+<td>17</td>
+<td>24</td>
+<td>2</td>
+<td>2</td>
+<td>7</td>
+<td>47</td>
+<td>22</td>
+<td>27</td>
+<td>8</td>
+<td>49</td>
+<td>23</td>
+<td>2</td>
+<td>51</td>
+<td>22</td>
+<td>23</td>
+<td>27</td>
+<td>0</td>
+<td>23</td>
+<td>25</td>
+<td>24</td>
+<td>17</td>
+<td>4</td>
+</tr>
+<tr>
+<td>527:week_0_arm_1</td>
+<td>24</td>
+<td>42</td>
+<td>41</td>
+<td>24</td>
+<td>41</td>
+<td>41</td>
+<td>42</td>
+<td>21</td>
+<td>26</td>
+<td>34</td>
+<td>45</td>
+<td>47</td>
+<td>45</td>
+<td>27</td>
+<td>34</td>
+<td>7</td>
+<td>23</td>
+<td>23</td>
+<td>28</td>
+<td>32</td>
+<td>43</td>
+<td>48</td>
+<td>29</td>
+<td>36</td>
+<td>44</td>
+<td>23</td>
+<td>38</td>
+<td>43</td>
+<td>44</td>
+<td>48</td>
+<td>23</td>
+<td>0</td>
+<td>42</td>
+<td>41</td>
+<td>34</td>
+<td>21</td>
+</tr>
+<tr>
+<td>527:week_2_arm_1</td>
+<td>24</td>
+<td>2</td>
+<td>3</td>
+<td>22</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>23</td>
+<td>18</td>
+<td>30</td>
+<td>7</td>
+<td>9</td>
+<td>7</td>
+<td>29</td>
+<td>10</td>
+<td>47</td>
+<td>25</td>
+<td>25</td>
+<td>28</td>
+<td>30</td>
+<td>5</td>
+<td>10</td>
+<td>31</td>
+<td>32</td>
+<td>4</td>
+<td>25</td>
+<td>34</td>
+<td>5</td>
+<td>6</td>
+<td>8</td>
+<td>25</td>
+<td>42</td>
+<td>0</td>
+<td>3</td>
+<td>10</td>
+<td>23</td>
+</tr>
+<tr>
+<td>527:week_14_arm_1</td>
+<td>23</td>
+<td>3</td>
+<td>2</td>
+<td>21</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>22</td>
+<td>19</td>
+<td>29</td>
+<td>6</td>
+<td>8</td>
+<td>6</td>
+<td>28</td>
+<td>11</td>
+<td>46</td>
+<td>24</td>
+<td>24</td>
+<td>29</td>
+<td>29</td>
+<td>4</td>
+<td>9</td>
+<td>30</td>
+<td>31</td>
+<td>5</td>
+<td>24</td>
+<td>33</td>
+<td>4</td>
+<td>5</td>
+<td>9</td>
+<td>24</td>
+<td>41</td>
+<td>3</td>
+<td>0</td>
+<td>11</td>
+<td>22</td>
+</tr>
+<tr>
+<td>527:week_26_arm_1</td>
+<td>32</td>
+<td>10</td>
+<td>11</td>
+<td>30</td>
+<td>11</td>
+<td>11</td>
+<td>10</td>
+<td>15</td>
+<td>10</td>
+<td>38</td>
+<td>15</td>
+<td>17</td>
+<td>15</td>
+<td>21</td>
+<td>2</td>
+<td>39</td>
+<td>17</td>
+<td>17</td>
+<td>20</td>
+<td>38</td>
+<td>13</td>
+<td>18</td>
+<td>23</td>
+<td>40</td>
+<td>12</td>
+<td>17</td>
+<td>42</td>
+<td>13</td>
+<td>14</td>
+<td>16</td>
+<td>17</td>
+<td>34</td>
+<td>10</td>
+<td>11</td>
+<td>0</td>
+<td>15</td>
+</tr>
+<tr>
+<td>527:week_52_arm_1</td>
+<td>43</td>
+<td>23</td>
+<td>22</td>
+<td>41</td>
+<td>22</td>
+<td>22</td>
+<td>23</td>
+<td>2</td>
+<td>7</td>
+<td>49</td>
+<td>26</td>
+<td>28</td>
+<td>26</td>
+<td>8</td>
+<td>15</td>
+<td>26</td>
+<td>4</td>
+<td>4</td>
+<td>9</td>
+<td>49</td>
+<td>24</td>
+<td>29</td>
+<td>10</td>
+<td>51</td>
+<td>25</td>
+<td>4</td>
+<td>53</td>
+<td>24</td>
+<td>25</td>
+<td>29</td>
+<td>4</td>
+<td>21</td>
+<td>23</td>
+<td>22</td>
+<td>15</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details class="tip">
+<summary>Defining the similarity metric</summary>
+<p>Use the flag <code>--similarity-metric-cohort</code>. The default value is <code>hamming</code>. The alternative value is <code>jaccard</code>.</p>
+</details>
+<details class="tip">
+<summary>Exporting intermediate files</summary>
+<p>It is possible to export all intermediate files, as well as a file indicating coverage with the flag <code>--e</code>.
+Examples:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>--e<span class="w"> </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>--e<span class="w"> </span>my_fav_id<span class="w"> </span><span class="c1"># for chosing a prefix</span>
+</span></code></pre></div>
+<p>The intermediate files can be used for further processing (e.g., import to a database; see <a href="../faq/">FAQs</a>) or to make <strong>informed decisions</strong>. For instance, the file <code>export.coverage_stats.json</code> has stats on the coverage of each term (1D-key) in the cohort. It is possible to go more granular with a tool like <code>jq</code> that parses <code>JSON</code>. For instance:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;to_entries | map(.key + &quot;: &quot; + (.value | length | tostring))[]&#39;</span><span class="w"> </span>&lt;<span class="w"> </span>export.ref_hash.json
+</span></code></pre></div>
+<p>This command will print how many variables per individual were actually used to perform the comparison. You can post-process the output to check for unbalanced data.</p>
+</details>
+<details class="example">
+<summary>Included R scripts</summary>
+<p>You can find in the link below a few examples to perform clustering and multimensional scaling with your data:</p>
+<p><a href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r">R scripts at GitHub</a>.</p>
+</details>
+<h3 id="clustering">Clustering<a class="headerlink" href="#clustering" title="Permanent link">&para;</a></h3>
+<p>The matrix can be processed to obtain a heatmap:</p>
+<details class="example">
+<summary>R code</summary>
+<div class="language-R highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Load library</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nf">library</span><span class="p">(</span><span class="s">&quot;pheatmap&quot;</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">#library(&quot;heatmaply&quot;) # could not install</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># Read in the input file as a matrix</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="nf">read.table</span><span class="p">(</span><span class="s">&quot;matrix.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Save image</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nf">png</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;heatmap.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;px&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pointsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Create the heatmap with row and column labels</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1">#heatmap(data, Rowv = FALSE, Colv = FALSE, labRow = rownames(data), labCol = colnames(data))</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nf">pheatmap</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">#heatmaply(data)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">#dev.off()</span>
+</span></code></pre></div>
+</details>
+<p><figure markdown>
+  <img alt="Heatmap" src="../img/heatmap.png" width="800" />
+  <figcaption>Heatmap of a intra-cohort pairwise comparison</figcaption>
+</figure></p>
+<h3 id="dimensionality-reduction">Dimensionality reduction<a class="headerlink" href="#dimensionality-reduction" title="Permanent link">&para;</a></h3>
+<p>The same matrix can be processed with multidimensional scaling to reduce the dimensionality.</p>
+<details class="example">
+<summary>R code</summary>
+<div class="language-R highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nf">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Read in the input file as a matrix </span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="nf">read.table</span><span class="p">(</span><span class="s">&quot;matrix.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Calculate distance matrix</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">#d &lt;- dist(data)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">#d &lt;- 1 - data  # J-similarity to J-distance</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Perform multidimensional scaling</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1">#fit &lt;- cmdscale(d, eig=TRUE, k=2)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cmdscale</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># Extract (x, y) coordinates of multidimensional scaling</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fit</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fit</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># Create data frame</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nf">row.names</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># Save image</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="nf">png</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;mds.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">    </span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;px&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pointsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1"># Create scatter plot</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">  </span><span class="nf">geom_text_repel</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="c1"># Adjust the size of the text</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">                  </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="c1"># Adjust the padding around the text</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">                  </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># Change the maximum number of overlaps</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Multidimensional Scaling Results&quot;</span><span class="p">,</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hamming Distance MDS Coordinate 1&quot;</span><span class="p">,</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hamming Distance MDS Coordinate 2&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># Add title and axis labels</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">  </span><span class="nf">theme</span><span class="p">(</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">        </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">        </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">25</span><span class="p">),</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">        </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">))</span><span class="w"> </span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="c1">#dev.off()</span>
+</span></code></pre></div>
+</details>
+<p><figure markdown>
+   <img alt="MDS" src="../img/mds.png" width="800" />
+   <figcaption>Multidimensional scaling of a intra-cohort pairwise comparison</figcaption>
+</figure></p>
+<p>Or the dimensionality can be reduced with UMAP:</p>
+<details class="example">
+<summary>R code</summary>
+<div class="language-R highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># -- Install uwot on the fly if needed</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">requireNamespace</span><span class="p">(</span><span class="s">&quot;uwot&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;uwot&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">repos</span><span class="o">=</span><span class="s">&quot;https://cloud.r-project.org&quot;</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">}</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># -- Load libraries</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nf">library</span><span class="p">(</span><span class="n">uwot</span><span class="p">)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nf">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># -- Read in the input file as a full distance matrix</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span><span class="nf">read.table</span><span class="p">(</span><span class="s">&quot;matrix.txt&quot;</span><span class="p">,</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">               </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">               </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">               </span><span class="n">check.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">)</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1"># -- Convert to a &#39;dist&#39; object so uwot knows these are distances</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.dist</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1"># -- Set seed for reproducibility</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="c1"># -- Run UMAP directly on the distances</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="c1">#    Passing a &#39;dist&#39; object lets uwot build the k-NN graph from your distances</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="n">umap_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">umap</span><span class="p">(</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="n">d</span><span class="p">,</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="n">n_neighbors</span><span class="o">=</span><span class="m">30</span><span class="p">,</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">    </span><span class="n">min_dist</span><span class="o">=</span><span class="m">0.3</span><span class="p">,</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="n">n_components</span><span class="o">=</span><span class="m">2</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="p">)</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="c1"># -- Extract UMAP coordinates</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">umap_res</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">umap_res</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="c1"># -- Build a data frame for plotting</span>
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="w">    </span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+</span><span id="__span-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="w">    </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+</span><span id="__span-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a><span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="nf">rownames</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="__span-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="p">)</span>
+</span><span id="__span-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>
+</span><span id="__span-6-45"><a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="c1"># -- Open PNG device</span>
+</span><span id="__span-6-46"><a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="nf">png</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&quot;umap.png&quot;</span><span class="p">,</span>
+</span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="w">    </span><span class="n">width</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span>
+</span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a><span class="w">    </span><span class="n">height</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span>
+</span><span id="__span-6-49"><a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a><span class="w">    </span><span class="n">units</span><span class="o">=</span><span class="s">&quot;px&quot;</span><span class="p">,</span>
+</span><span id="__span-6-50"><a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a><span class="w">    </span><span class="n">pointsize</span><span class="o">=</span><span class="m">12</span><span class="p">,</span>
+</span><span id="__span-6-51"><a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a><span class="w">    </span><span class="n">bg</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">,</span>
+</span><span id="__span-6-52"><a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a><span class="w">    </span><span class="n">res</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
+</span><span id="__span-6-53"><a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a>
+</span><span id="__span-6-54"><a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a><span class="c1"># -- Create scatter plot with labels</span>
+</span><span id="__span-6-55"><a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-6-56"><a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a><span class="w">    </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-6-57"><a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a><span class="w">    </span><span class="nf">geom_text_repel</span><span class="p">(</span>
+</span><span id="__span-6-58"><a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a><span class="w">        </span><span class="n">size</span><span class="o">=</span><span class="m">5</span><span class="p">,</span>
+</span><span id="__span-6-59"><a id="__codelineno-6-59" name="__codelineno-6-59" href="#__codelineno-6-59"></a><span class="w">        </span><span class="n">box.padding</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span>
+</span><span id="__span-6-60"><a id="__codelineno-6-60" name="__codelineno-6-60" href="#__codelineno-6-60"></a><span class="w">        </span><span class="n">max.overlaps</span><span class="o">=</span><span class="m">10</span>
+</span><span id="__span-6-61"><a id="__codelineno-6-61" name="__codelineno-6-61" href="#__codelineno-6-61"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-6-62"><a id="__codelineno-6-62" name="__codelineno-6-62" href="#__codelineno-6-62"></a><span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
+</span><span id="__span-6-63"><a id="__codelineno-6-63" name="__codelineno-6-63" href="#__codelineno-6-63"></a><span class="w">        </span><span class="n">title</span><span class="o">=</span><span class="s">&quot;UMAP Embedding of Hamming Distance Matrix&quot;</span><span class="p">,</span>
+</span><span id="__span-6-64"><a id="__codelineno-6-64" name="__codelineno-6-64" href="#__codelineno-6-64"></a><span class="w">        </span><span class="n">x</span><span class="o">=</span><span class="s">&quot;UMAP Coordinate 1&quot;</span><span class="p">,</span>
+</span><span id="__span-6-65"><a id="__codelineno-6-65" name="__codelineno-6-65" href="#__codelineno-6-65"></a><span class="w">        </span><span class="n">y</span><span class="o">=</span><span class="s">&quot;UMAP Coordinate 2&quot;</span>
+</span><span id="__span-6-66"><a id="__codelineno-6-66" name="__codelineno-6-66" href="#__codelineno-6-66"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-6-67"><a id="__codelineno-6-67" name="__codelineno-6-67" href="#__codelineno-6-67"></a><span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+</span><span id="__span-6-68"><a id="__codelineno-6-68" name="__codelineno-6-68" href="#__codelineno-6-68"></a><span class="w">        </span><span class="n">plot.title</span><span class="o">=</span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s">&quot;bold&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span>
+</span><span id="__span-6-69"><a id="__codelineno-6-69" name="__codelineno-6-69" href="#__codelineno-6-69"></a><span class="w">        </span><span class="n">axis.title</span><span class="o">=</span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">25</span><span class="p">),</span>
+</span><span id="__span-6-70"><a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="w">        </span><span class="n">axis.text</span><span class="o">=</span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">15</span><span class="p">)</span>
+</span><span id="__span-6-71"><a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-6-72"><a id="__codelineno-6-72" name="__codelineno-6-72" href="#__codelineno-6-72"></a>
+</span><span id="__span-6-73"><a id="__codelineno-6-73" name="__codelineno-6-73" href="#__codelineno-6-73"></a><span class="c1"># -- Close the device</span>
+</span><span id="__span-6-74"><a id="__codelineno-6-74" name="__codelineno-6-74" href="#__codelineno-6-74"></a><span class="nf">dev.off</span><span class="p">()</span>
+</span></code></pre></div>
+</details>
+<p><figure markdown>
+   <img alt="MDS" src="../img/umap.png" width="800" />
+   <figcaption>UMAP of a intra-cohort pairwise comparison</figcaption>
+</figure></p>
+<h3 id="graph-analytics">Graph analytics<a class="headerlink" href="#graph-analytics" title="Permanent link">&para;</a></h3>
+<p><code>Pheno-Ranker</code>has an option for creating a graph in <code>JSON</code>format, compatible with <a href="https://cytoscape.org/">Cytoscape</a> ecoystem.</p>
+<details class="example">
+<summary>Bash code for Cytoscape-compatible graph/network</summary>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>--cytoscape-json
+</span></code></pre></div>
+This command generates a <code>graph.json</code> file, as well as a <code>matrix.txt</code> file.</p>
+<p>To produce summary statistics, use:</p>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>--cytoscape-json<span class="w"> </span>--graph-stats
+</span></code></pre></div>
+This command will produce a file called <code>graph_stats.txt</code>. For additional information, see the <a href="../generic-json/">generic JSON tutorial</a>.</p>
+</details>
+</div>
+<div class="tabbed-block">
+<p>We'll be using <code>individuals.json</code> again, which includes data for 36 patients. This time, however, we'll use it twice to simulate having two cohorts. The software will add a <code>CX_</code> prefix to the <code>primary_key</code> values to help us keep track of which patient comes from which usage of the file.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>individuals.json
+</span></code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Is it possible to have a cohort with just one individual?</p>
+<p>Absolutely, a cohort can indeed be composed of a single individual. This allows for an analysis involving both a cohort and specific patient(s) simultaneously.</p>
+</div>
+<p><figure markdown>
+   <img alt="Heatmap" src="../img/cohort1.png" width="800" />
+   <figcaption>Heatmap of a inter-cohort pairwise comparison</figcaption>
+</figure></p>
+<p>The prefixes can be changed with the flag <code>--append-prefixes</code>:</p>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>pheno-ranker<span class="w"> </span>-r<span class="w"> </span>individuals.json<span class="w"> </span>individuals.json<span class="w"> </span>--append-prefixes<span class="w"> </span>REF<span class="w"> </span>TAR
+</span></code></pre></div>
+This will create a <code>matrix.txt</code> file of (36+36) x (36+36) cells. Again, this matrix can be processed with R:</p>
+<p><figure markdown>
+   <img alt="Heatmap" src="../img/cohort2.png" width="800" />
+   <figcaption>Heatmap of a inter-cohort pairwise comparison</figcaption>
+</figure></p>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; Copyright 2023-2025, Manuel Rueda, CNAG
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mrueda" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.select", "content.code.copy", "content.tabs.link", "search.highlight", "search.share", "navigation.tracking", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../js/theme_overrides.js"></script>
+      
+        <script src="../js/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+      
+        <script src="../js/cytoscape-render.js"></script>
+      
+    
+  </body>
+</html>
