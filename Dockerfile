@@ -1,4 +1,4 @@
-FROM perl:stable-bookworm
+FROM perl:5.43.7-bookworm
 
 LABEL org.opencontainers.image.authors="Manuel Rueda <manuel.rueda@cnag.eu>"
 
