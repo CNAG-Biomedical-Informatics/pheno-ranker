@@ -24,7 +24,7 @@ jq -s '.' $(ls -1 */*/*.json | shuf -n 1000) > combined.json
 
 ??? Note "About reproducibility"
 
-    We used `0.1.20`. You can reproduce this example with the folowing list of files:
+    We used `0.1.20`. You can reproduce this example with the following list of files:
 
     ```bash
     --8<-- "data/combined.txt"
