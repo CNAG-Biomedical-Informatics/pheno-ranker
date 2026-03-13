@@ -9,7 +9,7 @@ Phenopackets organize information using [top-level elements](https://phenopacket
 
 ??? Tip "Browsing PXF `JSON` data"
 
-    You can browse a public Phenopackets v2 file with onf of the following **JSON viewers**:
+    You can browse a public Phenopackets v2 file with one of the following **JSON viewers**:
 
     * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/convert-pheno/main/t/pxf2bff/in/pxf.json)
     * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fconvert-pheno%2Fmain%2Ft%2Fomop2pxf%2Fout%2Fpxf.json#/data?sql=select+*+from+pxf)
@@ -20,7 +20,7 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
 
 ??? Question "What happens with deeply nested arrays such as `interpretations.diagnosis.genomicInterpretations`?"
 
-    The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, the key `"id"` may refer to a given patient, plus the key `subjectOrBiosampleId` referes to the same patient too!. This implies that users might be interested in the variants, but since patient ids will be in the flattened key, it will never match another patient.
+    The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, the key `"id"` may refer to a given patient, plus the key `subjectOrBiosampleId` refers to the same patient too!. This implies that users might be interested in the variants, but since patient ids will be in the flattened key, it will never match another patient.
 
     `Pheno-Ranker` will handle this for you for the term `interpretations`. The approach taken is to transition from **array** data structures to **objects**.
 

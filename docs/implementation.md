@@ -36,7 +36,7 @@ graph LR
 
 `Pheno-Ranker` includes several utilities:
 
-1. [bff-pxf-plot](./bff-pxf-plot.md) to create summary statistcs for BFF/PXF data.
+1. [bff-pxf-plot](./bff-pxf-plot.md) to create summary statistics for BFF/PXF data.
 2. [bff-pxf-simulator](./bff-pxf-simulator.md) to simulate BFF/PXF data.
 3. [csv2pheno-ranker](./csv-import.md) to enable using `Pheno-Ranker` with `CSV`.
 4. [QR encoder/decoder](./qr-code-generator.md) to transform data (back and forth) into QR codes and `PDF` reports.

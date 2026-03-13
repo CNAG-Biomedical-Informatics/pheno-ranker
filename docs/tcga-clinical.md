@@ -10,9 +10,9 @@ This guide explains how to use `Pheno-Ranker` with data from [TCGA](https://port
 
 1. We are going to perform a data download by visiting the following link: [Cohort Builder](https://portal.gdc.cancer.gov/analysis_page?app=CohortBuilder&tab=general)
 
-2. In Project, select a few named **TCGA**. Then click in "CASES" and switch to **Table View**. 
+2. In Project, select a few named **TCGA**. Then click on "CASES" and switch to **Table View**. 
 
-3. Next, click in **TSV** to download the data. You will likely end up with a file like: `clinical.cohort.2025-06-02.tar.gz`.
+3. Next, click on **TSV** to download the data. You will likely end up with a file like: `clinical.cohort.2025-06-02.tar.gz`.
 
 ```bash
 # Change the filename to match yours!
@@ -70,7 +70,7 @@ exclude_variables_regex: 'datetime|days_to_|cases.case_id|cases.submitter_id|dem
 
 !!! Warning "Quantitative data"
 
-    In this exercise, we have decided to get rid of numerical data. In a real example, we would have created **bins for quantitative variables**.
+    In this exercise, we have decided to exclude numerical data. In a real example, we would have created **bins for quantitative variables**.
 
 Now run the calculation again:
 
