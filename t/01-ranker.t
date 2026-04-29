@@ -44,28 +44,13 @@ SKIP: {
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
-                "target_file"               => undef,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 
@@ -100,26 +85,14 @@ SKIP: {
                 "align"                     => "",
                 "align_basename"            => temp_align_basename(),
                 "append_prefixes"           => [],
-                "cli"                       => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => temp_output_file( suffix => '.txt' ),
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
                 "target_file"               => $patient_file,
-                "verbose"                   => undef,
                 "weights_file"              => $weights_file
             }
         );
@@ -182,28 +155,13 @@ SKIP: {
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [ 'FOO', 'BAR' ],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files" => [ $input_file, $other_input_file ],
-                "sort_by"         => undef,
-                "similarity_metric_cohort" => undef,
-                "target_file"              => undef,
-                "verbose"                  => undef,
-                "weights_file"             => undef
             }
         );
 
@@ -235,28 +193,14 @@ SKIP: {
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
                 "similarity_metric_cohort"  => 'jaccard',
-                "target_file"               => undef,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 
@@ -289,27 +233,13 @@ SKIP: {
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
-                "target_file"               => undef,
-                "verbose"                   => undef,
                 "weights_file"              => $weights_file
             }
         );
@@ -345,28 +275,13 @@ SKIP: {
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
-                "target_file"               => undef,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 
@@ -399,28 +314,14 @@ SKIP: {
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $generated_rank_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],          # Adjust if necessary
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
                 "target_file"               => $target_file,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 
@@ -504,29 +405,14 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"                        => undef,
-                "debug"                              => undef,
                 "exclude_terms"                      => [],
-                "export"                             => undef,
-                "hpo_file"                           => undef,
-                "include_hpo_ascendants"             => undef,
                 "include_terms"                      => [],
                 "log"                                => "",
-                "max_matrix_records_in_ram"          => undef,
-                "max_number_vars"                    => undef,
                 "max_out"                            => 36,
                 "out_file"                           => $tmp_file,
                 "patients_of_interest"               => [],
-                "poi_out_dir"                        => undef,
                 "reference_files"                    => [$input_file],
-                "sort_by"                            => undef,
-                "similarity_metric_cohort"           => undef,
                 "retain_excluded_phenotypicFeatures" => 1,
-                "target_file"                        => undef,
-                "verbose"                            => undef,
-                "weights_file"                       => undef
             }
         );
 
@@ -562,26 +448,12 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "ref_hash_file"   => fixture('export.ref_hash.json'),
                 "ref_binary_hash_file" => fixture('export.ref_binary_hash.json'),
                 "coverage_stats_file" => fixture('export.ref_binary_hash.json'),
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
-                "reference_files"           => undef,
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
-                "target_file"               => undef,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 
@@ -613,28 +485,13 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
-                "max_matrix_records_in_ram" => undef,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
-                "target_file"               => undef,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 
@@ -667,28 +524,14 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
                 "align"           => "",
                 "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-
-                #"cli"                    => undef,
-                "config_file"               => undef,
-                "debug"                     => undef,
                 "exclude_terms"             => [],
-                "export"                    => undef,
-                "hpo_file"                  => undef,
-                "include_hpo_ascendants"    => undef,
                 "include_terms"             => [],
                 "log"                       => "",
                 "max_matrix_records_in_ram" => 500,
-                "max_number_vars"           => undef,
                 "max_out"                   => 36,
                 "out_file"                  => $tmp_file,
                 "patients_of_interest"      => [],
-                "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
-                "sort_by"                   => undef,
-                "similarity_metric_cohort"  => undef,
-                "target_file"               => undef,
-                "verbose"                   => undef,
-                "weights_file"              => undef
             }
         );
 

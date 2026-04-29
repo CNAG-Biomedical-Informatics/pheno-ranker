@@ -11,9 +11,8 @@ use Pheno::Ranker;
       qq/--include-terms <geographicOrigin> does not exist in the cohort(s)\n/;
     my $ranker = Pheno::Ranker->new(
         {
-            reference_file => fixture('individuals.json'),
-            config_file    => undef,
-            include_terms  => ['geographicOrigin']
+            reference_files => [ fixture('individuals.json') ],
+            include_terms   => ['geographicOrigin']
         }
     );
 

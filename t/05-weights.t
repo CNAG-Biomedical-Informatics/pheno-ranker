@@ -16,9 +16,8 @@ my %expected_errors = (
 for my $error_code (sort keys %expected_errors) {
     my $ranker = Pheno::Ranker->new(
         {
-            reference_file => fixture('individuals.json'),
-            weights_file   => fixture("weights_err$error_code.yaml"),
-            config_file    => undef
+            reference_files => [ fixture('individuals.json') ],
+            weights_file    => fixture("weights_err$error_code.yaml"),
         }
     );
     # Test that Pheno::Ranker throws an exception with the expected message
