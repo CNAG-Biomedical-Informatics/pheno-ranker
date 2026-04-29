@@ -1,11 +1,10 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use File::Spec::Functions qw(catfile);
-use File::Temp            qw{ tempfile };    # core
 use Test::More tests => 4;                   # Indicate the number of tests you want to run
 use File::Compare;
-use lib ( './lib', '../lib' );
+use lib qw(./lib ../lib t/lib);
+use Test::PhenoRanker qw(fixture temp_output_file);
 use Pheno::Ranker;
 
 my $data = {
@@ -39,16 +38,15 @@ my $data = {
 
 {
     # Input file for the command line script, if needed
-    my $input_file = catfile( 't', 'movies.json' );
+    my $input_file = fixture('movies.json');
 
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'ref_movies_matrix.txt' );
+    my $reference_file = fixture('ref_movies_matrix.txt');
 
-    my $config = catfile( 't', 'movies_config.yaml' );
+    my $config = fixture('movies_config.yaml');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Update valules
     $data->{config_file}     = $config;
@@ -74,11 +72,10 @@ my $data = {
 
 {
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'ref_movies_include_matrix.txt' );
+    my $reference_file = fixture('ref_movies_include_matrix.txt');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Update valules
     $data->{out_file}      = $tmp_file;
@@ -103,12 +100,11 @@ my $data = {
 
 {
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'ref_movies_weights_matrix.txt' );
-    my $weights        = catfile( 't', 'movies_weights.yaml' );
+    my $reference_file = fixture('ref_movies_weights_matrix.txt');
+    my $weights        = fixture('movies_weights.yaml');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Update valules
     $data->{out_file}      = $tmp_file;
@@ -134,16 +130,15 @@ my $data = {
 
 {
     # Input file for the command line script, if needed
-    my $input_file = catfile( 't', 'cars.json' );
+    my $input_file = fixture('cars.json');
 
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'cars_matrix.txt' );
+    my $reference_file = fixture('cars_matrix.txt');
 
-    my $config = catfile( 't', 'cars_config.yaml' );
+    my $config = fixture('cars_config.yaml');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Update valules
     $data->{out_file}        = $tmp_file;
@@ -163,4 +158,3 @@ my $data = {
         qq/Output matches the <$reference_file> file/
     );
 }
-

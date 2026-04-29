@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib ( './lib', '../lib' );
+use lib qw(./lib ../lib t/lib);
 use Test::Exception tests => 2;
+use Test::PhenoRanker qw(fixture);
 use Pheno::Ranker;
 
 # Define specific error scenarios and their expected messages
@@ -15,8 +16,8 @@ my %expected_errors = (
 for my $error_code (sort keys %expected_errors) {
     my $ranker = Pheno::Ranker->new(
         {
-            reference_file => 't/individuals.json',
-            weights_file   => "t/weights_err$error_code.yaml",
+            reference_file => fixture('individuals.json'),
+            weights_file   => fixture("weights_err$error_code.yaml"),
             config_file    => undef
         }
     );

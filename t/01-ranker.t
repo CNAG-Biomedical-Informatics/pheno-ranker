@@ -3,11 +3,12 @@ use strict;
 use warnings;
 use autodie;
 use File::Spec::Functions qw(catfile);
-use File::Temp            qw{ tempfile };    # core
+use File::Temp            qw{ tempdir };    # core
 use Test::More tests => 14;                  # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
-use lib ( './lib', '../lib' );
+use lib qw(./lib ../lib t/lib);
+use Test::PhenoRanker qw(fixture temp_output_file);
 
 #use Data::Dumper;
 
@@ -20,7 +21,7 @@ use constant IS_WINDOWS => ( $^O eq 'MSWin32' || $^O eq 'cygwin' ) ? 1 : 0;
 use_ok('Pheno::Ranker') or exit;
 
 # Input file for the command line script, if needed
-my $input_file = catfile( 't', 'individuals.json' );
+my $input_file = fixture('individuals.json');
 
 SKIP: {
     # Linux commands don't run on windows
@@ -32,17 +33,16 @@ SKIP: {
 
     {
         # The reference file to compare the output with
-        my $reference_file = catfile( 't', 'matrix_ref.txt' );
+        my $reference_file = fixture('matrix_ref.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -90,15 +90,15 @@ SKIP: {
     #############
 
     # This one goes via module to be captured by Devel::Cover
-    my $patient_file = catfile( 't', 'patient.json' );
-    my $weights_file = catfile( 't', 'weights.yaml' );
+    my $patient_file = fixture('patient.json');
+    my $weights_file = fixture('weights.yaml');
 
     {
         my $ranker = Pheno::Ranker->new(
             {
                 "age"                       => 0,
                 "align"                     => "",
-                "align_basename"            => "t/tar_align",
+                "align_basename"            => temp_align_basename(),
                 "append_prefixes"           => [],
                 "cli"                       => undef,
                 "config_file"               => undef,
@@ -112,7 +112,7 @@ SKIP: {
                 "max_matrix_records_in_ram" => undef,
                 "max_number_vars"           => undef,
                 "max_out"                   => 36,
-                "out_file"                  => "matrix.txt",
+                "out_file"                  => temp_output_file( suffix => '.txt' ),
                 "patients_of_interest"      => [],
                 "poi_out_dir"               => undef,
                 "reference_files"           => [$input_file],
@@ -132,8 +132,8 @@ SKIP: {
         # *** IMPORTANT ****
         # We only compare NUMERIC results, not ASCII alignment!!!
         my $align_file;
-        my $reference_file = catfile( 't', 'ref_align.csv' );
-        $align_file = catfile( 't', 'tar_align.csv' );
+        my $reference_file = fixture('ref_align.csv');
+        $align_file = $ranker->align_basename . '.csv';
         ok(
             compare_sorted_files( $align_file, $reference_file ),
             qq/<$align_file> matches the <$reference_file> file/
@@ -142,8 +142,8 @@ SKIP: {
         unlink $align_file;
 
         # alignment.target.csv
-        $reference_file = catfile( 't', 'ref_align.target.csv' );
-        $align_file     = catfile( 't', 'tar_align.target.csv' );
+        $reference_file = fixture('ref_align.target.csv');
+        $align_file     = $ranker->align_basename . '.target.csv';
         ok(
             compare_sorted_files( $align_file, $reference_file ),
             qq/<$align_file> matches the <$reference_file> file/
@@ -151,8 +151,8 @@ SKIP: {
         unlink $align_file;
 
         # alignment.txt
-        $reference_file = catfile( 't', 'ref_align.txt' );
-        $align_file     = catfile( 't', 'tar_align.txt' );
+        $reference_file = fixture('ref_align.txt');
+        $align_file     = $ranker->align_basename . '.txt';
         ok(
             compare_sorted_files( $align_file, $reference_file ),
             qq/<$align_file> matches the <$reference_file> file/
@@ -168,20 +168,19 @@ SKIP: {
 
     {
         # Input file 2
-        my $other_input_file = catfile( 't', 'patient.json' );
+        my $other_input_file = fixture('patient.json');
 
         # The reference file to compare the output with
-        my $reference_file = catfile( 't', 'inter_cohort_matrix_ref.txt' );
+        my $reference_file = fixture('inter_cohort_matrix_ref.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [ 'FOO', 'BAR' ],
 
                 #"cli"                    => undef,
@@ -225,17 +224,16 @@ SKIP: {
 
     {
         # The reference file to compare the output with
-        my $reference_file = catfile( 't', 'matrix_ref_jaccard.txt' );
+        my $reference_file = fixture('matrix_ref_jaccard.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -279,18 +277,17 @@ SKIP: {
 
     {
         # The reference file to compare the output with
-        my $reference_file = catfile( 't', 'matrix_ref_weights_zero.txt' );
-        my $weights_file   = catfile( 't', 'weights_zero.yaml' );
+        my $reference_file = fixture('matrix_ref_weights_zero.txt');
+        my $weights_file   = fixture('weights_zero.yaml');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -333,21 +330,20 @@ SKIP: {
     # interpretations
 
     {
-        my $input_file = catfile( 't', 'interpretations_pxf.json' );
+        my $input_file = fixture('interpretations_pxf.json');
 
         # The reference file to compare the output with
         my $reference_file =
-          catfile( 't', 'matrix_ref_interpretations_pxf.txt' );
+          fixture('matrix_ref_interpretations_pxf.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -391,18 +387,17 @@ SKIP: {
 
     {
         # The reference rank.txt file
-        my $reference_rank_file = catfile( 't', 'rank.txt' );
-        my $target_file         = catfile( 't', 'patient.json' );
+        my $reference_rank_file = fixture('rank.txt');
+        my $target_file         = fixture('patient.json');
 
         # The generated output rank.txt file
-        my ( undef, $generated_rank_file ) =
-          tempfile( DIR => 't', SUFFIX => ".txt", UNLINK => 1 );
+        my $generated_rank_file = temp_output_file( suffix => '.txt' );
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -497,18 +492,17 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
 
     {
         # The reference file to compare the output with
-        my $input_file     = catfile( 't', 'pxf_excluded_true.json' );
-        my $reference_file = catfile( 't', 'pxf_excluded_true_matrix.txt' );
+        my $input_file     = fixture('pxf_excluded_true.json');
+        my $reference_file = fixture('pxf_excluded_true_matrix.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -553,22 +547,21 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
 
     {
         # The reference file to compare the output with
-        my $reference_file = catfile( 't', 'matrix_ref.txt' );
+        my $reference_file = fixture('matrix_ref.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
-                "glob_hash_file"  => catfile( 't', 'export.glob_hash.json' ),
-                "ref_hash_file"   => catfile( 't', 'export.ref_hash.json' ),
-                "ref_binary_hash_file" => catfile( 't', 'export.ref_binary_hash.json' ),
-                "coverage_stats_file" => catfile( 't', 'export.ref_binary_hash.json' ),
+                "glob_hash_file"  => fixture('export.glob_hash.json'),
+                "ref_hash_file"   => fixture('export.ref_hash.json'),
+                "ref_binary_hash_file" => fixture('export.ref_binary_hash.json'),
+                "coverage_stats_file" => fixture('export.ref_binary_hash.json'),
                 "config_file"               => undef,
                 "debug"                     => undef,
                 "exclude_terms"             => [],
@@ -608,18 +601,17 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
 
     {
         # The reference file to compare the output with
-        my $input_file     = catfile( 't', 'individuals.json.gz' );
-        my $reference_file = catfile( 't', 'matrix_ref.txt' );
+        my $input_file     = fixture('individuals.json.gz');
+        my $reference_file = fixture('matrix_ref.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -663,18 +655,17 @@ qq/<$generated_rank_file> matches the REFERENCE(ID) in <$reference_rank_file>/
 
     {
         # The reference file to compare the output with
-        my $input_file     = catfile( 't', 'individuals.json.gz' );
-        my $reference_file = catfile( 't', 'matrix_ref.txt' );
+        my $input_file     = fixture('individuals.json.gz');
+        my $reference_file = fixture('matrix_ref.txt');
 
         # The generated output file
-        my ( undef, $tmp_file ) =
-          tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+        my $tmp_file = temp_output_file();
 
         my $ranker = Pheno::Ranker->new(
             {
                 "age"             => 0,
                 "align"           => "",
-                "align_basename"  => "t/tar_align",
+                "align_basename"  => temp_align_basename(),
                 "append_prefixes" => [],
 
                 #"cli"                    => undef,
@@ -732,6 +723,10 @@ sub extract_reference_ids {
 
     close $fh;
     return @ids;
+}
+
+sub temp_align_basename {
+    return catfile( tempdir( CLEANUP => 1 ), 'tar_align' );
 }
 
 sub compare_sorted_files {

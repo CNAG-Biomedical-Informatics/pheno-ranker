@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib ( './lib', '../lib' );
+use lib qw(./lib ../lib t/lib);
 use Test::Exception tests => 1;
+use Test::PhenoRanker qw(fixture);
 use Pheno::Ranker;
 
 {
@@ -10,7 +11,7 @@ use Pheno::Ranker;
       qq/--include-terms <geographicOrigin> does not exist in the cohort(s)\n/;
     my $ranker = Pheno::Ranker->new(
         {
-            reference_file => 't/individuals.json',
+            reference_file => fixture('individuals.json'),
             config_file    => undef,
             include_terms  => ['geographicOrigin']
         }

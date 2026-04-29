@@ -3,10 +3,11 @@ use strict;
 use warnings;
 use autodie;
 use File::Spec::Functions qw(catfile);
-use File::Temp            qw{ tempfile };    # core
+use File::Temp            qw{ tempdir tempfile };    # core
 use Test::More tests => 2;                   # Indicate the number of tests you want to run
 use File::Compare;
-use lib ( './lib', '../lib' );
+use lib qw(./lib ../lib t/lib);
+use Test::PhenoRanker qw(fixture);
 
 #use Data::Dumper;
 
@@ -17,7 +18,7 @@ use lib ( './lib', '../lib' );
 use_ok('Pheno::Ranker') or exit;
 
 # Input file for the command line script, if needed
-my $input_file = catfile( 't', 'individuals.json' );
+my $input_file = fixture('individuals.json');
 
 ##########
 # TEST 2 #
@@ -26,17 +27,19 @@ my $input_file = catfile( 't', 'individuals.json' );
 # The reference file to compare the output with
 my $poi            = '107:week_0_arm_1';
 my $reference_file = catfile( 'xt', 'poi', "$poi.json" );
-my $new_file       = catfile( 'xt', "$poi.json" );
+my $poi_out_dir    = tempdir( CLEANUP => 1 );
+my $new_file       = catfile( $poi_out_dir, "$poi.json" );
 
 # The generated output file
 my ( undef, $tmp_file ) =
   tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+my $align_basename = catfile( tempdir( CLEANUP => 1 ), 'tar_align' );
 
 my $ranker = Pheno::Ranker->new(
     {
         "age"                       => 0,
         "align"                     => "",
-        "align_basename"            => "t/tar_align",
+        "align_basename"            => $align_basename,
         "append_prefixes"           => [],
         "config_file"               => undef,
         "debug"                     => undef,
@@ -51,7 +54,7 @@ my $ranker = Pheno::Ranker->new(
         "max_out"                   => 36,
         "out_file"                  => $tmp_file,
         "patients_of_interest"      => [$poi],
-        "poi_out_dir"               => 'xt',
+        "poi_out_dir"               => $poi_out_dir,
         "reference_files"           => [$input_file],
         "sort_by"                   => undef,
         "similarity_metric_cohort"  => undef,
@@ -69,4 +72,3 @@ ok(
     qq/Output matches the <$reference_file> file/
 );
 unlink($new_file)
-

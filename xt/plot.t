@@ -4,6 +4,8 @@ use warnings;
 use File::Spec::Functions qw(catdir catfile);
 use Test::More tests => 2;    # Indicate the number of tests you want to run
 use File::Compare;
+use lib qw(./lib ../lib t/lib);
+use Test::PhenoRanker qw(fixture);
 
 ##########
 # TEST 1 #
@@ -16,7 +18,7 @@ SKIP: {
         my $script = catfile( 'utils', 'bff_pxf_plot', 'bff-pxf-plot' );
 
         # Input file for the command line script, if needed
-        my $input_file = catfile( 't', 'individuals.json' );
+        my $input_file = fixture('individuals.json');
 
         # The reference files to compare the output with
         my $reference_file = catfile( 'xt', 'plot', 'bff.png' );
@@ -47,7 +49,7 @@ SKIP: {
         my $script = catfile( 'utils', 'bff_pxf_plot', 'bff-pxf-plot' );
 
         # Input file for the command line script, if needed
-        my $input_file = catfile( 't', 'pxf_random_100.json' );
+        my $input_file = fixture('pxf_random_100.json');
 
         # The reference files to compare the output with
         my $reference_file = catfile( 'xt', 'plot', 'pxf.png' );
