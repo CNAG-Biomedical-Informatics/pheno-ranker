@@ -28,6 +28,7 @@ use File::ShareDir::ProjectDistDir qw(dist_dir);
 use FindBin                        qw($Bin);
 use lib "$Bin/../lib";
 use Pheno::Ranker qw($VERSION write_json);
+use Pheno::Ranker::Options;
 
 # Defining a few variables
 my $out_file_cohort      = 'matrix.txt';
@@ -163,7 +164,6 @@ my $data = {
     target_file                        => $target_file,
     weights_file                       => $weights_file,
     include_hpo_ascendants             => $include_hpo_ascendants,
-    hpo_file                           => undef,
     align                              => $align,
     align_basename                     => $align_basename,
     export                             => $export,
@@ -194,6 +194,7 @@ my $data = {
     debug                              => $debug,
     verbose                            => $verbose
 };
+$data = Pheno::Ranker::Options->defined_constructor_args($data);
 
 # Create object
 my $ranker = Pheno::Ranker->new($data);

@@ -41,26 +41,14 @@ my $ranker = Pheno::Ranker->new(
         "align"                     => "",
         "align_basename"            => $align_basename,
         "append_prefixes"           => [],
-        "config_file"               => undef,
-        "debug"                     => undef,
         "exclude_terms"             => [],
-        "export"                    => undef,
-        "hpo_file"                  => undef,
         "include_terms"             => [],
-        "include_hpo_ascendants"    => undef,
         "log"                       => "",
-        "max_matrix_records_in_ram" => undef,
-        "max_number_vars"           => undef,
         "max_out"                   => 36,
         "out_file"                  => $tmp_file,
         "patients_of_interest"      => [$poi],
         "poi_out_dir"               => $poi_out_dir,
         "reference_files"           => [$input_file],
-        "sort_by"                   => undef,
-        "similarity_metric_cohort"  => undef,
-        "target_file"               => undef,
-        "verbose"                   => undef,
-        "weights_file"              => undef
     }
 );
 

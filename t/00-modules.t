@@ -10,6 +10,9 @@ use Test::More;
 use Test::PhenoRanker qw(fixture temp_output_file);
 
 use Pheno::Ranker;
+use Pheno::Ranker::Config;
+use Pheno::Ranker::Context;
+use Pheno::Ranker::Options;
 use Pheno::Ranker::Graph;
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Metrics;
@@ -709,32 +712,15 @@ sub ranker_args {
 
     my %args = (
         age                       => 0,
-        align                     => undef,
         align_basename            => 'alignment',
         append_prefixes           => [],
-        cli                       => undef,
-        config_file               => undef,
-        cytoscape_json            => undef,
-        debug                     => undef,
         exclude_terms             => [],
-        export                    => undef,
-        graph_stats               => undef,
-        hpo_file                  => undef,
-        include_hpo_ascendants    => undef,
         include_terms             => [],
         log                       => '',
-        max_matrix_records_in_ram => undef,
-        max_number_vars           => undef,
         max_out                   => 36,
         out_file                  => temp_output_file(),
         patients_of_interest      => [],
-        poi_out_dir               => undef,
         reference_files           => [],
-        sort_by                   => undef,
-        similarity_metric_cohort  => undef,
-        target_file               => undef,
-        verbose                   => undef,
-        weights_file              => undef,
     );
 
     @args{ keys %override } = values %override;
