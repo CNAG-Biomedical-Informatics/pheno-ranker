@@ -21,7 +21,9 @@ use Pheno::Ranker::Compare::Alignment;
 use Pheno::Ranker::Compare::Encoding;
 use Pheno::Ranker::Compare::Matrix;
 use Pheno::Ranker::Compare::Ontology;
+use Pheno::Ranker::Compare::Prepare;
 use Pheno::Ranker::Compare::Prune;
+use Pheno::Ranker::Compare::Rank;
 use Pheno::Ranker::Compare::Remap;
 
 my $tmpdir = tempdir( CLEANUP => 1 );
