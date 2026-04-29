@@ -8,7 +8,8 @@ use Moo;
 my @FIELDS = qw(
   age align array_regex_qr array_terms_regex_qr config_file debug
   exclude_terms exclude_variables_regex_qr format id_correspondence
-  include_terms max_matrix_records_in_ram max_number_vars max_out
+  graph_max_weight graph_min_weight include_terms max_matrix_records_in_ram
+  matrix_format max_number_vars max_out
   nodes edges out_file primary_key retain_excluded_phenotypicFeatures
   seed similarity_metric_cohort sort_by verbose
 );

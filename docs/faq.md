@@ -74,6 +74,24 @@ Frequently Asked Questions
     !!! Note "* About RAM usage in cohort mode"
         After reaching 5,000 rows, Pheno-Ranker switches to a RAM-efficient mode, calculating the full symmetric matrix without storing it in memory. However, this trade-off makes the computation slower. You can adjust this threshold using the `--max-matrix-records-in-ram` argument.
 
+        For large cohorts where a dense `N x N` text matrix is not required, use `--matrix-format mtx` to write a sparse Matrix Market coordinate file. This mode is always RAM-light, stores one triangle of the symmetric matrix, writes only non-zero values, and does not use the dense matrix cache controlled by `--max-matrix-records-in-ram`.
+
+        ```bash
+        pheno-ranker -r individuals.json --matrix-format mtx -o matrix.mtx
+        ```
+
+        The `mtx` output is intended for downstream tools that understand Matrix Market files. It can be combined with `--cytoscape-json`, because graph export is generated directly from the binary comparison hashes rather than by reading the matrix file.
+
+        For very large graphs, filter edges explicitly:
+
+        ```bash
+        # Hamming distance: keep close pairs
+        pheno-ranker -r individuals.json --cytoscape-json --graph-max-weight 10
+
+        # Jaccard similarity: keep highly similar pairs
+        pheno-ranker -r individuals.json --similarity-metric-cohort jaccard --cytoscape-json --graph-min-weight 0.7
+        ```
+
     ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Can I use `pedigrees` term in `BFF`?"

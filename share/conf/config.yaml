@@ -8,6 +8,9 @@ sort_by: hamming
 # Set the similarity metric to use in cohort mode (hamming|jaccard)
 similarity_metric_cohort: hamming
 
+# Set the matrix output format in cohort mode (dense|mtx)
+matrix_format: dense
+
 # Set the primary key for the objects
 primary_key: id
 

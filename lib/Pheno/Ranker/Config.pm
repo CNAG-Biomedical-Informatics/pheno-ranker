@@ -43,6 +43,18 @@ has similarity_metric_cohort => (
     isa     => Enum [qw(hamming jaccard)],
 );
 
+has matrix_format => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+        return exists $self->raw->{matrix_format}
+          ? $self->raw->{matrix_format}
+          : 'dense';
+    },
+    isa     => Enum [qw(dense mtx)],
+);
+
 has max_out => (
     is      => 'ro',
     lazy    => 1,

@@ -44,6 +44,7 @@ sub _apply_defaults {
         max_matrix_records_in_ram => $self->config->max_matrix_records_in_ram,
         max_number_vars           => $self->config->max_number_vars,
         max_out                   => $self->config->max_out,
+        matrix_format             => $self->config->matrix_format,
         patients_of_interest      => [],
         poi_out_dir               => catdir('./'),
         reference_files           => [],
