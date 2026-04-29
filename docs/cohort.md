@@ -11,11 +11,11 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
 === "Intra-cohort"
 
-    For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
+    For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/data/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
 
     First, we will download the file:
     ```bash
-    wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/t/individuals.json
+    wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/t/data/individuals.json
     ```
     And now we run `Pheno-Ranker`:
     
@@ -154,4 +154,3 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
        ![Heatmap](img/cohort2.png){ width="800" }
        <figcaption>Heatmap of a inter-cohort pairwise comparison</figcaption>
     </figure>
-
