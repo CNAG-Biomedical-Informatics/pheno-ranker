@@ -35,8 +35,11 @@ RUN apt-get update && \
 WORKDIR /usr/share/
 RUN git clone https://github.com/CNAG-Biomedical-Informatics/pheno-ranker.git
 
-# Remove the .git folder to save space and avoid shipping VCS data
-RUN rm -rf pheno-ranker/.git
+# Remove Git metadata and CI configs to shrink image and avoid shipping them
+RUN rm -rf pheno-ranker/.git pheno-ranker/.github pheno-ranker/.gitattributes pheno-ranker/.gitignore
+
+# Remove docs
+RUN rm -rf pheno-ranker/docs/ pheno-ranker/mkdocs.yml
 
 # Install Perl and Python dependencies
 WORKDIR /usr/share/pheno-ranker

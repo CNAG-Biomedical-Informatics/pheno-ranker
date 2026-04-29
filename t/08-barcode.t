@@ -2,9 +2,12 @@
 use strict;
 use warnings;
 use File::Spec::Functions qw(catdir catfile);
+use File::Temp qw(tempdir);
 use Test::More tests => 5;    # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
+use lib qw(./lib ../lib t/lib);
+use Test::PhenoRanker qw(fixture);
 
 ##########
 # TEST 1 #
@@ -17,13 +20,13 @@ SKIP: {
         my $script = catfile( 'utils', 'barcode', 'pheno-ranker2barcode' );
 
         # Input file for the command line script, if needed
-        my $input_file = catfile( 't', 'export.ref_binary_hash.json' );
+        my $input_file = fixture('export.ref_binary_hash.json');
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'qr_codes', '107_week_0_arm_1.png' );
+        my $reference_file = fixture( 'qr_codes', '107_week_0_arm_1.png' );
 
         # The output files
-        my $output_dir  = catdir( 't', 'tmp_test' );
+        my $output_dir  = tempdir( CLEANUP => 1 );
         my $output_file = catfile( $output_dir, '107_week_0_arm_1.png' );
 
         # Run the command line
@@ -34,8 +37,6 @@ SKIP: {
             compare( $output_file, $reference_file ) == 0,
             qq/Output matches the <$reference_file> file/
         );
-        unlink $output_file;
-        rmdir $output_dir;
     }
 }
 
@@ -50,14 +51,14 @@ SKIP: {
         my $script = catfile( 'utils', 'barcode', 'barcode2pheno-ranker' );
 
         # Input file for the command line script, if needed
-        my $input_file    = catfile( 't', 'qr_codes', '107_week_0_arm_1.png' );
-        my $template_file = catfile( 't', 'export.glob_hash.json' );
+        my $input_file    = fixture( 'qr_codes', '107_week_0_arm_1.png' );
+        my $template_file = fixture('export.glob_hash.json');
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'qr_codes', 'output.json' );
+        my $reference_file = fixture( 'qr_codes', 'output.json' );
 
         # The output files
-        my $output_dir  = catdir( 't', 'qr_codes' );
+        my $output_dir  = tempdir( CLEANUP => 1 );
         my $output_file = catfile( $output_dir, 'new_output.json' );
 
         # Run the command line
@@ -68,7 +69,6 @@ SKIP: {
             compare( $output_file, $reference_file ) == 0,
             qq/Output matches the <$reference_file> file/
         );
-        unlink($output_file);
     }
 }
 
@@ -83,15 +83,15 @@ SKIP: {
         my $script = catfile( 'utils', 'barcode', 'pheno-ranker2pdf' );
 
         # Input file for the command line script, if needed
-        my $qr   = catfile( 't',    'qr_codes', '107_week_0_arm_1.png' );
+        my $qr   = fixture( 'qr_codes', '107_week_0_arm_1.png' );
         my $logo = catfile( 'docs', 'img',      'PR-logo.png' );
-        my $json = catfile( 't',    'qr_codes', 'output.json' );
+        my $json = fixture( 'qr_codes', 'output.json' );
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'qr_codes', '107_week_0_arm_1.pdf' );
+        my $reference_file = fixture( 'qr_codes', '107_week_0_arm_1.pdf' );
 
         # The output files
-        my $output_dir  = catdir( 't', 'tmp_test' );
+        my $output_dir  = tempdir( CLEANUP => 1 );
         my $output_file = catfile( $output_dir, '107_week_0_arm_1.pdf' );
 
         # Run the command line
@@ -102,8 +102,6 @@ SKIP: {
             compare_files( $output_file, $reference_file ),
             qq/<$output_file> matches the <$reference_file> file/
         );
-        unlink $output_file;
-        rmdir $output_dir;
     }
 }
 
@@ -118,13 +116,13 @@ SKIP: {
         my $script = catfile( 'utils', 'barcode', 'pheno-ranker2barcode' );
 
         # Input file for the command line script, if needed
-        my $input_file = catfile( 't', 'export.ref_binary_hash.json' );
+        my $input_file = fixture('export.ref_binary_hash.json');
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'qr_codes', '107_week_0_arm_1.compressed.png' );
+        my $reference_file = fixture( 'qr_codes', '107_week_0_arm_1.compressed.png' );
 
         # The output files
-        my $output_dir  = catdir( 't', 'tmp_test' );
+        my $output_dir  = tempdir( CLEANUP => 1 );
         my $output_file = catfile( $output_dir, '107_week_0_arm_1.png' );
 
         # Run the command line
@@ -135,8 +133,6 @@ SKIP: {
             compare( $output_file, $reference_file ) == 0,
             qq/Output matches the <$reference_file> file/
         );
-        unlink $output_file;
-        rmdir $output_dir;
     }
 }
 
@@ -151,14 +147,14 @@ SKIP: {
         my $script = catfile( 'utils', 'barcode', 'barcode2pheno-ranker' );
 
         # Input file for the command line script, if needed
-        my $input_file    = catfile( 't', 'qr_codes', '107_week_0_arm_1.compressed.png' );
-        my $template_file = catfile( 't', 'export.glob_hash.json' );
+        my $input_file    = fixture( 'qr_codes', '107_week_0_arm_1.compressed.png' );
+        my $template_file = fixture('export.glob_hash.json');
 
         # The reference files to compare the output with
-        my $reference_file = catfile( 't', 'qr_codes', 'output.compressed.json' );
+        my $reference_file = fixture( 'qr_codes', 'output.compressed.json' );
 
         # The output files
-        my $output_dir  = catdir( 't', 'qr_codes' );
+        my $output_dir  = tempdir( CLEANUP => 1 );
         my $output_file = catfile( $output_dir, 'new_output.json' );
 
         # Run the command line
@@ -169,7 +165,6 @@ SKIP: {
             compare( $output_file, $reference_file ) == 0,
             qq/Output matches the <$reference_file> file/
         );
-        unlink($output_file);
     }
 }
 

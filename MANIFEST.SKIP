@@ -23,6 +23,12 @@
 ^docs/
 ^nb/
 ^bck/
+^t/bck/
+^t/tmp_test/
+^t/qr_codes/
+^t/tar_align\.
+^t/matrix\.txt$
+^t/regex\.pl$
 ^ori/
 ^share/r/
 ^share/ex/
@@ -30,7 +36,7 @@
 ^share/hpo_diseases/
 ^utils/barcode/
 ^nytprof/
-^t/barcode\.t$
+^t/08-barcode\.t$
 ^utils/bff_pxf_plot/
 ^t/plot\.t$
 ^matrix\.txt$

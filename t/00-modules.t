@@ -1,0 +1,742 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use lib qw(./lib ../lib t/lib);
+
+use File::Spec::Functions qw(catfile);
+use File::Temp qw(tempdir tempfile);
+use Test::Exception;
+use Test::More;
+use Test::PhenoRanker qw(fixture temp_output_file);
+
+use Pheno::Ranker;
+use Pheno::Ranker::Graph;
+use Pheno::Ranker::IO;
+use Pheno::Ranker::Metrics;
+use Pheno::Ranker::Compare;
+
+my $tmpdir = tempdir( CLEANUP => 1 );
+
+subtest 'Graph helpers can build and summarize Cytoscape graphs' => sub {
+    my ( $matrix_fh, $matrix_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.tsv', UNLINK => 1 );
+    my ( $graph_fh, $graph_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.json', UNLINK => 1 );
+    close $matrix_fh;
+    close $graph_fh;
+
+    write_array2txt(
+        {
+            filepath => $matrix_file,
+            data     => [
+                "\tA\tB\tC",
+                "A\t0\t1\t0",
+                "B\t1\t0\t2",
+                "C\t0\t2\t0",
+            ],
+        }
+    );
+
+    my $graph = matrix2graph(
+        {
+            matrix      => $matrix_file,
+            json        => $graph_file,
+            graph_stats => 1,
+        }
+    );
+
+    is scalar @{ $graph->{elements}{nodes} }, 3, 'matrix2graph creates all nodes';
+    is scalar @{ $graph->{elements}{edges} }, 3, 'matrix2graph creates upper-triangle edges';
+    is_deeply read_json($graph_file), $graph, 'matrix2graph writes the graph JSON';
+
+    my ( $empty_fh, $empty_graph_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.json', UNLINK => 1 );
+    close $empty_fh;
+
+    my ( $negative_fh, $negative_matrix_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.tsv', UNLINK => 1 );
+    close $negative_fh;
+
+    write_array2txt(
+        {
+            filepath => $negative_matrix_file,
+            data     => [
+                "\tA\tB",
+                "A\t0\t-1",
+                "B\t-1\t0",
+            ],
+        }
+    );
+
+    ok !defined matrix2graph(
+        {
+            matrix => $negative_matrix_file,
+            json   => $empty_graph_file,
+        }
+      ),
+      'matrix2graph returns undef unless graph stats are requested';
+    is scalar @{ read_json($empty_graph_file)->{elements}{edges} }, 0,
+      'matrix2graph skips weights below the threshold';
+
+    my ( $stats_fh, $stats_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );
+    close $stats_fh;
+    ok(
+        cytoscape2graph(
+            {
+                graph  => {
+                    elements => {
+                        nodes => $graph->{elements}{nodes},
+                        edges => [
+                            { data => { source => 'A', target => 'B', weight => 0.5 } },
+                            { data => { source => 'B', target => 'C', weight => 0.4 } },
+                            { data => { source => 'A', target => 'C', weight => 0.2 } },
+                        ],
+                    },
+                },
+                output => $stats_file,
+                metric => 'jaccard',
+            }
+        ),
+        'cytoscape2graph writes graph stats for a connected graph'
+    );
+    like slurp($stats_file), qr/^Metric: Jaccard/m, 'graph stats include the metric';
+};
+
+subtest 'IO helpers round-trip files and validate small data structures' => sub {
+    my ( $json_fh, $json_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.json', UNLINK => 1 );
+    my ( $yaml_fh, $yaml_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yaml', UNLINK => 1 );
+    close $json_fh;
+    close $yaml_fh;
+
+    my $data = { beta => [ 2, 3 ], alpha => { nested => 1 } };
+
+    ok write_json( { filepath => $json_file, data => $data } ), 'write_json succeeds';
+    is_deeply read_json($json_file), $data, 'read_json round-trips write_json output';
+
+    ok Pheno::Ranker::IO::write_yaml( { filepath => $yaml_file, data => $data } ),
+      'write_yaml succeeds';
+    is_deeply read_yaml($yaml_file), $data, 'read_yaml round-trips write_yaml output';
+
+    my ( $gzip_yaml_fh, $gzip_yaml ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yaml.gz', UNLINK => 1 );
+    close $gzip_yaml_fh;
+    {
+        require IO::Compress::Gzip;
+        my $yaml_text = "---\nalpha: 1\n";
+        IO::Compress::Gzip::gzip( \$yaml_text => $gzip_yaml )
+          or die "gzip failed: $IO::Compress::Gzip::GzipError";
+    }
+    is_deeply read_yaml($gzip_yaml), { alpha => 1 }, 'read_yaml supports gzipped YAML';
+
+    my ( $dispatch_fh, $via_dispatch ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yml', UNLINK => 1 );
+    close $dispatch_fh;
+    ok(
+        io_yaml_or_json(
+            { mode => 'write', filepath => $via_dispatch, data => { ok => 1 } }
+        ),
+        'io_yaml_or_json dispatches writes'
+    );
+    is_deeply(
+        io_yaml_or_json( { mode => 'read', filepath => $via_dispatch } ),
+        { ok => 1 },
+        'io_yaml_or_json dispatches reads'
+    );
+    throws_ok {
+        my ( $bad_fh, $bad_file ) =
+          tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );
+        close $bad_fh;
+        io_yaml_or_json( { mode => 'read', filepath => $bad_file } )
+    }
+    qr/Extensions allowed/,
+      'io_yaml_or_json rejects unsupported extensions';
+
+    my ( $export_fh, $export_base ) = tempfile( DIR => $tmpdir, UNLINK => 1 );
+    close $export_fh;
+    unlink $export_base;
+    ok(
+        serialize_hashes(
+            {
+                export_basename => $export_base,
+                data            => { one => { id => 1 }, two => [2] },
+            }
+        ),
+        'serialize_hashes writes each named hash'
+    );
+    is_deeply read_json("$export_base.one.json"), { id => 1 }, 'first serialized hash is readable';
+    is_deeply read_json("$export_base.two.json"), [2], 'second serialized hash is readable';
+
+    my $poi_data = [ { id => 'P1', label => 'match' } ];
+    my $warning;
+    local $SIG{__WARN__} = sub { $warning = join q{}, @_ };
+    ok(
+        write_poi(
+            {
+                ref_data     => $poi_data,
+                poi          => [qw(P1 missing)],
+                poi_out_dir  => $tmpdir,
+                primary_key  => 'id',
+                verbose      => 1,
+            }
+        ),
+        'write_poi handles matching and missing patients'
+    );
+    is_deeply read_json( catfile( $tmpdir, 'P1.json' ) ), $poi_data->[0],
+      'write_poi writes the matching individual';
+    like $warning, qr/No individual found for <missing>/, 'write_poi warns for missing individuals';
+
+    is_deeply array2object( [ { only => 1 } ] ), { only => 1 }, 'array2object unwraps one item';
+    throws_ok { array2object( [ {}, {} ] ) } qr/only 1 patient/, 'array2object rejects multiple items';
+
+    my $coverage = coverage_stats(
+        [
+            {
+                present => 'value',
+                empty_h => {},
+                empty_a => [],
+                missing => undef,
+                na      => 'NA',
+                nan     => 'NaN',
+            },
+            { present => 0, extra => 'x' },
+        ],
+        'BFF'
+    );
+    is $coverage->{cohort_size}, 2, 'coverage_stats records cohort size';
+    is $coverage->{coverage_terms}{present}, 2, 'coverage_stats counts defined values';
+    is $coverage->{coverage_terms}{empty_h}, 0, 'coverage_stats ignores empty hashes';
+    ok check_existence_of_include_terms( $coverage, ['present'] ), 'include term exists';
+    ok !check_existence_of_include_terms( $coverage, ['absent'] ), 'missing include term is false';
+    ok check_existence_of_include_terms( $coverage, [] ), 'empty include term list is true';
+
+    my $single = append_and_rename_primary_key(
+        { ref_data => [ { id => 'single' } ], append_prefixes => [], primary_key => 'id' }
+    );
+    is_deeply $single, [ { id => 'single' } ], 'single cohort is returned unchanged';
+
+    my $combined = append_and_rename_primary_key(
+        {
+            ref_data        => [ [ { id => 'A' } ], { id => 'B' } ],
+            append_prefixes => ['LEFT'],
+            primary_key     => 'id',
+        }
+    );
+    is_deeply [ map { $_->{id} } @$combined ], [qw(LEFT_A C2_B)],
+      'multiple cohorts get explicit and generated prefixes';
+    throws_ok {
+        Pheno::Ranker::IO::check_null_primary_key(
+            { id => undef, count => 1, primary_key => 'id', prefix => 'C1_' }
+        )
+    }
+    qr/primary_key <id>/,
+      'check_null_primary_key rejects undefined ids';
+};
+
+subtest 'PXF interpretation restructuring handles supported shapes' => sub {
+    my $data = [
+        {
+            id              => 'PXF1',
+            interpretations => [
+                {
+                    progressStatus => 'SOLVED',
+                    diagnosis      => {
+                        disease => { id => 'MONDO:1' },
+                        genomicInterpretations => [
+                            {
+                                interpretationStatus => 'CAUSATIVE',
+                                variantInterpretation => {
+                                    variationDescriptor => {
+                                        geneContext => { valueId => 'GENE1' },
+                                    },
+                                },
+                            },
+                            {
+                                interpretationStatus => 'CANDIDATE',
+                                variantInterpretation => {
+                                    variationDescriptor => { id => 'VAR1' },
+                                },
+                            },
+                            {
+                                interpretationStatus => 'REJECTED',
+                                geneDescriptor        => { valueId => 'GENE2' },
+                            },
+                        ],
+                    },
+                },
+            ],
+        },
+    ];
+    my $self = { format => 'PXF', exclude_terms => [] };
+
+    ok restructure_pxf_interpretations( $data, $self ), 'PXF interpretations are restructured';
+    my $interpretations = $data->[0]{interpretations}{'MONDO:1'}{genomicInterpretations};
+    ok exists $interpretations->{GENE1}{variantInterpretation}, 'variant geneContext is keyed by gene';
+    ok exists $interpretations->{VAR1}{variantInterpretation},  'variant id fallback is keyed by id';
+    ok exists $interpretations->{GENE2}{geneDescriptor},        'geneDescriptor is keyed by gene';
+
+    my $excluded = { interpretations => [] };
+    ok !defined restructure_pxf_interpretations(
+        $excluded, { format => 'BFF', exclude_terms => [] }
+      ),
+      'non-PXF data is ignored';
+
+    my $hash_interpretation = {
+        interpretations => [
+            {
+                progressStatus => 'UNKNOWN',
+                diagnosis      => {
+                    disease => { id => 'MONDO:2' },
+                    genomicInterpretations => [
+                        {
+                            interpretationStatus => 'CANDIDATE',
+                            geneDescriptor        => { valueId => 'GENE3' },
+                        },
+                    ],
+                },
+            },
+        ],
+    };
+    ok restructure_pxf_interpretations( $hash_interpretation, $self ),
+      'PXF interpretation restructuring accepts a single hash';
+    ok exists $hash_interpretation->{interpretations}{'MONDO:2'}{genomicInterpretations}{GENE3},
+      'single-hash PXF interpretation is keyed by disease and gene';
+
+    my $excluded_interpretations = { interpretations => [] };
+    ok !defined restructure_pxf_interpretations(
+        $excluded_interpretations,
+        { format => 'PXF', exclude_terms => ['interpretations'] }
+      ),
+      'PXF interpretation restructuring honors excluded interpretations';
+};
+
+subtest 'Metrics helpers cover error branches and pure Perl fallbacks' => sub {
+    is hd_fast( '1010', '0011' ), 2, 'hd_fast returns hamming distance';
+    throws_ok { hd_fast( '10', '101' ) } qr/same length/, 'hd_fast rejects unequal lengths';
+    is Pheno::Ranker::Metrics::_hd_fast( '1010', '0011' ), 2, '_hd_fast fallback works';
+
+    my ( $jaccard, $intersection ) = jaccard_similarity( '1100', '1010' );
+    is sprintf( '%.6f', $jaccard ), '0.333333', 'jaccard_similarity returns similarity';
+    is $intersection, 1, 'jaccard_similarity returns intersection';
+    is jaccard_similarity_formatted( '1100', '1010' ), '0.333333',
+      'jaccard_similarity_formatted formats similarity';
+    throws_ok { jaccard_similarity( '1', '10' ) } qr/equal length/,
+      'jaccard_similarity rejects unequal lengths';
+
+    my @zero_union = Pheno::Ranker::Metrics::_jaccard_similarity( '0000', '0000' );
+    is_deeply \@zero_union, [ 0, 0 ], '_jaccard_similarity handles zero union';
+    my @fallback = Pheno::Ranker::Metrics::_jaccard_similarity( '1100', '1010' );
+    is sprintf( '%.6f', $fallback[0] ), '0.333333', '_jaccard_similarity fallback works';
+
+    my ( $mean, $sd ) = estimate_hamming_stats(8);
+    is $mean, 4, 'estimate_hamming_stats returns expected mean';
+    is sprintf( '%.3f', $sd ), '1.414', 'estimate_hamming_stats returns expected stddev';
+    is z_score( 10, 5, 0 ), 0, 'z_score handles zero standard deviation';
+    is z_score( 10, 4, 2 ), 3, 'z_score computes non-zero standard deviation';
+    cmp_ok p_value_from_z_score(0), '==', 0.5, 'p_value_from_z_score uses normal CDF';
+
+    my $stats = add_stats( [ 1, 2, 3, 4 ] );
+    is $stats->{count}, 4, 'add_stats records count';
+    is $stats->{sum},   10, 'add_stats records sum';
+};
+
+subtest 'Compare helpers cover deterministic transforms and exports' => sub {
+    my $randomized = randomize_variables(
+        { map { $_ => $_ } qw(a b c d e) },
+        { max_number_vars => 3, seed => 123456789 }
+    );
+    is scalar keys %$randomized, 3, 'randomize_variables limits the number of variables';
+    is_deeply $randomized, randomize_variables(
+        { map { $_ => $_ } qw(a b c d e) },
+        { max_number_vars => 3, seed => 123456789 }
+      ),
+      'randomize_variables is deterministic for a fixed seed';
+
+    my $hpo = {
+        graphs => [
+            {
+                nodes => [
+                    {
+                        id  => 'http://purl.obolibrary.org/obo/HP_0000001',
+                        lbl => 'All',
+                    },
+                    {
+                        id  => 'http://purl.obolibrary.org/obo/HP_0000002',
+                        lbl => 'Child',
+                    },
+                ],
+                edges => [
+                    {
+                        sub => 'http://purl.obolibrary.org/obo/HP_0000002',
+                        obj => 'http://purl.obolibrary.org/obo/HP_0000001',
+                    },
+                ],
+            },
+        ],
+    };
+    my ( $nodes, $edges ) = parse_hpo_json($hpo);
+    is $nodes->{'http://purl.obolibrary.org/obo/HP_0000001'}{lbl}, 'All',
+      'parse_hpo_json indexes nodes by id';
+    is_deeply(
+        $edges->{'http://purl.obolibrary.org/obo/HP_0000002'},
+        ['http://purl.obolibrary.org/obo/HP_0000001'],
+        'parse_hpo_json groups parent edges by child id'
+    );
+    is_deeply(
+        Pheno::Ranker::Compare::add_hpo_ascendants(
+            'phenotypicFeatures.HP:0000002.featureType.id.HP:0000002',
+            $nodes,
+            $edges,
+        ),
+        ['phenotypicFeatures.HP:0000001.featureType.id.HP:0000001'],
+        'add_hpo_ascendants rewrites HPO ids to parent terms'
+    );
+
+    my $encoded = Pheno::Ranker::Compare::binary_to_base64('101001');
+    is Pheno::Ranker::Compare::_base64_to_binary( $encoded, 6 ), '101001',
+      'binary_to_base64 round-trips through _base64_to_binary';
+
+    my $binary_hash = create_binary_digit_string(
+        'export',
+        { a => 2, b => 1 },
+        { a => 2, b => 1, c => 3 },
+        { I1 => { a => 1, c => 1 }, I2 => { b => 1 } },
+    );
+    is $binary_hash->{I1}{binary_digit_string}, '101',
+      'create_binary_digit_string records unweighted bits';
+    is $binary_hash->{I1}{binary_digit_string_weighted}, '110111',
+      'create_binary_digit_string records weighted bits';
+    is(
+        Pheno::Ranker::Compare::_base64_to_binary(
+            $binary_hash->{I1}{zlib_base64_binary_digit_string}, 3
+        ),
+        '101',
+        'create_binary_digit_string exports compressed unweighted bits'
+    );
+
+    my $unweighted = create_binary_digit_string(
+        undef,
+        undef,
+        { a => 1, b => 1 },
+        { I1 => { b => 1 } },
+    );
+    is $unweighted->{I1}{binary_digit_string_weighted}, '01',
+      'create_binary_digit_string reuses unweighted bits without weights';
+
+    my $included_hash = { foo => 1, bar => 1, baz => 1 };
+    Pheno::Ranker::Compare::prune_excluded_included(
+        $included_hash,
+        { include_terms => ['bar'], exclude_terms => [] }
+    );
+    is_deeply $included_hash, { bar => 1 },
+      'prune_excluded_included keeps included terms';
+
+    my $excluded_hash = { foo => 1, bar => 1 };
+    Pheno::Ranker::Compare::prune_excluded_included(
+        $excluded_hash,
+        { include_terms => [], exclude_terms => ['foo'] }
+    );
+    is_deeply $excluded_hash, { bar => 1 },
+      'prune_excluded_included removes excluded terms';
+    throws_ok {
+        Pheno::Ranker::Compare::prune_excluded_included(
+            { foo => 1 },
+            { include_terms => ['foo'], exclude_terms => ['bar'] }
+        )
+    }
+    qr/mutually exclusive/,
+      'prune_excluded_included rejects simultaneous include and exclude';
+
+    my $array_key = Pheno::Ranker::Compare::add_id2key(
+        'medicalActions:0.treatment.routeOfAdministration.id',
+        { 'medicalActions:0.treatment.agent.id' => 'DrugCentral:1' },
+        {
+            config_file          => 'test-config.yaml',
+            format               => 'BFF',
+            id_correspondence    => { BFF => { medicalActions => ['treatment.agent.id'] } },
+            array_regex_qr       => qr/^([^:]+):(\d+)\.(.+)$/,
+            array_terms_regex_qr => qr/^(medicalActions):/,
+        }
+    );
+    is $array_key, 'medicalActions.DrugCentral:1.treatment.routeOfAdministration.id',
+      'add_id2key handles array id_correspondence entries';
+
+    is(
+        Pheno::Ranker::Compare::guess_label('top.level.leaf'),
+        'leaf',
+        'guess_label returns the final dotted segment'
+    );
+    is(
+        Pheno::Ranker::Compare::guess_label('undotted'),
+        'undotted',
+        'guess_label returns undotted strings unchanged'
+    );
+
+    throws_ok {
+        local $SIG{__WARN__} = sub { };
+        Pheno::Ranker::Compare::_base64_to_binary( 'not-base64', 8 )
+    }
+    qr/Decompression failed/,
+      '_base64_to_binary rejects invalid compressed payloads';
+
+    my $empty_remap = remap_hash(
+        {
+            hash => { id => 'I1' },
+            self => {
+                include_terms                  => ['missing'],
+                exclude_terms                  => [],
+                format                         => 'BFF',
+                retain_excluded_phenotypicFeatures => undef,
+                id_correspondence              => { BFF => {} },
+                array_regex_qr                 => qr/^([^:]+):(\d+)\.(.+)$/,
+                array_terms_regex_qr           => qr/^(foo):/,
+                age                            => 0,
+            },
+        }
+    );
+    is_deeply $empty_remap, {}, 'remap_hash returns an empty object after include pruning';
+
+    my $hpo_remap = remap_hash(
+        {
+            hash => {
+                id => 'I1',
+                phenotypicFeatures => [
+                    {
+                        featureType => {
+                            id    => 'HP:0000002',
+                            label => 'Child',
+                        },
+                    },
+                ],
+            },
+            weight => { phenotypicFeatures => 2 },
+            self   => {
+                include_terms                  => [],
+                exclude_terms                  => [],
+                format                         => 'BFF',
+                retain_excluded_phenotypicFeatures => undef,
+                id_correspondence              => { BFF => { phenotypicFeatures => 'featureType.id' } },
+                array_regex_qr                 => qr/^([^:]+):(\d+)\.(.+)$/,
+                array_terms_regex_qr           => qr/^(phenotypicFeatures):/,
+                age                            => 1,
+                nodes                          => $nodes,
+                edges                          => $edges,
+            },
+        }
+    );
+    ok exists $hpo_remap->{'phenotypicFeatures.HP:0000002.featureType.id.HP:0000002'},
+      'remap_hash includes original HPO feature';
+    ok exists $hpo_remap->{'phenotypicFeatures.HP:0000001.featureType.id.HP:0000001'},
+      'remap_hash includes HPO ascendants when ontology edges are provided';
+
+    my ( $matrix_fh, $matrix_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );
+    close $matrix_fh;
+    ok cohort_comparison(
+        {
+            A => { binary_digit_string_weighted => '00' },
+            B => { binary_digit_string_weighted => '11' },
+        },
+        {
+            out_file                  => $matrix_file,
+            similarity_metric_cohort  => 'hamming',
+            max_matrix_records_in_ram => 1,
+        }
+      ),
+      'cohort_comparison supports RAM-efficient mode';
+    like slurp($matrix_file), qr/^A\t0\t2/m, 'cohort_comparison writes expected distances';
+
+    my ( $verbose_matrix_fh, $verbose_matrix_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );
+    close $verbose_matrix_fh;
+    ok cohort_comparison(
+        {
+            A => { binary_digit_string_weighted => '00' },
+            B => { binary_digit_string_weighted => '11' },
+        },
+        {
+            out_file                  => $verbose_matrix_file,
+            similarity_metric_cohort  => 'hamming',
+            max_matrix_records_in_ram => 1,
+            debug                     => 1,
+        }
+      ),
+      'cohort_comparison covers debug logging branches';
+};
+
+subtest 'Ranker validates configuration and fast run branches' => sub {
+    my ( $bad_config_fh, $bad_config ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yaml', UNLINK => 1 );
+    close $bad_config_fh;
+    Pheno::Ranker::IO::write_yaml(
+        { filepath => $bad_config, data => { sort_by => 'hamming' } }
+    );
+    throws_ok { Pheno::Ranker->new( { config_file => $bad_config } ) }
+    qr/No <allowed terms>/,
+      'Ranker rejects configs without allowed_terms';
+
+    my ( $missing_correspondence_fh, $missing_correspondence ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yaml', UNLINK => 1 );
+    close $missing_correspondence_fh;
+    Pheno::Ranker::IO::write_yaml(
+        {
+            filepath => $missing_correspondence,
+            data     => {
+                allowed_terms => ['id'],
+                array_terms   => ['items'],
+            },
+        }
+    );
+    throws_ok { Pheno::Ranker->new( { config_file => $missing_correspondence } ) }
+    qr/No <id_correspondence>/,
+      'Ranker rejects array config without id_correspondence';
+
+    my ( $format_mismatch_fh, $format_mismatch ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yaml', UNLINK => 1 );
+    close $format_mismatch_fh;
+    Pheno::Ranker::IO::write_yaml(
+        {
+            filepath => $format_mismatch,
+            data     => {
+                allowed_terms     => ['id'],
+                array_terms       => ['items'],
+                format            => 'PXF',
+                id_correspondence => { BFF => { items => 'id' } },
+            },
+        }
+    );
+    throws_ok { Pheno::Ranker->new( { config_file => $format_mismatch } ) }
+    qr/does not match any key/,
+      'Ranker rejects format missing from id_correspondence';
+
+    throws_ok {
+        Pheno::Ranker->new(
+            ranker_args(
+                append_prefixes => ['A'],
+                reference_files => [ fixture('individuals.json') ],
+            )
+        )
+    }
+    qr/requires at least 2 cohort files/,
+      'Ranker validates append-prefix cohort count';
+
+    throws_ok {
+        Pheno::Ranker->new(
+            ranker_args(
+                append_prefixes => ['A'],
+                reference_files => [ fixture('individuals.json'), fixture('patient.json') ],
+            )
+        )
+    }
+    qr/number of items/,
+      'Ranker validates append-prefix item count';
+
+    throws_ok {
+        Pheno::Ranker->new( ranker_args( patients_of_interest => ['missing'] ) )
+    }
+    qr/must be used with <--r>/,
+      'Ranker validates POI requires a reference cohort';
+
+    throws_ok {
+        Pheno::Ranker->new(
+            ranker_args(
+                reference_files => [ fixture('individuals.json') ],
+                align           => catfile( $tmpdir, 'missing-dir', 'align' ),
+                out_file        => temp_output_file(),
+            )
+        )->run;
+    }
+    qr/Directory .* does not exist \(used with --align\)/,
+      'Ranker validates align output directory';
+
+    throws_ok {
+        Pheno::Ranker->new(
+            ranker_args(
+                reference_files => [ fixture('individuals.json') ],
+                export          => catfile( $tmpdir, 'missing-dir', 'export' ),
+                out_file        => temp_output_file(),
+            )
+        )->run;
+    }
+    qr/Directory .* does not exist \(used with --export\)/,
+      'Ranker validates export output directory';
+
+    my $poi_dir = tempdir( DIR => $tmpdir, CLEANUP => 1 );
+    ok(
+        Pheno::Ranker->new(
+            ranker_args(
+                reference_files      => [ fixture('individuals.json') ],
+                out_file             => temp_output_file(),
+                patients_of_interest => ['107:week_0_arm_1'],
+                poi_out_dir          => $poi_dir,
+            )
+        )->run,
+        'Ranker POI dry-run returns successfully'
+    );
+    ok -f catfile( $poi_dir, '107:week_0_arm_1.json' ),
+      'Ranker POI dry-run writes the selected individual';
+
+    my ( $export_fh, $export_base ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.export', UNLINK => 1 );
+    close $export_fh;
+    unlink $export_base;
+    ok(
+        Pheno::Ranker->new(
+            ranker_args(
+                reference_files => [ fixture('individuals.json') ],
+                out_file        => temp_output_file(),
+                export          => $export_base,
+            )
+        )->run,
+        'Ranker serializes export hashes'
+    );
+    ok -f "$export_base.glob_hash.json", 'Ranker writes exported glob hash';
+};
+
+done_testing;
+
+sub slurp {
+    my $file = shift;
+    open my $fh, '<:encoding(UTF-8)', $file;
+    local $/;
+    return <$fh>;
+}
+
+sub ranker_args {
+    my (%override) = @_;
+
+    my %args = (
+        age                       => 0,
+        align                     => undef,
+        align_basename            => 'alignment',
+        append_prefixes           => [],
+        cli                       => undef,
+        config_file               => undef,
+        cytoscape_json            => undef,
+        debug                     => undef,
+        exclude_terms             => [],
+        export                    => undef,
+        graph_stats               => undef,
+        hpo_file                  => undef,
+        include_hpo_ascendants    => undef,
+        include_terms             => [],
+        log                       => '',
+        max_matrix_records_in_ram => undef,
+        max_number_vars           => undef,
+        max_out                   => 36,
+        out_file                  => temp_output_file(),
+        patients_of_interest      => [],
+        poi_out_dir               => undef,
+        reference_files           => [],
+        sort_by                   => undef,
+        similarity_metric_cohort  => undef,
+        target_file               => undef,
+        verbose                   => undef,
+        weights_file              => undef,
+    );
+
+    @args{ keys %override } = values %override;
+    return \%args;
+}

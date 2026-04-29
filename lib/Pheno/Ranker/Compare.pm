@@ -8,7 +8,8 @@ use List::Util qw(any shuffle first);
 use Data::Dumper;
 use Sort::Naturally qw(nsort);
 use MIME::Base64;
-use Compress::Zlib qw(compress);
+use Compress::Zlib qw(compress uncompress);
+use JSON::XS;
 use Hash::Fold fold => { array_delimiter => ':' };
 use Pheno::Ranker::Metrics;
 

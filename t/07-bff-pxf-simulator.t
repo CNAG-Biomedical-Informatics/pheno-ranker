@@ -1,16 +1,17 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use File::Spec::Functions qw(catfile);
-use File::Temp qw{ tempfile };    # core
+use File::Spec;
 use Test::More tests => 3;        # Indicate the number of tests you want to run
 use File::Compare;
+use lib qw(./lib ../lib t/lib);
+use Test::PhenoRanker qw(fixture temp_output_file);
 
 # Seed for srand
 my $seed = 123456789;
 
 # The command line script to be tested
-my $script = catfile( 'utils', 'bff_pxf_simulator', 'bff-pxf-simulator' );
+my $script = File::Spec->catfile( 'utils', 'bff_pxf_simulator', 'bff-pxf-simulator' );
 my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
 
 ##########
@@ -19,11 +20,10 @@ my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
 
 {
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'individuals_random_100.json' );
+    my $reference_file = fixture('individuals_random_100.json');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
@@ -43,11 +43,10 @@ my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
 
 {
     # The reference file to compare the output with
-    my $reference_file = catfile( 't', 'pxf_random_100.json' );
+    my $reference_file = fixture('pxf_random_100.json');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
@@ -69,12 +68,11 @@ my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
 {
     # The reference file to compare the output with
     my $reference_file =
-      catfile( 't', 'individuals_random_100_ontologies.json' );
-    my $ont_file = catfile( 't', 'ontologies.yaml' );
+      fixture('individuals_random_100_ontologies.json');
+    my $ont_file = fixture('ontologies.yaml');
 
     # The generated output file
-    my ( undef, $tmp_file ) =
-      tempfile( DIR => 't', SUFFIX => ".json", UNLINK => 1 );
+    my $tmp_file = temp_output_file();
 
     # Run the command line script with the input file, and redirect the output to the output_file
     system(
