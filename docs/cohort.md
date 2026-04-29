@@ -33,6 +33,24 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     ??? Example "See `matrix.txt`"
         --8<-- "tbl/matrix.md"
 
+    ??? Tip "Sparse Matrix Market output"
+        By default, cohort mode writes a dense tab-separated matrix (`matrix.txt`). For large cohorts, you can instead write a sparse [Matrix Market](https://math.nist.gov/MatrixMarket/formats.html) coordinate file:
+
+        ```bash
+        pheno-ranker -r individuals.json --matrix-format mtx -o matrix.mtx
+        ```
+
+        The `mtx` format stores one triangle of the symmetric matrix and writes only non-zero values. It is always RAM-light and does not use the dense in-memory matrix cache controlled by `--max-matrix-records-in-ram`.
+
+        The Matrix Market file includes comment lines mapping 1-based matrix indexes back to individual IDs:
+
+        ```text
+        % id 1 107:week_0_arm_1
+        % id 2 107:week_2_arm_1
+        ```
+
+        Matrix output and Cytoscape graph output are generated independently. This means `--matrix-format mtx` can be combined with `--cytoscape-json`.
+
     ??? Tip "Defining the similarity metric"
         Use the flag `--similarity-metric-cohort`. The default value is `hamming`. The alternative value is `jaccard`.
 
@@ -115,7 +133,21 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
         ```bash
         pheno-ranker -r individuals.json --cytoscape-json
         ```
-        This command generates a `graph.json` file, as well as a `matrix.txt` file.
+        This command generates a `graph.json` file, as well as a `matrix.txt` file. The graph is generated directly from the binary comparison hashes, not by parsing the matrix file, so it can also be combined with Matrix Market output:
+
+        ```bash
+        pheno-ranker -r individuals.json --matrix-format mtx -o matrix.mtx --cytoscape-json graph.json
+        ```
+
+        Large graphs can be filtered by edge weight:
+
+        ```bash
+        # Hamming distance: keep close pairs
+        pheno-ranker -r individuals.json --cytoscape-json --graph-max-weight 10
+
+        # Jaccard similarity: keep highly similar pairs
+        pheno-ranker -r individuals.json --similarity-metric-cohort jaccard --cytoscape-json --graph-min-weight 0.7
+        ```
 
         To produce summary statistics, use:
 

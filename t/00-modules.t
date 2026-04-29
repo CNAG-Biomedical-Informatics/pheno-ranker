@@ -29,65 +29,46 @@ use Pheno::Ranker::Compare::Remap;
 my $tmpdir = tempdir( CLEANUP => 1 );
 
 subtest 'Graph helpers can build and summarize Cytoscape graphs' => sub {
-    my ( $matrix_fh, $matrix_file ) =
-      tempfile( DIR => $tmpdir, SUFFIX => '.tsv', UNLINK => 1 );
-    my ( $graph_fh, $graph_file ) =
+    my ( $binary_graph_fh, $binary_graph_file ) =
       tempfile( DIR => $tmpdir, SUFFIX => '.json', UNLINK => 1 );
-    close $matrix_fh;
-    close $graph_fh;
-
-    write_array2txt(
+    close $binary_graph_fh;
+    my $binary_graph = binary_hash2graph(
         {
-            filepath => $matrix_file,
-            data     => [
-                "\tA\tB\tC",
-                "A\t0\t1\t0",
-                "B\t1\t0\t2",
-                "C\t0\t2\t0",
-            ],
+            ref_binary_hash => {
+                A => { binary_digit_string_weighted => '00' },
+                B => { binary_digit_string_weighted => '10' },
+                C => { binary_digit_string_weighted => '01' },
+            },
+            json             => $binary_graph_file,
+            metric           => 'hamming',
+            graph_stats      => 1,
+            graph_max_weight => 1,
         }
     );
+    is scalar @{ $binary_graph->{elements}{nodes} }, 3,
+      'binary_hash2graph creates all nodes directly from binary hashes';
+    is scalar @{ $binary_graph->{elements}{edges} }, 2,
+      'binary_hash2graph applies max-weight filtering';
+    is_deeply read_json($binary_graph_file), $binary_graph,
+      'binary_hash2graph writes the graph JSON';
 
-    my $graph = matrix2graph(
+    my ( $unfiltered_graph_fh, $unfiltered_graph_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.json', UNLINK => 1 );
+    close $unfiltered_graph_fh;
+    my $graph = binary_hash2graph(
         {
-            matrix      => $matrix_file,
-            json        => $graph_file,
+            ref_binary_hash => {
+                A => { binary_digit_string_weighted => '00' },
+                B => { binary_digit_string_weighted => '10' },
+                C => { binary_digit_string_weighted => '01' },
+            },
+            json        => $unfiltered_graph_file,
+            metric      => 'hamming',
             graph_stats => 1,
         }
     );
-
-    is scalar @{ $graph->{elements}{nodes} }, 3, 'matrix2graph creates all nodes';
-    is scalar @{ $graph->{elements}{edges} }, 3, 'matrix2graph creates upper-triangle edges';
-    is_deeply read_json($graph_file), $graph, 'matrix2graph writes the graph JSON';
-
-    my ( $empty_fh, $empty_graph_file ) =
-      tempfile( DIR => $tmpdir, SUFFIX => '.json', UNLINK => 1 );
-    close $empty_fh;
-
-    my ( $negative_fh, $negative_matrix_file ) =
-      tempfile( DIR => $tmpdir, SUFFIX => '.tsv', UNLINK => 1 );
-    close $negative_fh;
-
-    write_array2txt(
-        {
-            filepath => $negative_matrix_file,
-            data     => [
-                "\tA\tB",
-                "A\t0\t-1",
-                "B\t-1\t0",
-            ],
-        }
-    );
-
-    ok !defined matrix2graph(
-        {
-            matrix => $negative_matrix_file,
-            json   => $empty_graph_file,
-        }
-      ),
-      'matrix2graph returns undef unless graph stats are requested';
-    is scalar @{ read_json($empty_graph_file)->{elements}{edges} }, 0,
-      'matrix2graph skips weights below the threshold';
+    is scalar @{ $graph->{elements}{edges} }, 3,
+      'binary_hash2graph writes upper-triangle graph edges';
 
     my ( $stats_fh, $stats_file ) =
       tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );
@@ -558,6 +539,30 @@ subtest 'Compare helpers cover deterministic transforms and exports' => sub {
       ),
       'cohort_comparison supports RAM-efficient mode';
     like slurp($matrix_file), qr/^A\t0\t2/m, 'cohort_comparison writes expected distances';
+
+    my ( $mtx_fh, $mtx_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.mtx', UNLINK => 1 );
+    close $mtx_fh;
+    ok cohort_comparison(
+        {
+            A => { binary_digit_string_weighted => '00' },
+            B => { binary_digit_string_weighted => '11' },
+        },
+        {
+            out_file                  => $mtx_file,
+            similarity_metric_cohort  => 'hamming',
+            max_matrix_records_in_ram => 1,
+            matrix_format             => 'mtx',
+        }
+      ),
+      'cohort_comparison writes Matrix Market sparse output';
+    my $mtx = slurp($mtx_file);
+    like $mtx, qr/^%%MatrixMarket matrix coordinate real symmetric/m,
+      'Matrix Market output has coordinate symmetric header';
+    like $mtx, qr/^\s*2\s+2\s+1\s*$/m,
+      'Matrix Market output records sparse matrix dimensions and nonzero count';
+    like $mtx, qr/^1 2 2$/m,
+      'Matrix Market output records upper-triangle nonzero distance';
 
     my ( $verbose_matrix_fh, $verbose_matrix_file ) =
       tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );

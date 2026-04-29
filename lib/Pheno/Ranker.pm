@@ -72,6 +72,11 @@ has similarity_metric_cohort => (
     isa => Enum [qw(hamming jaccard)]
 );
 
+has matrix_format => (
+    is  => 'ro',
+    isa => Enum [qw(dense mtx)]
+);
+
 has max_out => (
     is  => 'ro',
     isa => Int
@@ -85,6 +90,14 @@ has max_number_vars => (
 has max_matrix_records_in_ram => (
     is  => 'ro',
     isa => Int
+);
+
+has graph_min_weight => (
+    is => 'ro',
+);
+
+has graph_max_weight => (
+    is => 'ro',
 );
 
 has hpo_file => (
@@ -152,6 +165,10 @@ sub BUILD {
         die "<--patients-of-interest> must be used with <--r>\n"
           unless @{ $self->{reference_files} };
     }
+    if ( $self->{matrix_format} eq 'mtx' ) {
+        die "<--matrix-format mtx> only works in cohort mode\n"
+          if $self->{target_file};
+    }
 }
 
 # ============================================================
@@ -198,7 +215,7 @@ sub run {
     }
 
     $self->_maybe_run_cohort_comparison($ref_binary_hash);
-    $self->_maybe_write_graph;
+    $self->_maybe_write_graph($ref_binary_hash);
     $self->_maybe_process_patient(
         {
             weight          => $weight,
@@ -293,13 +310,15 @@ sub _maybe_run_cohort_comparison {
 }
 
 sub _maybe_write_graph {
-    my $self = shift;
+    my ( $self, $ref_binary_hash ) = @_;
 
     $self->_perform_graph_calculations(
-        $self->{out_file},
+        $ref_binary_hash,
         $self->{cytoscape_json},
         $self->{graph_stats},
-        $self->{similarity_metric_cohort}
+        $self->{similarity_metric_cohort},
+        $self->{graph_min_weight},
+        $self->{graph_max_weight}
     );
 
     return 1;
@@ -539,18 +558,21 @@ sub _process_patient_data {
 }
 
 sub _perform_graph_calculations {
-    my ( $self, $out_file, $cytoscape_json, $graph_stats,
-        $similarity_metric_cohort )
+    my ( $self, $ref_binary_hash, $cytoscape_json, $graph_stats,
+        $similarity_metric_cohort, $graph_min_weight, $graph_max_weight )
       = @_;
 
     my $graph;
     if ($cytoscape_json) {
-        $graph = matrix2graph(
+        $graph = binary_hash2graph(
             {
-                matrix      => $out_file,
-                json        => $cytoscape_json,
-                graph_stats => 1,
-                verbose     => $self->{verbose},
+                ref_binary_hash  => $ref_binary_hash,
+                json             => $cytoscape_json,
+                metric           => $similarity_metric_cohort,
+                graph_stats      => 1,
+                graph_min_weight => $graph_min_weight,
+                graph_max_weight => $graph_max_weight,
+                verbose          => $self->{verbose},
             }
         );
     }
