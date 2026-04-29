@@ -46,7 +46,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
 
     ### Creating a configuration file
     
-    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
+    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/data/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
     
     ```yaml
     # Set the format
@@ -109,7 +109,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ## Example 1: Let's start by using all terms
 
     ```bash
-    pheno-ranker -r t/movies.json --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json --config t/data/movies_config.yaml
     ```
 
     The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
@@ -128,7 +128,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ## Example 2: Let's cluster by year
 
     ```bash
-    pheno-ranker -r t/movies.json --include-terms year --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json --include-terms year --config t/data/movies_config.yaml
     ```
 
     <figure markdown>
@@ -139,7 +139,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ## Example 3: Let's cluster by `genre`
 
     ```bash
-    pheno-ranker -r t/movies.json --include-terms genre --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json --include-terms genre --config t/data/movies_config.yaml
     ```
 
     <figure markdown>
@@ -149,7 +149,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 4: Let's apply weights to `genre`
 
-    We will use the file `t/movies_weigths.yaml` that has the following content:
+    We will use the file `t/data/movies_weights.yaml` that has the following content:
 
     ```yaml
     ---
@@ -157,7 +157,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ```
 
     ```bash
-    pheno-ranker -r t/movies.json --include-terms genre --w t/movies_weigths.yaml --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json --include-terms genre --w t/data/movies_weights.yaml --config t/data/movies_config.yaml
     ```
 
     <figure markdown>
@@ -170,7 +170,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     `Pheno-ranker` can export `matrix.txt` in a `JSON` format that is compatible with [Cytoscape](https://cytoscape.org) ecosystem:
 
     ```bash
-    pheno-ranker -r t/movies.json --cytoscape-json cytoscape.json --graph-stats graph_stats.txt --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json --cytoscape-json cytoscape.json --graph-stats graph_stats.txt --config t/data/movies_config.yaml
     ```
 
     !!! Question "Directed or undirected graph?" 
@@ -208,10 +208,10 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 1: Default catalog (cohort) nomenclature 
 
-    For demonstration purposes, in this example we are re-using the same file (`t/movies.json`)
+    For demonstration purposes, in this example we are re-using the same file (`t/data/movies.json`)
 
     ```bash
-    pheno-ranker -r t/movies.json t/movies.json --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json t/data/movies.json --config t/data/movies_config.yaml
     ```
 
     After executing this command you will obtain a file named `matrix.txt` which is a matrix consisting of all (25+25)*(25+25) pairwise comparisons.
@@ -230,7 +230,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     ## Example 2: Set up catalog nomenclature prefixes 
 
     ```bash
-    pheno-ranker -r t/movies.json t/movies.json t/movies.json --append-prefixes NETFLIX HBO PRIME_VIDEO --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json t/data/movies.json t/data/movies.json --append-prefixes NETFLIX HBO PRIME_VIDEO --config t/data/movies_config.yaml
     ```
 
     <figure markdown>
@@ -247,7 +247,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     To single out the 'Interstellar' movie data:
 
     ```bash
-    pheno-ranker -r t/movies.json --patients-of-interest Interstellar --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json --patients-of-interest Interstellar --config t/data/movies_config.yaml
     ```
 
     This command will carry out a dry-run, producing an extracted JSON object named `Interstellar.json`.
@@ -272,7 +272,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     Next, run the following command to initiate the ranking process:
 
     ```bash
-    pheno-ranker -r t/movies.json -t Interstellar.json --config t/movies_config.yaml
+    pheno-ranker -r t/data/movies.json -t Interstellar.json --config t/data/movies_config.yaml
     ```
 
     This will output the results to the console and additionally save them in a file titled `rank.txt`.
@@ -284,7 +284,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     Of course you can perform tha ranking against multiple cohorts and select specific terms.
 
     ```bash
-    pheno-ranker -r t/movies.json t/movies.json --append-prefixes NETFLIX HBO -t Interstellar.json --include-terms genre year --config t/movies_config.yaml --max-out 10
+    pheno-ranker -r t/data/movies.json t/data/movies.json --append-prefixes NETFLIX HBO -t Interstellar.json --include-terms genre year --config t/data/movies_config.yaml --max-out 10
     ```
 
     ??? Example "See `rank.txt`"

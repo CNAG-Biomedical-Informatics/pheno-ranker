@@ -13,8 +13,8 @@ As an input, `Pheno-Ranker` accepts data from the [individuals](https://docs.gen
 ??? Tip "Browsing BFF `JSON` data"
     You can browse a public BFF v2 file with the following **JSON viewers**:
 
-    * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/t/individuals.json)
-    * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fpheno-ranker%2Fmain%2Ft%2Findividuals.json#/data?sql=select+*+from+individuals)
+    * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/t/data/individuals.json)
+    * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fpheno-ranker%2Fmain%2Ft%2Fdata%2Findividuals.json#/data?sql=select+*+from+individuals)
 
 ## BFF (individuals) as input ![BFF](https://avatars.githubusercontent.com/u/33450937?s=200&v=4){ width="20" }
 
@@ -44,4 +44,3 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     The **output** will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See aditional details in the [Patient Mode](patient.md) page.
    
     For more information visit the [patient mode](patient.md) page.
-

@@ -15,7 +15,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
     ??? Question "How do I extract one or many patients from a cohort file?"
 
         ```bash
-        pheno-ranker -r t/individuals.json --patients-of-interest 107:week_0_arm_1 125:week_0_arm_1
+        pheno-ranker -r t/data/individuals.json --patients-of-interest 107:week_0_arm_1 125:week_0_arm_1
         ```
 
         This command will carry out a dry-run, creating `107:week_0_arm_1.json` and `125:week_0_arm_1.json` files.

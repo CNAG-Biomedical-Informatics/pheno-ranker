@@ -397,7 +397,7 @@ Frequently Asked Questions
 
     Absolutely, you can—the possibilities are endless! :smile:
 
-    `Pheno-Ranker` can generate graph data in [JSON format](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/graph.json) which is compatible with the [Cytoscape](https://cytoscape.org/) ecosystem. To create a graph, you can execute the following command:
+    `Pheno-Ranker` can generate graph data in [JSON format](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/data/graph.json) which is compatible with the [Cytoscape](https://cytoscape.org/) ecosystem. To create a graph, you can execute the following command:
 
     ```bash
     pheno-ranker -r individuals.json --cytoscape-json cytoscape_graph.json
