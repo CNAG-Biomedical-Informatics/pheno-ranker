@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} .
+          docker build -f docker/Dockerfile -t manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} .
           docker tag manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }} manuelrueda/pheno-ranker:latest
 
       - name: Login to Docker Hub

@@ -3,7 +3,7 @@
 SHELL := /bin/bash
 
 install:
-	docker build -t cnag/pheno-ranker:latest .
+	docker build -f docker/Dockerfile -t cnag/pheno-ranker:latest .
 
 run:
 	docker run -tid --name pheno-ranker cnag/pheno-ranker:latest
