@@ -35,7 +35,7 @@ Let's go!
 We are going to be using the included [Python script](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py)
 
 ??? Question "Can the `VCF` be multi-allelic?"
-    Yes, the `VCF` can me multi-allelic. This is how variant information is stored:
+    Yes, the `VCF` can be multi-allelic. This is how variant information is stored:
 
     ```json
     "1_15274_A_G,T" : "0|0",
@@ -63,7 +63,7 @@ utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py -i test_1000G.vcf.gz -o output.ts
 utils/csv2pheno_ranker/csv2pheno-ranker -i output.tsv -primary-key-name 'Sample ID'
 ```
 
-Where the created `output.json` has the following format format:
+Where the created `output.json` has the following format:
 
 ```json
 [
@@ -86,6 +86,15 @@ bin/pheno-ranker -r output.json -config output_config.yaml
 ```
 
 This created the file `matrix.txt`. It's a huge matrix of 2504 x 2504 pairwise-comparisons.
+
+!!! Tip "Large outputs"
+    The default output is a dense `matrix.txt`, which is useful for the included R scripts. If you only need a sparse matrix for downstream tools, use Matrix Market output:
+
+    ```bash
+    bin/pheno-ranker -r output.json -config output_config.yaml --matrix-format mtx -o output.mtx
+    ```
+
+    For graph exports, filter edges explicitly with `--graph-max-weight` for Hamming distance or `--graph-min-weight` for Jaccard.
 
 === "Heatmap and clustering"
 
@@ -171,8 +180,3 @@ utils/barcode/barcode2pheno-ranker -i $(ls -1 qr_codes/*png | head -10) -t expor
 
 ```
 This will create the file `decoded.json`
-
-Enjoy!
-
-:smile:
-

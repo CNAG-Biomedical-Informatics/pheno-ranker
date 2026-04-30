@@ -71,6 +71,15 @@ Rscript ../pheno-ranker/share/r/mds.R
      ![Output](img/phenopackets-corpus/mds.png){ width="600" }
     </figure>
 
+!!! Tip "Large outputs"
+    The default cohort output is a dense `matrix.txt`, which is useful for the included R scripts. For larger cohorts or sparse downstream workflows, write Matrix Market output instead:
+
+    ```bash
+    ../pheno-ranker/bin/pheno-ranker -r combined.json --matrix-format mtx -o combined.mtx
+    ```
+
+    For graph exports, use `--graph-max-weight` with Hamming distance or `--graph-min-weight` with Jaccard to avoid very dense networks.
+
 From now on, we will focus on the `phenotypicFeatures` terms, as ideally, we would like to use them to classify patients.
 
 ```bash
@@ -137,7 +146,7 @@ We will create a graph but we will be using only data from 50 patients to make i
 
 ```bash
 jq -c '.[]' combined.json | shuf -n 50 | jq -s '.' > combined_small.json
-../pheno-ranker/bin/pheno-ranker -r combined_small.json -include-terms phenotypicFeatures --cytoscape-json corpus_cytoscape.json
+../pheno-ranker/bin/pheno-ranker -r combined_small.json -include-terms phenotypicFeatures --cytoscape-json corpus_cytoscape.json --graph-max-weight 10
 ``` 
 
 ???+ Example "Display plot"
@@ -210,9 +219,8 @@ There might be cases where you want to retain `phenotypicFeatures` set to `"excl
 
 # Citation
 
-Please if you find use any ot this information for your research please cite:
+If you use any of this information for your research, please cite:
 
 1.	[Phenopacket Corpus](https://www.cell.com/hgg-advances/fulltext/S2666-2477(24)00111-8). 
 
 2.	[Pheno-Ranker publication](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-024-05993-2).
-

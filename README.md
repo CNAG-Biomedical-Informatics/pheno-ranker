@@ -64,7 +64,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -a, --align [path/basename]      Write alignment file(s). If not specified, default filenames are used [default: alignment.*]
         -append-prefixes <prefixes>      Prefixes for primary_key when #cohorts >= 2 [default: C]
         -config <file>                   YAML config file to modify default parameters [default: share/conf/config.yaml]
-        -cytoscape-json [file]           Serializes the pairwise comparison matrix as an undirected graph in JSON, compatible with Cytoscape [default: graph.json]
+        -cytoscape-json [file]           Writes an undirected graph in Cytoscape-compatible JSON [default: graph.json]
         -e, --export [path/basename]     Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
         -exclude-terms <terms>           Exclude BFF/PXF terms (e.g., --exclude-terms sex id) or column names in JSON-derived from CSV 
         -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
@@ -72,7 +72,7 @@ pheno-ranker: A script that performs semantic similarity in PXF/BFF data structu
         -graph-max-weight <number>        Keep graph edges with weight less than or equal to this value
         -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
         -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
-        -max-matrix-items-in-ram <number>   In cohort mode, set max items before switching to RAM-efficient mode (default: 5000)
+        -max-matrix-records-in-ram <number> In cohort mode, set max records before switching to RAM-efficient mode (default: 5000)
         -matrix-format <format>          Matrix output format in cohort mode [>dense|mtx]
         -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
         -max-out <number>                Print only N comparisons [default: 50]

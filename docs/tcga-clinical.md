@@ -57,6 +57,15 @@ time ../pheno-ranker/bin/pheno-ranker -r clinical_filtered.json -e tcga -config 
 
 This calculation takes approximately **1:15 min** (1 core on an Apple M2 Pro). The `--max-matrix-records-in-ram 10000` flag improves efficiency by utilizing RAM, making the process about **2x faster**.
 
+!!! Tip "Large outputs"
+    The default cohort output is a dense `matrix.txt`, which is convenient for the included R scripts but can become large. If you do not need a dense matrix, use Matrix Market output:
+
+    ```bash
+    time ../pheno-ranker/bin/pheno-ranker -r clinical_filtered.json -e tcga -config clinical_filtered_config.yaml --matrix-format mtx -o tcga.mtx
+    ```
+
+    For graph exports on large cohorts, filter edges explicitly. With Hamming distance, use `--graph-max-weight` to keep close pairs; with Jaccard, use `--graph-min-weight` to keep highly similar pairs.
+
 Feel free to browse the miscellaneous data created as `tcga*`.
 
 Since we have many variables that provide no value, we will add the following line to `clinical_filtered_config.yaml`. You can check which variables are used in `tcga.glob_hash.json`.
@@ -152,13 +161,13 @@ REF -- TAR
 
 ### All-to-All Precomputed Similarity
 
-We’ve precomputed pairwise similarity scores for every GDC case (including TCGA projects) 🔢 and stored them in a backend database 💾. Our proof-of-concept web app lets you enter any GDC case ID (`TAR-UUID`) or filter by any database column—🔎 and instantly retrieve the top five most similar cases.
+We have precomputed pairwise similarity scores for every GDC case, including TCGA projects, and stored them in a backend database. The proof-of-concept web app lets you enter any GDC case ID (`TAR-UUID`) or filter by any database column and retrieve the top five most similar cases.
 
 [Go to the Pheno-Ranker Use Cases Playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/). Note that you will need to select TCGA tab.
 
 
-!!! Warning "Proof-of-concept 🚧"
-    Please note that the current interface is experimental—we welcome your feedback 💬 and are actively working on new features ✨, performance optimizations ⚙️, and an improved user experience 😊.
+!!! Warning "Proof-of-concept"
+    The current interface is experimental and intended to demonstrate the workflow.
 
     At this time, we don’t display the matched HPO terms—this feature will be available in a future release. However, each result includes a clickable link to the corresponding GDC case entry, so you can quickly review the detailed information.  
 

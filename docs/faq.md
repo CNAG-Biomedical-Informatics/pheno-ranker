@@ -17,13 +17,9 @@ Frequently Asked Questions
     
         Made with [Notebook LM](https://notebooklm.google.com)
 
-    ##### last change 2024-12-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Is `Pheno-Ranker` free?"
 
     Yes. See the [license](https://github.com/mrueda/pheno-ranker/blob/main/LICENSE).
-
-    ##### last change 2023-09-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Where can I find the Web App user interface?"
 
@@ -34,15 +30,11 @@ Frequently Asked Questions
     **Username:** `pheno`  
     **Password:** `ranker`
 
-    ##### last change 2024-04-01 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Can I export term coverage and intermediate files?"
 
     Yes. It is possible to export a file indicating **coverage** for each term (i.e., 1D-keys) as well as all **intermediate files** using the flag `--e`.
 
     On top of that, in _patient mode_, alignment files can be obtained by using `--align`.
-
-    ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "How can I exclude a given variable?"
 
@@ -51,8 +43,6 @@ Frequently Asked Questions
     1. Utilize the `--include-terms` or `--exclude-terms` options in the command-line interface (CLI).
     2. Implement a regular expression (regex) in the configuration file using the `exclude_variables_regex` parameter.
     3. Assign a weight of zero to the variable in a weights file (indicated by the `--w` flag). This approach offers the most detailed control over variable exclusion.
-
-    ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Do you have estimates on CPU time and RAM depending on size?"
 
@@ -92,13 +82,9 @@ Frequently Asked Questions
         pheno-ranker -r individuals.json --similarity-metric-cohort jaccard --cytoscape-json --graph-min-weight 0.7
         ```
 
-    ##### last change 2023-12-22 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Can I use `pedigrees` term in `BFF`?"
 
     A priori, you can, but the term `pedigrees` is excluded by default via [configuration file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/share/conf/config.yaml). Pedigrees are often case-related, so the information is not relevant for comparison to other cases. Additionally, it contains deeply nested data structures. If you want to include it, please modify the default configuration file and use it with the `--config <your-config-file>` option.
-
-    ##### last change 2024-09-27 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "How does `Pheno-Ranker` treat empty and missing values?"
 
@@ -192,15 +178,11 @@ Frequently Asked Questions
 
     When handling missing values within the context of Pheno-Ranker, it's essential to consider the specific characteristics of your dataset, the nature of missingness, and the potential impact on downstream analyses
 
-    ##### last change 2024-08-04 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Should I use **Hamming** distance or **Jaccard** index?"
 
     This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. Note also that **Hamming** distance calculation is **faster** than **Jaccard** (**O(N) vs. O(N) to O(N log N)**), and this difference becomes noticeable when comparing thousands of variables.
 
     We recommend checking results with both and assessing them rationally. 
-
-    ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Can I use pre-computed data?"
 
@@ -227,13 +209,9 @@ Frequently Asked Questions
     !!! Warning "What happens if I don't exclude/include terms in patient mode?"
         As the global vector is built using the reference cohort(s), it's really not that important. However, one value that can be affected is the **INTERSECT-RATE(%)**, as it uses all the variables for the target. If you don't restrict it, it may account for terms not present in the precomputed data.
 
-    ##### last change 2025-01-31 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "What is the difference between *Pheno-Ranker Web App UI* and *Pheno-Ranker App*?"
 
     The [Web App UI](https://pheno-ranker.cnag.eu) is a fully functional web user interface built with `R-Shiny`. The [App](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app) is a graphical user interface (GUI) in `Python` designed for those who prefer not to use the command-line interface (CLI). While still experimental, we aim to improve it in the future by incorporating AI agents.
-
-    ##### last change 2023-11-27 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ### Pre-processing
 
@@ -249,8 +227,6 @@ Frequently Asked Questions
     jq --argjson ids "$(printf '%s\n' "${ids[@]}" | jq -R -s -c 'split("\n")')" 'map(select(.id | IN($ids[])))' < individuals.json > subset.json
 
     ```
-
-    ##### last change 2024-07-02 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "I have noticed that in _cohort mode_, `Pheno-Ranker` takes as input an array of objects. Does it also support independent `JSON` files (one per patient)?"
 
@@ -288,14 +264,9 @@ Frequently Asked Questions
         echo ']'
         ```
 
-    ##### last change 2024-04-16 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Do you account for `BFF/PXF` schema versions?"
 
     As of August 2024, we do not explicitly account for BFF/PXF schema versions. In some cases, BFF data may not include a version, requiring us to infer changes. However, most schema updates are downstream and do not impact term-level data. As a result, the overall effect of comparing data from different schema versions is typically minimal. We assume that users are aware of the versions they are working with and understand the implications of using data from different schema versions.
-
-    ##### last change 2024-08-11 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 
 ### Post-processing
 
@@ -323,9 +294,7 @@ Frequently Asked Questions
     jq -r 'to_entries[] | [.key, .value.zlib_base64_binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,zlib_base64_binary_digit_string"}{print}' > output.csv
     ``` 
 
-    If you are reading this, it's because you know what you are doing :smile:. You might want to check the [QR-codes page]( qr-code-generator.md).
-
-    ##### last change 2023-10-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    If you are storing compact binary-vector representations, you may also want to check the [QR-codes page](qr-code-generator.md).
 
 ??? faq "Can I Perform MDS with Jaccard Indices?"
     Yes, you can perform Multidimensional Scaling (MDS) using a matrix of Jaccard indices. To use MDS, which typically requires dissimilarity data, you'll need to convert your Jaccard similarity matrix into a dissimilarity matrix. This is done by subtracting the Jaccard similarity scores from 1, where the formula is:
@@ -355,8 +324,6 @@ Frequently Asked Questions
     ...
     ```
 
-    ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Can I convert a Hamming distance matrix to a similarity matrix?"
      
     First of all, if you are seeking a similarity metric, you might want to consider using `jaccard` as a metric. However, if you wish to convert a distance-based matrix to a similarity matrix, you can use the following formula:
@@ -383,11 +350,9 @@ Frequently Asked Questions
     ...
     ```
 
-    ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "How can I convert a Hamming distance matrix to a standardized matrix?"
 
-    We recommed using `R` for this task. See example below:
+    We recommend using `R` for this task. See example below:
 
     Example `R` code:
 
@@ -409,19 +374,27 @@ Frequently Asked Questions
     write.table(standardized_matrix, "standardized_matrix.txt", sep = "\t", quote = FALSE, col.names = NA)
     ```
 
-    ##### last change 2024-11-26 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ??? faq "Can I create network/graph plots from `Pheno-Ranker` output data?"
 
-    Absolutely, you can—the possibilities are endless! :smile:
+    Yes. `Pheno-Ranker` can generate graph data in [JSON format](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/data/graph.json), compatible with the [Cytoscape](https://cytoscape.org/) ecosystem. The graph is generated directly from pairwise comparison data and can be produced independently from the dense `matrix.txt` output.
 
-    `Pheno-Ranker` can generate graph data in [JSON format](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/data/graph.json) which is compatible with the [Cytoscape](https://cytoscape.org/) ecosystem. To create a graph, you can execute the following command:
+    To create a graph, run:
 
     ```bash
     pheno-ranker -r individuals.json --cytoscape-json cytoscape_graph.json
     ```
 
-    If you like to get summary statistics for the graph use it in conjunction with `--graph-stats`, like this:
+    For large graphs, filter edges explicitly:
+
+    ```bash
+    # Hamming distance: keep close pairs
+    pheno-ranker -r individuals.json --cytoscape-json cytoscape_graph.json --graph-max-weight 10
+
+    # Jaccard similarity: keep highly similar pairs
+    pheno-ranker -r individuals.json --similarity-metric-cohort jaccard --cytoscape-json cytoscape_graph.json --graph-min-weight 0.7
+    ```
+
+    If you want summary statistics for the graph, use `--graph-stats` together with `--cytoscape-json`:
     
     ```bash
     pheno-ranker -r individuals.json --cytoscape-json cytoscape_graph.json --graph-stats my_graph_stats.txt
@@ -510,19 +483,12 @@ Frequently Asked Questions
             --8<-- "scripts/shortest_path.R"
             ```
 
-
-    ##### last change 2024-04-15 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
-
 ## Installation
 
 ??? faq "From where can I download the software?"
 
-    Should you opt for the **command-line interface**, we suggest obtaining the software from the [CPAN distribution](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/#method-1-from-cpan), which additionally includes the utility [bff-pxf-simulator](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator) and the `CSV` [importer](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import). You can find addtional information [here](download-and-installation.md).
-
-    ##### last change 2024-29-03 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
+    Should you opt for the **command-line interface**, we suggest obtaining the software from the [CPAN distribution](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/#method-1-from-cpan), which additionally includes the utility [bff-pxf-simulator](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator) and the `CSV` [importer](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import). You can find additional information [here](download-and-installation.md).
 
 ??? faq "Do you have a way of installing `R` (+ plotting libraries) along with Pheno-Ranker?"
 
     We deliberately omitted R installation to prevent the Docker images from becoming too large or slowing down the installation process. However, you can build a custom image that includes R by uncommenting a few lines in the [Dockerfile](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/Dockerfile). For detailed instructions on building an image from a `Dockerfile`, please refer to [this guide](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker?tab=readme-ov-file#method-5-with-dockerfile).
-
-    ##### Last updated: 2024-12-13 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
