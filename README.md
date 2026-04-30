@@ -21,6 +21,8 @@
 
 **📘 Documentation:** <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker</a>
 
+**📖 Usage:** <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/</a>
+
 **📓 Google Colab tutorial:** <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg</a>
 
 **📦 CPAN Distribution:** <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
@@ -31,268 +33,133 @@
 
 ---
 
-# Table of contents
-- Description
-  - [Name](#name)
-  - [Synopsis](#synopsis)
-  - [Summary](#summary)
-- [Installation](#installation)
-  - [Non-Containerized](#non-containerized)
-  - [Containerized](#containerized)
-- [How to run pheno-ranker](#how-to-run-pheno-ranker)
-- [Citation](#citation)
-  - [Author](#author)
-- [License](#copyright-and-license)
+# Pheno-Ranker
 
-# NAME
+`Pheno-Ranker` is a lightweight toolkit for semantic similarity analysis of phenotypic, clinical, and other categorical data serialized as `JSON`, `YAML`, or preprocessed `CSV`.
 
-pheno-ranker: A script that performs semantic similarity in PXF/BFF data structures and beyond (JSON|YAML)
+It supports GA4GH-oriented formats such as Beacon Friendly Format (`BFF`) and Phenotype Exchange Format (`PXF`), but it can also rank and compare generic JSON records beyond the biomedical domain.
 
-# SYNOPSIS
+## What It Does
 
-    pheno-ranker -r <individuals.json> -t <patient.json> [-options]
+`Pheno-Ranker` turns hierarchical records into comparable binary vectors and computes pairwise similarity or distance metrics.
 
-      Arguments:
-        * Cohort mode:
-          -r, --reference <file>         JSON/YAML BFF/PXF file(s) (array/object), supports .gz
+Main workflows:
 
-        * Patient mode:
-          -t, --target <file>            JSON/YAML BFF/PXF file (object or single-object array), supports .gz 
+- **Cohort mode**: compare every individual or record against every other record in one or more cohorts.
+- **Patient mode**: rank records in a reference cohort against a target patient or object.
+- **Generic JSON mode**: compare arbitrary categorical JSON data using a configuration file.
+- **Precomputed mode**: reuse exported reference-cohort vectors for faster repeated patient matching.
 
-      Options:
-        -age                             Include age-related variables; excludes agent-like terms (BFF/PXF-only) [>no-age|age]
-        -a, --align [path/basename]      Write alignment file(s). If not specified, default filenames are used [default: alignment.*]
-        -append-prefixes <prefixes>      Prefixes for primary_key when #cohorts >= 2 [default: C]
-        -config <file>                   YAML config file to modify default parameters [default: share/conf/config.yaml]
-        -cytoscape-json [file]           Writes an undirected graph in Cytoscape-compatible JSON [default: graph.json]
-        -e, --export [path/basename]     Export miscellaneous JSON files. If not specified, default filenames are used [default: export.*]
-        -exclude-terms <terms>           Exclude BFF/PXF terms (e.g., --exclude-terms sex id) or column names in JSON-derived from CSV 
-        -graph-stats [file]              Generates a text file with key graph metrics, for use with <-cytoscape-json> [default: graph_stats.txt]
-        -graph-min-weight <number>        Keep graph edges with weight greater than or equal to this value
-        -graph-max-weight <number>        Keep graph edges with weight less than or equal to this value
-        -include-hpo-ascendants          Include ascendant terms from the Human Phenotype Ontology (HPO)
-        -include-terms <terms>           Include BFF/PXF terms (e.g., --include-terms diseases) or column names in JSON-derived from CSV
-        -max-matrix-records-in-ram <number> In cohort mode, set max records before switching to RAM-efficient mode (default: 5000)
-        -matrix-format <format>          Matrix output format in cohort mode [>dense|mtx]
-        -max-number-vars <number>        Maximum number of variables for binary string [default: 10000]
-        -max-out <number>                Print only N comparisons [default: 50]
-        -o, --out-file <file>            Output file path [default: -r matrix.txt | -t rank.txt]
-        -poi, --patients-of-interest <id_list>   Export JSON files for the selected individual IDs during a dry-run
-        -poi-out-dir <directory>         Directory for JSON files (used with --poi)
-        -prp, --precomputed-ref-prefix [path/basename]   Use precomputed data for the reference cohort(s). No need to use --r
-        -retain-excluded-phenotypicFeatures     Retains features set to "excluded": true by appending '_excluded' to their IDs
-        -similarity-metric-cohort <metric>  Similarity metric for cohort mode [>hamming|jaccard]
-        -sort-by <metric>                Sort by Hamming distance or Jaccard index [>hamming|jaccard]
-        -w, --weights <file>             YAML file with weights
+## Quick Start
 
-      Generic Options:
-        -debug <level>                   Print debugging (from 1 to 5, being 5 max)
-        -h, --help                       Brief help message
-        -log                             Save log file [default: pheno-ranker-log.json]
-        -man                             Full documentation
-        -no-color                        Toggle color output [>color|no-color]
-        -v, --verbose                    Verbosity on
-        -V, --version                    Print version
+Basic cohort comparison:
 
-# SUMMARY
+```bash
+pheno-ranker -r individuals.json
+```
 
-Pheno-Ranker is a lightweight, easy-to-install tool for performing semantic similarity analysis on phenotypic data in JSON/YAML formats, including Beacon v2 Models and Phenopackets v2. It also supports pre-processed CSV files prepared using the included `csv2pheno-ranker` utility.
+Patient matching:
 
-# INSTALLATION
+```bash
+pheno-ranker -r individuals.json -t patient.json --max-out 10
+```
 
-If you plan to only use `pheno-ranker` CLI, we recommend installing it via CPAN. See details below.
+Generic JSON with a custom configuration:
 
-## Non containerized
+```bash
+pheno-ranker -r movies.json --config movies_config.yaml --include-terms genre year
+```
 
-The script runs on command-line Linux and it has been tested on Debian/RedHat/macOS based distributions (only showing commands for Debian). Perl 5 is installed by default on Linux, 
-but we will install a few CPAN modules with `cpanminus`.
+Sparse Matrix Market output for large cohorts:
 
-### Method 1: From CPAN
+```bash
+pheno-ranker -r individuals.json --matrix-format mtx -o matrix.mtx
+```
 
-First install system level dependencies:
+Cytoscape-compatible graph export with edge filtering:
 
-    sudo apt-get install cpanminus libperl-dev gcc make
+```bash
+pheno-ranker -r individuals.json --cytoscape-json graph.json --graph-max-weight 10
+```
 
-We will install Pheno-Ranker and the dependencies at `~/perl5`
+## Selected Features
 
-    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-    cpanm --notest Pheno::Ranker
-    pheno-ranker --help
+- Native support for `BFF` and `PXF` JSON/YAML inputs.
+- Generic JSON support through YAML/JSON configuration files.
+- Cohort and patient-ranking modes.
+- Hamming distance and Jaccard similarity.
+- Optional weighted comparisons.
+- Export of intermediate hashes and coverage statistics.
+- Sparse Matrix Market (`mtx`) output for large matrix workflows.
+- Direct Cytoscape-compatible graph export with edge thresholds.
+- QR-code utilities for compact encoded vector exchange.
+- Companion utilities for CSV import and BFF/PXF simulation.
 
-To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+## Output Formats
 
-    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+Common outputs include:
 
-To **update** to the newest version:
+- `matrix.txt`: dense pairwise comparison matrix.
+- `matrix.mtx`: sparse Matrix Market output when `--matrix-format mtx` is used.
+- `rank.txt`: patient-mode ranking output.
+- `graph.json`: Cytoscape-compatible graph output.
+- `graph_stats.txt`: graph summary statistics.
+- `export.*.json`: intermediate files for inspection or precomputed workflows.
 
-    cpanm Pheno::Ranker
+## Installation
 
-### Method 2: From CPAN in a CONDA environment
+For CPAN installation:
 
-Please follow [these instructions](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/#__tabbed_1_2).
+```bash
+cpanm Pheno::Ranker
+pheno-ranker --help
+```
 
-### Method 3: From GitHub
+For repository-based development:
 
-To clone the repository for the first time:
+```bash
+git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
+cd pheno-ranker
+cpanm --notest --installdeps .
+bin/pheno-ranker --help
+```
 
-    git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
-    cd pheno-ranker
+Docker images are also available from Docker Hub:
 
-To update an existing clone, navigate to the repository folder and run:
+```bash
+docker pull manuelrueda/pheno-ranker:latest
+```
 
-    git pull
+Detailed installation instructions are available in the documentation:
 
-Install system level dependencies:
+- <https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/>
+- Non-containerized install: <https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md>
+- Docker install: <https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md>
 
-    sudo apt-get install cpanminus libperl-dev
+## Documentation
 
-Now you have to choose between one of the 2 options below:
+Long-form documentation, tutorials, and use cases live in the documentation site:
 
-**Option 1:** Install dependencies (they're harmless to your system) as `sudo`:
+- [Usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/)
+- [Cohort mode](https://cnag-biomedical-informatics.github.io/pheno-ranker/cohort/)
+- [Patient mode](https://cnag-biomedical-informatics.github.io/pheno-ranker/patient/)
+- [Generic JSON tutorial](https://cnag-biomedical-informatics.github.io/pheno-ranker/generic-json/)
+- [CSV import](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import/)
 
-    cpanm --notest --sudo --installdeps .
-    bin/pheno-ranker --help            
+The built-in CLI help remains available:
 
-**Option 2:** Install the dependencies at `~/perl5`:
+```bash
+pheno-ranker --help
+```
 
-    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-    cpanm --notest --installdeps .
-    bin/pheno-ranker --help
+`--man` is deprecated and now points to the online usage documentation.
 
-To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+## Citation
 
-    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+If you use `Pheno-Ranker` in published work, please cite:
 
-_Optional:_ If you want to use `utils/barcode` or `utils/bff_pxf_plot`:
+Leist, I.C. et al. (2024). *Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond*. BMC Bioinformatics. <https://doi.org/10.1186/s12859-024-05993-2>
 
-    sudo apt-get install python3-pip libzbar0
-    pip3 install -r requirements.txt
+## Author
 
-## Containerized
-
-### Method 4: From Docker Hub 
-
-(Estimated Time: Approximately 10 seconds)
-
-Download the latest version of the Docker image (supports both amd64 and arm64 architectures) from [Docker Hub](https://hub.docker.com/r/manuelrueda/pheno-ranker) by executing:
-
-    docker pull manuelrueda/pheno-ranker:latest
-    docker image tag manuelrueda/pheno-ranker:latest cnag/pheno-ranker:latest
-
-See additional instructions below.
-
-### Method 5: With Dockerfile
-
-(Estimated Time: Approximately 1 minute)
-
-Please download the `Dockerfile` from the repo:
-
-    wget https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/Dockerfile
-
-And then run:
-
-    # Docker Version 19.03 and Above (Supports buildx)
-    docker buildx build -t cnag/pheno-ranker:latest .
-
-    # Docker Version Older than 19.03 (Does Not Support buildx)
-    docker build -t cnag/pheno-ranker:latest .
-
-### Additional instructions for Methods 4 and 5
-
-To run the container (detached) execute:
-
-    docker run -tid -e USERNAME=root --name pheno-ranker cnag/pheno-ranker:latest
-
-To enter:
-
-    docker exec -ti pheno-ranker bash
-
-The command-line executable can be found at:
-
-    /usr/share/pheno-ranker/bin/pheno-ranker
-
-The default container user is `root` but you can also run the container as `$UID=1000` (`dockeruser`). 
-
-     docker run --user 1000 -tid --name pheno-ranker cnag/pheno-ranker:latest
-    
-
-### Mounting volumes
-
-Docker containers are fully isolated. If you need the mount a volume to the container please use the following syntax (`-v host:container`). 
-Find an example below (note that you need to change the paths to match yours):
-
-    docker run -tid --volume /media/mrueda/4TBT/data:/data --name pheno-ranker-mount cnag/pheno-ranker:latest
-
-Then I will do something like this:
-
-    # First I create an alias to simplify invocation (from the host)
-    alias pheno-ranker='docker exec -ti pheno-ranker-mount /usr/share/pheno-ranker/bin/pheno-ranker'
-
-    # Now I use the alias to run the command (note that I use the flag --o to specify the filepath)
-    pheno-ranker -r /data/individuals.json -o /data/matrix.txt
-
-### System requirements
-
-    - OS/ARCH supported: B<linux/amd64> and B<linux/arm64>.
-    - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
-      (It should also work on macOS and Windows Server, but we are only providing information for Linux here)
-    * Perl 5 (>= 5.26 core; installed by default in most Linux distributions). Check the version with "perl -v".
-    * >= 4GB of RAM
-    * 1 core
-    * At least 16GB HDD
-
-# HOW TO RUN PHENO-RANKER
-
-For executing pheno-ranker you will need a PXF/BFF file(s) in JSON|YAML format. The reference cohort must be a JSON array, where each individual data are consolidated in one object.
-
-You can download examples from [this location](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/ex).
-
-There are two modes of operation:
-
-- Cohort mode:
-
-    **Intra-cohort:** With `--r` argument and 1 cohort.
-
-    **Inter-cohort:** With `--r` and multiple cohort files. It can be used in combination with `--append-prefixes` to add prefixes to each individual id.
-
-- Patient Mode:
-
-    With `-r` reference cohort(s) and `--t` patient data.
-
-**Examples:**
-
-    $ bin/pheno-ranker -r phenopackets.json  # intra-cohort
-
-    $ bin/pheno-ranker -r phenopackets.yaml -o my_matrix.txt # intra-cohort
-
-    $ bin/pheno-ranker -r phenopackets.json -w weights.yaml --exclude-terms sex ethnicity exposures # intra-cohort with weights
-
-    $ $path/pheno-ranker -r individuals.json others.yaml --append-prefixes CANCER CONTROL  # inter-cohort
-
-    $ $path/pheno-ranker -r individuals.json -t patient.yaml -max-out 100 # mode patient
-
-## COMMON ERRORS AND SOLUTIONS
-
-    * Error message: R plotting
-        Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,  : 
-        line 1 did not have X elements
-        Calls: as.matrix -> read.table -> scan
-        Execution halted
-      Solution: Make sure that the values of your primary key (e.g., "id") do not contain spaces (e.g., "my fav id" must be "my_fav_id")
-
-    * Error message: Foo
-      Solution: Bar
-
-# CITATION
-
-The author requests that any published work that utilizes `Pheno-Ranker` includes a cite to the following reference:
-
-Leist, I.C. et al., (2024). Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond. _BMC Bioinformatics_. DOI: 10.1186/s12859-024-05993-2
-
-# AUTHOR 
-
-Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu).
-
-# COPYRIGHT AND LICENSE
-
-This PERL file is copyrighted. See the LICENSE file included in this distribution.
+Manuel Rueda, PhD. CNAG: <https://www.cnag.eu>

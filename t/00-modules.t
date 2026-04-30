@@ -10,6 +10,7 @@ use Test::More;
 use Test::PhenoRanker qw(fixture temp_output_file);
 
 use Pheno::Ranker;
+use Pheno::Ranker::CLI;
 use Pheno::Ranker::Config;
 use Pheno::Ranker::Context;
 use Pheno::Ranker::Options;
