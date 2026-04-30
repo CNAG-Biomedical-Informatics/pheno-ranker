@@ -16,7 +16,7 @@ Phenopackets organize information using [top-level elements](https://phenopacket
 
 ## PXF (Phenopacket top-element) as input ![PXF](https://avatars.githubusercontent.com/u/17553567?s=280&v=4){ width="20" }
 
-When using the `pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
+The examples below show the minimal command-line patterns. For the complete CLI reference, see [Usage](usage.md).
 
 ??? Question "What happens with deeply nested arrays such as `interpretations.diagnosis.genomicInterpretations`?"
 
@@ -124,7 +124,7 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     pheno-ranker -r pxf.json
     ```
 
-    The default **output** is named `matrix.txt` and it's a `N x N` bidimensional matrix with a pairwise comparison of all individuals.
+    The default **output** is named `matrix.txt`. It is an `N x N` matrix with pairwise comparisons for all individuals.
 
     ### Test dataset
 
@@ -161,5 +161,4 @@ When using the `pheno-ranker` command-line interface, simply ensure the [correct
     The **output** will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See aditional details in the [Patient Mode](patient.md) page.
 
     For more information visit the [patient mode](patient.md) page.
-
 

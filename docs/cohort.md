@@ -7,7 +7,7 @@ _Cohort mode_ performs a **cross-comparison** of all individuals in a cohort(s) 
 
 ## Usage
 
-When using the `Pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
+The examples below show common cohort-mode command-line patterns. For the complete CLI reference, see [Usage](usage.md).
 
 === "Intra-cohort"
 
@@ -60,7 +60,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
         ```bash
         pheno-ranker -r individuals.json --e 
-        pheno-ranker -r individuals.json --e my_fav_id # for chosing a prefix
+        pheno-ranker -r individuals.json --e my_fav_id # for choosing a prefix
         ```
 
         The intermediate files can be used for further processing (e.g., import to a database; see [FAQs](faq.md)) or to make **informed decisions**. For instance, the file `export.coverage_stats.json` has stats on the coverage of each term (1D-key) in the cohort. It is possible to go more granular with a tool like `jq` that parses `JSON`. For instance:
@@ -74,7 +74,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     ??? Example "Included R scripts"
 
-        You can find in the link below a few examples to perform clustering and multimensional scaling with your data:
+        You can find in the link below a few examples to perform clustering and multidimensional scaling with your data:
 
         [R scripts at GitHub](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r).
 
@@ -126,7 +126,7 @@ When using the `Pheno-ranker` command-line interface, simply ensure the [correct
 
     ### Graph analytics
 
-    `Pheno-Ranker`has an option for creating a graph in `JSON`format, compatible with [Cytoscape](https://cytoscape.org/) ecoystem.
+    `Pheno-Ranker` has an option for creating a graph in `JSON` format, compatible with the [Cytoscape](https://cytoscape.org/) ecosystem.
 
     ??? Example "Bash code for Cytoscape-compatible graph/network"
 

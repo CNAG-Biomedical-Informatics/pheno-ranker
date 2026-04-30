@@ -73,6 +73,15 @@ time ../pheno-ranker/bin/pheno-ranker -r omim.pxf.json.gz --include-terms phenot
 
 This calculation takes approximately **1 min 40 sec** (1 core @ Apple M2 Pro). The `--max-matrix-records-in-ram 10000` flag increases efficiency by using RAM, making the process **2x faster**.
 
+!!! Tip "Large outputs"
+    The default output is a dense `matrix.txt`, which is useful for the included R scripts. If your downstream workflow accepts sparse matrices, use Matrix Market output instead:
+
+    ```bash
+    time ../pheno-ranker/bin/pheno-ranker -r omim.pxf.json.gz --include-terms phenotypicFeatures --matrix-format mtx -o omim.mtx -e omim
+    ```
+
+    Graph exports can also become large. Use `--graph-max-weight` with Hamming distance to keep close pairs, or `--graph-min-weight` with Jaccard to keep highly similar pairs.
+
 Since a **6,471 × 6,471** matrix is too large for a heatmap, we will use **multidimensional scaling** (`mds.R` script).
 
 ```bash
@@ -98,7 +107,7 @@ To generate a graph visualization, we use a subset of **50 diseases** for faster
 
 ```bash
 zcat omim.pxf.json.gz | jq -c '.[]' | shuf -n 50 | jq -s '.' > omim_small.json
-../pheno-ranker/bin/pheno-ranker -r omim_small.json -include-terms phenotypicFeatures --cytoscape-json omim_cytoscape.json
+../pheno-ranker/bin/pheno-ranker -r omim_small.json -include-terms phenotypicFeatures --cytoscape-json omim_cytoscape.json --graph-max-weight 10
 ``` 
 
 ???+ Example "Display plot"
@@ -135,12 +144,12 @@ With **precomputed data**, the calculation takes only **0.5 seconds** while yiel
 
 ### All-to-All Precomputed Similarity
 
-We’ve precomputed pairwise similarity scores for every OMIM entry 🔢 and stored them in a backend database 💾. Our proof-of-concept web app lets you enter any OMIM ID (`TAR-UUID`) or filter by any database column—🔎 and instantly retrieve the top five most similar diseases.
+We have precomputed pairwise similarity scores for every OMIM entry and stored them in a backend database. The proof-of-concept web app lets you enter any OMIM ID (`TAR-UUID`) or filter by any database column and retrieve the top five most similar diseases.
 
 [Go to the Pheno-Ranker Use Cases Playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/).
 
-!!! Warning "Proof-of-concept 🚧"
-    Please note that the current interface is experimental—we welcome your feedback 💬 and are actively working on new features ✨, performance optimizations ⚙️, and an improved user experience 😊.
+!!! Warning "Proof-of-concept"
+    The current interface is experimental and intended to demonstrate the workflow.
 
     At this time, we don’t display the matched HPO terms—this feature will be available in a future release. However, each result includes a clickable link to the corresponding OMIM entry, so you can quickly review the detailed information.  
 

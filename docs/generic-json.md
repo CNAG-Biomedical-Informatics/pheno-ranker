@@ -12,9 +12,9 @@
 
     Once you are comfortable with the concepts using movie data, you will find it easier to apply `Pheno-Ranker` to real GA4GH standards. For specific examples, please refer to the [cohort](cohort.md) and [patient](patient.md) pages in this documentation.
 
-### Moviepackets:
+### Moviepackets
 
-For the tutorial we will use the format **Moviepackets** to demonstrate the power of `Pheno-Ranker` with any `JSON` file.
+For this tutorial, we will use **Moviepackets** to show how `Pheno-Ranker` can work with generic `JSON` files.
 
 <figure markdown>
  MoviePackets logo
@@ -23,10 +23,10 @@ For the tutorial we will use the format **Moviepackets** to demonstrate the powe
 </figure>
 
 ??? Question "What is a Moviepacket (MXF) file?"
-    A Moviepacket is an invented data exchange format :smile: designed for movies, analogous to Phenotype Exchange Format ([PXF](pxf.md)) for pheno-clinical data.
+    A Moviepacket is an invented data exchange format :smile: designed for movies. In this tutorial it plays the same role that Phenotype Exchange Format ([PXF](pxf.md)) plays for pheno-clinical data: it is simply the input data model.
 
 
-Imagine you have a catalog of 25 movies described in `JSON` format. Each movie has several `properties` (a.k.a. `terms`).
+Imagine you have a catalog of 25 movies described in `JSON` format. Each movie is one record, and each record has several properties, such as `title`, `genre`, `year`, `country`, and `rating`. In `Pheno-Ranker` documentation, these selectable properties are often called `terms`.
 
 ??? Example "See JSON"
 
@@ -34,19 +34,30 @@ Imagine you have a catalog of 25 movies described in `JSON` format. Each movie h
     --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/share/ex/movies.json"
     ```
 
-You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. The first thing that we are going to create is a **configuration file**.
+You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. Because Moviepackets are not one of the built-in formats, the first thing to create is a **configuration file**.
 
 ??? Question "What is a `Pheno-Ranker` configuration file?"
-    A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that serves to initialize some variables. It is particularly important when you are not using the two supported formats _out-of-the-box_ that are [BFF](bff.md) and [PXF](pxf.md).
+    A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that tells `Pheno-Ranker` how to interpret your input. It is particularly important when you are not using the two supported formats _out-of-the-box_: [BFF](bff.md) and [PXF](pxf.md).
 
 ??? Tip "Do I need to create a configuration file?"
-    Again, this file only has to be created if you are working with **your own JSON format**. If you have `CSV` please go to this [page](csv-import.md).
+    This file only has to be created if you are working with **your own JSON format**. If you have `CSV`, please go to this [page](csv-import.md).
 
-    If your file format resembles Moviepackets, you can use that file directly. Just ensure you **modify the terms** to align with your data.
+    If your file format resembles Moviepackets, you can use the Moviepacket configuration as a template. Just ensure you **modify the terms** to align with your data.
+
+    ### How custom JSON is interpreted
+
+    For a custom JSON format, the configuration answers four practical questions:
+
+    - `primary_key`: Which field identifies each record? For Moviepackets, this is `title`.
+    - `allowed_terms`: Which fields can be used in comparisons or selected with `--include-terms` / `--exclude-terms`?
+    - `array_terms`: Which fields contain arrays? For Moviepackets, `genre` is an array.
+    - `id_correspondence`: If a field is an array, which value should be used to name each array element after flattening?
+
+    In the Moviepacket example, `rating` exists in the JSON data but is not listed in `allowed_terms`; therefore it is not used in the tutorial comparisons. This keeps the example categorical and avoids mixing in quantitative values.
 
     ### Creating a configuration file
     
-    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/data/movies_config.yaml) provided with the installation. The goal is to replace the contents of such file with those from your project. If your movies did not have array-based properties the configuration file will look like this:
+    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/data/movies_config.yaml) provided with the installation. The goal is to replace its values with those from your project. If your movies did not have array-based properties, the configuration file would look like this:
     
     ```yaml
     # Set the format
@@ -59,7 +70,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     allowed_terms: [country,genre,year]
     ```
     
-    But because your data has the term `genre`, which is an `array` the file will look like this:
+    Because the Moviepacket data has the term `genre`, which is an `array`, the file looks like this:
     
     ```yaml
     # Set the format
@@ -83,7 +94,7 @@ You are interested in checking the variety of your catalog and plan to use `Phen
         genre: genre
     ```
     
-    In the table below we show which parameters are needed depending on the format:
+    The table below summarizes which parameters are needed depending on the format:
     
     | Format      | Required properties | Optional properties | Pre-configured |
     | ----------- | ------------------- | ------------------- |  -----  | 
@@ -93,30 +104,30 @@ You are interested in checking the variety of your catalog and plan to use `Phen
     
     
      * Where:
-        - **format**, is a `string` that defines your particular format. In this case `MXF`. Note that it has to match that of `id_correspondence`.
-        - **primary_key**, the key that will be used as an item identifier.
-        - **allowed_terms**, defined as an array, delineates the terms permitted for use with the `--include-terms` and `--exclude-terms` options. This mechanism is in place to ensure data validation and to mitigate user errors, such as typos, in specifying terms. If `--include-terms` or `--exclude-terms` options are not specified, all terms present in the JSON file will be considered valid, irrespective of their inclusion in this list.
-        - **array_terms**, is an `array` to enumerate which properties are arrays.
-        - **array_regex**, it's an `string` to parse flattened keys. It's used in conjunction with `id_correspondence`.
-        - **id_correspondence**, is an `object` that (in combination with `array_regex`) serves to rename array elements and not rely on numeric indexes.
+        - **format** is a `string` that defines your particular format. In this case, it is `MXF`. It has to match the key used under `id_correspondence`.
+        - **primary_key** is the key that will be used as the record identifier.
+        - **allowed_terms** is an array that lists the terms permitted for use with `--include-terms` and `--exclude-terms`. This helps validate input and catch typos. If `--include-terms` or `--exclude-terms` are not specified, all terms present in the JSON file can be considered.
+        - **array_terms** is an array that lists which properties are arrays.
+        - **array_regex** is a string used to parse flattened keys. It is used together with `id_correspondence`.
+        - **id_correspondence** is an object that, together with `array_regex`, renames array elements so comparisons do not rely on numeric indexes.
     
 ### Running `Pheno-Ranker`
 
-Once you have created the mapping file you can proceed to run `pheno-ranker` with the **command-line interface**.
+Once you have created the configuration file, you can run `pheno-ranker` with the **command-line interface**.
 
 === "Intra-catalog comparison"
 
-    ## Example 1: Let's start by using all terms
+    ## Example 1: Let's start by using all configured terms
 
     ```bash
     pheno-ranker -r t/data/movies.json --config t/data/movies_config.yaml
     ```
 
-    The result is a file named `matrix.txt`. Find below the result of the clustering with `R`.
+    The result is a file named `matrix.txt`. In this run, `Pheno-Ranker` uses the terms allowed by `t/data/movies_config.yaml`. Find below the result of clustering the matrix with `R`.
 
     ??? Example "Included R scripts"
 
-        You can find in the link below a few examples to perform clustering and multimensional scaling with your data:
+        You can find in the link below a few examples to perform clustering and multidimensional scaling with your data:
 
         [R scripts at GitHub](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r).
 
@@ -167,14 +178,14 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Example 5: Let's create a graph to be used in Cytoscape
 
-    `Pheno-ranker` can export `matrix.txt` in a `JSON` format that is compatible with [Cytoscape](https://cytoscape.org) ecosystem:
+    `Pheno-Ranker` can export a graph in a `JSON` format that is compatible with the [Cytoscape](https://cytoscape.org) ecosystem:
 
     ```bash
     pheno-ranker -r t/data/movies.json --cytoscape-json cytoscape.json --graph-stats graph_stats.txt --config t/data/movies_config.yaml
     ```
 
     !!! Question "Directed or undirected graph?" 
-        Note that the `cytoscape.json` file is serialized as JSON, consisting only of the upper right triangle of the symmetric matrix to avoid data repetition. The graph is intended to be interpreted as **undirected** for visual purposes. Ensure that your application logic or analysis tools interpret this accordingly if they rely on undirected connectivity.
+        The `cytoscape.json` file contains one edge per pairwise comparison and avoids duplicated symmetric edges. The graph is intended to be interpreted as **undirected** for visual purposes. Ensure that your application logic or analysis tools interpret this accordingly if they rely on undirected connectivity.
 
     ??? Example "See `cytoscape.json`"
 
@@ -202,22 +213,22 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
 === "Inter-catalog comparison"
 
-    Imagine you have several **MoviePacket** :smile: catalogs and you want to compare the similarity among them.
+    Imagine you have several **Moviepacket** :smile: catalogs and you want to compare the similarity among them.
 
-    The way you will compute this with `Pheno-Ranker` is similar to intra-catalog, the only thing to have in mind is that the catalogs (i.e., cohorts) will have a preffix so that we can identify them.
+    The way you compute this with `Pheno-Ranker` is similar to the intra-catalog example. The main difference is that the catalogs (i.e., cohorts) receive prefixes so that records from different input files can be identified.
 
     ## Example 1: Default catalog (cohort) nomenclature 
 
-    For demonstration purposes, in this example we are re-using the same file (`t/data/movies.json`)
+    For demonstration purposes, this example reuses the same file (`t/data/movies.json`):
 
     ```bash
     pheno-ranker -r t/data/movies.json t/data/movies.json --config t/data/movies_config.yaml
     ```
 
-    After executing this command you will obtain a file named `matrix.txt` which is a matrix consisting of all (25+25)*(25+25) pairwise comparisons.
+    After executing this command, you will obtain a file named `matrix.txt`, consisting of all `(25+25) x (25+25)` pairwise comparisons.
 
     !!! Abstract "Dimensionality reduction"
-        We will use the included [R scripts]((https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r)) to perform dimensionality reduction via [MDS](https://en.wikipedia.org/wiki/Multidimensional_scaling). Note that you can use other dimensinality reduction techniques such as t-SNE or UMAP.
+        We will use the included [R scripts](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/tree/main/share/r) to perform dimensionality reduction via [MDS](https://en.wikipedia.org/wiki/Multidimensional_scaling). Note that you can use other dimensionality reduction techniques such as t-SNE or UMAP.
 
     <figure markdown>
       ![Beacon v2](img/movies5.png){ width="600" }
@@ -225,7 +236,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
     </figure>
 
 
-    By default, the ids in each catalog will be renamed to `C1_`, `C2_` and so on, but you can add your own preffixes with `--append-prefix`.
+    By default, the IDs in each catalog will be renamed to `C1_`, `C2_` and so on, but you can add your own prefixes with `--append-prefixes`.
 
     ## Example 2: Set up catalog nomenclature prefixes 
 
@@ -244,7 +255,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
     ## Step 1: Isolate the Movie
 
-    To single out the 'Interstellar' movie data:
+    To single out the `Interstellar` movie data:
 
     ```bash
     pheno-ranker -r t/data/movies.json --patients-of-interest Interstellar --config t/data/movies_config.yaml
@@ -281,7 +292,7 @@ Once you have created the mapping file you can proceed to run `pheno-ranker` wit
 
         --8<-- "tbl/rank_movies.md"
 
-    Of course you can perform tha ranking against multiple cohorts and select specific terms.
+    You can also perform the ranking against multiple cohorts and select specific terms.
 
     ```bash
     pheno-ranker -r t/data/movies.json t/data/movies.json --append-prefixes NETFLIX HBO -t Interstellar.json --include-terms genre year --config t/data/movies_config.yaml --max-out 10

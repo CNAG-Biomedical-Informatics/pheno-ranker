@@ -2,7 +2,7 @@ _Patient mode_ aims to determine which **individuals in the cohort** are the **c
 
 ## Usage
 
-When using the `Pheno-ranker` command-line interface, simply ensure the [correct syntax](https://github.com/cnag-biomedical-informatics/pheno-ranker#synopsis) is provided.
+The examples below show the common patient-mode command-line patterns. For the complete CLI reference, see [Usage](usage.md).
 
 === "Against one cohort"
 
