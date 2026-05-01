@@ -74,6 +74,80 @@ Becomes:
 
 Note that the flattened keys maintain the original hierarchical relationships of the data.
 
+??? Note "Nested arrays from v1.08"
+    From v1.08 onward, arrays nested more than one level deep are **canonicalized automatically** before the global hash is generated. This means users do not need to transpose or manually rewrite nested arrays just to avoid differences caused only by **array order**.
+
+    **First-level arrays** use the identifiers defined in the configuration. **Deeper arrays** are handled automatically using the values that are actually used for comparison.
+
+    For example, these two categorical nested arrays are treated as equivalent:
+
+    ```json
+    "diagnosticMarkers": [
+      { "id": "NCIT:C131711", "status": "positive" },
+      { "id": "NCIT:C140720", "status": "negative" }
+    ]
+    ```
+
+    ```json
+    "diagnosticMarkers": [
+      { "status": "negative", "id": "NCIT:C140720" },
+      { "status": "positive", "id": "NCIT:C131711" }
+    ]
+    ```
+
+    Before generating the global hash, the nested array is converted to an object keyed by **stable content hashes**:
+
+    ```json
+    "diagnosticMarkers": {
+      "idx_8c3d5a4e2f10": { "id": "NCIT:C131711", "status": "positive" },
+      "idx_b91a03c77e62": { "id": "NCIT:C140720", "status": "negative" }
+    }
+    ```
+
+    In isolation, the nested array would flatten to variables that include the `idx_<hash>` identity:
+
+    ```json
+    "diagnosticMarkers.idx_8c3d5a4e2f10.id.NCIT:C131711" : 1,
+    "diagnosticMarkers.idx_8c3d5a4e2f10.status.positive" : 1,
+    "diagnosticMarkers.idx_b91a03c77e62.id.NCIT:C140720" : 1,
+    "diagnosticMarkers.idx_b91a03c77e62.status.negative" : 1
+    ```
+
+    In full BFF/PXF records, this nested path is usually below a first-level term, so the **final key also contains the first-level configured identifier**. For example, schematically:
+
+    ```json
+    "medicalActions": [
+      {
+        "treatment": {
+          "agent": { "id": "CHEBI:41879" },
+          "responseMarkers": [
+            {
+              "id": "NCIT:C12345",
+              "status": "improved",
+              "evidence": [
+                { "id": "ECO:0000314", "source": "manual-assertion" },
+                { "id": "ECO:0000501", "source": "clinical-report" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+    ```
+
+    After canonicalization and flattening, the first-level array uses its configured identifier (`CHEBI:41879`), while both deeper nested levels use their own `idx_<hash>` identities. The shortened hashes below are illustrative:
+
+    ```json
+    "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.id.NCIT:C12345" : 1,
+    "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.status.improved" : 1,
+    "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.evidence.idx_6d32a9bb1421.id.ECO:0000314" : 1,
+    "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.evidence.idx_6d32a9bb1421.source.manual-assertion" : 1,
+    "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.evidence.idx_e4512cf09aa8.id.ECO:0000501" : 1,
+    "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.evidence.idx_e4512cf09aa8.source.clinical-report" : 1
+    ```
+
+    Programmatically, `Pheno-Ranker` treats **each nested array element separately**. For each element, it flattens the element, keeps only the **key/value pairs used for comparison**, sorts those key/value pairs, joins them into one canonical string, and computes a **SHA-1 digest**. Sorting is why `{ "id": "...", "status": "..." }` and `{ "status": "...", "id": "..." }` produce the same `idx_<hash>`. The key for that element is the first 12 hexadecimal characters of the digest prefixed with `idx_`. Therefore, the **same categorical element gets the same key** even if the array order is different.
+
 ## Step 2: Generate global hash for reference cohort(s)
 
 We generate a global hash for the reference cohort(s) by utilizing the unique variable entries. The size of the hash depends on the number of variables present in the cohort. The algorithm is optimized to handle a large number of variables, even exceeding 100K (e.g., when considering genomic variation data such as SNPs). To address any potential limitations, the algorithm allows selecting a random subset of N variables from the total available with `--max-number-vars`.
