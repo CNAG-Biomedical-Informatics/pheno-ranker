@@ -1,5 +1,9 @@
 Revision history for Perl distribution Pheno-Ranker
 
+1.09 2025-0X-0X:00:00Z (Manuel Rueda <mrueda@cpan.org>)
+
+ - Foo
+
 1.08 2025-05-01:00:00Z (Manuel Rueda <mrueda@cpan.org>)
 
  - Refactored internals to split configuration, context, compare, ranking, and graph helpers
