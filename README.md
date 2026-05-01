@@ -41,14 +41,14 @@ It supports GA4GH-oriented formats such as Beacon Friendly Format (`BFF`) and Ph
 
 ## What It Does
 
-`Pheno-Ranker` turns hierarchical records into comparable binary vectors and computes pairwise similarity or distance metrics.
+`Pheno-Ranker` turns hierarchical records into comparable one-hot encoded binary vectors. It then computes pairwise similarity or distance metrics for cohort exploration, patient matching, clustering, multidimensional scaling, and graph analytics.
 
 Main workflows:
 
 - **Cohort mode**: compare every individual or record against every other record in one or more cohorts.
 - **Patient mode**: rank records in a reference cohort against a target patient or object.
 - **Generic JSON mode**: compare arbitrary categorical JSON data using a configuration file.
-- **Precomputed mode**: reuse exported reference-cohort vectors for faster repeated patient matching.
+- **Utility workflows**: simulate BFF/PXF data, convert CSV data for ranking, plot summary statistics, and encode vectors as QR codes.
 
 ## Quick Start
 
@@ -70,16 +70,10 @@ Generic JSON with a custom configuration:
 pheno-ranker -r movies.json --config movies_config.yaml --include-terms genre year
 ```
 
-Sparse Matrix Market output for large cohorts:
+Cytoscape-compatible graph export:
 
 ```bash
-pheno-ranker -r individuals.json --matrix-format mtx -o matrix.mtx
-```
-
-Cytoscape-compatible graph export with edge filtering:
-
-```bash
-pheno-ranker -r individuals.json --cytoscape-json graph.json --graph-max-weight 10
+pheno-ranker -r individuals.json --cytoscape-json graph.json
 ```
 
 ## Selected Features
@@ -88,23 +82,23 @@ pheno-ranker -r individuals.json --cytoscape-json graph.json --graph-max-weight 
 - Generic JSON support through YAML/JSON configuration files.
 - Cohort and patient-ranking modes.
 - Hamming distance and Jaccard similarity.
-- Optional weighted comparisons.
-- Export of intermediate hashes and coverage statistics.
-- Sparse Matrix Market (`mtx`) output for large matrix workflows.
-- Direct Cytoscape-compatible graph export with edge thresholds.
+- Patient-mode Z-scores and p-values for match significance.
+- Include/exclude term filters, optional variable weights, and HPO ascendant expansion.
+- Export of binary vectors, intermediate hashes, alignments, and coverage statistics.
+- Outputs suitable for clustering, multidimensional scaling, and graph analytics.
 - QR-code utilities for compact encoded vector exchange.
-- Companion utilities for CSV import and BFF/PXF simulation.
+- Companion utilities for CSV import, BFF/PXF simulation, and summary-statistics plotting.
 
 ## Output Formats
 
 Common outputs include:
 
 - `matrix.txt`: dense pairwise comparison matrix.
-- `matrix.mtx`: sparse Matrix Market output when `--matrix-format mtx` is used.
 - `rank.txt`: patient-mode ranking output.
 - `graph.json`: Cytoscape-compatible graph output.
 - `graph_stats.txt`: graph summary statistics.
 - `export.*.json`: intermediate files for inspection or precomputed workflows.
+- `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
 
 ## Installation
 

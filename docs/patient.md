@@ -1,4 +1,19 @@
-_Patient mode_ aims to determine which **individuals in the cohort** are the **closest to our patient** by ranking them using (dis)similarity metrics.
+# Patient Mode
+
+_Patient mode_ ranks records in a reference cohort against a target patient or object. It uses the same flattened variables and binary-vector representation as cohort mode, but the output is a ranked table instead of an all-vs-all matrix.
+
+Use patient mode when you want to find the closest matches to a patient profile, inspect which variables overlap, or assess match significance with Z-scores and p-values.
+
+## What You Get
+
+- `rank.txt`: ranked matches between the target and the reference cohort.
+- `alignment*`: optional variable-level alignment files when `--align` is used.
+- `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
+- Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap statistics for each match.
+
+[See common usage](usage.md){ .md-button .md-button--primary }
+[Compare cohorts](cohort.md){ .md-button }
+[Check installation](download-and-installation.md){ .md-button }
 
 ## Usage
 
@@ -27,84 +42,115 @@ The examples below show the common patient-mode command-line patterns. For the c
 
     This will create the **output** text file `rank.txt`.
 
-    ???+ Abstract "`rank.txt` column names and meaning"
+    The first rows in `rank.txt` are the best matches according to the selected sorting metric. By default, patient mode sorts by Hamming distance; use `--sort-by jaccard` to sort by Jaccard similarity instead.
 
-        * `RANK`: This indicates the similarity match's order. A rank of 1 signifies the best match.
-        * `REFERENCE(ID)`: The unique identifier (primary key) for the reference individual.
-        * `TARGET(ID)`: The unique identifier (primary key) for the target individual. This is set using the `--t` parameter.
-        * `FORMAT`: Specifies the format of the input data, which can be one of the following: `BFF`, `PXF`, or `CSV`. This is configured in the settings file.
-        * `LENGTH`: This refers to the length of the "alignment", meaning the count of variables that have a `1` in either the reference or the target. For example:
+    ???+ Abstract "How to read `rank.txt`"
+
+        For most analyses, start with these columns:
+
+        * `RANK`: Match order; `1` is the best match under the selected sorting metric.
+        * `REFERENCE(ID)`: The matched individual in the reference cohort.
+        * `HAMMING-DISTANCE`: Lower values indicate more similar binary profiles.
+        * `JACCARD-INDEX`: Higher values indicate more similar binary profiles.
+        * `DISTANCE-P-VALUE` / `JACCARD-P-VALUE`: Significance of the match within the distribution of comparisons in the run.
+        * `INTERSECT-RATE(%)`: How much of the target profile is covered by the reference match.
+        * `COMPLETENESS(%)`: How much of the reference profile is covered by the target.
+
+        Use Hamming distance when you want a distance-like ranking. Use Jaccard similarity when sparse overlap or missingness is important.
+
+    ??? Abstract "Full `rank.txt` column reference"
+
+        ### Identifiers and run metadata
+
+        * `RANK`: Match order. A rank of `1` is the best match.
+        * `REFERENCE(ID)`: The unique identifier (`primary_key`) for the reference individual.
+        * `TARGET(ID)`: The unique identifier (`primary_key`) for the target individual passed with `--target`.
+        * `FORMAT`: Input format used by the configuration, such as `BFF`, `PXF`, or `CSV`.
+        * `WEIGHTED`: Whether the calculation used variable weights with `--weights`.
+
+        ### Alignment size
+
+        * `LENGTH`: Count of variables that have a `1` in either the reference or the target. In other words, this is the size of the comparison space for that pair.
 
         ??? Example "`LENGTH` example"
+
             ```bash
             REF: 0001001
             TAR: 1000001
             ```
-            In this case, the `LENGTH` is 3.
 
-        * `WEIGHTED`: Indicates if the calculation used weights (specified with `--w`). Possible values are `True` or `False`.
-        * `HAMMING-DISTANCE`: The Hamming distance between the reference and target individuals' vectors. The Hamming distance between two strings of equal length is the count of positions at which the corresponding symbols are different. In the context of binary strings, it's the number of bit positions where the two strings differ.
-        * `DISTANCE-Z-SCORE`: The empirical `Z-score` from all comparisons between the patient and the reference cohort.
-        * `DISTANCE-P-VALUE`: The statistical significance of the observed `DISTANCE-Z-SCORE`.
-        * `DISTANCE-Z-SCORE(RAND)`: The estimated `Z-score` for two random vectors, assuming the alignment size is equal to `LENGTH`.
+            In this case, `LENGTH` is `3` because three positions have a `1` in at least one vector.
+
+        ### Similarity and distance metrics
+
+        * `HAMMING-DISTANCE`: Count of positions where the reference and target binary vectors differ. Lower values indicate more similar profiles.
+        * `JACCARD-INDEX`: Similarity between the reference and target vectors, calculated as the intersection divided by the union. Higher values indicate more similar profiles.
+
+        ??? Tip "Metric definitions"
+
+            Hamming distance counts mismatches between two binary strings of equal length.
+
+            Jaccard similarity focuses on shared `1` values:
+
+            $$
+            \text{Jaccard} = \frac{\text{Intersection}}{\text{Union}}
+            $$
+
+        ### Significance statistics
+
+        * `DISTANCE-Z-SCORE`: Empirical Z-score for the observed Hamming distance compared with all target-reference comparisons in the run.
+        * `DISTANCE-P-VALUE`: Statistical significance associated with `DISTANCE-Z-SCORE`.
+        * `DISTANCE-Z-SCORE(RAND)`: Estimated Z-score for two random binary vectors, assuming the alignment size is equal to `LENGTH`.
+        * `JACCARD-Z-SCORE`: Empirical Z-score for the observed Jaccard index compared with all target-reference comparisons in the run.
+        * `JACCARD-P-VALUE`: Statistical significance associated with `JACCARD-Z-SCORE`.
 
         ??? Tip "`DISTANCE-Z-SCORE(RAND)` calculation"
 
-            The value comes from the estimated mean and standard deviation of the Hamming distance for binary strings. It assumes that each position in the strings has a 50% chance of being a mismatch (independent of other positions). The method is grounded in the principles of binomial distribution.
+            This value comes from the estimated mean and standard deviation of the Hamming distance for binary strings. It assumes that each position has a 50% chance of being a mismatch, independently of other positions.
 
-            * The mean is calculated under the assumption of a 50% probability of mismatch at each position.
+            The expected mean is:
 
-            $$ \text{Estimated Average} = \text{Length} \times \text{Probability of Mismatch} $$
+            $$
+            \text{Estimated Average} = \text{Length} \times \text{Probability of Mismatch}
+            $$
 
-            where Probability of Mismatch is set at 0.5.
+            where the probability of mismatch is set to `0.5`.
 
-            * The standard deviation, which provides a measure of the variability or spread of the Hamming distance from the mean.  This calculation assumes a binomial distribution of mismatches, given the binary nature of the data (match or mismatch).
+            The standard deviation is:
 
-            $$ \text{Estimated Standard Deviation} = \sqrt{\text{Length} \times \text{Probability of Mismatch} \times (1 - \text{Probability of Mismatch})} $$
+            $$
+            \text{Estimated Standard Deviation} = \sqrt{\text{Length} \times \text{Probability of Mismatch} \times (1 - \text{Probability of Mismatch})}
+            $$
 
             Finally, the formula for the `Z-score` is:
 
             $$ Z = \frac{(X - \mu)}{\sigma} $$
-            Where:
-            \( X \) is the value of interest.
-            \( \mu \) is the estimated average.
-            \( \sigma \) is the estimated estandard deviation
 
-            This method is applicable for estimating the Hamming distance in randomly generated binary strings where each position is independently set.
-           
-        * `JACCARD-INDEX`: The Jaccard similarity coefficient between the reference and target individuals' vectors. The Jaccard Index for binary digit strings is a measure that calculates the similarity between two strings by dividing the number of positions where both have a `1` by the number of positions where at least one has a `1`.
-        * `JACCARD-Z-SCORE`: The `Z-score` calculated from all comparisons between patients and the reference cohort.
-        * `JACCARD-P-VALUE`: The statistical significance of the observed `JACCARD-Z-SCORE`.
-        * `REFERENCE-VARS`: The total number of variables for the reference.
-        * `TARGET-VARS`: The total number of variables for the target.
-        * `INTERSECT`: The intersection of variables between reference and target.
-        * `INTERSECT-RATE(%)`: The percentage of intersected variables with respect the total number of variables in the target.
+            where \( X \) is the observed value, \( \mu \) is the estimated mean, and \( \sigma \) is the estimated standard deviation.
+
+        ### Variable overlap
+
+        * `REFERENCE-VARS`: Total number of variables present in the reference.
+        * `TARGET-VARS`: Total number of variables present in the target.
+        * `INTERSECT`: Number of variables shared by the reference and target.
+        * `INTERSECT-RATE(%)`: Percentage of target variables also present in the reference.
+        * `COMPLETENESS(%)`: Percentage of reference variables also present in the target.
+
         ??? Tip "`INTERSECT-RATE(%)` calculation"
 
-            The INTERSECT-RATE measures the overlap of variables between reference and target by calculating the proportion of shared variables relative to the total number of variables in the target.
-
-	        * Intersection Count: The number of variables that exist in both the reference and target sets.
+            `INTERSECT-RATE(%)` measures how much of the target profile is covered by the reference:
 
             $$
             \text{INTERSECT-RATE(\%)} = \frac{\text{Intersection Count}}{\text{Number of Variables in Target}} \times 100
             $$
 
-            This metric expresses the overlap as a percentage, where 0% means no overlap and 100% means complete overlap with the target variables.
-
-        * `COMPLETENESS(%)`: The percentage of intersected variables with respect the total number of variables in the reference.
-
         ??? Tip "`COMPLETENESS(%)` calculation"
 
-            The COMPLETENESS measures the overlap of variables between reference and target by calculating the proportion of shared variables relative to the total number of variables in the reference.
-
-            * Intersection Count: The number of variables that exist in both the reference and target sets.
+            `COMPLETENESS(%)` measures how much of the reference profile is covered by the target:
 
             $$
             \text{COMPLETENESS(\%)} = \frac{\text{Intersection Count}}{\text{Number of Variables in Reference}} \times 100
             $$
-
-            This metric expresses the overlap as a percentage, where 0% means no overlap and 100% means complete overlap with the reference variables.
-
          
     ??? Example "See results from `rank.txt`"
 
@@ -112,9 +158,9 @@ The examples below show the common patient-mode command-line patterns. For the c
 
 === "Against multiple cohorts"
 
-    The process mirrors handling a single cohort; the sole distinction is the addition of a prefix to each `primary_key`, enabling us to trace the origin of every individual.
+    The process mirrors handling a single cohort; the main difference is that each reference cohort gets a prefix in its `primary_key`, making it possible to trace the origin of every individual.
 
-    Let's reuse `individuals.json` to have the impression of having more than one cohort.
+    We reuse `individuals.json` to simulate more than one cohort.
 
     Example:
 
@@ -138,7 +184,7 @@ The examples below show the common patient-mode command-line patterns. For the c
 
 ???+ Abstract "Obtaining additional information on the alignments"
 
-     You can create several files related to the reference --- target alignment by adding `--align`. By default it will create files (`alignment*`) in the current directory but you can specify a `</path/basename>`. Example:
+     You can create several files related to the reference-target alignment by adding `--align`. By default, this creates `alignment*` files in the current directory, but you can specify a `</path/basename>`. Example:
 
      ```bash
      pheno-ranker -r individuals.json individuals.json -t patient.json --align
