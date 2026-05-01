@@ -14,6 +14,7 @@ __pycache__/
 /Makefile
 /MANIFEST
 /TO_DO.md
+/README.md.template
 /META*
 /MYMETA*
 /pm_to_blib
