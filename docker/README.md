@@ -2,7 +2,7 @@
 
 Use Docker when you want a reproducible environment with the Perl and Python dependencies preinstalled.
 
-## Method 1: From Docker Hub
+## Method 4: From Docker Hub
 
 Download the latest image:
 
@@ -11,7 +11,7 @@ docker pull manuelrueda/pheno-ranker:latest
 docker image tag manuelrueda/pheno-ranker:latest cnag/pheno-ranker:latest
 ```
 
-## Method 2: Build From Dockerfile
+## Method 5: With Dockerfile
 
 The repository includes `docker/Dockerfile`.
 
