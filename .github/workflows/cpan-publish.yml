@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     name: Build and release Pheno::Ranker to CPAN
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Install cpanminus
         run: curl -L https://cpanmin.us | perl - --sudo App::cpanminus
       - name: Install dependencies

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Pheno::Ranker module and test local deploy
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Install cpanminus
         run: curl -L https://cpanmin.us | perl - --sudo App::cpanminus
       - name: Install dependencies
@@ -25,7 +25,7 @@ jobs:
         run: make dist
       - name: Get version
         id: get_version
-        run: echo "::set-output name=VERSION::$(cat VERSION)"
+        run: echo "VERSION=$(cat VERSION)" >> "$GITHUB_OUTPUT"
       - name: Local install and test
         run: cpanm -n --sudo Pheno-Ranker-${{ steps.get_version.outputs.VERSION }}.tar.gz
       - name: Check version code 
@@ -34,5 +34,4 @@ jobs:
         run: bff-pxf-simulator -V
       - name: Check version util2
         run: csv2pheno-ranker -V
-
 

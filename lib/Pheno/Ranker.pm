@@ -25,7 +25,7 @@ our @EXPORT_OK = qw($VERSION write_json);
 $SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_, RESET };
 $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_, RESET };
 
-our $VERSION   = '1.07_1';
+our $VERSION   = '1.08';
 our $share_dir = dist_dir('Pheno-Ranker');
 
 # Set development mode
