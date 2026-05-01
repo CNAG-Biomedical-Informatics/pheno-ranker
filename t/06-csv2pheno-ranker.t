@@ -5,9 +5,9 @@ use File::Spec::Functions qw(catfile);
 use File::Temp qw(tempdir);
 use IPC::Open3;
 use Test::More;
-use File::Compare;
 use lib qw(./lib ../lib t/lib);
 use Test::PhenoRanker qw(fixture);
+use Pheno::Ranker::IO qw(read_json read_yaml);
 
 # The command line script to be tested
 my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
@@ -34,13 +34,14 @@ my @inc = map { ( '-I', $_ ) } @INC;
     # Run the command line script with the input file, and redirect the output to the output_file
     system("$^X $inc $script -i $input_file --output-dir $output_dir -sep ';' --generate-primary-key --primary-key-name Id --array-separator ','");
 
-    # Compare the output_file and the reference_file
-    ok(
-        compare( $file, $reference_file ) == 0,
+    is_deeply(
+        read_json($file),
+        read_json($reference_file),
         qq/Output matches the <$reference_file> file/
     );
-    ok(
-        compare( $config, $reference_config ) == 0,
+    is_deeply(
+        read_yaml($config),
+        read_yaml($reference_config),
         qq/Output matches the <$reference_config> file/
     );
 }
