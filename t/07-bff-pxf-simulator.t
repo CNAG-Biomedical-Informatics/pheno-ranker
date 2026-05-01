@@ -159,6 +159,22 @@ my @inc    = map { ( '-I', $_ ) } @INC;
     is( $data->[0]{id}, 'Phenopacket_1', 'pxf phenopacket id is deterministic' );
     is( scalar @{ $data->[0]{phenotypicFeatures} }, 2, 'pxf phenotypic feature count matches requested count' );
     is( scalar @{ $data->[0]{medicalActions} }, 2, 'pxf medical actions combine treatment and procedure entries' );
+    is( scalar @{ $data->[0]{interpretations} }, 1, 'pxf interpretation count follows disease count' );
+    like(
+        $data->[0]{interpretations}[0]{progressStatus},
+        qr/\A(?:SOLVED|UNSOLVED)\z/,
+        'pxf interpretations include SOLVED or UNSOLVED progressStatus'
+    );
+    is(
+        $data->[0]{interpretations}[0]{diagnosis}{disease}{id},
+        $data->[0]{diseases}[0]{term}{id},
+        'pxf interpretation diagnosis reuses the simulated disease term'
+    );
+    is(
+        $data->[0]{interpretations}[0]{diagnosis}{genomicInterpretations}[0]{subjectOrBiosampleId},
+        $data->[0]{subject}{id},
+        'pxf genomic interpretation references the enclosing subject'
+    );
 }
 
 ######################

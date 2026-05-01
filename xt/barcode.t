@@ -1,9 +1,10 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use IPC::Open3;
 use File::Spec::Functions qw(catdir catfile);
 use File::Temp qw(tempdir);
-use Test::More tests => 5;    # Indicate the number of tests you want to run
+use Test::More tests => 7;    # Indicate the number of tests you want to run
 use File::Compare;
 use List::MoreUtils qw(pairwise);
 use lib qw(./lib ../lib t/lib);
@@ -168,6 +169,53 @@ SKIP: {
     }
 }
 
+##########
+# TEST 6 #
+##########
+SKIP: {
+    skip "Skipping PNG comparison tests on macOS", 1 if $^O eq 'darwin';
+
+    {
+        # The command line script to be tested
+        my $script = catfile( 'utils', 'barcode', 'barcode2pheno-ranker' );
+
+        # Pass a literal glob so expansion is handled by Python, not the shell.
+        my $input_glob    = catfile( 't', 'data', 'qr_codes', '107_week_0_arm_1.compressed.*' );
+        my $template_file = fixture('export.glob_hash.json');
+
+        # The reference files to compare the output with
+        my $reference_file = fixture( 'qr_codes', 'output.compressed.json' );
+
+        # The output files
+        my $output_dir  = tempdir( CLEANUP => 1 );
+        my $output_file = catfile( $output_dir, 'new_output.json' );
+
+        # Run the command line without shell glob expansion
+        system( $script, '-i', $input_glob, '-t', $template_file, '-o', $output_file );
+
+        # Compare the output_file and the reference_file
+        ok(
+            compare( $output_file, $reference_file ) == 0,
+            'Python-side PNG glob expansion decodes compressed QR files'
+        );
+    }
+}
+
+##########
+# TEST 7 #
+##########
+{
+    my $script     = catfile( 'utils', 'barcode', 'pheno-ranker2barcode' );
+    my $input_file = fixture('export.ref_binary_hash.json');
+    my $output_dir = tempdir( CLEANUP => 1 );
+
+    my $exit = run_quietly(
+        $script, '-i', $input_file, '-o', $output_dir,
+        '--qr-version', 41
+    );
+    isnt( $exit, 0, 'invalid QR version is rejected' );
+}
+
 sub compare_files {
     my ( $file1, $file2 ) = @_;
 
@@ -182,4 +230,13 @@ sub compare_files {
 
     # Compare arrays directly
     return scalar @lines1 == scalar @lines2 && pairwise { $a eq $b } @lines1, @lines2;
+}
+
+sub run_quietly {
+    open my $null_in,  '<', File::Spec->devnull;
+    open my $null_out, '>', File::Spec->devnull;
+    open my $null_err, '>', File::Spec->devnull;
+    my $pid = open3( $null_in, $null_out, $null_err, @_ );
+    waitpid $pid, 0;
+    return $?;
 }

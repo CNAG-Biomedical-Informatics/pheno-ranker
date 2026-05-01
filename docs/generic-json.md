@@ -264,17 +264,7 @@ Once you have created the configuration file, you can run `pheno-ranker` with th
     This command will carry out a dry-run, producing an extracted JSON object named `Interstellar.json`.
 
     ```json
-    {
-       "country" : "USA",
-       "genre" : [
-          "Adventure",
-          "Drama",
-          "Sci-Fi"
-       ],
-       "rating" : 8.6,
-       "title" : "Interstellar",
-       "year" : 2014
-    }
+    --8<-- "tbl/Interstellar.json"
     ```
  
 

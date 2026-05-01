@@ -228,21 +228,31 @@ sub resolve_file {
     return $base;
 }
 
+sub logical_cpu_count {
+    my $os = $^O;
+    my $out;
+
+    if ( lc($os) eq 'darwin' ) {
+        $out = qx{sysctl -n hw.logicalcpu 2>/dev/null};
+    }
+    elsif ( lc($os) eq 'freebsd' ) {
+        $out = qx{sysctl -n hw.ncpu 2>/dev/null};
+    }
+    elsif ( $os eq 'MSWin32' ) {
+        $out = $ENV{NUMBER_OF_PROCESSORS};
+    }
+    else {
+        $out = qx{/usr/bin/nproc 2>/dev/null};
+    }
+
+    return $1 if defined $out && $out =~ /(\d+)/;
+    return 1;
+}
+
 sub write_log {
     my ( $log, $data, $VERSION ) = @_;
 
-    my $os = $^O;
-    chomp(
-        my $threadshost =
-          lc($os) eq 'darwin' ? qx{/usr/sbin/sysctl -n hw.logicalcpu}
-        : lc($os) eq 'freebsd' ? qx{sysctl -n hw.ncpu}
-        : $os eq 'MSWin32'     ? qx{wmic cpu get NumberOfLogicalProcessors}
-        :                        qx{/usr/bin/nproc} // 1
-    );
-
-    if ( $os eq 'MSWin32' ) {
-        ($threadshost) = $threadshost =~ /(\d+)/;
-    }
+    my $threadshost = logical_cpu_count();
     $threadshost = 0 + $threadshost;
 
     my $info = {

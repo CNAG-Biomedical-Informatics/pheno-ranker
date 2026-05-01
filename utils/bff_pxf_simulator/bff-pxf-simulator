@@ -246,11 +246,12 @@ sub write_json {
 sub pxf_generator {
     my ( $id, $self ) = @_;
     my $result_hash = run_functions($self);
+    my $subject_id  = "IndividualId_$id";
     my $pxf         = fake_hash(
         {
             id      => "Phenopacket_" . $id,
             subject => {
-                id  => "IndividualId_" . $id,
+                id  => $subject_id,
                 age => {
                     iso8601duration =>
                       fake_template( "P%dY", fake_int_mod( 1, 99 ) )
@@ -259,10 +260,43 @@ sub pxf_generator {
             },
             diseases           => $result_hash->{diseases},
             phenotypicFeatures => $result_hash->{phenotypicFeatures},
+            interpretations    =>
+              pxf_interpretations( $result_hash->{diseases}, $subject_id ),
             medicalActions     => merge_medical_actions($result_hash)
         }
     );
     return $pxf->();
+}
+
+sub pxf_interpretations {
+    my ( $diseases, $subject_id ) = @_;
+    $diseases ||= [];
+    my @status   = qw(SOLVED UNSOLVED);
+    my @interpretations;
+
+    for my $i ( 0 .. $#{$diseases} ) {
+        my $disease = $diseases->[$i]{term};
+        push @interpretations,
+          {
+            id             => 'Interpretation_' . ( $i + 1 ),
+            progressStatus => $status[ $i % @status ],
+            diagnosis      => {
+                disease                => $disease,
+                genomicInterpretations => [
+                    {
+                        subjectOrBiosampleId  => $subject_id,
+                        interpretationStatus => 'CAUSATIVE',
+                        geneDescriptor       => {
+                            valueId => 'HGNC:' . ( 1000 + $i + 1 ),
+                            symbol  => 'GENE' . ( $i + 1 )
+                        }
+                    }
+                ]
+            }
+          };
+    }
+
+    return \@interpretations;
 }
 
 sub merge_medical_actions {
@@ -605,7 +639,7 @@ B<BFF:> C<diseases, exposures, interventionsOrProcedures, phenotypicFeatures, tr
 
 procedures = interventionsOrProcedures
 
-B<PXF:> C<interventionsOrProcedures, medicalActions.procedure, medicalActions.treatment, phenotypicFeatures>.
+B<PXF:> C<diseases, interpretations, interventionsOrProcedures, medicalActions.procedure, medicalActions.treatment, phenotypicFeatures>.
 
 procedures = medicalActions.procedure
 

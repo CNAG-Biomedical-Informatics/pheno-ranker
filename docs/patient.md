@@ -34,6 +34,7 @@ The examples below show the common patient-mode command-line patterns. For the c
         ```
 
         This command will carry out a dry-run, creating `107:week_0_arm_1.json` and `125:week_0_arm_1.json` files.
+        On Windows, characters that are invalid in filenames are percent-encoded, so `107:week_0_arm_1` is written as `107%3Aweek_0_arm_1.json`.
         In the example above, I renamed `107:week_0_arm_1.json` to `patient.json` by typing this:
        
         ```bash

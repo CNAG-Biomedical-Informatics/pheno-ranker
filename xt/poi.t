@@ -8,6 +8,7 @@ use Test::More tests => 2;                   # Indicate the number of tests you 
 use File::Compare;
 use lib qw(./lib ../lib t/lib);
 use Test::PhenoRanker qw(fixture);
+use Pheno::Ranker::IO qw(poi_output_filename);
 
 #use Data::Dumper;
 
@@ -26,9 +27,9 @@ my $input_file = fixture('individuals.json');
 
 # The reference file to compare the output with
 my $poi            = '107:week_0_arm_1';
-my $reference_file = catfile( 'xt', 'poi', "$poi.json" );
+my $reference_file = catfile( 'xt', 'poi', poi_output_filename( $poi, 1 ) );
 my $poi_out_dir    = tempdir( CLEANUP => 1 );
-my $new_file       = catfile( $poi_out_dir, "$poi.json" );
+my $new_file       = catfile( $poi_out_dir, poi_output_filename($poi) );
 
 # The generated output file
 my ( undef, $tmp_file ) =
