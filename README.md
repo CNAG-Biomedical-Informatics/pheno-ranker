@@ -6,6 +6,7 @@
 </p>
 
 [![Build and Test](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml)
+[![Build and Test Windows](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test-windows.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test-windows.yml)
 [![Coverage Status](https://coveralls.io/repos/github/CNAG-Biomedical-Informatics/pheno-ranker/badge.svg?branch=main)](https://coveralls.io/github/CNAG-Biomedical-Informatics/pheno-ranker?branch=main)
 [![CPAN Publish](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml)
 [![Kwalitee Score](https://cpants.cpanauthors.org/dist/Pheno-Ranker.svg)](https://cpants.cpanauthors.org/dist/Pheno-Ranker)
@@ -101,6 +102,8 @@ Common outputs include:
 - `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
 
 ## Installation
+
+The Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl; optional Python/R utilities are best used from Docker or a GitHub checkout.
 
 For CPAN installation:
 

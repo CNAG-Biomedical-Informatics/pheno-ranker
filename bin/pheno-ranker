@@ -68,8 +68,7 @@ If you plan to only use C<pheno-ranker> CLI, we recommend installing it via CPAN
 
 =head2 Non containerized
 
-The script runs on command-line Linux and it has been tested on Debian/RedHat/macOS based distributions (only showing commands for Debian). Perl 5 is installed by default on Linux, 
-but we will install a few CPAN modules with C<cpanminus>.
+The Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions. The commands below focus on Debian-based Linux systems, where Perl 5 is typically available by default and extra CPAN modules can be installed with C<cpanminus>. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl.
 
 =head3 Method 1: From CPAN
 
@@ -198,7 +197,7 @@ Then I will do something like this:
 
   - OS/ARCH supported: B<linux/amd64> and B<linux/arm64>.
   - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
-    (It should also work on macOS and Windows Server, but we are only providing information for Linux here)
+    The Perl CLI is also tested on macOS and Windows; container images are Linux-based.
   * Perl 5 (>= 5.26 core; installed by default in most Linux distributions). Check the version with "perl -v".
   * >= 4GB of RAM
   * 1 core
