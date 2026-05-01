@@ -567,6 +567,233 @@ subtest 'Compare helpers cover deterministic transforms and exports' => sub {
     is $array_key, 'medicalActions.DrugCentral:1.treatment.routeOfAdministration.id',
       'add_id2key handles array id_correspondence entries';
 
+    my $nested_filter_self = {
+        format                     => 'PXF',
+        age                        => 1,
+        exclude_variables_regex_qr => qr/label|timestamp|reference\.id/,
+    };
+    my $nested_a = {
+        'medicalActions:0.treatment.agent.id' => 'CHEBI:1',
+        'medicalActions:0.treatment.doseIntervals:0.quantity.unit.id' =>
+          'UCUM:mg',
+        'medicalActions:0.treatment.doseIntervals:0.quantity.value' => 10,
+        'medicalActions:0.treatment.doseIntervals:0.quantity.unit.label' =>
+          'milligram',
+        'medicalActions:0.treatment.doseIntervals:1.quantity.unit.id' =>
+          'UCUM:g',
+        'medicalActions:0.treatment.doseIntervals:1.quantity.value' => 20,
+        'medicalActions:0.treatment.doseIntervals:1.quantity.unit.label' =>
+          'gram',
+    };
+    my $nested_b = {
+        'medicalActions:0.treatment.agent.id' => 'CHEBI:1',
+        'medicalActions:0.treatment.doseIntervals:0.quantity.unit.id' =>
+          'UCUM:g',
+        'medicalActions:0.treatment.doseIntervals:0.quantity.value' => 20,
+        'medicalActions:0.treatment.doseIntervals:0.quantity.unit.label' =>
+          'different ignored label',
+        'medicalActions:0.treatment.doseIntervals:1.quantity.unit.id' =>
+          'UCUM:mg',
+        'medicalActions:0.treatment.doseIntervals:1.quantity.value' => 10,
+        'medicalActions:0.treatment.doseIntervals:1.quantity.unit.label' =>
+          'also ignored',
+    };
+    my $canon_a =
+      Pheno::Ranker::Compare::Remap::canonicalize_nested_array_indexes(
+        $nested_a, $nested_filter_self );
+    my $canon_b =
+      Pheno::Ranker::Compare::Remap::canonicalize_nested_array_indexes(
+        $nested_b, $nested_filter_self );
+    is_deeply [ sort keys %{$canon_a} ], [ sort keys %{$canon_b} ],
+      'nested array canonicalization removes order-only index differences';
+    like join( "\n", sort keys %{$canon_a} ),
+      qr/doseIntervals\.idx_[0-9a-f]{12}\.quantity\.unit\.id/,
+      'nested array canonicalization replaces nested indexes with signatures';
+    unlike join( "\n", sort keys %{$canon_a} ), qr/doseIntervals:\d+/,
+      'nested array canonicalization removes raw nested indexes';
+
+    my $bff_nested_a = {
+        'measurements:0.assayCode.id' => 'NCIT:C156778',
+        'measurements:0.complexValue.typedQuantities:0.quantityType.id' =>
+          'NCIT:C87149',
+        'measurements:0.complexValue.typedQuantities:0.quantity.unit.id' =>
+          'NCIT:C48570',
+        'measurements:0.complexValue.typedQuantities:1.quantityType.id' =>
+          'NCIT:C25250',
+        'measurements:0.complexValue.typedQuantities:1.quantity.unit.id' =>
+          'UCUM:kg',
+        'biosamples:0.id'                         => 'biosample 1',
+        'biosamples:0.diagnosticMarkers:0.id'     => 'NCIT:C131711',
+        'biosamples:0.diagnosticMarkers:0.label'  => 'ignored marker label',
+        'biosamples:0.diagnosticMarkers:1.id'     => 'NCIT:C140720',
+        'biosamples:0.pathologicalTnmFinding:0.id' => 'NCIT:C48725',
+        'biosamples:0.pathologicalTnmFinding:1.id' => 'NCIT:C48709',
+    };
+    my $bff_nested_b = {
+        'measurements:0.assayCode.id' => 'NCIT:C156778',
+        'measurements:0.complexValue.typedQuantities:0.quantityType.id' =>
+          'NCIT:C25250',
+        'measurements:0.complexValue.typedQuantities:0.quantity.unit.id' =>
+          'UCUM:kg',
+        'measurements:0.complexValue.typedQuantities:1.quantityType.id' =>
+          'NCIT:C87149',
+        'measurements:0.complexValue.typedQuantities:1.quantity.unit.id' =>
+          'NCIT:C48570',
+        'biosamples:0.id'                         => 'biosample 1',
+        'biosamples:0.diagnosticMarkers:0.id'     => 'NCIT:C140720',
+        'biosamples:0.diagnosticMarkers:1.id'     => 'NCIT:C131711',
+        'biosamples:0.diagnosticMarkers:1.label'  => 'different ignored label',
+        'biosamples:0.pathologicalTnmFinding:0.id' => 'NCIT:C48709',
+        'biosamples:0.pathologicalTnmFinding:1.id' => 'NCIT:C48725',
+    };
+    my $bff_canon_a =
+      Pheno::Ranker::Compare::Remap::canonicalize_nested_array_indexes(
+        $bff_nested_a,
+        { %{$nested_filter_self}, format => 'BFF' }
+      );
+    my $bff_canon_b =
+      Pheno::Ranker::Compare::Remap::canonicalize_nested_array_indexes(
+        $bff_nested_b,
+        { %{$nested_filter_self}, format => 'BFF' }
+      );
+    is_deeply [ sort keys %{$bff_canon_a} ], [ sort keys %{$bff_canon_b} ],
+      'nested array canonicalization handles BFF-style nested arrays';
+    like join( "\n", sort keys %{$bff_canon_a} ),
+      qr/typedQuantities\.idx_[0-9a-f]{12}\.quantityType\.id/,
+      'nested array canonicalization covers complex typed quantities';
+    like join( "\n", sort keys %{$bff_canon_a} ),
+      qr/diagnosticMarkers\.idx_[0-9a-f]{12}\.id/,
+      'nested array canonicalization covers biosample marker arrays';
+
+    my $ignored_only = {
+        'medicalActions:0.treatment.doseIntervals:0.label' => 'ignored',
+    };
+    is_deeply(
+        Pheno::Ranker::Compare::Remap::canonicalize_nested_array_indexes(
+            $ignored_only, $nested_filter_self
+        ),
+        $ignored_only,
+        'nested array canonicalization leaves indexes when no usable leaves remain'
+    );
+
+    my $nested_remap_self = {
+        include_terms                  => [],
+        exclude_terms                  => [],
+        format                         => 'PXF',
+        retain_excluded_phenotypicFeatures => undef,
+        id_correspondence              => { PXF => { medicalActions => ['treatment.agent.id'] } },
+        array_regex_qr                 => qr/^([^:]+):(\d+)\.(.+)$/,
+        array_terms_regex_qr           => qr/^(medicalActions):/,
+        exclude_variables_regex_qr     => qr/label|timestamp|reference\.id/,
+        age                            => 1,
+    };
+    my $nested_remap_a = remap_hash(
+        {
+            hash => {
+                id             => 'A',
+                medicalActions => [
+                    {
+                        treatment => {
+                            agent => { id => 'CHEBI:1' },
+                            doseIntervals => [
+                                {
+                                    quantity => {
+                                        unit  => { id => 'UCUM:mg', label => 'milligram' },
+                                        value => 10,
+                                    },
+                                },
+                                {
+                                    quantity => {
+                                        unit  => { id => 'UCUM:g', label => 'gram' },
+                                        value => 20,
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+            self => $nested_remap_self,
+        }
+    );
+    my $nested_remap_b = remap_hash(
+        {
+            hash => {
+                id             => 'A',
+                medicalActions => [
+                    {
+                        treatment => {
+                            agent => { id => 'CHEBI:1' },
+                            doseIntervals => [
+                                {
+                                    quantity => {
+                                        unit  => { id => 'UCUM:g', label => 'ignored text' },
+                                        value => 20,
+                                    },
+                                },
+                                {
+                                    quantity => {
+                                        unit  => { id => 'UCUM:mg', label => 'ignored text' },
+                                        value => 10,
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+            self => $nested_remap_self,
+        }
+    );
+    is_deeply $nested_remap_a, $nested_remap_b,
+      'remap_hash is stable when nested arrays differ only by order';
+    ok(
+        ( grep { /doseIntervals\.idx_[0-9a-f]{12}\.quantity\.unit\.id\.UCUM:mg/ }
+              keys %{$nested_remap_a} ),
+        'remap_hash emits canonicalized nested array variables'
+    );
+    ok(
+        !( grep { /^medicalActions\.idx_/ } keys %{$nested_remap_a} ),
+        'remap_hash never applies content signatures to first-level arrays'
+    );
+    ok(
+        ( grep { /^medicalActions\.CHEBI:1\./ } keys %{$nested_remap_a} ),
+        'remap_hash preserves config-based identity for first-level arrays'
+    );
+
+    my $first_level_remap = remap_hash(
+        {
+            hash => {
+                id                 => 'A',
+                phenotypicFeatures => [
+                    {
+                        type => {
+                            id    => 'HP:0000002',
+                            label => 'Child',
+                        },
+                    },
+                ],
+            },
+            self => {
+                include_terms                  => [],
+                exclude_terms                  => [],
+                format                         => 'PXF',
+                retain_excluded_phenotypicFeatures => undef,
+                id_correspondence              => { PXF => { phenotypicFeatures => 'type.id' } },
+                array_regex_qr                 => qr/^([^:]+):(\d+)\.(.+)$/,
+                array_terms_regex_qr           => qr/^(phenotypicFeatures):/,
+                exclude_variables_regex_qr     => qr/label/,
+                age                            => 1,
+            },
+        }
+    );
+    ok exists $first_level_remap->{'phenotypicFeatures.HP:0000002.type.id.HP:0000002'},
+      'first-level PXF arrays continue to use configured CURIE identity';
+    ok(
+        !( grep { /phenotypicFeatures\.idx_/ } keys %{$first_level_remap} ),
+        'first-level PXF arrays are not content-signature canonicalized'
+    );
+
     is(
         Pheno::Ranker::Compare::guess_label('top.level.leaf'),
         'leaf',
