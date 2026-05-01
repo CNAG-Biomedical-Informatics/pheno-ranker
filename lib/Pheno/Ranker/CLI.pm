@@ -257,7 +257,7 @@ sub write_log {
           || 'dummy-user'
     };
 
-    say BOLD GREEN "Writing <$log> file\n" if $data->{verbose};
+    say BOLD GREEN "Writing <$log> file\n", RESET if $data->{verbose};
     write_json(
         {
             filepath => $log,

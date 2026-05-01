@@ -9,6 +9,8 @@
 \bblib/
 \bcover_db\b
 \bcovered\b
+\.Inline/
+_Inline/
 \bnode_modules\b
 \bpm_to_blib$
 \bpm_to_blib\.ts$

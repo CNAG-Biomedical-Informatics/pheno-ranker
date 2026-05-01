@@ -3,7 +3,8 @@ use strict;
 use warnings;
 use File::Spec::Functions qw(catfile);
 use File::Temp qw(tempdir);
-use Test::More tests => 2;    # Indicate the number of tests you want to run
+use IPC::Open3;
+use Test::More;
 use File::Compare;
 use lib qw(./lib ../lib t/lib);
 use Test::PhenoRanker qw(fixture);
@@ -11,6 +12,7 @@ use Test::PhenoRanker qw(fixture);
 # The command line script to be tested
 my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
 my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
+my @inc = map { ( '-I', $_ ) } @INC;
 
 ############
 # TEST 1-2 #
@@ -42,3 +44,57 @@ my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
         qq/Output matches the <$reference_config> file/
     );
 }
+
+######################
+# VALIDATION TESTING #
+######################
+
+{
+    my $output_dir = tempdir( CLEANUP => 1 );
+    my $input_file = catfile( $output_dir, 'duplicate.csv' );
+    write_file( $input_file, "id,(id)\nA,B\n" );
+
+    my $exit = run_quietly( $^X, @inc, $script, '-i', $input_file );
+    isnt( $exit, 0, 'duplicate headers after normalization are rejected' );
+}
+
+{
+    my $output_dir = tempdir( CLEANUP => 1 );
+    my $input_file = catfile( $output_dir, 'empty_header.csv' );
+    write_file( $input_file, "()\nA\n" );
+
+    my $exit = run_quietly( $^X, @inc, $script, '-i', $input_file );
+    isnt( $exit, 0, 'empty headers after normalization are rejected' );
+}
+
+{
+    my $input_file = fixture('example.csv');
+    my $exit = run_quietly( $^X, @inc, $script, '-i', $input_file, '--separator', '::' );
+    isnt( $exit, 0, 'multi-character field separators are rejected' );
+}
+
+{
+    my $input_file = fixture('example.csv');
+    my $exit =
+      run_quietly( $^X, @inc, $script, '-i', $input_file, '--array-separator', '[' );
+    isnt( $exit, 0, 'invalid array separator regular expressions are rejected' );
+}
+
+sub write_file {
+    my ( $file, $content ) = @_;
+    open my $fh, '>:encoding(UTF-8)', $file;
+    print {$fh} $content;
+    close $fh;
+    return 1;
+}
+
+sub run_quietly {
+    open my $null_in,  '<', File::Spec->devnull;
+    open my $null_out, '>', File::Spec->devnull;
+    open my $null_err, '>', File::Spec->devnull;
+    my $pid = open3( $null_in, $null_out, $null_err, @_ );
+    waitpid $pid, 0;
+    return $?;
+}
+
+done_testing();
