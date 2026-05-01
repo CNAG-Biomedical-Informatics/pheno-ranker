@@ -103,7 +103,7 @@ Common outputs include:
 
 ## Installation
 
-The Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl; optional Python/R utilities are best used from Docker or a GitHub checkout.
+The Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl; Python utilities under `utils/` and external R plotting scripts are best used from Docker or a GitHub checkout.
 
 For CPAN installation:
 
