@@ -22,7 +22,7 @@ The examples below show the minimal command-line patterns. For the complete CLI 
 
     The property [genomicInterpretation](https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html) presents some peculiarities for several reasons. It can have multiple nested levels or arrays, the key `"id"` may refer to a given patient, plus the key `subjectOrBiosampleId` refers to the same patient too!. This implies that users might be interested in the variants, but since patient ids will be in the flattened key, it will never match another patient.
 
-    `Pheno-Ranker` will handle this for you for the term `interpretations`. The approach taken is to transition from **array** data structures to **objects**.
+    `Pheno-Ranker` will handle this for you for the term `interpretations`. This is a dedicated PXF-specific transformation because genomic interpretation records can otherwise include patient-specific identifiers in the flattened keys. The approach taken is to transition from **array** data structures to **objects**.
 
     Imagine you have a `PXF` data that looks like this:
     ```json
@@ -97,7 +97,7 @@ The examples below show the minimal command-line patterns. For the complete CLI 
 
     ??? Note "Other examples of `PXF` nested array properties"
 
-        From v1.08 onward, `Pheno-Ranker` also canonicalizes other nested arrays automatically from their meaningful content. This avoids differences caused only by array order in complex PXF properties such as:
+        From v1.08 onward, users do not need to transpose or manually rewrite nested arrays for comparison. `Pheno-Ranker` canonicalizes other nested arrays automatically from their meaningful content. This avoids differences caused only by array order in complex PXF properties such as:
 
         ```json
         "biosamples.diagnosticMarkers",

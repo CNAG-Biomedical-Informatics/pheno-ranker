@@ -20,6 +20,12 @@ As an input, `Pheno-Ranker` accepts data from the [individuals](https://docs.gen
 
 The examples below show the minimal command-line patterns. For the complete CLI reference, see [Usage](usage.md).
 
+??? Note "How are BFF arrays compared?"
+
+    For first-level BFF arrays such as `diseases`, `exposures`, `interventionsOrProcedures`, `measures`, `phenotypicFeatures`, and `treatments`, `Pheno-Ranker` replaces numeric array indexes with semantic identifiers configured in `identity_paths`.
+
+    From v1.08 onward, users do not need to transpose or manually rewrite nested BFF arrays. Nested arrays are canonicalized automatically from their meaningful content, so equivalent nested objects can match even if their order differs between records.
+
 
 === "Cohort mode"
 
