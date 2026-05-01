@@ -5,8 +5,10 @@
 
     `Pheno-Ranker` _a priori_ accepts as input "any" `JSON` or `YAML` array file. In order to do it, you'll need a **configuration file**. See a tutorial on how to use it [here](generic-json.md#moviepackets).
 
-    !!! Bug "What do you mean by "any" `JSON` or `YAML`?"
-        `Pheno-Ranker` is capable of processing deeply nested data structures but has its limitations. If your data includes arrays nested more than one level deep, we recommend transforming the 2D (or more) nested array elements into 1D objects.
+    !!! Note "What do you mean by "any" `JSON` or `YAML`?"
+        `Pheno-Ranker` can process deeply nested data structures. From v1.08 onward, arrays nested more than one level deep are canonicalized automatically from their meaningful content, so equivalent nested objects can match even if their order differs between records.
+
+        For first-level arrays in generic JSON, set `format: JSON` and declare `indexed_terms`. You can also add `identity_paths` to keep user-facing keys more interpretable, but from v1.08 onward generic JSON can infer default identities when those paths are absent. For deeper nested arrays, no extra identity path is required.
 
 === "CSV"
 

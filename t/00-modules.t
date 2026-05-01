@@ -612,6 +612,36 @@ subtest 'Compare helpers cover deterministic transforms and exports' => sub {
     unlike join( "\n", sort keys %{$canon_a} ), qr/doseIntervals:\d+/,
       'nested array canonicalization removes raw nested indexes';
 
+    my $prefold_nested = {
+        medicalActions => [
+            {
+                treatment => {
+                    agent => { id => 'CHEBI:1' },
+                    doseIntervals => [
+                        {
+                            quantity => {
+                                unit  => { id => 'UCUM:mg', label => 'milligram' },
+                                value => 10,
+                            },
+                        },
+                    ],
+                },
+            },
+        ],
+    };
+    Pheno::Ranker::Compare::Remap::normalize_nested_array_indexes(
+        $prefold_nested, $nested_filter_self );
+    is ref $prefold_nested->{medicalActions}, 'ARRAY',
+      'pre-fold normalization preserves first-level arrays for id_correspondence';
+    is ref $prefold_nested->{medicalActions}[0]{treatment}{doseIntervals}, 'HASH',
+      'pre-fold normalization converts nested arrays to identity-keyed objects';
+    like(
+        join( "\n",
+            keys %{ $prefold_nested->{medicalActions}[0]{treatment}{doseIntervals} } ),
+        qr/^idx_[0-9a-f]{12}$/,
+        'pre-fold normalization uses content signatures for nested object keys'
+    );
+
     my $bff_nested_a = {
         'measurements:0.assayCode.id' => 'NCIT:C156778',
         'measurements:0.complexValue.typedQuantities:0.quantityType.id' =>
@@ -794,6 +824,107 @@ subtest 'Compare helpers cover deterministic transforms and exports' => sub {
         'first-level PXF arrays are not content-signature canonicalized'
     );
 
+    my $json_remap_base = {
+        include_terms                  => [],
+        exclude_terms                  => [],
+        format                         => 'JSON',
+        retain_excluded_phenotypicFeatures => undef,
+        array_regex_qr                 => qr/^([^:]+):(\d+)(?:\.(.+))?$/,
+        array_terms_regex_qr           => qr/^(genre|items):/,
+        exclude_variables_regex_qr     => qr/label/,
+        age                            => 1,
+        config_file                    => 'json-config.yaml',
+    };
+    my $json_scalar_remap = remap_hash(
+        {
+            hash => {
+                id    => 'A',
+                genre => [ 'Sci-Fi', 'Drama' ],
+            },
+            self => $json_remap_base,
+        }
+    );
+    ok exists $json_scalar_remap->{'genre.Sci-Fi'},
+      'generic JSON scalar arrays use the scalar value as default identity';
+    ok exists $json_scalar_remap->{'genre.Drama'},
+      'generic JSON scalar arrays canonicalize all scalar values';
+
+    my $json_object_remap = remap_hash(
+        {
+            hash => {
+                id    => 'A',
+                items => [
+                    {
+                        id    => 'item-1',
+                        label => 'ignored',
+                        color => 'red',
+                    },
+                ],
+            },
+            self => $json_remap_base,
+        }
+    );
+    ok exists $json_object_remap->{'items.item-1.color.red'},
+      'generic JSON object arrays infer direct id fields by default';
+    ok(
+        !( grep { /items\.idx_/ } keys %{$json_object_remap} ),
+        'generic JSON direct ids take precedence over content signatures'
+    );
+
+    my $json_content_a = remap_hash(
+        {
+            hash => {
+                id    => 'A',
+                items => [
+                    { color => 'red',  shape => 'round' },
+                    { color => 'blue', shape => 'square' },
+                ],
+            },
+            self => $json_remap_base,
+        }
+    );
+    my $json_content_b = remap_hash(
+        {
+            hash => {
+                id    => 'A',
+                items => [
+                    { shape => 'square', color => 'blue' },
+                    { shape => 'round',  color => 'red' },
+                ],
+            },
+            self => $json_remap_base,
+        }
+    );
+    is_deeply $json_content_a, $json_content_b,
+      'generic JSON object arrays fall back to stable content identities';
+    like join( "\n", sort keys %{$json_content_a} ),
+      qr/items\.idx_[0-9a-f]{12}\.color\.red/,
+      'generic JSON content fallback emits idx signatures';
+
+    my $json_explicit_remap = remap_hash(
+        {
+            hash => {
+                id    => 'A',
+                items => [
+                    {
+                        id   => 'direct-id',
+                        code => 'configured-code',
+                    },
+                ],
+            },
+            self => {
+                %{$json_remap_base},
+                id_correspondence => { JSON => { items => 'code' } },
+            },
+        }
+    );
+    ok exists $json_explicit_remap->{'items.configured-code.id.direct-id'},
+      'generic JSON explicit identity_paths override default identity inference';
+    ok(
+        !( grep { /items\.direct-id\./ } keys %{$json_explicit_remap} ),
+        'generic JSON default direct id is not used when identity_paths are configured'
+    );
+
     is(
         Pheno::Ranker::Compare::guess_label('top.level.leaf'),
         'leaf',
@@ -940,13 +1071,29 @@ subtest 'Ranker validates configuration and fast run branches' => sub {
             filepath => $missing_correspondence,
             data     => {
                 allowed_terms => ['id'],
-                array_terms   => ['items'],
+                indexed_terms => ['items'],
             },
         }
     );
     throws_ok { Pheno::Ranker->new( { config_file => $missing_correspondence } ) }
-    qr/No <id_correspondence>/,
-      'Ranker rejects array config without id_correspondence';
+    qr/No <identity_paths>/,
+      'Ranker rejects indexed config without identity_paths';
+
+    my ( $json_default_identity_fh, $json_default_identity ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.yaml', UNLINK => 1 );
+    close $json_default_identity_fh;
+    Pheno::Ranker::IO::write_yaml(
+        {
+            filepath => $json_default_identity,
+            data     => {
+                allowed_terms => ['items'],
+                indexed_terms => ['items'],
+                format        => 'JSON',
+            },
+        }
+    );
+    lives_ok { Pheno::Ranker->new( { config_file => $json_default_identity } ) }
+    'Ranker allows JSON indexed configs without identity_paths';
 
     my ( $format_mismatch_fh, $format_mismatch ) =
       tempfile( DIR => $tmpdir, SUFFIX => '.yaml', UNLINK => 1 );
@@ -956,15 +1103,15 @@ subtest 'Ranker validates configuration and fast run branches' => sub {
             filepath => $format_mismatch,
             data     => {
                 allowed_terms     => ['id'],
-                array_terms       => ['items'],
+                indexed_terms     => ['items'],
                 format            => 'PXF',
-                id_correspondence => { BFF => { items => 'id' } },
+                identity_paths     => { BFF => { items => 'id' } },
             },
         }
     );
     throws_ok { Pheno::Ranker->new( { config_file => $format_mismatch } ) }
     qr/does not match any key/,
-      'Ranker rejects format missing from id_correspondence';
+      'Ranker rejects format missing from identity_paths';
 
     throws_ok {
         Pheno::Ranker->new(

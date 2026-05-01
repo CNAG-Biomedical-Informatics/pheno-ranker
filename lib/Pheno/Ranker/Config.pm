@@ -130,7 +130,7 @@ has array_terms => (
     lazy    => 1,
     default => sub {
         my $self = shift;
-        return exists $self->raw->{array_terms} ? $self->raw->{array_terms} : ['foo'];
+        return $self->_config_value( 'indexed_terms', 'array_terms' ) // ['foo'];
     },
     isa     => ArrayRef,
 );
@@ -140,8 +140,8 @@ has array_regex => (
     lazy    => 1,
     default => sub {
         my $self = shift;
-        return exists $self->raw->{array_regex}
-          ? $self->raw->{array_regex}
+        return defined $self->_config_value( 'index_regex', 'array_regex' )
+          ? $self->_config_value( 'index_regex', 'array_regex' )
           : '^([^:]+):(\d+)';
     },
 );
@@ -198,11 +198,16 @@ has id_correspondence => (
     lazy    => 1,
     default => sub {
         my $self = shift;
-        return exists $self->raw->{id_correspondence}
-          ? $self->raw->{id_correspondence}
-          : undef;
+        return $self->_config_value( 'identity_paths', 'id_correspondence' );
     },
 );
+
+sub _config_value {
+    my ( $self, $primary, $legacy ) = @_;
+    return $self->raw->{$primary} if exists $self->raw->{$primary};
+    return $self->raw->{$legacy}  if defined $legacy && exists $self->raw->{$legacy};
+    return undef;
+}
 
 sub BUILD {
     my $self = shift;
@@ -229,15 +234,17 @@ sub _validate_id_correspondence {
     my $self = shift;
     return if $self->array_terms->[0] eq 'foo';
 
-    unless ( exists $self->raw->{id_correspondence}
-        && HashRef->check( $self->raw->{id_correspondence} ) )
-    {
-        die "No <id_correspondence> provided or not a hash ref at " . $self->file . "\n";
+    unless ( defined $self->id_correspondence ) {
+        return if defined $self->format && $self->format eq 'JSON';
+        die "No <identity_paths> provided or not a hash ref at " . $self->file . "\n";
     }
 
+    die "No <identity_paths> provided or not a hash ref at " . $self->file . "\n"
+      unless HashRef->check( $self->id_correspondence );
+
     if ( exists $self->raw->{format} && Str->check( $self->raw->{format} ) ) {
-        die "<" . $self->raw->{format} . "> does not match any key from <id_correspondence>\n"
-          unless exists $self->raw->{id_correspondence}{ $self->raw->{format} };
+        die "<" . $self->raw->{format} . "> does not match any key from <identity_paths>\n"
+          unless exists $self->id_correspondence->{ $self->raw->{format} };
     }
 }
 

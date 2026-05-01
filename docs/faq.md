@@ -84,7 +84,7 @@ Frequently Asked Questions
 
 ??? faq "Can I use `pedigrees` term in `BFF`?"
 
-    A priori, you can, but the term `pedigrees` is excluded by default via [configuration file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/share/conf/config.yaml). Pedigrees are often case-related, so the information is not relevant for comparison to other cases. Additionally, it contains deeply nested data structures. If you want to include it, please modify the default configuration file and use it with the `--config <your-config-file>` option.
+    A priori, you can, but the term `pedigrees` is excluded by default via [configuration file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/share/conf/config.yaml). Pedigrees are often case-related, so the information is not relevant for comparison to other cases. If you want to include it, please modify the default configuration file and use it with the `--config <your-config-file>` option.
 
 ??? faq "How does `Pheno-Ranker` treat empty and missing values?"
 

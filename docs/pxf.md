@@ -95,9 +95,9 @@ The examples below show the minimal command-line patterns. For the complete CLI 
     "interpretations.OMIM:148600.progressStatus.SOLVED" : 1,
     ```
 
-    ??? Warning "Other examples of `PXF` nested array properties"
+    ??? Note "Other examples of `PXF` nested array properties"
 
-        Find below another examples of deeply nested properties.
+        From v1.08 onward, `Pheno-Ranker` also canonicalizes other nested arrays automatically from their meaningful content. This avoids differences caused only by array order in complex PXF properties such as:
 
         ```json
         "biosamples.diagnosticMarkers",
@@ -109,12 +109,7 @@ The examples below show the minimal command-line patterns. For the complete CLI 
         "medicalActions.treatment.doseIntervals"
         ```
 
-		If issues arise, we recommend addressing them by either:  
- 
-        1. **Filtering out** problematic variables using the config file
-        2. **Preprocessing** the `JSON` data, such as converting arrays into objects.
-
-        Any _critical_ issues specific to `BFF/PXF` will be addressed by our team as they arise.
+        If a nested object has no usable content after filtering, `Pheno-Ranker` keeps its numeric position instead of guessing an identity. You can still filter out noisy variables with the configuration file when they are not useful for similarity.
 
 === "Cohort mode"
 
