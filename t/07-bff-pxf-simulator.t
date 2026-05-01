@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use File::Spec;
-use IPC::Open3;
 use JSON::XS;
 use Test::More;
 use File::Compare;
@@ -14,7 +13,6 @@ my $seed = 123456789;
 
 # The command line script to be tested
 my $script = File::Spec->catfile( 'utils', 'bff_pxf_simulator', 'bff-pxf-simulator' );
-my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
 my @inc    = map { ( '-I', $_ ) } @INC;
 
 ##########
@@ -243,12 +241,17 @@ for my $case (
 }
 
 sub run_quietly {
-    open my $null_in,  '<', File::Spec->devnull;
-    open my $null_out, '>', File::Spec->devnull;
-    open my $null_err, '>', File::Spec->devnull;
-    my $pid = open3( $null_in, $null_out, $null_err, @_ );
-    waitpid $pid, 0;
-    return $?;
+    open my $null_in, '<', File::Spec->devnull
+      or die 'Cannot open null device for reading: ' . $!;
+    open my $null_out, '>', File::Spec->devnull
+      or die 'Cannot open null device for writing: ' . $!;
+    open my $null_err, '>', File::Spec->devnull
+      or die 'Cannot open null device for writing: ' . $!;
+
+    local *STDIN  = $null_in;
+    local *STDOUT = $null_out;
+    local *STDERR = $null_err;
+    return system(@_);
 }
 
 sub decode_json_file {
