@@ -31,8 +31,18 @@ my @inc = map { ( '-I', $_ ) } @INC;
     my $file       = catfile( $output_dir, 'example.json' );
     my $config     = catfile( $output_dir, 'example_config.yaml' );
 
-    # Run the command line script with the input file, and redirect the output to the output_file
-    system("$^X $inc $script -i $input_file --output-dir $output_dir -sep ';' --generate-primary-key --primary-key-name Id --array-separator ','");
+    my $exit = system(
+        $^X, @inc, $script,
+        '-i',                 $input_file,
+        '--output-dir',       $output_dir,
+        '-sep',               ';',
+        '--generate-primary-key',
+        '--primary-key-name', 'Id',
+        '--array-separator',  ','
+    );
+    is( $exit, 0, 'csv2pheno-ranker exits cleanly' );
+    ok( -e $file,   "csv2pheno-ranker created <$file>" );
+    ok( -e $config, "csv2pheno-ranker created <$config>" );
 
     is_deeply(
         read_json($file),
