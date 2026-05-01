@@ -4,10 +4,10 @@ allowed_terms:
 - Baz
 - Foo
 - Id
-array_terms:
-- Bar
 format: CSV
-id_correspondence:
+identity_paths:
   CSV:
   - Bar: Bar
+indexed_terms:
+- Bar
 primary_key: Id

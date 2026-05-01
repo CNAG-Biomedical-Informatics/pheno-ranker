@@ -23,7 +23,7 @@ The file we will use is `clinical.tsv`.
 
 ??? Hint "Why `TSV` and not `JSON`?"
 
-    `Pheno-Ranker` works natively with `JSON`, so you *could* download JSON data. However, since the data often contains 2D-nested arrays, for this example it's easier to stick with `TSV`. The only caveat is that in the TSV, instead of all case-level data being consolidated into one object, we may have multiple rows per `"case_id"`. Just be aware of that.
+    `Pheno-Ranker` works natively with `JSON`, including nested arrays. For this example, we stick with `TSV` because it is easier to inspect and convert with the included CSV utility. The only caveat is that in the TSV, instead of all case-level data being consolidated into one object, we may have multiple rows per `"case_id"`. Just be aware of that.
 
 4. If you didn't select a specific cohort, you will end up with a TSV covering >45K cases and >100K rows. That might be a bit too much, so we will downsample to ~5K cases and replace empty values (and not reported) with "NA":
 

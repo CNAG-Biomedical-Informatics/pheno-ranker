@@ -22,8 +22,8 @@ For this tutorial, we will use **Moviepackets** to show how `Pheno-Ranker` can w
  <figcaption>Image created by ChatGPT4o</figcaption>
 </figure>
 
-??? Question "What is a Moviepacket (MXF) file?"
-    A Moviepacket is an invented data exchange format :smile: designed for movies. In this tutorial it plays the same role that Phenotype Exchange Format ([PXF](pxf.md)) plays for pheno-clinical data: it is simply the input data model.
+??? Question "What is a Moviepacket file?"
+    A Moviepacket is an invented data exchange format :smile: designed for movies. In this tutorial it plays the same role that Phenotype Exchange Format ([PXF](pxf.md)) plays for pheno-clinical data: it is simply the input data model. Since it is generic JSON, its `Pheno-Ranker` configuration uses `format: JSON`.
 
 
 Imagine you have a catalog of 25 movies described in `JSON` format. Each movie is one record, and each record has several properties, such as `title`, `genre`, `year`, `country`, and `rating`. In `Pheno-Ranker` documentation, these selectable properties are often called `terms`.
@@ -39,77 +39,80 @@ You are interested in checking the variety of your catalog and plan to use `Phen
 ??? Question "What is a `Pheno-Ranker` configuration file?"
     A configuration file is a text file in [YAML](https://en.wikipedia.org/wiki/YAML) format ([JSON](https://en.wikipedia.org/wiki/JSON) is also accepted) that tells `Pheno-Ranker` how to interpret your input. It is particularly important when you are not using the two supported formats _out-of-the-box_: [BFF](bff.md) and [PXF](pxf.md).
 
+    !!! Note "Configuration names from v1.08"
+        The configuration names shown here (`indexed_terms`, `index_regex`, and `identity_paths`) are used from `Pheno-Ranker` v1.08 onward. Older configuration files using the previous names are still accepted for compatibility.
+
 ??? Tip "Do I need to create a configuration file?"
     This file only has to be created if you are working with **your own JSON format**. If you have `CSV`, please go to this [page](csv-import.md).
 
+    For generic JSON, the configuration mainly tells `Pheno-Ranker` three things:
+
+    - Which field identifies each record (`primary_key`).
+    - Which fields can be compared (`allowed_terms`).
+    - Which first-level fields are arrays (`indexed_terms`), when present.
+
     If your file format resembles Moviepackets, you can use the Moviepacket configuration as a template. Just ensure you **modify the terms** to align with your data.
-
-    ### How custom JSON is interpreted
-
-    For a custom JSON format, the configuration answers four practical questions:
-
-    - `primary_key`: Which field identifies each record? For Moviepackets, this is `title`.
-    - `allowed_terms`: Which fields can be used in comparisons or selected with `--include-terms` / `--exclude-terms`?
-    - `array_terms`: Which fields contain arrays? For Moviepackets, `genre` is an array.
-    - `id_correspondence`: If a field is an array, which value should be used to name each array element after flattening?
 
     In the Moviepacket example, `rating` exists in the JSON data but is not listed in `allowed_terms`; therefore it is not used in the tutorial comparisons. This keeps the example categorical and avoids mixing in quantitative values.
 
     ### Creating a configuration file
     
-    To create a configuration file, start by reviewing the [example file](https://github.com/cnag-biomedical-informatics/pheno-ranker/blob/main/t/data/movies_config.yaml) provided with the installation. The goal is to replace its values with those from your project. If your movies did not have array-based properties, the configuration file would look like this:
+    Because Moviepacket records are identified by `title` and include the array field `genre`, the configuration can be minimal:
     
     ```yaml
-    # Set the format
-    format: MXF # Optional unless you have array-based properties
-    
-    # Set the primary key for the objects
+    format: JSON
     primary_key: title
-    
-    # Set the allowed terms or properties for use with include|exclude-terms
-    allowed_terms: [country,genre,year]
-    ```
-    
-    Because the Moviepacket data has the term `genre`, which is an `array`, the file looks like this:
-    
-    ```yaml
-    # Set the format
-    format: MXF
-    
-    # Set the primary key for the objects
-    primary_key: title
-    
-    # Set the allowed terms or properties for use with include|exclude-terms
     allowed_terms: [country,genre,year,title]
+    indexed_terms: [genre]
+    ```
+
+    This is enough for scalar arrays such as `genre`, because `Pheno-Ranker` can use values like `Drama` or `Sci-Fi` directly as identities.
+
+    ### Optional identity paths
+
+    You can also be explicit about how first-level array elements should be named. This is useful when the array contains objects, or when you want output keys to be easier to inspect.
     
-    # Set the terms which are arrays
-    array_terms: [genre]
+    The Moviepacket configuration included with the repo uses this explicit form:
     
-    # Set the regex to identify array indexes, guiding their substitution within array elements
-    array_regex: '^([^:]+):(\d+)'
-    
-    # Set the path to select values for substituting array indexes
-    id_correspondence:
-      MXF:
+    ```yaml
+    format: JSON
+    primary_key: title
+    allowed_terms: [country,genre,year,title]
+    indexed_terms: [genre]
+    index_regex: '^([^:]+):(\d+)'
+    identity_paths:
+      JSON:
         genre: genre
     ```
+
+    For `format: JSON`, `identity_paths` is recommended but not mandatory. If it is absent, first-level arrays are canonicalized automatically:
+
+    - Scalar arrays use the scalar value itself.
+    - Object arrays first try direct fields such as `id`, `identifier`, `code`, `name`, `title`, or `value`.
+    - If none of those fields exist, `Pheno-Ranker` derives a stable identity from the object's meaningful content.
+
+    !!! Note "Nested arrays from v1.08"
+        From `Pheno-Ranker` v1.08 onward, arrays nested inside other arrays are also compared independently of their original order. Deeper arrays are handled automatically from their meaningful content, so equivalent nested objects can match even if they appear at different numeric positions.
+
+        Fields ignored by the configuration do not define the identity of nested objects. If a nested object has no usable content after filtering, `Pheno-Ranker` keeps its numeric position instead of guessing an identity.
     
     The table below summarizes which parameters are needed depending on the format:
     
     | Format      | Required properties | Optional properties | Pre-configured |
     | ----------- | ------------------- | ------------------- |  -----  | 
-    | BFF / PXF   | `primary_key, allowed_terms, array_terms, array_regex, id_correspondence` | `format` | ✓ |
-    | Others (`array`) | `format, primary_key, allowed_terms, array_terms, id_correspondence` | `array_regex` | ✗ |
+    | BFF / PXF   | `primary_key, allowed_terms, indexed_terms, index_regex, identity_paths` | `format` | ✓ |
+    | CSV-derived JSON | `format, primary_key, allowed_terms, indexed_terms, identity_paths` | `index_regex` | generated by utility |
+    | Generic JSON (`array`) | `format, primary_key, allowed_terms, indexed_terms` | `index_regex, identity_paths` | ✗ |
     | Others (`non-array`) |  `primary_key, allowed_terms` | `format` | ✗ |
     
     
      * Where:
-        - **format** is a `string` that defines your particular format. In this case, it is `MXF`. It has to match the key used under `id_correspondence`.
+        - **format** is a `string` that defines your particular format. Use `JSON` for generic JSON files with array-based properties. If `identity_paths` is provided, it has to match the key used under `identity_paths`.
         - **primary_key** is the key that will be used as the record identifier.
         - **allowed_terms** is an array that lists the terms permitted for use with `--include-terms` and `--exclude-terms`. This helps validate input and catch typos. If `--include-terms` or `--exclude-terms` are not specified, all terms present in the JSON file can be considered.
-        - **array_terms** is an array that lists which properties are arrays.
-        - **array_regex** is a string used to parse flattened keys. It is used together with `id_correspondence`.
-        - **id_correspondence** is an object that, together with `array_regex`, renames array elements so comparisons do not rely on numeric indexes.
+        - **indexed_terms** is an array that lists which first-level array properties should have their numeric indexes replaced.
+        - **index_regex** is a string used to parse flattened first-level array keys. It is used together with `identity_paths`.
+        - **identity_paths** is an object that, together with `index_regex`, renames first-level array elements so comparisons do not rely on numeric indexes. For `format: JSON`, this is optional because default identities can be inferred, but explicit paths make output keys easier to read.
     
 ### Running `Pheno-Ranker`
 

@@ -78,6 +78,9 @@
         ```
         
         And the other will be this file named `example_config.yaml`:
+
+        !!! Note "Configuration names from v1.08"
+            The configuration names shown here (`indexed_terms` and `identity_paths`) are used from `Pheno-Ranker` v1.08 onward. Older configuration files using the previous names are still accepted for compatibility.
         
         ```yaml
         ---
@@ -86,10 +89,10 @@
         - Baz
         - Foo
         - Id
-        array_terms:
+        indexed_terms:
         - Bar
         format: CSV
-        id_correspondence:
+        identity_paths:
           CSV:
             - Bar: Bar
         primary_key: Id
@@ -115,4 +118,3 @@
 === "Usage"
 
     --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/csv2pheno_ranker/README.md"
-

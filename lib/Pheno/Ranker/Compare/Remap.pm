@@ -12,7 +12,7 @@ use Pheno::Ranker::Compare::Prune
 
 use Exporter 'import';
 our @EXPORT_OK =
-  qw(remap_hash add_id2key guess_label canonicalize_nested_array_indexes remap_leaf_is_usable);
+  qw(remap_hash add_id2key guess_label canonicalize_nested_array_indexes normalize_nested_array_indexes remap_leaf_is_usable);
 
 sub remap_hash {
     my $arg          = shift;
@@ -40,7 +40,7 @@ sub remap_hash {
     #        %$hash  = 0 , then we return {}, to avoid trouble w/ Fold.pm
     return {} unless %$hash;
 
-# A bit more pruning plus folding
+# A bit more pruning plus nested array normalization and folding
 # NB: Hash::Fold keeps white spaces on keys
 #
 # Options for 1D-array folding:
@@ -51,8 +51,8 @@ sub remap_hash {
 #  - BUT profiling shows it's ~5-10% slower than 'Array to Hash then Fold'
 #  - Does not accommodate specific remappings like 'interpretations.diagnosis.genomicInterpretations'
     set_excluded_phenotypicFeatures( $hash, $switch, $format );
+    normalize_nested_array_indexes( $hash, $self );
     $hash = fold($hash);
-    $hash = canonicalize_nested_array_indexes( $hash, $self );
 
     # Now we proceed for each key
     for my $key ( keys %{$hash} ) {
@@ -138,6 +138,93 @@ sub remap_hash {
     # *** IMPORTANT ***
     # We have to return an object {} when undef
     return \%out_hash // {};
+}
+
+sub normalize_nested_array_indexes {
+    my ( $data, $self ) = @_;
+    _normalize_nested_arrays( $data, $self, '', 0 );
+    return $data;
+}
+
+sub _normalize_nested_arrays {
+    my ( $data, $self, $path, $array_depth ) = @_;
+
+    if ( ref $data eq 'HASH' ) {
+        for my $key ( keys %{$data} ) {
+            my $child_path = length $path ? "$path.$key" : $key;
+            my $value      = $data->{$key};
+
+            if ( ref $value eq 'ARRAY' ) {
+                if ($array_depth) {
+                    $data->{$key} =
+                      _normalize_nested_array( $value, $self, $child_path,
+                        $array_depth );
+                }
+                else {
+                    for my $i ( 0 .. $#{$value} ) {
+                        _normalize_nested_arrays( $value->[$i], $self,
+                            "$child_path:$i", $array_depth + 1 );
+                    }
+                }
+            }
+            else {
+                _normalize_nested_arrays( $value, $self, $child_path,
+                    $array_depth );
+            }
+        }
+    }
+    elsif ( ref $data eq 'ARRAY' ) {
+        for my $i ( 0 .. $#{$data} ) {
+            _normalize_nested_arrays( $data->[$i], $self, "$path:$i",
+                $array_depth + 1 );
+        }
+    }
+
+    return $data;
+}
+
+sub _normalize_nested_array {
+    my ( $array, $self, $path, $array_depth ) = @_;
+    my %normalized;
+    my @unidentified;
+
+    for my $i ( 0 .. $#{$array} ) {
+        my $item = $array->[$i];
+        _normalize_nested_arrays( $item, $self, "$path:$i", $array_depth + 1 );
+
+        my $signature = _nested_item_signature( "$path:$i", $item, $self );
+        if ( defined $signature ) {
+            $normalized{$signature} = $item;
+        }
+        else {
+            push @unidentified, $item;
+        }
+    }
+
+    # If any item lacks usable content, preserve the original array. Keeping
+    # numeric indexes is safer than inventing identities from ignored fields.
+    return $array if @unidentified;
+    return \%normalized;
+}
+
+sub _nested_item_signature {
+    my ( $prefix, $item, $self ) = @_;
+    my $folded =
+        ref $item eq 'HASH' ? fold($item)
+      : ref $item          ? {}
+      :                      { '__value__' => $item };
+
+    my @items;
+    for my $relative ( sort keys %{$folded} ) {
+        my $value = $folded->{$relative};
+        next if ref $value;
+        my $key = $relative eq '__value__' ? $prefix : "$prefix.$relative";
+        next unless remap_leaf_is_usable( $key, $value, $self );
+        push @items, "$relative=$value";
+    }
+
+    return unless @items;
+    return 'idx_' . substr( sha1_hex( join "\x1e", @items ), 0, 12 );
 }
 
 sub canonicalize_nested_array_indexes {
@@ -248,7 +335,12 @@ sub remap_leaf_is_usable {
 
 sub add_id2key {
     my ( $key, $hash, $self ) = @_;
-    my $id_correspondence    = $self->{id_correspondence}{ $self->{format} };
+    my $id_correspondence =
+        defined $self->{id_correspondence}
+      && defined $self->{format}
+      && exists $self->{id_correspondence}{ $self->{format} }
+      ? $self->{id_correspondence}{ $self->{format} }
+      : undef;
     my $array_regex_qr       = $self->{array_regex_qr};
     my $array_terms_regex_qr = $self->{array_terms_regex_qr};
 
@@ -295,20 +387,20 @@ sub add_id2key {
     # Only proceed if $key is one of the array_terms
     if ( $key =~ $array_terms_regex_qr ) {
 
-        # Now we use $array_regex_qr to capture $1, $2 and $3 for BFF/PXF
-        # NB: For others (e.g., MXF) we will have only $1 and $2
+        # Now we use $array_regex_qr to capture $1, $2 and $3 for object arrays.
+        # For scalar arrays we will have only $1 and $2.
         $key =~ $array_regex_qr;
 
         #say "$array_regex_qr -- [$key] <$1> <$2> <$3>"; # $3 can be undefined
 
         my ( $tmp_key, $val );
 
-        # Normal behaviour for BFF/PXF
+        # Object arrays. Explicit identity_paths take precedence. Generic JSON
+        # can fall back to direct id-like fields or content signatures.
         if ( defined $3 ) {
 
-# If id_correspondence is an array (e.g., medicalActions) we have to grep the right match
             my $correspondence;
-            if ( ref $id_correspondence->{$1} eq ref [] ) {
+            if ( defined $id_correspondence && ref $id_correspondence->{$1} eq ref [] ) {
 
                 #       $1         $2                 $3
                 # <medicalActions> <0> <treatment.routeOfAdministration.id>
@@ -317,21 +409,32 @@ sub add_id2key {
                   first { $_ =~ m/^$subkey/ }
                   @{ $id_correspondence->{$1} };       # treatment.agent.id
             }
-            else {
+            elsif ( defined $id_correspondence && exists $id_correspondence->{$1} ) {
                 $correspondence = $id_correspondence->{$1};
             }
 
-            # Now that we know which is the term we use to find key-val in $hash
-            $tmp_key =
-                $1 . ':'
-              . $2 . '.'
-              . $correspondence;    # medicalActions.0.treatment.agent.id
-            $val = $hash->{$tmp_key};    # DrugCentral:257
+            if ( defined $correspondence ) {
+
+                # Now that we know which is the term we use to find key-val in $hash
+                $tmp_key =
+                    $1 . ':'
+                  . $2 . '.'
+                  . $correspondence;    # medicalActions.0.treatment.agent.id
+                $val = $hash->{$tmp_key};    # DrugCentral:257
+            }
+            elsif ( _uses_json_default_identity($self) ) {
+                $val = _default_json_array_identity( $1, $2, $hash, $self );
+            }
+            else {
+                die
+"<$1> contains object array elements but has no identity path in <$self->{config_file}>. Please add it under <identity_paths>.\n";
+            }
+
             $key = join '.', $1, $val, $3
               ; # medicalActions.DrugCentral:257.treatment.routeOfAdministration.id
         }
 
-        # MXF or similar (...we haven't encountered other regex yet)
+        # Generic JSON scalar arrays.
         else {
 
             $tmp_key = $1 . ':' . $2;
@@ -350,6 +453,30 @@ sub add_id2key {
     }
 
     return $key;
+}
+
+sub _uses_json_default_identity {
+    my $self = shift;
+    return defined $self->{format} && $self->{format} eq 'JSON';
+}
+
+sub _default_json_array_identity {
+    my ( $term, $index, $hash, $self ) = @_;
+    my $prefix = "$term:$index";
+
+    for my $path (qw(id identifier code name title value)) {
+        my $key = "$prefix.$path";
+        return $hash->{$key}
+          if exists $hash->{$key}
+          && remap_leaf_is_usable( $key, $hash->{$key}, $self );
+    }
+
+    my $signature = _nested_array_signature( $prefix, $hash, $self );
+    die
+"<$term> contains object array elements but no usable default identity could be inferred. Please add <identity_paths> in <$self->{config_file}>.\n"
+      unless defined $signature;
+
+    return $signature;
 }
 
 sub guess_label {

@@ -318,11 +318,11 @@ sub create_config {
   if ( scalar @arrays ) {
 
       # NB: Can't use $array more than once in the hash ref below. Need to deref
-      $config->{array_terms} = [@arrays];
+      $config->{indexed_terms} = [@arrays];
 
       # @non_arrays, @arrays are sorted, but if we merge them we need to re-sort
       $config->{allowed_terms}     = [ sort @non_arrays, @arrays ];
-      $config->{id_correspondence} = {
+      $config->{identity_paths} = {
           CSV => [
               map {
                   my $val = { $_ => $_ };
