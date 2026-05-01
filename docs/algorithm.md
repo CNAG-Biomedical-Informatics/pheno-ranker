@@ -146,7 +146,7 @@ Note that the flattened keys maintain the original hierarchical relationships of
     "medicalActions.CHEBI:41879.treatment.responseMarkers.idx_8c3d5a4e2f10.evidence.idx_e4512cf09aa8.source.clinical-report" : 1
     ```
 
-    Programmatically, `Pheno-Ranker` treats **each nested array element separately**. For each element, it flattens the element, keeps only the **key/value pairs used for comparison**, sorts those key/value pairs, joins them into one canonical string, and computes a **SHA-1 digest**. Sorting is why `{ "id": "...", "status": "..." }` and `{ "status": "...", "id": "..." }` produce the same `idx_<hash>`. The key for that element is the first 12 hexadecimal characters of the digest prefixed with `idx_`. Therefore, the **same categorical element gets the same key** even if the array order is different.
+    Programmatically, `Pheno-Ranker` treats **each nested array element separately**. For each element, it flattens the element, keeps only the **key/value pairs used for comparison**, sorts those key/value pairs, joins them into one canonical string, and computes a **SHA-1 digest**. Here, SHA-1 is used only as a deterministic, non-cryptographic content fingerprint. Sorting is why `{ "id": "...", "status": "..." }` and `{ "status": "...", "id": "..." }` produce the same `idx_<hash>`. The key for that element is the first 12 hexadecimal characters of the digest prefixed with `idx_`. Therefore, the **same categorical element gets the same key** even if the array order is different.
 
 ## Step 2: Generate global hash for reference cohort(s)
 
