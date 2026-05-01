@@ -3,6 +3,7 @@ package Pheno::Ranker::Compare::Remap;
 use strict;
 use warnings;
 
+use Digest::SHA qw(sha1_hex);
 use Hash::Fold fold => { array_delimiter => ':' };
 use List::Util qw(first);
 use Pheno::Ranker::Compare::Ontology qw(add_hpo_ascendants);
@@ -10,7 +11,8 @@ use Pheno::Ranker::Compare::Prune
   qw(prune_excluded_included set_excluded_phenotypicFeatures);
 
 use Exporter 'import';
-our @EXPORT_OK = qw(remap_hash add_id2key guess_label);
+our @EXPORT_OK =
+  qw(remap_hash add_id2key guess_label canonicalize_nested_array_indexes remap_leaf_is_usable);
 
 sub remap_hash {
     my $arg          = shift;
@@ -50,49 +52,15 @@ sub remap_hash {
 #  - Does not accommodate specific remappings like 'interpretations.diagnosis.genomicInterpretations'
     set_excluded_phenotypicFeatures( $hash, $switch, $format );
     $hash = fold($hash);
-
-    # Load values for the for loop
-    my $exclude_variables_regex_qr = $self->{exclude_variables_regex_qr};
-    my $misc_regex_qr =
-      qr/1900-01-01|NA0000|NCIT:C126101|P999Y|P9999Y|phenopacket_id/;
-
-# Pre-compile a list of fixed scalar values to exclude into a hash for quick lookup
-    my %exclude_values =
-      map { $_ => 1 }
-      ( 'NA', 'NaN', 'Fake', 'None:No matching concept', 'Not Available' );
+    $hash = canonicalize_nested_array_indexes( $hash, $self );
 
     # Now we proceed for each key
     for my $key ( keys %{$hash} ) {
 
-        # Discard undefined
-        next unless defined $hash->{$key};
-
-# Discarding lines with 'low quality' keys (Time of regex profiled with :NYTProf: ms time)
-# Some can be "rescued" by adding the ontology as ($1)
-# NB1: We discard _labels too!!
-# NB2: info|metaData are always discarded
-        next
-          if ( defined $exclude_variables_regex_qr
-            && $key =~ $exclude_variables_regex_qr );
-
-        # The user can turn on age related values
-        next
-          if ( ( $format eq 'PXF' || $format eq 'BFF' )
-            && $key =~ m/\.age(?!nt)|onset/i
-            && !$self->{age} );    # $self->{age} [0|1]
-
         # Load values
         my $val = $hash->{$key};
 
-  # Discarding lines with unsupported val (Time profiled with :NYTProf: ms time)
-        next
-          if (
-            ( ref($val) eq 'HASH'
-                && !keys %{$val} )   # Discard {} (e.g.,subject.vitalStatus: {})
-            || ( ref($val) eq 'ARRAY' && !@{$val} )    # Discard []
-            || exists $exclude_values{$val}
-            || $val =~ $misc_regex_qr
-          );
+        next unless remap_leaf_is_usable( $key, $val, $self );
 
         # Add IDs to key
         my $id_key = add_id2key( $key, $hash, $self );
@@ -170,6 +138,112 @@ sub remap_hash {
     # *** IMPORTANT ***
     # We have to return an object {} when undef
     return \%out_hash // {};
+}
+
+sub canonicalize_nested_array_indexes {
+    my ( $hash, $self ) = @_;
+    my %work = %{$hash};
+
+    my @prefixes =
+      sort { _path_depth($b) <=> _path_depth($a) || $a cmp $b }
+      _nested_array_prefixes( \%work );
+
+    for my $prefix (@prefixes) {
+        my $signature = _nested_array_signature( $prefix, \%work, $self );
+        next unless defined $signature;
+
+        my $replacement = $prefix;
+        $replacement =~ s/([^\.]+):\d+\z/$1.$signature/;
+
+        for my $key ( keys %work ) {
+            next unless $key eq $prefix || index( $key, "$prefix." ) == 0;
+            my $new_key = $key;
+            substr( $new_key, 0, length $prefix ) = $replacement;
+            $work{$new_key} = delete $work{$key};
+        }
+    }
+
+    return \%work;
+}
+
+sub _nested_array_prefixes {
+    my $hash = shift;
+    my %prefix;
+
+    for my $key ( keys %{$hash} ) {
+        my @parts = split /\./, $key;
+        my $array_seen = 0;
+
+        for my $i ( 0 .. $#parts ) {
+            next unless $parts[$i] =~ /:\d+\z/;
+            $array_seen++;
+            next if $array_seen == 1;
+
+            $prefix{ join '.', @parts[ 0 .. $i ] } = 1;
+        }
+    }
+
+    return keys %prefix;
+}
+
+sub _nested_array_signature {
+    my ( $prefix, $hash, $self ) = @_;
+    my @items;
+
+    for my $key ( sort keys %{$hash} ) {
+        next unless $key eq $prefix || index( $key, "$prefix." ) == 0;
+        my $value = $hash->{$key};
+        next if ref $value;
+        next unless remap_leaf_is_usable( $key, $value, $self );
+
+        my $relative =
+          $key eq $prefix ? '__value__' : substr( $key, length($prefix) + 1 );
+        push @items, "$relative=$value";
+    }
+
+    return unless @items;
+    return 'idx_' . substr( sha1_hex( join "\x1e", @items ), 0, 12 );
+}
+
+sub _path_depth {
+    my $path = shift;
+    return scalar split /\./, $path;
+}
+
+sub remap_leaf_is_usable {
+    my ( $key, $val, $self ) = @_;
+
+    return 0 unless defined $val;
+
+    my $exclude_variables_regex_qr = $self->{exclude_variables_regex_qr};
+
+    # Discard low-quality keys. Some can be rescued by adding ontology data,
+    # but labels/info/metaData should not affect either variables or signatures.
+    return 0
+      if defined $exclude_variables_regex_qr
+      && $key =~ $exclude_variables_regex_qr;
+
+    my $format = $self->{format} || '';
+    return 0
+      if ( ( $format eq 'PXF' || $format eq 'BFF' )
+        && $key =~ m/\.age(?!nt)|onset/i
+        && !$self->{age} );
+
+    return 0 if ref($val) eq 'HASH'  && !keys %{$val};
+    return 0 if ref($val) eq 'ARRAY' && !@{$val};
+
+    return 1 if ref $val;
+
+    my %exclude_values =
+      map { $_ => 1 }
+      ( 'NA', 'NaN', 'Fake', 'None:No matching concept', 'Not Available' );
+    return 0 if exists $exclude_values{$val};
+
+    my $misc_regex_qr =
+      qr/1900-01-01|NA0000|NCIT:C126101|P999Y|P9999Y|phenopacket_id/;
+    return 0 if $val =~ $misc_regex_qr;
+
+    return 1;
 }
 
 sub add_id2key {
