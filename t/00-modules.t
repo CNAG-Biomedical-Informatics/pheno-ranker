@@ -180,6 +180,18 @@ subtest 'IO helpers round-trip files and validate small data structures' => sub 
     is_deeply read_json( catfile( $tmpdir, 'P1.json' ) ), $poi_data->[0],
       'write_poi writes the matching individual';
     like $warning, qr/No individual found for <missing>/, 'write_poi warns for missing individuals';
+    is poi_output_filename( '107:week_0_arm_1', 0 ),
+      '107:week_0_arm_1.json',
+      'poi_output_filename preserves colon in POSIX-compatible mode';
+    is poi_output_filename( '107:week_0_arm_1', 1 ),
+      '107%3Aweek_0_arm_1.json',
+      'poi_output_filename encodes colon for Windows-compatible mode';
+    is poi_output_filename( 'a/b%2Fc', 0 ),
+      'a%2Fb%252Fc.json',
+      'poi_output_filename encodes path separators and literal percent signs';
+    is poi_output_filename( 'CON', 1 ),
+      '_CON.json',
+      'poi_output_filename avoids Windows reserved device names';
 
     is_deeply array2object( [ { only => 1 } ] ), { only => 1 }, 'array2object unwraps one item';
     throws_ok { array2object( [ {}, {} ] ) } qr/only 1 patient/, 'array2object rejects multiple items';
@@ -204,6 +216,105 @@ subtest 'IO helpers round-trip files and validate small data structures' => sub 
     ok check_existence_of_include_terms( $coverage, ['present'] ), 'include term exists';
     ok !check_existence_of_include_terms( $coverage, ['absent'] ), 'missing include term is false';
     ok check_existence_of_include_terms( $coverage, [] ), 'empty include term list is true';
+
+    my $excluded_coverage = coverage_stats(
+        [
+            {
+                id                  => 'excluded-only',
+                phenotypicFeatures  => [
+                    {
+                        excluded => JSON::XS::true,
+                        type     => { id => 'HP:0000001' },
+                    },
+                ],
+            },
+            {
+                id                 => 'mixed',
+                phenotypicFeatures => [
+                    {
+                        excluded => JSON::XS::true,
+                        type     => { id => 'HP:0000001' },
+                    },
+                    {
+                        type => { id => 'HP:0000002' },
+                    },
+                ],
+            },
+        ],
+        'PXF'
+    );
+    is $excluded_coverage->{coverage_terms}{phenotypicFeatures}, 1,
+      'coverage_stats ignores excluded-only phenotypicFeatures by default';
+
+    my $retained_excluded_coverage = coverage_stats(
+        [
+            {
+                id                 => 'excluded-only',
+                phenotypicFeatures => [
+                    {
+                        excluded => JSON::XS::true,
+                        type     => { id => 'HP:0000001' },
+                    },
+                ],
+            },
+        ],
+        'PXF',
+        { retain_excluded_phenotypicFeatures => 1 }
+    );
+    is $retained_excluded_coverage->{coverage_terms}{phenotypicFeatures}, 1,
+      'coverage_stats counts excluded phenotypicFeatures when retain flag is enabled';
+
+    my $excluded_export_file = catfile( $tmpdir, 'excluded-export.json' );
+    write_json(
+        {
+            filepath => $excluded_export_file,
+            data     => [
+                {
+                    id                  => 'excluded-only',
+                    subject             => { id => 'excluded-only' },
+                    phenotypicFeatures  => [
+                        {
+                            excluded => JSON::XS::true,
+                            type     => { id => 'HP:0000001' },
+                        },
+                    ],
+                },
+                {
+                    id                 => 'present',
+                    subject            => { id => 'present' },
+                    phenotypicFeatures => [
+                        {
+                            type => { id => 'HP:0000002' },
+                        },
+                    ],
+                },
+            ],
+        }
+    );
+    my $excluded_export_prefix = catfile( $tmpdir, 'excluded-export' );
+    my ( undef, $excluded_matrix_file ) =
+      tempfile( DIR => $tmpdir, SUFFIX => '.txt', UNLINK => 1 );
+    my $excluded_export_ranker = Pheno::Ranker->new(
+        {
+            age                  => 0,
+            align                => '',
+            align_basename       => catfile( $tmpdir, 'excluded-align' ),
+            append_prefixes      => [],
+            exclude_terms        => [],
+            export               => $excluded_export_prefix,
+            include_terms        => [],
+            log                  => '',
+            max_out              => 36,
+            out_file             => $excluded_matrix_file,
+            patients_of_interest => [],
+            reference_files      => [$excluded_export_file],
+        }
+    );
+    $excluded_export_ranker->run;
+    my $exported_coverage =
+      read_json("$excluded_export_prefix.coverage_stats.json");
+    is $exported_coverage->{coverage_terms}{phenotypicFeatures}, 1,
+      'exported coverage ignores excluded-only phenotypicFeatures by default';
 
     my $single = append_and_rename_primary_key(
         { ref_data => [ { id => 'single' } ], append_prefixes => [], primary_key => 'id' }
@@ -692,7 +803,7 @@ subtest 'Ranker validates configuration and fast run branches' => sub {
         )->run,
         'Ranker POI dry-run returns successfully'
     );
-    ok -f catfile( $poi_dir, '107:week_0_arm_1.json' ),
+    ok -f catfile( $poi_dir, poi_output_filename('107:week_0_arm_1') ),
       'Ranker POI dry-run writes the selected individual';
 
     my ( $export_fh, $export_base ) =

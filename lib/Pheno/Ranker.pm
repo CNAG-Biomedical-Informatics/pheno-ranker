@@ -431,7 +431,14 @@ sub _compute_cohort_metrics {
       unless defined $self->{format};
 
     my $context        = $self->_context;
-    my $coverage_stats = coverage_stats( $ref_data, $context->{format} );
+    my $coverage_stats = coverage_stats(
+        $ref_data,
+        $context->{format},
+        {
+            retain_excluded_phenotypicFeatures =>
+              $context->{retain_excluded_phenotypicFeatures}
+        }
+    );
     die
 "--include-terms <@{$self->{include_terms}}> does not exist in the cohort(s)\n"
       unless check_existence_of_include_terms( $coverage_stats,

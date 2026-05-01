@@ -89,6 +89,21 @@ sudo apt-get install libzbar0
 pip install qrcode[pil] Pillow pyzbar pandas reportlab
 ```
 
+# TESTING
+
+Core Python helpers can be tested without generating or decoding QR images:
+
+```bash
+python3 -m unittest discover -s utils/barcode/tests -v
+```
+
+End-to-end barcode CLI tests are kept as local tests because they require Python
+packages and the system `zbar` library:
+
+```bash
+prove -lv xt/barcode.t
+```
+
 # AUTHOR 
 
 Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu).
