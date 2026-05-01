@@ -2,7 +2,9 @@
 use strict;
 use warnings;
 use File::Spec;
-use Test::More tests => 3;        # Indicate the number of tests you want to run
+use IPC::Open3;
+use JSON::XS;
+use Test::More;
 use File::Compare;
 use lib qw(./lib ../lib t/lib);
 use Test::PhenoRanker qw(fixture temp_output_file);
@@ -13,6 +15,7 @@ my $seed = 123456789;
 # The command line script to be tested
 my $script = File::Spec->catfile( 'utils', 'bff_pxf_simulator', 'bff-pxf-simulator' );
 my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
+my @inc    = map { ( '-I', $_ ) } @INC;
 
 ##########
 # TEST 1 #
@@ -100,3 +103,96 @@ my $inc    = join ' -I', '', @INC;    # prepend -I to each path in @INC
         );
     }
 }
+
+######################
+# STRUCTURAL TESTING #
+######################
+
+{
+    my $tmp_file = temp_output_file();
+    my $exit     = system(
+        $^X, @inc, $script,
+        '-n',                            3,
+        '-f',                            'bff',
+        '--diseases',                    2,
+        '--max-diseases-pool',           4,
+        '--phenotypicFeatures',          3,
+        '--max-phenotypicFeatures-pool', 5,
+        '--treatments',                  1,
+        '--max-treatments-pool',         3,
+        '--procedures',                  0,
+        '--exposures',                   0,
+        '--random-seed',                 $seed,
+        '-o',                            $tmp_file
+    );
+    is( $exit, 0, 'bff simulator exits cleanly for structural test' );
+
+    my $data = decode_json_file($tmp_file);
+    is( scalar @{$data}, 3, 'bff simulator writes requested number of individuals' );
+    is( $data->[0]{id}, 'Beacon_1', 'bff individual id is deterministic' );
+    is( scalar @{ $data->[0]{diseases} }, 2, 'bff disease count matches requested count' );
+    is( scalar @{ $data->[0]{phenotypicFeatures} }, 3, 'bff phenotypic feature count matches requested count' );
+    is( scalar @{ $data->[0]{treatments} }, 1, 'bff treatment count matches requested count' );
+    is( scalar @{ $data->[0]{interventionsOrProcedures} }, 0, 'bff procedures can be disabled' );
+    is( scalar @{ $data->[0]{exposures} }, 0, 'bff exposures can be disabled' );
+}
+
+{
+    my $tmp_file = temp_output_file();
+    my $exit     = system(
+        $^X, @inc, $script,
+        '-n',                            2,
+        '-f',                            'pxf',
+        '--diseases',                    1,
+        '--phenotypicFeatures',          2,
+        '--max-phenotypicFeatures-pool', 4,
+        '--treatments',                  1,
+        '--procedures',                  1,
+        '--exposures',                   0,
+        '--random-seed',                 $seed,
+        '-o',                            $tmp_file
+    );
+    is( $exit, 0, 'pxf simulator exits cleanly for structural test' );
+
+    my $data = decode_json_file($tmp_file);
+    is( scalar @{$data}, 2, 'pxf simulator writes requested number of phenopackets' );
+    is( $data->[0]{id}, 'Phenopacket_1', 'pxf phenopacket id is deterministic' );
+    is( scalar @{ $data->[0]{phenotypicFeatures} }, 2, 'pxf phenotypic feature count matches requested count' );
+    is( scalar @{ $data->[0]{medicalActions} }, 2, 'pxf medical actions combine treatment and procedure entries' );
+}
+
+######################
+# VALIDATION TESTING #
+######################
+
+for my $case (
+    [ 'invalid format',          [ '-f', 'foo' ] ],
+    [ 'zero individuals',        [ '-n', 0 ] ],
+    [ 'negative term count',     [ '--diseases', -1 ] ],
+    [ 'zero max pool',           [ '--max-diseases-pool', 0 ] ],
+    [ 'missing external YAML',   [ '--external-ontologies', 't/data/missing.yaml' ] ],
+    [ 'term count exceeds pool', [ '--diseases', 2, '--max-diseases-pool', 1 ] ],
+) {
+    my ( $name, $args ) = @{$case};
+    my $tmp_file = temp_output_file();
+    my $exit = run_quietly( $^X, @inc, $script, @{$args}, '-o', $tmp_file );
+    isnt( $exit, 0, "$name is rejected" );
+}
+
+sub run_quietly {
+    open my $null_in,  '<', File::Spec->devnull;
+    open my $null_out, '>', File::Spec->devnull;
+    open my $null_err, '>', File::Spec->devnull;
+    my $pid = open3( $null_in, $null_out, $null_err, @_ );
+    waitpid $pid, 0;
+    return $?;
+}
+
+sub decode_json_file {
+    my $file = shift;
+    open my $fh, '<:encoding(UTF-8)', $file;
+    local $/;
+    return JSON::XS->new->decode(<$fh>);
+}
+
+done_testing();

@@ -22,8 +22,8 @@ use Exporter 'import';
 our @EXPORT_OK = qw($VERSION write_json);
 
 # Personalize warn and die functions
-$SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
-$SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
+$SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_, RESET };
+$SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_, RESET };
 
 our $VERSION   = '1.07_1';
 our $share_dir = dist_dir('Pheno-Ranker');
