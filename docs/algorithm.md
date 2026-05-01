@@ -76,7 +76,7 @@ Note that the flattened keys maintain the original hierarchical relationships of
 
 ## Step 2: Generate global hash for reference cohort(s)
 
-We generate a global hash for the reference cohort(s) by utilizing the unique variable entries. The size of the hash depends on the number of variables present in the cohort. The algorithm is optimized to handle a large number of variables, even exceeding 100K (e.g., when considering genomic variation data such as SNPs). To address any potential limitations, the algorithm allows selecting a randomly subset of N random variables from the total available (with the flag `--max-number-var`).
+We generate a global hash for the reference cohort(s) by utilizing the unique variable entries. The size of the hash depends on the number of variables present in the cohort. The algorithm is optimized to handle a large number of variables, even exceeding 100K (e.g., when considering genomic variation data such as SNPs). To address any potential limitations, the algorithm allows selecting a random subset of N variables from the total available with `--max-number-vars`.
 
 ```json
 {
@@ -104,4 +104,4 @@ When working with a target patient's data from a JSON file, it is flattened usin
 
 ## Step 5: Compute metrics
 
-Compute differents metrics depending on _cohort_ or _target_ mode.
+Compute different metrics depending on _cohort_ or _target_ mode.

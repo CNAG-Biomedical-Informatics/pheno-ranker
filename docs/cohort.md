@@ -1,4 +1,20 @@
-_Cohort mode_ performs a **cross-comparison** of all individuals in a cohort(s) using as a metric the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) or the [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index). The resulting matrix can be further analyzed (e.g., with `R`) using unsupervised learning techniques such as cluster characterization, dimensionality reduction, or graph-based analytics.
+# Cohort Mode
+
+_Cohort mode_ performs an all-vs-all comparison of records in one or more cohorts. Each record is flattened, encoded as a binary vector, and compared with either [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) or the [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index).
+
+Use cohort mode when you want to explore the structure of a cohort, compare multiple cohorts, identify clusters, run dimensionality reduction, or export a graph for network analysis.
+
+## What You Get
+
+- `matrix.txt`: the default dense pairwise comparison matrix.
+- `graph.json`: an optional Cytoscape-compatible graph when `--cytoscape-json` is used.
+- `graph_stats.txt`: optional graph summary statistics when `--graph-stats` is used.
+- `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
+- `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
+
+[See common usage](usage.md){ .md-button .md-button--primary }
+[Read generic JSON tutorial](generic-json.md){ .md-button }
+[Check installation](download-and-installation.md){ .md-button }
 
 ???+ Example "Generic JSON tutorial"
     We created a [tutorial](generic-json.md) that deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
@@ -11,17 +27,18 @@ The examples below show common cohort-mode command-line patterns. For the comple
 
 === "Intra-cohort"
 
-    For this example, we'll use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/data/individuals.json), which contains a `JSON` array of 36 patients. We will conduct a comprehensive cross-comparison among all individuals within this file.
+    For this example, we use [`individuals.json`](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/t/data/individuals.json), a `JSON` array with 36 patients. The goal is to compare every patient against every other patient in the file.
 
     First, we will download the file:
+
     ```bash
     wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/t/data/individuals.json
     ```
-    And now we run `Pheno-Ranker`:
+
+    Now run `Pheno-Ranker`:
     
     ```bash
-    pheno-ranker -r individuals.json 
-
+    pheno-ranker -r individuals.json
     ```
 
     ??? Example "More input examples"
@@ -32,6 +49,13 @@ The examples below show common cohort-mode command-line patterns. For the comple
 
     ??? Example "See `matrix.txt`"
         --8<-- "tbl/matrix.md"
+
+    ??? Tip "Defining the similarity metric"
+        Use `--similarity-metric-cohort` to choose the cohort metric. The default value is `hamming`; the alternative is `jaccard`.
+
+        ```bash
+        pheno-ranker -r individuals.json --similarity-metric-cohort jaccard
+        ```
 
     ??? Tip "Sparse Matrix Market output"
         By default, cohort mode writes a dense tab-separated matrix (`matrix.txt`). For large cohorts, you can instead write a sparse [Matrix Market](https://math.nist.gov/MatrixMarket/formats.html) coordinate file:
@@ -51,16 +75,13 @@ The examples below show common cohort-mode command-line patterns. For the comple
 
         Matrix output and Cytoscape graph output are generated independently. This means `--matrix-format mtx` can be combined with `--cytoscape-json`.
 
-    ??? Tip "Defining the similarity metric"
-        Use the flag `--similarity-metric-cohort`. The default value is `hamming`. The alternative value is `jaccard`.
-
     ??? Tip "Exporting intermediate files"
-        It is possible to export all intermediate files, as well as a file indicating coverage with the flag `--e`.
+        It is possible to export all intermediate files, as well as a file indicating coverage, with `--export` (`--e`).
         Examples:
 
         ```bash
-        pheno-ranker -r individuals.json --e 
-        pheno-ranker -r individuals.json --e my_fav_id # for choosing a prefix
+        pheno-ranker -r individuals.json --export
+        pheno-ranker -r individuals.json --export my_fav_id # choose a prefix
         ```
 
         The intermediate files can be used for further processing (e.g., import to a database; see [FAQs](faq.md)) or to make **informed decisions**. For instance, the file `export.coverage_stats.json` has stats on the coverage of each term (1D-key) in the cohort. It is possible to go more granular with a tool like `jq` that parses `JSON`. For instance:
@@ -158,11 +179,10 @@ The examples below show common cohort-mode command-line patterns. For the comple
 
 === "Inter-cohort"
 
-     We'll be using `individuals.json` again, which includes data for 36 patients. This time, however, we'll use it twice to simulate having two cohorts. The software will add a `CX_` prefix to the `primary_key` values to help us keep track of which patient comes from which usage of the file.
+    We use `individuals.json` again, but pass it twice to simulate two cohorts. `Pheno-Ranker` adds a `CX_` prefix to the `primary_key` values so each record can be traced back to its source cohort.
 
     ```bash
     pheno-ranker -r individuals.json individuals.json
-
     ```
 
     !!! Question "Is it possible to have a cohort with just one individual?"
@@ -178,8 +198,8 @@ The examples below show common cohort-mode command-line patterns. For the comple
 
     ```bash
     pheno-ranker -r individuals.json individuals.json --append-prefixes REF TAR
-
     ```
+
     This will create a `matrix.txt` file of (36+36) x (36+36) cells. Again, this matrix can be processed with R:
 
     <figure markdown>

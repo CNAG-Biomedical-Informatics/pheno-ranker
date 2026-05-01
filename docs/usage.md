@@ -21,12 +21,6 @@ Compare all records in the reference cohort against each other:
 pheno-ranker -r individuals.json -o matrix.txt
 ```
 
-Use Matrix Market output for large sparse matrices:
-
-```bash
-pheno-ranker -r individuals.json --matrix-format mtx -o matrix.mtx
-```
-
 Switch the cohort similarity metric:
 
 ```bash
@@ -92,6 +86,18 @@ Write graph statistics:
 ```bash
 pheno-ranker -r individuals.json --cytoscape-json graph.json --graph-stats graph_stats.txt
 ```
+
+## Output Files
+
+| Output | Created by | Purpose |
+| -- | -- | -- |
+| `matrix.txt` | Cohort mode | Dense all-vs-all comparison matrix. |
+| `rank.txt` | Patient mode | Ranked matches against the target patient or object. |
+| `alignment*` | `--align` in patient mode | Variable-level reference-target alignment details. |
+| `export.*.json` | `--export` | Intermediate hashes, binary vectors, and coverage statistics. |
+| `graph.json` | `--cytoscape-json` | Cytoscape-compatible graph for network analysis. |
+| `graph_stats.txt` | `--graph-stats` | Summary statistics for graph output. |
+| `matrix.mtx` | `--matrix-format mtx` | Optional sparse Matrix Market output for large matrix workflows. |
 
 ## Frequently Used Options
 

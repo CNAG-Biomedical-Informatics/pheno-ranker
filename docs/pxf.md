@@ -158,7 +158,6 @@ The examples below show the minimal command-line patterns. For the complete CLI 
     pheno-ranker -r pxf.json -t patient.json
     ```
 
-    The **output** will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See aditional details in the [Patient Mode](patient.md) page.
+    The **output** will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See additional details in the [Patient Mode](patient.md) page.
 
     For more information visit the [patient mode](patient.md) page.
-
