@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use File::Spec;
 use File::Spec::Functions qw(catfile);
 use File::Temp qw(tempdir);
-use IPC::Open3;
 use Test::More;
 use lib qw(./lib ../lib t/lib);
 use Test::PhenoRanker qw(fixture);
@@ -11,7 +11,6 @@ use Pheno::Ranker::IO qw(read_json read_yaml);
 
 # The command line script to be tested
 my $script = catfile( 'utils', 'csv2pheno_ranker', 'csv2pheno-ranker' );
-my $inc = join ' -I', '', @INC; # prepend -I to each path in @INC
 my @inc = map { ( '-I', $_ ) } @INC;
 
 ############
@@ -100,12 +99,17 @@ sub write_file {
 }
 
 sub run_quietly {
-    open my $null_in,  '<', File::Spec->devnull;
-    open my $null_out, '>', File::Spec->devnull;
-    open my $null_err, '>', File::Spec->devnull;
-    my $pid = open3( $null_in, $null_out, $null_err, @_ );
-    waitpid $pid, 0;
-    return $?;
+    open my $null_in, '<', File::Spec->devnull
+      or die 'Cannot open null device for reading: ' . $!;
+    open my $null_out, '>', File::Spec->devnull
+      or die 'Cannot open null device for writing: ' . $!;
+    open my $null_err, '>', File::Spec->devnull
+      or die 'Cannot open null device for writing: ' . $!;
+
+    local *STDIN  = $null_in;
+    local *STDOUT = $null_out;
+    local *STDERR = $null_err;
+    return system(@_);
 }
 
 done_testing();
