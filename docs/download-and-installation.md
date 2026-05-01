@@ -1,12 +1,14 @@
 !!! Info "Compatibility"
 
-    `Pheno-Ranker` is designed for local execution on Linux or macOS workstations and servers.
+    The `Pheno-Ranker` Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions.
 
     | Operating System | Support |
     |------------------|---------|
-    | Linux            | Recommended |
+    | Linux            | Recommended for CLI, Docker, and utility workflows |
     | macOS            | Supported for non-containerized CLI use |
-    | Windows          | Use Docker, WSL, or a Unix-like Perl environment |
+    | Windows          | Supported for the Perl CLI; use Docker, WSL, or a Perl environment such as Strawberry Perl |
+
+    Optional Python/R utilities are not part of the CPAN-centered Windows test matrix. For those workflows, Docker or a GitHub checkout is recommended.
 
 We provide containerized and non-containerized installation paths. This page stays as the canonical documentation entry point for installation.
 

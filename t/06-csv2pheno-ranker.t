@@ -99,17 +99,30 @@ sub write_file {
 }
 
 sub run_quietly {
-    open my $null_in, '<', File::Spec->devnull
-      or die 'Cannot open null device for reading: ' . $!;
-    open my $null_out, '>', File::Spec->devnull
-      or die 'Cannot open null device for writing: ' . $!;
-    open my $null_err, '>', File::Spec->devnull
-      or die 'Cannot open null device for writing: ' . $!;
+    open my $old_stdin, '<&', \*STDIN
+      or die 'Cannot duplicate STDIN: ' . $!;
+    open my $old_stdout, '>&', \*STDOUT
+      or die 'Cannot duplicate STDOUT: ' . $!;
+    open my $old_stderr, '>&', \*STDERR
+      or die 'Cannot duplicate STDERR: ' . $!;
 
-    local *STDIN  = $null_in;
-    local *STDOUT = $null_out;
-    local *STDERR = $null_err;
-    return system(@_);
+    open STDIN, '<', File::Spec->devnull
+      or die 'Cannot redirect STDIN to null device: ' . $!;
+    open STDOUT, '>', File::Spec->devnull
+      or die 'Cannot redirect STDOUT to null device: ' . $!;
+    open STDERR, '>', File::Spec->devnull
+      or die 'Cannot redirect STDERR to null device: ' . $!;
+
+    my $exit = system(@_);
+
+    open STDIN, '<&', $old_stdin
+      or die 'Cannot restore STDIN: ' . $!;
+    open STDOUT, '>&', $old_stdout
+      or die 'Cannot restore STDOUT: ' . $!;
+    open STDERR, '>&', $old_stderr
+      or die 'Cannot restore STDERR: ' . $!;
+
+    return $exit;
 }
 
 done_testing();
