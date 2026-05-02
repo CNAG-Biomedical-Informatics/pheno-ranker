@@ -126,7 +126,7 @@ Next, we'll replace it with an actual `id` (`Person_X`) and replicate the object
 
     ```yaml
     ---
-    format: openEHR
+    format: JSON
 
     # Set the allowed terms / properties
     allowed_terms: [admittedFromConcept,admittedFromSourceValue,careSite,dischargedToConcept,dischargedToSourceValue,id,idAsLong,person,precedingVisitOccurrence,provider,visitConcept,visitEndDate,visitEndDateTime,visitSourceConcept,visitSourceValue,visitStartDate,visitStartDateTime,visitTypeConcept]
