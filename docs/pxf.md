@@ -1,5 +1,12 @@
 **PXF** stands for **P**henotype e**X**change **F**ormat. Phenopackets v2 [documentation](https://phenopacket-schema.readthedocs.io/en/latest/basics.html).
 
+<div className="phenoFormatSummary" aria-label="At a glance">
+  <div><span>Role</span><strong>Native input</strong></div>
+  <div><span>Accepted input</span><strong>Phenopacket JSON/YAML</strong></div>
+  <div><span>Configuration</span><strong>Built in</strong></div>
+  <div><span>Best for</span><strong>Phenopackets v2 records</strong></div>
+</div>
+
 <figure markdown>
    ![Phenopackets v2](https://www.ga4gh.org/wp-content/uploads/2022/02/phenopachets-v2-final-1.jpeg){ width="500" }
    <figcaption>Figure extracted from www.ga4gh.org</figcaption>
@@ -14,7 +21,7 @@ Phenopackets organize information using [top-level elements](https://phenopacket
     * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/convert-pheno/main/t/pxf2bff/in/pxf.json)
     * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fconvert-pheno%2Fmain%2Ft%2Fomop2pxf%2Fout%2Fpxf.json#/data?sql=select+*+from+pxf)
 
-## PXF (Phenopacket top-element) as input ![PXF](https://avatars.githubusercontent.com/u/17553567?s=280&v=4){ width="20" }
+## PXF As Input ![PXF](https://avatars.githubusercontent.com/u/17553567?s=280&v=4){ width="20" }
 
 The examples below show the minimal command-line patterns. For the complete CLI reference, see [Usage](usage.md).
 

@@ -2,7 +2,7 @@
 
 === "Explanation"
 
-    As a proof of concept, we created an utility that encodes/decodes the `Pheno-Ranker` format to [QR codes](https://en.wikipedia.org/wiki/QR_code).
+    As a proof of concept, we created companion command-line utilities that encode/decode the `Pheno-Ranker` format to [QR codes](https://en.wikipedia.org/wiki/QR_code).
 
     ??? Example "About the utility of QR codes"
         2D barcodes are straightforward and easy to scan, typically using a smartphone camera. They offer the convenience of encoding various data. Below are a few examples:
@@ -56,7 +56,7 @@
 
     === "From Pheno-Ranker to PDF"
 
-        We created a simple utility to create a PDF report from `Pheno-Ranker` data. It works for `BFF`and `PXF` files. 
+        We created a simple utility to create a PDF report from `Pheno-Ranker` data. It works for `BFF` and `PXF` files. 
 
         !!! Warning "About the QR code"
             Please note that the QR code has to match the `JSON` file from which it was created.
@@ -75,4 +75,3 @@
 === "Usage"
 
     --8<-- "https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/barcode/README.md"
-

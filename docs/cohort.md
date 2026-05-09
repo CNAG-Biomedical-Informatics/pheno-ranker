@@ -4,6 +4,38 @@ _Cohort mode_ performs an all-vs-all comparison of records in one or more cohort
 
 Use cohort mode when you want to explore the structure of a cohort, compare multiple cohorts, identify clusters, run dimensionality reduction, or export a graph for network analysis.
 
+<div className="phenoFormatSummary" aria-label="At a glance">
+  <div><span>Compares</span><strong>Reference records against each other</strong></div>
+  <div><span>Basic command</span><strong><code>pheno-ranker -r cohort.json</code></strong></div>
+  <div><span>Main output</span><strong><code>matrix.txt</code></strong></div>
+  <div><span>Best for</span><strong>Clustering, MDS, UMAP, graph export</strong></div>
+</div>
+
+## When to Use It
+
+<div className="phenoCardGrid">
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Explore</p>
+    <h3>Cohort structure</h3>
+    <p>Generate pairwise distances or similarities between all records in a cohort.</p>
+  </article>
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Compare</p>
+    <h3>Multiple cohorts</h3>
+    <p>Pass several reference files and keep source cohorts traceable with prefixes.</p>
+  </article>
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Scale</p>
+    <h3>Large outputs</h3>
+    <p>Use sparse Matrix Market output or graph edge filters when dense outputs are too large.</p>
+  </article>
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Inspect</p>
+    <h3>Intermediate vectors</h3>
+    <p>Export hashes, binary vectors, and coverage statistics for debugging or downstream use.</p>
+  </article>
+</div>
+
 ## What You Get
 
 - `matrix.txt`: the default dense pairwise comparison matrix.
@@ -11,6 +43,9 @@ Use cohort mode when you want to explore the structure of a cohort, compare mult
 - `graph_stats.txt`: optional graph summary statistics when `--graph-stats` is used.
 - `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
 - `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
+
+!!! Tip "Cohort mode vs patient mode"
+    Use **cohort mode** when every record should be compared with every other record. Use [patient mode](patient.md) when you have a target patient or object and want a ranked list of closest matches.
 
 [See common usage](usage.md){ .md-button .md-button--primary }
 [Read generic JSON tutorial](generic-json.md){ .md-button }

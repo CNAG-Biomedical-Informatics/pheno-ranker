@@ -1,7 +1,7 @@
 # Citation for Pheno-Ranker
 
 !!! Abstract "Citation"
-    Leist, I.C. et al., (2024). Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond. _BMC Bioinformatics_. DOI: 10.1186/s12859-024-05993-2
+    Leist, I.C. et al., (2024). Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond. _BMC Bioinformatics_. DOI: 10.1186/s12859-024-05993-2. [Publication link](https://doi.org/10.1186/s12859-024-05993-2).
 
 !!! Success "Funding agencies"
     * This project has received funding from the Innovative Medicines Initiative 2 Joint Undertaking (JU) under grant agreement No 831434 (3TR). The JU receives support from the European Union’s Horizon 2020 research and innovation programme and EFPIA. 

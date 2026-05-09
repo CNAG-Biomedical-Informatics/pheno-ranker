@@ -2,10 +2,11 @@
   <a href="https://github.com/cnag-biomedical-informatics/pheno-ranker"><img src="https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/docs/img/PR-logo.png" width="400" alt="Pheno-Ranker"></a>
 </p>
 <p align="center">
-    <em>Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond</em>
+    <em>Pheno-Ranker: a command-line toolkit for comparison of phenotypic data stored in GA4GH standards and beyond</em>
 </p>
 
 [![Build and Test](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test.yml)
+[![Build and Test Windows](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test-windows.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/build-and-test-windows.yml)
 [![Coverage Status](https://coveralls.io/repos/github/CNAG-Biomedical-Informatics/pheno-ranker/badge.svg?branch=main)](https://coveralls.io/github/CNAG-Biomedical-Informatics/pheno-ranker?branch=main)
 [![CPAN Publish](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml)
 [![Kwalitee Score](https://cpants.cpanauthors.org/dist/Pheno-Ranker.svg)](https://cpants.cpanauthors.org/dist/Pheno-Ranker)
@@ -35,9 +36,9 @@
 
 # Pheno-Ranker
 
-`Pheno-Ranker` is a lightweight toolkit for semantic similarity analysis of phenotypic, clinical, and other categorical data serialized as `JSON`, `YAML`, or preprocessed `CSV`.
+`Pheno-Ranker` is a lightweight Perl command-line tool for semantic similarity analysis of phenotypic, clinical, and other categorical data serialized as `JSON`, `YAML`, or preprocessed `CSV`.
 
-It supports GA4GH-oriented formats such as Beacon Friendly Format (`BFF`) and Phenotype Exchange Format (`PXF`), but it can also rank and compare generic JSON records beyond the biomedical domain.
+The primary interface is the `pheno-ranker` CLI, suitable for shell scripts, R/Python automation, workflow managers, and reproducible batch analyses. It supports GA4GH-oriented formats such as Beacon Friendly Format (`BFF`) and Phenotype Exchange Format (`PXF`), but it can also rank and compare generic JSON records beyond the biomedical domain.
 
 ## What It Does
 
@@ -48,9 +49,11 @@ Main workflows:
 - **Cohort mode**: compare every individual or record against every other record in one or more cohorts.
 - **Patient mode**: rank records in a reference cohort against a target patient or object.
 - **Generic JSON mode**: compare arbitrary categorical JSON data using a configuration file.
-- **Utility workflows**: simulate BFF/PXF data, convert CSV data for ranking, plot summary statistics, and encode vectors as QR codes.
+- **Utility workflows**: companion CLI tools simulate BFF/PXF data, convert CSV data for ranking, plot summary statistics, and encode vectors as QR codes.
 
 ## Quick Start
+
+All examples below use the `pheno-ranker` command-line executable.
 
 Basic cohort comparison:
 
@@ -86,8 +89,8 @@ pheno-ranker -r individuals.json --cytoscape-json graph.json
 - Include/exclude term filters, optional variable weights, and HPO ascendant expansion.
 - Export of binary vectors, intermediate hashes, alignments, and coverage statistics.
 - Outputs suitable for clustering, multidimensional scaling, and graph analytics.
-- QR-code utilities for compact encoded vector exchange.
-- Companion utilities for CSV import, BFF/PXF simulation, and summary-statistics plotting.
+- QR-code command-line utilities for compact encoded vector exchange.
+- Companion CLI utilities for CSV import, BFF/PXF simulation, and summary-statistics plotting.
 
 ## Output Formats
 
@@ -101,6 +104,8 @@ Common outputs include:
 - `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
 
 ## Installation
+
+The Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl; Python utilities under `utils/` and external R plotting scripts are best used from Docker or a GitHub checkout.
 
 For CPAN installation:
 

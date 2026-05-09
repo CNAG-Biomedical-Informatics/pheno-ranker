@@ -4,12 +4,47 @@ _Patient mode_ ranks records in a reference cohort against a target patient or o
 
 Use patient mode when you want to find the closest matches to a patient profile, inspect which variables overlap, or assess match significance with Z-scores and p-values.
 
+<div className="phenoFormatSummary" aria-label="At a glance">
+  <div><span>Compares</span><strong>Target against reference records</strong></div>
+  <div><span>Basic command</span><strong><code>pheno-ranker -r cohort.json -t patient.json</code></strong></div>
+  <div><span>Main output</span><strong><code>rank.txt</code></strong></div>
+  <div><span>Best for</span><strong>Closest matches and alignment review</strong></div>
+</div>
+
+## When to Use It
+
+<div className="phenoCardGrid">
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Match</p>
+    <h3>Find similar records</h3>
+    <p>Rank every reference record against one target patient or object.</p>
+  </article>
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Compare</p>
+    <h3>Multiple cohorts</h3>
+    <p>Use several reference files and keep each match traceable to its source cohort.</p>
+  </article>
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Interpret</p>
+    <h3>Read match statistics</h3>
+    <p>Use Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap percentages.</p>
+  </article>
+  <article className="phenoCard">
+    <p className="phenoCardLabel">Audit</p>
+    <h3>Inspect alignments</h3>
+    <p>Use <code>--align</code> to see which variables match or differ between target and reference.</p>
+  </article>
+</div>
+
 ## What You Get
 
 - `rank.txt`: ranked matches between the target and the reference cohort.
 - `alignment*`: optional variable-level alignment files when `--align` is used.
 - `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
 - Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap statistics for each match.
+
+!!! Tip "Patient mode vs cohort mode"
+    Use **patient mode** when one target should be ranked against a reference cohort. Use [cohort mode](cohort.md) when every record should be compared with every other record.
 
 [See common usage](usage.md){ .md-button .md-button--primary }
 [Compare cohorts](cohort.md){ .md-button }

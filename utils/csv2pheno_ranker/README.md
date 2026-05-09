@@ -81,4 +81,4 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.
 
 # COPYRIGHT AND LICENSE
 
-This PERL file is copyrighted. See the LICENSE file included in this distribution.
+This Perl file is copyrighted. See the LICENSE file included in this distribution.

@@ -7,6 +7,13 @@
 
     We also have a local copy of the notebook that can be downloaded from the [repo](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/nb/convert_pheno_cli_tutorial.ipynb). 
 
+<div className="phenoFormatSummary" aria-label="At a glance">
+  <div><span>Role</span><strong>Config-driven input</strong></div>
+  <div><span>Accepted input</span><strong>Generic JSON/YAML records</strong></div>
+  <div><span>Configuration</span><strong>User-provided YAML/JSON</strong></div>
+  <div><span>Best for</span><strong>Custom categorical data models</strong></div>
+</div>
+
 ???+ Warning "About this tutorial"
     This tutorial deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
 

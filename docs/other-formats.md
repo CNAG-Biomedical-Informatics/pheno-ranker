@@ -1,6 +1,29 @@
 !!! Hint "About other formats"
     `Pheno-Ranker` leverages the data harmonization provided by **GA4GH** standards. However, to promote broader adoption, we also support other formats like raw `JSON/YAML` and `CSV`.
 
+<div className="phenoFormatGrid">
+  <a className="phenoFormatCard" href="bff">
+    <span className="phenoCardLabel">GA4GH native</span>
+    <h3>BFF</h3>
+    <p>Beacon v2 <code>individuals.json</code>; no custom configuration required.</p>
+  </a>
+  <a className="phenoFormatCard" href="pxf">
+    <span className="phenoCardLabel">GA4GH native</span>
+    <h3>PXF</h3>
+    <p>Phenopackets v2 records; no custom configuration required.</p>
+  </a>
+  <a className="phenoFormatCard" href="csv-import">
+    <span className="phenoCardLabel">Beyond GA4GH</span>
+    <h3>CSV</h3>
+    <p>Converted to JSON plus configuration with <code>csv2pheno-ranker</code>.</p>
+  </a>
+  <a className="phenoFormatCard" href="generic-json">
+    <span className="phenoCardLabel">Beyond GA4GH</span>
+    <h3>Generic JSON/YAML</h3>
+    <p>Custom categorical records described by a configuration file.</p>
+  </a>
+</div>
+
 === "YAML / JSON"
 
     `Pheno-Ranker` _a priori_ accepts as input "any" `JSON` or `YAML` array file. In order to do it, you'll need a **configuration file**. See a tutorial on how to use it [here](generic-json.md#moviepackets).
@@ -12,4 +35,4 @@
 
 === "CSV"
 
-    We developed an utility that converts `CSV` files to `JSON` and automatically creates the **configuration file** needed. See an example on how to use it [here](csv-import.md). 
+    We developed a utility that converts `CSV` files to `JSON` and automatically creates the **configuration file** needed. See an example on how to use it [here](csv-import.md). 
