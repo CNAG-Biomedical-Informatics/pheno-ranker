@@ -38,8 +38,8 @@ RUN git clone https://github.com/CNAG-Biomedical-Informatics/pheno-ranker.git
 # Remove Git metadata and CI configs to shrink image and avoid shipping them
 RUN rm -rf pheno-ranker/.git pheno-ranker/.github pheno-ranker/.gitattributes pheno-ranker/.gitignore
 
-# Remove docs
-RUN rm -rf pheno-ranker/docs/ pheno-ranker/mkdocs.yml
+# Remove documentation site assets from the runtime image
+RUN rm -rf pheno-ranker/docs-site/
 
 # Install Perl and Python dependencies
 WORKDIR /usr/share/pheno-ranker

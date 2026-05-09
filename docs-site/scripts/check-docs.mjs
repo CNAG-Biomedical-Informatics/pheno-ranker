@@ -12,7 +12,7 @@ const failures = [];
 function readDoc(name) {
   const file = path.join(docsDir, name);
   if (!fs.existsSync(file)) {
-    failures.push(`${name}: generated file is missing`);
+    failures.push(`${name}: documentation file is missing`);
     return '';
   }
   return fs.readFileSync(file, 'utf8');
@@ -97,11 +97,11 @@ for (const {name, ref} of imageRefs) {
 }
 
 if (failures.length > 0) {
-  console.error('Generated docs smoke checks failed:');
+  console.error('Documentation smoke checks failed:');
   for (const failure of failures) {
     console.error(`- ${failure}`);
   }
   process.exit(1);
 }
 
-console.log(`Generated docs smoke checks passed (${imageRefs.length} static assets checked).`);
+console.log(`Documentation smoke checks passed (${imageRefs.length} static assets checked).`);
