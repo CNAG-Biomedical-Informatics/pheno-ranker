@@ -5,7 +5,7 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
 <figure markdown>
  Federated network diagram
  ![Pheno-Ranker](img/federated-matching.png){width="250"}
- <figcaption>Image created by DALL.E-3</figcaption>
+ <figcaption>Image created by GPT-5.5</figcaption>
 </figure>
 
 === "Use Case A: Inter-Hospital Network"
@@ -27,34 +27,18 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
     
     ```mermaid
     %%{init: {'theme':'neutral'}}%%
-    graph TD
-      subgraph "Hospital A"
-      A[Pheno-Ranker]--> B[Global Vector A]
-      end
-    
-      subgraph "Hospital B"
-      C[Pheno-Ranker] --> D[Global Vector B]
-      end
-    
-      subgraph "Hospital C"
-      E[Pheno-Ranker] --> F[Global Vector C]
-      end
-    
-      subgraph "Network Aggregator"
-      G[Global Vector A+B+C]
-      end
-    
-      B --> G
-      D --> G
-      F --> G
-    
-      style A fill: #6495ED, stroke: #6495ED
-      style B fill: #6495ED, stroke: #6495ED
-      style C fill: #AFEEEE, stroke: #AFEEEE
-      style D fill: #AFEEEE, stroke: #AFEEEE
-      style E fill: #3CB371, stroke: #3CB371
-      style F fill: #3CB371, stroke: #3CB371
-      style G fill: #FFFF33, stroke: #FFFF33
+    flowchart LR
+      A["Hospital A<br/>local vectors"] --> G["Network aggregator<br/>global lookup"]
+      B["Hospital B<br/>local vectors"] --> G
+      C["Hospital C<br/>local vectors"] --> G
+      G -. "versioned lookup" .-> A
+      G -. "versioned lookup" .-> B
+      G -. "versioned lookup" .-> C
+
+      style A fill:#eaf5ff,stroke:#2563eb
+      style B fill:#eaf5ff,stroke:#2563eb
+      style C fill:#eaf5ff,stroke:#2563eb
+      style G fill:#fff1d6,stroke:#d97706,stroke-width:2px
     ```
     <figcaption>Preparation stage of Pheno-Ranker algorithm in an inter-hospital network</figcaption>
     
@@ -85,39 +69,17 @@ In this proposal, we aim to explore the potential application of Pheno-Ranker wi
     
     ```mermaid
     %%{init: {'theme':'neutral'}}%%
-    graph LR
-      A[Querying Hospital] --> B[Prepare Vector]
-      B --> C[Apply Privacy Protocols]
-      C --> D[Send Query to Aggregator]
-    
-      AGG[Network Aggregator] --> E1[Receiving Hospital 1]
-      AGG --> E2[Receiving Hospital 2]
-      AGG --> En[Receiving Hospital n]
-    
-      E1 --> F1[Compute Hamming Distance]
-      E2 --> F2[Compute Hamming Distance]
-      En --> Fn[Compute Hamming Distance]
-    
-      F1 --> G1[Apply Threshold]
-      F2 --> G2[Apply Threshold]
-      Fn --> Gn[Apply Threshold]
-    
-      G1 --> H1[Prepare Response]
-      G2 --> H2[Prepare Response]
-      Gn --> Hn[Prepare Response]
-    
-      H1 --> AGG
-      H2 --> AGG
-      Hn --> AGG
-    
-      AGG --> I[Aggregate Responses at Querying Hospital]
-      I --> J[Post-Processing & Analysis]
-    
-      style A fill:#f9d77e,stroke:#333,stroke-width:2px
-      style AGG fill:#8fd4aa,stroke:#333,stroke-width:2px
-      style E1 fill:#f9d77e,stroke:#333,stroke-width:2px
-      style E2 fill:#f9d77e,stroke:#333,stroke-width:2px
-      style En fill:#f9d77e,stroke:#333,stroke-width:2px
+    flowchart LR
+      Q["Querying hospital<br/>patient vector"] --> A["Network aggregator"]
+      A --> S["Federated sites<br/>local matching"]
+      S --> A
+      A --> R["Ranked matches<br/>or aggregate counts"]
+      R --> Q
+
+      style Q fill:#eaf5ff,stroke:#2563eb
+      style A fill:#fff1d6,stroke:#d97706,stroke-width:2px
+      style S fill:#ecfdf5,stroke:#059669
+      style R fill:#f8fafc,stroke:#64748b
     ```
     <figcaption>Pheno-Ranker algorithm in a federated network</figcaption>
     

@@ -2,7 +2,7 @@
 
 === "Explanation"
 
-    We have developed a tool for plotting basic statistics from [BFF](bff.md) or [PXF](pxf.md) formats. 
+    `bff-pxf-plot` is a companion command-line utility for plotting basic statistics from [BFF](bff.md) or [PXF](pxf.md) formats. 
 
     The tool, `bff-pxf-plot`, is found in the `utils` directory (if downloaded from GitHub or Docker).
 

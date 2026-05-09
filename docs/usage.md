@@ -1,6 +1,6 @@
 # Usage
 
-This page summarizes the `pheno-ranker` command-line interface. For setup, see [Download & Installation](download-and-installation.md).
+This page summarizes the `pheno-ranker` command-line interface, which is the primary way to run `Pheno-Ranker`. For setup, see [Download & Installation](download-and-installation.md).
 
 The Perl CLI is tested on Linux, macOS, and Windows. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl.
 

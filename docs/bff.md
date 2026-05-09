@@ -1,5 +1,12 @@
 **BFF** stands for **B**eacon **F**riendly **F**ormat. The [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) is a data exchange format composed of 7 `JSON` files. These files correspond to the 7 entities of the [Beacon v2 Models](https://docs.genomebeacons.org/models).
 
+<div className="phenoFormatSummary" aria-label="At a glance">
+  <div><span>Role</span><strong>Native input</strong></div>
+  <div><span>Accepted input</span><strong><code>individuals.json</code> array</strong></div>
+  <div><span>Configuration</span><strong>Built in</strong></div>
+  <div><span>Best for</span><strong>Beacon v2 individual-level records</strong></div>
+</div>
+
 <figure markdown>
    ![Beacon v2](img/beacon-v2-models.png){ width="400" }
    <figcaption>Entities in Beacon v2 Models</figcaption>
@@ -8,7 +15,7 @@
 !!! Abstract "About Beacon v2 Models' entities"
     Of the seven entities (a.k.a., entry types) in the Beacon v2 Models, [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) is typically the only one that contains phenotypic data (represented at **record-level** granularity).
 
-As an input, `Pheno-Ranker` accepts data from the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity, serialized in [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) format (`individuals.json`).
+`Pheno-Ranker` accepts data from the [individuals](https://docs.genomebeacons.org/schemas-md/individuals_defaultSchema) entity, serialized in [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) format (`individuals.json`).
 
 ??? Tip "Browsing BFF `JSON` data"
     You can browse a public BFF v2 file with the following **JSON viewers**:
@@ -16,7 +23,7 @@ As an input, `Pheno-Ranker` accepts data from the [individuals](https://docs.gen
     * [JSON Hero](https://jsonhero.io/new?url=https://raw.githubusercontent.com/cnag-biomedical-informatics/pheno-ranker/main/t/data/individuals.json)
     * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fpheno-ranker%2Fmain%2Ft%2Fdata%2Findividuals.json#/data?sql=select+*+from+individuals)
 
-## BFF (individuals) as input ![BFF](https://avatars.githubusercontent.com/u/33450937?s=200&v=4){ width="20" }
+## BFF As Input ![BFF](https://avatars.githubusercontent.com/u/33450937?s=200&v=4){ width="20" }
 
 The examples below show the minimal command-line patterns. For the complete CLI reference, see [Usage](usage.md).
 

@@ -2,8 +2,8 @@
 # Processing OMOP CDM exports 
 
 <figure markdown>
-   ![OMOP CDM](https://www.ohdsi.org/wp-content/uploads/2015/02/h243-ohdsi-logo-with-text.png){ width="400" }
-   <figcaption>Image extracted from www.ohdsi.org</figcaption>
+   ![OMOP CDM](img/ohdsi-logo.svg){ width="500" }
+   <figcaption>OHDSI / OMOP CDM</figcaption>
 </figure>
 
 **OMOP CDM** stands for **O**bservational **M**edical **O**utcomes **P**artnership **C**ommon **D**ata **M**odel. 

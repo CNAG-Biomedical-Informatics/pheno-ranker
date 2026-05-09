@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#   An utility from Pheno-Ranker to convert VCF to TSV:
+#   A utility from Pheno-Ranker to convert VCF to TSV:
 #
 #   Last Modified: Dec/15/2023
 #

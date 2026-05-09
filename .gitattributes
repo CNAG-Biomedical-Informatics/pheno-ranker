@@ -3,3 +3,4 @@
 *.t linguist-language=Perl
 *.pdf binary
 nb/** linguist-vendored
+docs-site/** linguist-documentation

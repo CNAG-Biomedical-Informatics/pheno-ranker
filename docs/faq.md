@@ -209,10 +209,6 @@ Frequently Asked Questions
     !!! Warning "What happens if I don't exclude/include terms in patient mode?"
         As the global vector is built using the reference cohort(s), it's really not that important. However, one value that can be affected is the **INTERSECT-RATE(%)**, as it uses all the variables for the target. If you don't restrict it, it may account for terms not present in the precomputed data.
 
-??? faq "What is the difference between *Pheno-Ranker Web App UI* and *Pheno-Ranker App*?"
-
-    The [Web App UI](https://pheno-ranker.cnag.eu) is a fully functional web user interface built with `R-Shiny`. The [App](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker-app) is a graphical user interface (GUI) in `Python` designed for those who prefer not to use the command-line interface (CLI). While still experimental, we aim to improve it in the future by incorporating AI agents.
-
 ### Pre-processing
 
 ??? faq "How can I create a `JSON` file consisting of a subset of individuals?"
@@ -306,6 +302,8 @@ Frequently Asked Questions
 
     This conversion ensures that higher similarities translate into shorter distances for MDS, facilitating accurate low-dimensional representations of the data.
 
+    Here, R is used only for **post-processing** an existing `matrix.txt`. If you want to launch `pheno-ranker` from inside R, see [Use from R](use-from-r.md).
+
     Example `R` code:
 
     ```R
@@ -333,6 +331,8 @@ Frequently Asked Questions
     \( S \) is the similarity.
     \( d \) is the Hamming distance.
     \( n \) is the number of characters compared in the Hamming distance.
+
+    Here, R is used only for **post-processing** an existing `matrix.txt`. If you want to launch `pheno-ranker` from inside R, see [Use from R](use-from-r.md).
      
     Example `R` code:
      
@@ -353,6 +353,8 @@ Frequently Asked Questions
 ??? faq "How can I convert a Hamming distance matrix to a standardized matrix?"
 
     We recommend using `R` for this task. See example below:
+
+    Here, R is used only for **post-processing** an existing `matrix.txt`. If you want to launch `pheno-ranker` from inside R, see [Use from R](use-from-r.md).
 
     Example `R` code:
 
@@ -487,8 +489,10 @@ Frequently Asked Questions
 
 ??? faq "From where can I download the software?"
 
-    Should you opt for the **command-line interface**, we suggest obtaining the software from the [CPAN distribution](https://metacpan.org/pod/Pheno::Ranker), which additionally includes the utility [bff-pxf-simulator](https://cnag-biomedical-informatics.github.io/pheno-ranker/bff-pxf-simulator) and the `CSV` [importer](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import). You can find additional information [here](download-and-installation.md).
+    See [Download & Installation](download-and-installation.md). It summarizes CPAN, Conda, GitHub checkout, Docker Hub, and Dockerfile-based installation paths.
 
 ??? faq "Do you have a way of installing `R` (+ plotting libraries) along with Pheno-Ranker?"
 
-    We deliberately omitted R installation to prevent the Docker images from becoming too large or slowing down the installation process. However, you can build a custom image that includes R by uncommenting a few lines in the [Dockerfile](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/refs/heads/main/docker/Dockerfile). For detailed instructions on building an image from a `Dockerfile`, please refer to [this guide](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md).
+    R is not required to run the `pheno-ranker` CLI. Use R when you want to post-process outputs such as `matrix.txt`, `rank.txt`, `matrix.mtx`, or exported JSON files.
+
+    If you want to call `pheno-ranker` from R, see [Use from R](use-from-r.md). For containerized installations, see [Download & Installation](download-and-installation.md) and the Docker instructions linked from that page.

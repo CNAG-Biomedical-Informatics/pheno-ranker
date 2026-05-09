@@ -1,6 +1,7 @@
 *.sh
 *.txt
 !t/ref_align.txt
+!docs-site/static/data/*.txt
 *.bck
 *.old
 *.swp
