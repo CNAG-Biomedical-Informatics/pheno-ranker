@@ -4,14 +4,13 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "prestart": "node scripts/import-mkdocs.mjs",
     "start": "docusaurus start",
-    "prebuild": "node scripts/import-mkdocs.mjs && node scripts/check-generated-docs.mjs",
+    "prebuild": "node scripts/check-docs.mjs",
     "build": "docusaurus build",
     "clear": "docusaurus clear",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
-    "smoke": "node scripts/check-generated-docs.mjs",
+    "smoke": "node scripts/check-docs.mjs",
     "typecheck": "tsc"
   },
   "dependencies": {
