@@ -49,8 +49,8 @@
 .copy h1 {
   max-width: 860px;
   margin: 0;
-  font-size: clamp(2.35rem, 5vw, 4.7rem);
-  line-height: 1.02;
+  font-size: clamp(2.1rem, 4.4vw, 4.25rem);
+  line-height: 1.05;
   letter-spacing: -0.045em;
 }
 
@@ -65,10 +65,10 @@
 
 .lede {
   max-width: 720px;
-  margin: 1.45rem 0 2rem;
+  margin: 1.25rem 0 1.9rem;
   color: rgba(255, 255, 255, 0.84);
-  font-size: 1.22rem;
-  line-height: 1.64;
+  font-size: 1.08rem;
+  line-height: 1.58;
 }
 
 .lede code {
@@ -224,14 +224,15 @@
 
 .card h2 {
   color: white;
-  font-size: 1.28rem;
+  font-size: 1.18rem;
   margin: 0;
 }
 
 .card p {
   margin: 0;
   color: rgba(255, 255, 255, 0.76);
-  line-height: 1.55;
+  font-size: 0.94rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 980px) {
