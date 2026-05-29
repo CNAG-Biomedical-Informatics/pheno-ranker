@@ -4,13 +4,22 @@ slug: "/what-is-pheno-ranker"
 ---
 # What is Pheno-Ranker?
 
-`Pheno-Ranker` is a command-line tool for _individual-level_ comparison of phenotypic, clinical, and other categorical records. It was designed for GA4GH-oriented data such as [Beacon v2](/bff) and [Phenopackets v2](/pxf), but it can also compare generic `JSON`, `YAML`, and `CSV`-derived datasets.
+`Pheno-Ranker` is a command-line tool for **individual-level comparison** of phenotypic, clinical, and other categorical records. It was designed for GA4GH-oriented data such as [Beacon v2](/bff) and [Phenopackets v2](/pxf), but it can also compare generic `JSON`, `YAML`, and `CSV`-derived datasets.
 
-The primary interface is the `pheno-ranker` CLI. This makes it straightforward to use from a terminal, shell scripts, R/Python automation, workflow managers, and reproducible batch analyses. A Web App UI is also available for interactive use.
+The primary interface is the `pheno-ranker` CLI. This makes it straightforward to use from a terminal, shell scripts, R/Python automation, workflow managers, and **reproducible batch analyses**. A Web App UI is also available for interactive use.
 
-The central idea is simple: hierarchical records are flattened, transformed into one-hot encoded binary vectors, and compared with metrics such as [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) and [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index). This makes the same command-line workflow useful for cohort exploration, patient matching, clustering, multidimensional scaling, and graph analytics.
+:::tip[Designed for scale]
+`Pheno-Ranker` is intended for analyses that are too large to inspect manually: **thousands of records** in all-vs-all cohort comparisons, and **hundreds of thousands to millions of reference records** in patient mode when the feature space, hardware, and output choices permit it.
+:::
 
-`Pheno-Ranker` is designed to be lightweight and fast for practical cohort analyses. The CLI workflow avoids database setup, uses compact binary representations internally, and can write sparse Matrix Market output for large all-vs-all comparisons when a dense matrix is unnecessary.
+The central idea is simple:
+
+1. Hierarchical records are **flattened** into comparable variables.
+2. Variables are transformed into **one-hot encoded binary vectors**.
+3. Vectors are compared with metrics such as [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) and [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index).
+4. Results can be used for **cohort exploration**, **patient matching**, clustering, multidimensional scaling, and graph analytics.
+
+`Pheno-Ranker` is designed to be lightweight and fast for practical cohort analyses. The CLI workflow **avoids database setup**, uses compact binary representations internally, and can write sparse Matrix Market output for large all-vs-all comparisons when a dense matrix is unnecessary.
 
 ## Key Features
 
