@@ -51,7 +51,7 @@ pheno-ranker -r individuals.json -include-terms phenotypicFeatures sex diseases 
 First, we download the file:
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/refs/heads/main/CINECA_synthetic_cohort_EUROPE_UK1/bff/individuals.json
+wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/refs/heads/main/CINECA_synthetic_cohort_EUROPE_UK1/current/bff/individuals.json
 ```
 
 ### A
@@ -246,7 +246,7 @@ pheno-ranker -r cohort_A.json cohort_B.json -include-terms diseases sex --simila
 First, we download the file:
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/refs/heads/main/CINECA_synthetic_cohort_EUROPE_UK1/bff/individuals.json
+wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/refs/heads/main/CINECA_synthetic_cohort_EUROPE_UK1/current/bff/individuals.json
 ```
 
 Now we run the utility:
