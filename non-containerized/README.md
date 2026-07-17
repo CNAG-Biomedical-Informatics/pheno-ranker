@@ -84,7 +84,16 @@ conda deactivate
 
 ## Method 3: From GitHub
 
-Clone the repository:
+Install the current GitHub version directly with `cpanm`:
+
+```bash
+cpanm --notest https://github.com/CNAG-Biomedical-Informatics/pheno-ranker.git
+pheno-ranker --help
+```
+
+### Developer Checkout
+
+Clone the repository only when you want to inspect the source code, run tests, use local examples, or edit the code locally:
 
 ```bash
 git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git

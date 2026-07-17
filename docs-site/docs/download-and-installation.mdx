@@ -62,9 +62,16 @@ See the Conda instructions in [non-containerized/README.md](https://github.com/C
 
 ### Method 3: From GitHub (`G`)
 
-Recommended when you need the repository utilities, examples, tests, or development version.
+Recommended when you want the current GitHub version without waiting for a CPAN release.
 
-See the GitHub checkout instructions in [non-containerized/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md).
+Install directly with `cpanm`:
+
+```bash
+cpanm --notest https://github.com/CNAG-Biomedical-Informatics/pheno-ranker.git
+pheno-ranker --help
+```
+
+Use a developer checkout only when you need to inspect the source, run tests, use local examples, or edit code locally. See the full GitHub instructions in [non-containerized/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md).
 
 ## Containerized
 
