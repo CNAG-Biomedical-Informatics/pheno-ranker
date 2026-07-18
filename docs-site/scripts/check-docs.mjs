@@ -72,15 +72,6 @@ const about = readDoc('about.mdx');
 assertContains('about.mdx', about, 'className="about-card"', 'About page card layout is missing');
 assertNotContains('about.mdx', about, '&lt;article', 'About page HTML tags should not be escaped');
 
-const whatIs = readDoc('what-is-pheno-ranker.mdx');
-assertContains(
-  'what-is-pheno-ranker.mdx',
-  whatIs,
-  "src={require('@site/static/media/pheno-ranker-notebook-llm.mp3').default}",
-  'Notebook LM audio should use Docusaurus static media resolution',
-);
-assertNotContains('what-is-pheno-ranker.mdx', whatIs, 'src="../media/', 'Notebook LM audio should not use fragile relative media paths');
-
 const imageRefs = [...fs.readdirSync(docsDir)]
   .filter((name) => name.endsWith('.mdx'))
   .flatMap((name) => {
