@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 250" role="img" aria-labelledby="objective-title objective-description">
+  <title id="objective-title">Pheno-Ranker objective</title>
+  <desc id="objective-description">
+    Structured phenotypic and clinical records are compared with Pheno-Ranker to produce target rankings or cohort matrices.
+  </desc>
+  <style>
+    .line { fill: none; stroke: #2f6472; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+    .muted-line { fill: none; stroke: #9bb7bd; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+    .surface { fill: #f8fbfa; stroke: #789da6; stroke-width: 1.5; }
+    .accent { fill: #b76932; }
+    .label { fill: #244b5a; font: 700 12px "Noto Sans", "DejaVu Sans", sans-serif; letter-spacing: 1.2px; }
+    .detail { fill: #59717a; font: 400 12px "Noto Sans", "DejaVu Sans", sans-serif; }
+
+    @media (prefers-color-scheme: dark) {
+      .line { stroke: #8bbdcb; }
+      .muted-line { stroke: #5f7d86; }
+      .surface { fill: #1b3038; stroke: #75afc0; }
+      .accent { fill: #e5a36c; }
+      .label { fill: #edf5f5; }
+      .detail { fill: #bfd0d3; }
+    }
+  </style>
+
+  <g aria-label="Structured records">
+    <rect class="muted-line" x="28" y="45" width="92" height="100" rx="6" />
+    <rect class="muted-line" x="36" y="53" width="92" height="100" rx="6" />
+    <rect class="surface" x="44" y="61" width="92" height="100" rx="6" />
+    <path class="line" d="M62 82 H118 M62 99 H118 M62 116 H118 M62 133 H98" />
+    <circle class="accent" cx="68" cy="82" r="3" />
+    <circle class="accent" cx="68" cy="99" r="3" />
+    <circle class="accent" cx="68" cy="116" r="3" />
+    <text class="label" x="90" y="192" text-anchor="middle">RECORDS</text>
+    <text class="detail" x="90" y="213" text-anchor="middle">BFF · PXF · JSON</text>
+  </g>
+
+  <path class="line" d="M156 108 H190" />
+  <path class="accent" d="M196 108 L186 102 V114 Z" />
+
+  <g aria-label="Pheno-Ranker comparison">
+    <rect class="surface" x="211" y="54" width="128" height="108" rx="8" />
+    <g transform="translate(231 76)">
+      <rect class="muted-line" x="0" y="0" width="10" height="10" rx="2" />
+      <rect class="accent" x="17" y="0" width="10" height="10" rx="2" />
+      <rect class="muted-line" x="34" y="0" width="10" height="10" rx="2" />
+      <rect class="accent" x="51" y="0" width="10" height="10" rx="2" />
+      <rect class="accent" x="68" y="0" width="10" height="10" rx="2" />
+      <rect class="accent" x="0" y="28" width="10" height="10" rx="2" />
+      <rect class="accent" x="17" y="28" width="10" height="10" rx="2" />
+      <rect class="muted-line" x="34" y="28" width="10" height="10" rx="2" />
+      <rect class="muted-line" x="51" y="28" width="10" height="10" rx="2" />
+      <rect class="accent" x="68" y="28" width="10" height="10" rx="2" />
+      <path class="line" d="M5 16 H73" />
+    </g>
+    <text class="label" x="275" y="192" text-anchor="middle">COMPARE</text>
+    <text class="detail" x="275" y="213" text-anchor="middle">Hamming · Jaccard</text>
+  </g>
+
+  <path class="line" d="M354 108 H388" />
+  <path class="accent" d="M394 108 L384 102 V114 Z" />
+
+  <g aria-label="Rankings and matrices">
+    <rect class="surface" x="409" y="53" width="104" height="108" rx="8" />
+    <path class="line" d="M429 78 H488 M429 94 H479 M429 110 H470" />
+    <circle class="accent" cx="424" cy="78" r="3" />
+    <circle class="accent" cx="424" cy="94" r="3" />
+    <circle class="accent" cx="424" cy="110" r="3" />
+    <path class="muted-line" d="M429 128 H488 M429 142 H488 M443 124 V147 M458 124 V147 M473 124 V147" />
+    <text class="label" x="461" y="192" text-anchor="middle">RESULTS</text>
+    <text class="detail" x="461" y="213" text-anchor="middle">Ranks · matrices</text>
+  </g>
+</svg>

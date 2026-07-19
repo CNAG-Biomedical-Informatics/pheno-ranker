@@ -82,44 +82,36 @@
   margin: 1rem 0 1.5rem;
 }
 
-.phenoDocHero,
-.phenoQuickHero {
-  position: relative;
-  overflow: hidden;
-  margin: 0 0 1.35rem;
+.phenoOverviewIntro {
+  margin: 0 0 1.4rem;
+  padding: 1.35rem 1.45rem 0.1rem;
   border: 1px solid var(--pr-line);
-  border-radius: 24px;
-  background:
-    radial-gradient(circle at 86% 12%, rgba(230, 154, 63, 0.18), transparent 30%),
-    linear-gradient(135deg, #f8fbfb 0%, #eaf7f9 56%, #fff6e9 100%);
-  box-shadow: 0 20px 50px rgba(20, 48, 66, 0.08);
+  border-radius: 10px;
+  background: var(--ifm-background-surface-color);
 }
 
-.phenoDocHero {
-  padding: clamp(1.5rem, 4vw, 3rem);
-}
-
-.phenoQuickHero {
-  padding: clamp(1.25rem, 3vw, 2.2rem);
-}
-
-.phenoDocHero h2,
-.phenoQuickHero h2 {
-  max-width: 780px;
+.phenoOverviewIntro h2 {
+  max-width: 760px;
   margin: 0;
   color: var(--pr-ink);
-  font-size: clamp(1.65rem, 3.7vw, 3rem);
-  line-height: 1.08;
-  letter-spacing: -0.045em;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
 }
 
-.phenoDocHero p:not(.phenoEyebrow),
-.phenoQuickHero p:not(.phenoEyebrow) {
+.phenoOverviewIntro > p:not(.phenoEyebrow) {
   max-width: 760px;
-  margin: 1rem 0 0;
+  margin: 0.9rem 0 0;
   color: var(--pr-muted);
-  font-size: 1rem;
-  line-height: 1.58;
+  line-height: 1.62;
+}
+
+[data-theme='dark'] .phenoOverviewIntro h2 {
+  color: var(--ifm-color-emphasis-900);
+}
+
+[data-theme='dark'] .phenoOverviewIntro > p:not(.phenoEyebrow) {
+  color: var(--ifm-color-emphasis-700);
 }
 
 .phenoEyebrow,
@@ -267,24 +259,6 @@
   line-height: 1.55;
 }
 
-.phenoWorkflowHero {
-  background:
-    radial-gradient(circle at 92% 18%, rgba(230, 154, 63, 0.2), transparent 34%),
-    linear-gradient(135deg, rgba(237, 248, 250, 0.98), rgba(255, 246, 233, 0.86));
-  border: 1px solid var(--pr-line);
-  border-radius: 22px;
-  box-shadow: 0 16px 38px rgba(20, 48, 66, 0.075);
-  margin: 1rem 0 1.25rem;
-  padding: 1.15rem 1.3rem;
-}
-
-.phenoWorkflowHero p {
-  color: var(--pr-ink);
-  font-size: 1.04rem;
-  line-height: 1.55;
-  margin: 0;
-}
-
 .phenoWorkflow {
   align-items: stretch;
   display: grid;
@@ -369,23 +343,6 @@
   border-color: rgba(230, 154, 63, 0.38);
   color: var(--pr-ink);
   text-decoration: none;
-}
-
-.about-hero {
-  background:
-    linear-gradient(135deg, rgba(237, 248, 250, 0.96), rgba(255, 246, 233, 0.94)),
-    radial-gradient(circle at top right, rgba(230, 154, 63, 0.2), transparent 42%);
-  border: 1px solid var(--pr-line);
-  border-radius: 24px;
-  box-shadow: 0 18px 45px rgba(20, 48, 66, 0.09);
-  margin: 1.2rem 0 1.6rem;
-  padding: 1.4rem 1.6rem;
-}
-
-.about-hero p {
-  color: var(--ifm-color-emphasis-800);
-  font-size: 1.08rem;
-  margin: 0;
 }
 
 .about-grid {
