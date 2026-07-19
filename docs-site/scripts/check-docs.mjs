@@ -72,6 +72,23 @@ const about = readDoc('about.mdx');
 assertContains('about.mdx', about, 'className="about-card"', 'About page card layout is missing');
 assertNotContains('about.mdx', about, '&lt;article', 'About page HTML tags should not be escaped');
 
+const homePath = path.join(docsSiteDir, 'src', 'pages', 'index.tsx');
+const home = fs.readFileSync(homePath, 'utf8');
+const objectivePath = path.join(staticDir, 'img', 'pheno-ranker-objective.svg');
+assertContains(
+  'index.tsx',
+  home,
+  "useBaseUrl('/img/pheno-ranker-objective.svg')",
+  'landing-page objective should resolve through the Docusaurus base URL',
+);
+if (!fs.existsSync(objectivePath)) {
+  failures.push('pheno-ranker-objective.svg: landing-page objective is missing');
+} else {
+  const objective = fs.readFileSync(objectivePath, 'utf8');
+  assertContains('pheno-ranker-objective.svg', objective, '<title ', 'accessible title is missing');
+  assertContains('pheno-ranker-objective.svg', objective, '<desc ', 'accessible description is missing');
+}
+
 const imageRefs = [...fs.readdirSync(docsDir)]
   .filter((name) => name.endsWith('.mdx'))
   .flatMap((name) => {

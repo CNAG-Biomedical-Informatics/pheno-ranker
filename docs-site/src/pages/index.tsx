@@ -4,7 +4,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './index.module.css';
 
 export default function Home() {
-  const logoUrl = useBaseUrl('/img/iconhex.svg');
+  const objectiveUrl = useBaseUrl('/img/pheno-ranker-objective.svg');
 
   return (
     <Layout
@@ -12,92 +12,105 @@ export default function Home() {
       description="Phenotypic similarity analysis for cohorts and patient matching">
       <main className={styles.page}>
         <section className={styles.hero}>
-          <div className={styles.heroGrid}>
-            <div className={styles.copy}>
-              <p className={styles.kicker}>Pheno-Ranker</p>
-              <h1>Phenotypic similarity analysis for cohorts and patient matching.</h1>
+          <div className={styles.heroInner}>
+            <div className={styles.heroCopy}>
+              <p className={styles.kicker}>Phenotypic and clinical record comparison</p>
+              <h1>Pheno-Ranker</h1>
+              <p className={styles.claim}>
+                Compare cohorts and rank target records from structured phenotypic
+                and clinical data.
+              </p>
               <p className={styles.lede}>
-                Rank patients, compare cohorts, export similarity matrices, and explore
-                phenotypic relationships from Beacon v2 Models, Phenopackets, CSV, and
-                generic JSON data with the <code>pheno-ranker</code> command-line workflow.
+                Pheno-Ranker compares Beacon v2 Models, Phenopackets v2, and
+                configured JSON or YAML records using Hamming distance or Jaccard
+                similarity. The command-line interface is the primary interface;
+                CSV preparation and a web application are available as companion
+                workflows.
               </p>
               <div className={styles.actions}>
-                <Link className="button button--primary button--lg" to="/what-is-pheno-ranker">
-                  Start Here
+                <Link className={styles.action} to="/usage">
+                  Quickstart
                 </Link>
-                <Link className="button button--secondary button--lg" to="/usage">
-                  CLI Usage
+                <Link className={styles.action} to="/other-formats">
+                  Supported Inputs
                 </Link>
-                <Link className="button button--secondary button--lg" to="/download-and-installation">
-                  Install
+                <Link className={styles.action} to="/citation">
+                  Publication
                 </Link>
               </div>
             </div>
 
-            <div className={styles.flowCard} aria-label="Pheno-Ranker workflow">
-              <Link className={styles.identity} to="/algorithm">
-                <img className={styles.heroLogo} src={logoUrl} alt="Pheno-Ranker logo" />
-                <span>Pheno-Ranker</span>
-              </Link>
-              <div className={styles.flow}>
-                <div>
-                  <span>Input</span>
-                  <strong>BFF · PXF · CSV · JSON</strong>
-                </div>
-                <div className={styles.arrow}>→</div>
-                <div className={styles.centerModel}>
-                  <span>Similarity engine</span>
-                  <strong>Comparable patient profiles</strong>
-                </div>
-                <div className={styles.arrow}>→</div>
-                <div>
-                  <span>Output</span>
-                  <strong>Ranks · matrices · graphs</strong>
-                </div>
-              </div>
-              <div className={styles.tokens}>
-                <span>cohort mode</span>
-                <span>patient mode</span>
-                <span>Jaccard</span>
-                <span>Hamming</span>
-              </div>
-            </div>
+            <figure className={styles.objectiveFigure}>
+              <img
+                className={styles.objective}
+                src={objectiveUrl}
+                alt="Structured phenotypic and clinical records are compared by Pheno-Ranker to produce rankings and matrices"
+              />
+              <figcaption>
+                Structured records are compared to produce target rankings or
+                cohort matrices.
+              </figcaption>
+            </figure>
           </div>
         </section>
 
-        <section className={styles.sections}>
-          <div className={styles.grid}>
-            <Link className={styles.card} to="/cohort">
-              <span>Compare</span>
-              <h2>Cohort Mode</h2>
-              <p>Compute pairwise distances, similarity matrices, graph exports, and dimensionality-reduction inputs.</p>
-            </Link>
-            <Link className={styles.card} to="/patient">
-              <span>Match</span>
-              <h2>Patient Mode</h2>
-              <p>Rank one or more patients against reference cohorts with interpretable overlap and completeness statistics.</p>
-            </Link>
-            <Link className={styles.card} to="/algorithm">
-              <span>Method</span>
-              <h2>Algorithm</h2>
-              <p>Understand canonicalization, term weighting, filtering, and distance calculations.</p>
-            </Link>
-            <Link className={styles.card} to="/generic-json">
-              <span>Flexible Input</span>
-              <h2>Generic JSON</h2>
-              <p>Use Pheno-Ranker beyond BFF and PXF when your data can be represented as structured JSON.</p>
-            </Link>
-            <Link className={styles.card} to="/use-from-r">
-              <span>R Workflows</span>
-              <h2>Use from R</h2>
-              <p>Call the CLI from R, then read matrices, rankings, exported JSON, or sparse Matrix Market output.</p>
-            </Link>
-            <Link className={styles.card} to="/qr-code-generator">
-              <span>Utilities</span>
-              <h2>QR and PDF</h2>
-              <p>Encode patient-level data into QR codes or PDF summaries for compact exchange workflows.</p>
-            </Link>
+        <section className={styles.scopeSection}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.sectionLabel}>Current scope</p>
+              <h2>Supported operations</h2>
+            </div>
+            <p>
+              Available outputs and statistics depend on the selected mode and
+              similarity metric. Input-specific requirements are documented with
+              each supported format.
+            </p>
           </div>
+
+          <div className={styles.operationGrid}>
+            <article className={styles.operation}>
+              <span>Cohort mode</span>
+              <h3>Compute all-vs-all comparisons</h3>
+              <p>
+                Calculate pairwise Hamming distances or Jaccard similarities and
+                write dense or sparse matrices.
+              </p>
+            </article>
+            <article className={styles.operation}>
+              <span>Patient mode</span>
+              <h3>Rank records against a target</h3>
+              <p>
+                Compare target records with reference cohorts and report ranked
+                matches with overlap and completeness statistics.
+              </p>
+            </article>
+            <article className={styles.operation}>
+              <span>Structured inputs</span>
+              <h3>Use native or configured records</h3>
+              <p>
+                Read BFF and PXF directly, configure generic JSON or YAML, or
+                prepare CSV data with the included import utility.
+              </p>
+            </article>
+            <article className={styles.operation}>
+              <span>Result export</span>
+              <h3>Inspect and reuse outputs</h3>
+              <p>
+                Export rankings, matrices, coverage information, intermediate
+                records, and thresholded graphs for downstream analysis.
+              </p>
+            </article>
+          </div>
+
+          <aside className={styles.scopeNote}>
+            <strong>Scope</strong>
+            <p>
+              Pheno-Ranker measures similarity between encoded categorical
+              profiles. It does not establish a diagnosis, curate source
+              terminology, or replace clinical interpretation and data-quality
+              review.
+            </p>
+          </aside>
         </section>
       </main>
     </Layout>

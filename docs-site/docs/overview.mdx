@@ -1,53 +1,68 @@
 ---
-title: "Overview"
+title: "Pheno-Ranker Documentation"
+sidebar_label: "Overview"
 slug: "/overview"
 hide_title: true
 ---
-<div className="phenoDocHero">
-  <h2>Compare phenotypic, clinical, and categorical records across cohorts and patients.</h2>
+
+<div className="phenoOverviewIntro">
+  <p className="phenoEyebrow">Documentation overview</p>
+  <h2>Choose the comparison workflow that matches your data and question.</h2>
   <p>
-    Use this page as a quick map for the `pheno-ranker` command-line workflow.
-    For the conceptual explanation, see
-    [What is Pheno-Ranker?](/what-is-pheno-ranker).
+    `Pheno-Ranker` compares structured phenotypic, clinical, and categorical
+    records in cohort mode or patient mode. This documentation covers input
+    preparation, command-line use, interpretation, and downstream analysis.
   </p>
   <div className="button-row">
-    <a className="button button--primary" href="usage">Usage</a>
-    <a className="button button--secondary" href="download-and-installation">Install</a>
-    <a className="button button--secondary" href="what-is-pheno-ranker">What it does</a>
+    <a className="button button--primary" href="what-is-pheno-ranker">What it does</a>
+    <a className="button button--secondary" href="user-workflow">User workflow</a>
+    <a className="button button--secondary" href="usage">CLI examples</a>
   </div>
 </div>
 
-## Choose a Path
+:::note[Project status]
+This documentation follows the current GitHub version of `Pheno-Ranker`. The latest CPAN release can differ from the development version between releases; consult the [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes) for version-specific updates.
 
-<div className="phenoCardGrid">
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Learn</p>
-    <h3><a href="what-is-pheno-ranker">What is Pheno-Ranker?</a></h3>
-    <p>Concepts, supported inputs, ranking modes, and main outputs.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Run</p>
-    <h3><a href="usage">Usage</a></h3>
-    <p>Common command-line patterns for cohort mode, patient mode, graph export, and sparse matrices.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Prepare Data</p>
-    <h3><a href="bff">BFF</a>, <a href="pxf">PXF</a>, <a href="csv-import">CSV</a>, or <a href="generic-json">JSON</a></h3>
-    <p>Pick the input page that matches your data.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Examples</p>
-    <h3><a href="phenopackets-corpus">Tutorials and Use Cases</a></h3>
-    <p>Worked examples with Phenopackets, OMIM, TCGA clinical data, VCF, and generic JSON.</p>
-  </article>
-</div>
+Format-specific requirements and limitations are documented on the corresponding input and use-case pages.
+:::
 
-## Quick Links
+:::tip[Primary interface]
+The `pheno-ranker` command-line interface is the main entry point for reproducible file-based analyses, configuration files, large cohorts, and result exports.
 
-* [Download & Installation](/download-and-installation)
-* [Cohort Mode](/cohort)
-* [Patient Mode](/patient)
-* [Use from R](/use-from-r)
-* [Algorithm](/algorithm)
-* [FAQ](/faq)
-* [Citation](/citation)
+The Web App is available for interactive use, while the Perl module supports programmatic integration.
+:::
+
+## Typical Analyses
+
+Most users come to `Pheno-Ranker` for one of these tasks:
+
+- compute all-vs-all Hamming distances or Jaccard similarities within or across cohorts
+- rank one or more target records against a reference cohort
+- compare Beacon v2 Models, Phenopackets v2, or configured generic JSON/YAML records
+- prepare CSV data with `csv2pheno-ranker`
+- export dense or sparse matrices, ranking statistics, coverage data, or thresholded graphs
+
+## Start Here
+
+- [Download & Installation](/download-and-installation) if you have not installed the CLI
+- [Usage](/usage) for copy-paste command-line examples and the option reference
+- [Cohort Mode](/cohort) for all-vs-all comparisons and matrix or graph output
+- [Patient Mode](/patient) for target-versus-reference ranking and result statistics
+- [Input Formats](/other-formats) if you need to prepare BFF, PXF, CSV, or generic JSON/YAML data
+
+## Documentation Map
+
+- [What is Pheno-Ranker?](/what-is-pheno-ranker) for the concepts, supported operations, and main outputs
+- [User Workflow](/user-workflow) for the path from input preparation to downstream analysis
+- [Algorithm](/algorithm) and [Implementation](/implementation) for technical details
+- [Utilities](/implementation#utilities) for simulation, plotting, CSV import, and QR-code workflows
+- [Use Cases](/phenopackets-corpus) for worked examples with Phenopackets, OMIM, and TCGA clinical data
+- [Use from R](/use-from-r) for calling the CLI and post-processing its outputs in R
+- [FAQ](/faq) for common operational and analysis questions
+
+## Project Links
+
+- [GitHub repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker)
+- [CPAN distribution](https://metacpan.org/dist/Pheno-Ranker)
+- [Web App](https://pheno-ranker.cnag.eu)
+- [Publication and citation](/citation)
