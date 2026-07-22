@@ -5,6 +5,8 @@ slug: "/overview"
 hide_title: true
 ---
 
+import Link from '@docusaurus/Link';
+
 <div className="phenoOverviewIntro">
   <p className="phenoEyebrow">Documentation overview</p>
   <h2>Choose the comparison workflow that matches your data and question.</h2>
@@ -14,55 +16,25 @@ hide_title: true
     preparation, command-line use, interpretation, and downstream analysis.
   </p>
   <div className="button-row">
-    <a className="button button--primary" href="what-is-pheno-ranker">What it does</a>
-    <a className="button button--secondary" href="user-workflow">User workflow</a>
-    <a className="button button--secondary" href="usage">CLI examples</a>
+    <Link className="button button--primary" to="/download-and-installation">Install &amp; first run</Link>
+    <Link className="button button--secondary" to="/user-workflow">Choose a workflow</Link>
+    <Link className="button button--secondary" to="/usage">CLI reference</Link>
   </div>
 </div>
 
-:::note[Project status]
-This documentation follows the current GitHub version of `Pheno-Ranker`. The latest CPAN release can differ from the development version between releases; consult the [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes) for version-specific updates.
+## Find the Right Page
 
-Format-specific requirements and limitations are documented on the corresponding input and use-case pages.
-:::
+- **Learn the concepts:** [What is Pheno-Ranker?](/what-is-pheno-ranker) and [User Workflow](/user-workflow).
+- **Install and run:** [Install & First Run](/download-and-installation), followed by the [CLI reference](/usage).
+- **Choose a comparison:** [Cohort Mode](/cohort) for all-vs-all matrices or [Patient Mode](/patient) for target-to-reference ranking.
+- **Prepare input:** [Input Formats](/other-formats) for BFF, PXF, CSV, and configured JSON/YAML.
+- **Continue downstream:** [Use Cases](/phenopackets-corpus), [Use from R](/use-from-r), and [companion utilities](/user-workflow#companion-utilities).
+- **Find technical or operational detail:** [Implementation](/implementation), [Algorithm](/algorithm), and [FAQ](/faq).
 
-:::tip[Primary interface]
-The `pheno-ranker` command-line interface is the main entry point for reproducible file-based analyses, configuration files, large cohorts, and result exports.
+## Project Status
 
-The Web App is available for interactive use, while the Perl module supports programmatic integration.
-:::
-
-## Typical Analyses
-
-Most users come to `Pheno-Ranker` for one of these tasks:
-
-- compute all-vs-all Hamming distances or Jaccard similarities within or across cohorts
-- rank one or more target records against a reference cohort
-- compare Beacon v2 Models, Phenopackets v2, or configured generic JSON/YAML records
-- prepare CSV data with `csv2pheno-ranker`
-- export dense or sparse matrices, ranking statistics, coverage data, or thresholded graphs
-
-## Start Here
-
-- [Download & Installation](/download-and-installation) if you have not installed the CLI
-- [Usage](/usage) for copy-paste command-line examples and the option reference
-- [Cohort Mode](/cohort) for all-vs-all comparisons and matrix or graph output
-- [Patient Mode](/patient) for target-versus-reference ranking and result statistics
-- [Input Formats](/other-formats) if you need to prepare BFF, PXF, CSV, or generic JSON/YAML data
-
-## Documentation Map
-
-- [What is Pheno-Ranker?](/what-is-pheno-ranker) for the concepts, supported operations, and main outputs
-- [User Workflow](/user-workflow) for the path from input preparation to downstream analysis
-- [Algorithm](/algorithm) and [Implementation](/implementation) for technical details
-- [Utilities](/implementation#utilities) for simulation, plotting, CSV import, and QR-code workflows
-- [Use Cases](/phenopackets-corpus) for worked examples with Phenopackets, OMIM, and TCGA clinical data
-- [Use from R](/use-from-r) for calling the CLI and post-processing its outputs in R
-- [FAQ](/faq) for common operational and analysis questions
+The documentation follows the current GitHub version of `Pheno-Ranker`; the latest CPAN release can differ between releases. Consult the [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes) for version-specific updates. The CLI is the primary interface, while the legacy Web App remains supported until 2027.
 
 ## Project Links
 
-- [GitHub repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker)
-- [CPAN distribution](https://metacpan.org/dist/Pheno-Ranker)
-- [Web App](https://pheno-ranker.cnag.eu)
-- [Publication and citation](/citation)
+[GitHub repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker) &middot; [CPAN distribution](https://metacpan.org/dist/Pheno-Ranker) &middot; [Publication and citation](/citation) &middot; [Web App UI](https://pheno-ranker.cnag.eu)

@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="utilities-map-title utilities-map-description">
+  <title id="utilities-map-title">Where the four companion utilities enter the Pheno-Ranker workflow</title>
+  <desc id="utilities-map-description">
+    A workflow map showing bff-pxf-simulator and csv2pheno-ranker feeding analysis inputs, bff-pxf-plot profiling BFF or PXF records, and the barcode utilities consuming exported binary vectors to create QR codes, reconstructed JSON, or PDF reports.
+  </desc>
+  <defs>
+    <symbol id="artifact-records" viewBox="0 0 100 80">
+      <rect class="artifact-light" x="8" y="13" width="70" height="58" rx="4" />
+      <rect class="artifact-frame" x="17" y="5" width="70" height="58" rx="4" />
+      <circle class="artifact-accent" cx="29" cy="21" r="3" />
+      <path class="artifact-stroke" d="M38 21 H74 M27 33 H76 M27 44 H68 M27 55 H73" />
+    </symbol>
+    <symbol id="artifact-files" viewBox="0 0 100 80">
+      <rect class="artifact-frame" x="6" y="8" width="40" height="62" rx="4" />
+      <rect class="artifact-frame" x="54" y="8" width="40" height="62" rx="4" />
+      <rect class="artifact-light" x="12" y="15" width="28" height="17" rx="2" />
+      <rect class="artifact-light" x="60" y="15" width="28" height="17" rx="2" />
+      <text class="artifact-text center" x="26" y="27">JSON</text>
+      <text class="artifact-text center" x="74" y="27">YAML</text>
+      <path class="artifact-stroke" d="M14 42 H38 M14 51 H34 M14 60 H37 M62 42 H86 M62 51 H83 M62 60 H87" />
+    </symbol>
+    <symbol id="artifact-plot" viewBox="0 0 100 80">
+      <rect class="artifact-frame" x="3" y="4" width="94" height="72" rx="4" />
+      <path class="artifact-stroke" d="M17 14 V63 H89" />
+      <rect class="artifact-light" x="25" y="43" width="10" height="20" />
+      <rect class="artifact-light" x="42" y="31" width="10" height="32" />
+      <rect class="artifact-light" x="59" y="48" width="10" height="15" />
+      <rect class="artifact-light" x="76" y="24" width="10" height="39" />
+      <path class="artifact-accent-stroke" d="M24 38 L43 25 L61 34 L80 17" />
+      <circle class="artifact-accent" cx="24" cy="38" r="2.5" />
+      <circle class="artifact-accent" cx="43" cy="25" r="2.5" />
+      <circle class="artifact-accent" cx="61" cy="34" r="2.5" />
+      <circle class="artifact-accent" cx="80" cy="17" r="2.5" />
+    </symbol>
+    <symbol id="artifact-matrix-rank" viewBox="0 0 110 80">
+      <g class="artifact-grid">
+        <rect x="3" y="9" width="17" height="17" /><rect x="20" y="9" width="17" height="17" /><rect x="37" y="9" width="17" height="17" />
+        <rect x="3" y="26" width="17" height="17" /><rect class="artifact-light" x="20" y="26" width="17" height="17" /><rect x="37" y="26" width="17" height="17" />
+        <rect x="3" y="43" width="17" height="17" /><rect x="20" y="43" width="17" height="17" /><rect x="37" y="43" width="17" height="17" />
+      </g>
+      <circle class="artifact-accent" cx="69" cy="18" r="4" />
+      <circle class="artifact-ink" cx="69" cy="35" r="4" />
+      <circle class="artifact-ink" cx="69" cy="52" r="4" />
+      <path class="artifact-stroke" d="M79 18 H106 M79 35 H99 M79 52 H93" />
+    </symbol>
+    <symbol id="artifact-qr-report" viewBox="0 0 120 90">
+      <rect class="artifact-frame" x="2" y="5" width="66" height="66" rx="3" />
+      <path class="artifact-ink" fill-rule="evenodd" d="M8 11 H28 V31 H8 Z M12 15 V27 H24 V15 Z M42 11 H62 V31 H42 Z M46 15 V27 H58 V15 Z M8 45 H28 V65 H8 Z M12 49 V61 H24 V49 Z" />
+      <path class="artifact-ink" d="M34 11 H39 V17 H34 Z M31 21 H37 V28 H31 Z M35 34 H42 V41 H35 Z M45 34 H51 V40 H45 Z M56 35 H62 V43 H56 Z M31 47 H38 V54 H31 Z M41 45 H47 V51 H41 Z M50 48 H57 V55 H50 Z M59 57 H64 V64 H59 Z M35 59 H43 V66 H35 Z M47 58 H53 V64 H47 Z" />
+      <rect class="artifact-frame" x="77" y="8" width="38" height="66" rx="4" />
+      <rect class="artifact-accent" x="84" y="17" width="24" height="6" rx="2" />
+      <path class="artifact-stroke" d="M84 32 H108 M84 41 H108 M84 50 H104 M84 59 H109" />
+      <text class="artifact-text center" x="96" y="86">QR + PDF</text>
+    </symbol>
+    <marker id="utility-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#2f6472" />
+    </marker>
+    <marker id="utility-arrow-rust" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#a45f32" />
+    </marker>
+  </defs>
+  <style>
+    .canvas { fill: #ffffff; }
+    .panel { fill: #fbfcfc; stroke: #a8b8bd; stroke-width: 1.5; }
+    .head-generate { fill: #eaf2f0; }
+    .head-convert { fill: #edf3f8; }
+    .head-inspect { fill: #eef6ee; }
+    .head-reuse { fill: #fff4eb; }
+    .code-box { fill: #ffffff; stroke: #bdc9cd; stroke-width: 1; }
+    .input-node { fill: #ffffff; stroke: #7799a3; stroke-width: 1.75; }
+    .core-node { fill: #244b5a; stroke: #16323d; stroke-width: 1.75; }
+    .output-node { fill: #ffffff; stroke: #7799a3; stroke-width: 1.75; }
+    .node-band { fill: #eaf2f0; }
+    .artifact-frame { fill: #ffffff; stroke: #7899a3; stroke-width: 1.4; }
+    .artifact-light { fill: #dce9e7; stroke: #7899a3; stroke-width: 1; }
+    .artifact-ink { fill: #2f6472; }
+    .artifact-accent { fill: #b76932; }
+    .artifact-stroke { fill: none; stroke: #7899a3; stroke-width: 1.5; stroke-linecap: round; }
+    .artifact-accent-stroke { fill: none; stroke: #b76932; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .artifact-grid rect { fill: #ffffff; stroke: #7899a3; stroke-width: 1; }
+    .artifact-text { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 9px; font-weight: 700; }
+    .flow { fill: none; stroke: #2f6472; stroke-width: 2.25; stroke-linecap: round; marker-end: url(#utility-arrow); }
+    .branch { fill: none; stroke: #7899a3; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#utility-arrow); }
+    .export-branch { fill: none; stroke: #a45f32; stroke-width: 2; stroke-linecap: round; marker-end: url(#utility-arrow-rust); }
+    .title { fill: #16323d; font-family: Arial, Helvetica, sans-serif; font-size: 27px; font-weight: 700; }
+    .subtitle { fill: #5b7179; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; }
+    .panel-letter { fill: #985a2d; font-family: Arial, Helvetica, sans-serif; font-size: 19px; font-weight: 700; }
+    .panel-title { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 700; }
+    .section-label { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 700; }
+    .body { fill: #405b65; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; }
+    .body-strong { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; }
+    .mono { fill: #314e58; font-family: "Courier New", Courier, monospace; font-size: 12px; font-weight: 400; }
+    .mono-strong { fill: #244b5a; font-family: "Courier New", Courier, monospace; font-size: 13px; font-weight: 700; }
+    .node-title { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+    .node-body { fill: #526b74; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: 400; text-anchor: middle; }
+    .core-title { fill: #ffffff; font-family: "Courier New", Courier, monospace; font-size: 19px; font-weight: 700; text-anchor: middle; }
+    .core-body { fill: #dcebed; font-family: "Courier New", Courier, monospace; font-size: 12px; font-weight: 400; text-anchor: middle; }
+    .connector-label { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 700; text-anchor: middle; }
+    .connector-label-rust { fill: #985a2d; font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 700; text-anchor: end; }
+    .footnote { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: 400; text-anchor: middle; }
+    .center { text-anchor: middle; }
+  </style>
+
+  <rect class="canvas" x="0" y="0" width="1200" height="760" />
+  <text class="title" x="28" y="39">Where the companion utilities enter the workflow</text>
+  <text class="subtitle" x="28" y="65">The utilities generate, convert, inspect, or reuse artifacts around the core comparison command.</text>
+
+  <g aria-label="Generate synthetic records">
+    <rect class="panel" x="28" y="96" width="300" height="174" rx="6" />
+    <rect class="head-generate" x="28" y="96" width="300" height="47" rx="6" />
+    <path class="head-generate" d="M28 137 H328 V143 H28 Z" />
+    <text class="panel-letter" x="48" y="127">A</text>
+    <text class="panel-title" x="77" y="126">GENERATE SYNTHETIC RECORDS</text>
+    <text class="section-label" x="48" y="165">INPUT</text>
+    <text class="body" x="98" y="165">Ontology pools + parameters</text>
+    <rect class="code-box" x="48" y="181" width="178" height="35" rx="4" />
+    <text class="mono-strong center" x="137" y="203">bff-pxf-simulator</text>
+    <text class="section-label" x="48" y="242">OUTPUT</text>
+    <text class="body-strong" x="105" y="242">BFF/PXF JSON</text>
+    <use href="#artifact-records" x="238" y="174" width="74" height="76" />
+  </g>
+
+  <g aria-label="Profile BFF or PXF records">
+    <rect class="panel" x="450" y="96" width="330" height="174" rx="6" />
+    <rect class="head-inspect" x="450" y="96" width="330" height="47" rx="6" />
+    <path class="head-inspect" d="M450 137 H780 V143 H450 Z" />
+    <text class="panel-letter" x="470" y="127">C</text>
+    <text class="panel-title" x="499" y="126">PROFILE SOURCE RECORDS</text>
+    <text class="section-label" x="470" y="165">INPUT</text>
+    <text class="body" x="520" y="165">BFF or PXF records (JSON / YAML)</text>
+    <rect class="code-box" x="470" y="181" width="190" height="35" rx="4" />
+    <text class="mono-strong center" x="565" y="203">bff-pxf-plot</text>
+    <text class="section-label" x="470" y="242">OUTPUT</text>
+    <text class="body-strong" x="527" y="242">output_plots.png</text>
+    <use href="#artifact-plot" x="674" y="169" width="82" height="78" />
+  </g>
+
+  <text class="connector-label" x="346" y="284">FEEDS INPUT</text>
+  <path class="branch" d="M300 270 V296 H392 V300" />
+  <text class="connector-label" x="592" y="284">READS INPUT</text>
+  <path class="branch" d="M520 300 V296 H670 V270" />
+
+  <g aria-label="Core Pheno-Ranker analysis workflow">
+    <rect class="input-node" x="350" y="300" width="220" height="140" rx="6" />
+    <rect class="node-band" x="350" y="300" width="220" height="38" rx="6" />
+    <path class="node-band" d="M350 332 H570 V338 H350 Z" />
+    <text class="node-title" x="460" y="325">ANALYSIS INPUT</text>
+    <text class="node-body" x="460" y="365">Reference cohort</text>
+    <text class="node-body" x="460" y="387">Optional target</text>
+    <text class="mono center" x="460" y="416">BFF | PXF | configured JSON</text>
+
+    <path class="flow" d="M570 370 H635" />
+
+    <rect class="core-node" x="635" y="300" width="220" height="140" rx="6" />
+    <text class="section-label center" x="745" y="330" style="fill:#bfd0d3">CORE ANALYSIS</text>
+    <text class="core-title" x="745" y="371">pheno-ranker</text>
+    <text class="core-body" x="745" y="400">-r references</text>
+    <text class="core-body" x="745" y="420">[-t target] [--export]</text>
+
+    <path class="flow" d="M855 370 H920" />
+
+    <rect class="output-node" x="920" y="300" width="240" height="140" rx="6" />
+    <rect class="node-band" x="920" y="300" width="240" height="38" rx="6" />
+    <path class="node-band" d="M920 332 H1160 V338 H920 Z" />
+    <text class="node-title" x="1040" y="325">ANALYSIS OUTPUT</text>
+    <use href="#artifact-matrix-rank" x="936" y="345" width="96" height="72" />
+    <text class="mono-strong center" x="1090" y="365">matrix.txt</text>
+    <text class="mono-strong center" x="1090" y="388">rank.txt</text>
+    <text class="mono center" x="1090" y="414">export.*.json</text>
+  </g>
+
+  <g aria-label="Convert tabular data">
+    <rect class="panel" x="28" y="500" width="300" height="194" rx="6" />
+    <rect class="head-convert" x="28" y="500" width="300" height="47" rx="6" />
+    <path class="head-convert" d="M28 541 H328 V547 H28 Z" />
+    <text class="panel-letter" x="48" y="531">B</text>
+    <text class="panel-title" x="77" y="530">CONVERT TABULAR DATA</text>
+    <text class="section-label" x="48" y="570">INPUT</text>
+    <text class="body" x="98" y="570">CSV + delimiter and identifier rules</text>
+    <rect class="code-box" x="48" y="586" width="178" height="35" rx="4" />
+    <text class="mono-strong center" x="137" y="608">csv2pheno-ranker</text>
+    <text class="section-label" x="48" y="647">OUTPUT</text>
+    <text class="body-strong" x="105" y="647">JSON + YAML</text>
+    <text class="mono" x="48" y="672">*.json + *_config.yaml</text>
+    <use href="#artifact-files" x="238" y="578" width="76" height="84" />
+  </g>
+
+  <text class="connector-label" x="346" y="470">FEEDS INPUT</text>
+  <path class="branch" d="M300 500 V480 H392 V440" />
+
+  <g aria-label="Encode, decode, and report exported vectors">
+    <rect class="panel" x="750" y="500" width="410" height="194" rx="6" />
+    <rect class="head-reuse" x="750" y="500" width="410" height="47" rx="6" />
+    <path class="head-reuse" d="M750 541 H1160 V547 H750 Z" />
+    <text class="panel-letter" x="770" y="531">D</text>
+    <text class="panel-title" x="799" y="530">ENCODE, DECODE, AND REPORT</text>
+    <text class="section-label" x="770" y="570">INPUT</text>
+    <text class="mono" x="820" y="570">exported vectors + global hash</text>
+    <rect class="code-box" x="770" y="586" width="240" height="35" rx="4" />
+    <text class="mono-strong center" x="890" y="608">barcode command suite</text>
+    <text class="section-label" x="770" y="647">OUTPUT</text>
+    <text class="body-strong" x="827" y="647">QR PNG | JSON | PDF</text>
+    <use href="#artifact-qr-report" x="1026" y="557" width="120" height="96" />
+  </g>
+
+  <text class="connector-label-rust" x="1028" y="475">--EXPORT</text>
+  <path class="export-branch" d="M1040 440 V500" />
+
+  <text class="footnote" x="600" y="732">Utilities are optional. Arrows identify the artifacts each command reads or produces, not a required execution sequence.</text>
+</svg>

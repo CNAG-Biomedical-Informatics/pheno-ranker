@@ -4,9 +4,7 @@ slug: "/usage"
 ---
 # Usage
 
-This page summarizes the `pheno-ranker` command-line interface, which is the primary way to run `Pheno-Ranker`. For setup, see [Download & Installation](/download-and-installation).
-
-The Perl CLI is tested on Linux, macOS, and Windows. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl.
+This page summarizes the `pheno-ranker` command-line interface. New users should complete [First Run](/download-and-installation#first-run) before using these examples; see [Download & Installation](/download-and-installation) for Linux, macOS, and Windows guidance.
 
 ## Synopsis
 
@@ -63,7 +61,10 @@ pheno-ranker -r movies.json --config movies_config.yaml --include-terms genre ye
 
 Use `--include-terms` or `--exclude-terms` to control which configured fields are represented in the binary vectors.
 
-### Precomputed Reference Mode
+<details>
+<summary>Advanced workflows: precomputed references and graph export</summary>
+
+**Precomputed reference mode**
 
 Reuse exported reference vectors for repeated patient matching:
 
@@ -72,7 +73,7 @@ pheno-ranker -r individuals.json --export ref_cache
 pheno-ranker --precomputed-ref-prefix ref_cache -t patient.json
 ```
 
-### Graph Export
+**Graph export**
 
 Write a Cytoscape-compatible graph directly from cohort comparisons:
 
@@ -92,6 +93,8 @@ Write graph statistics:
 ```bash
 pheno-ranker -r individuals.json --cytoscape-json graph.json --graph-stats graph_stats.txt
 ```
+
+</details>
 
 ## Output Files
 

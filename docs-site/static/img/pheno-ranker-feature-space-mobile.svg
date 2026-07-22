@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1520" role="img" aria-labelledby="feature-mobile-title feature-mobile-description">
+  <title id="feature-mobile-title">From structured records to a shared binary feature space</title>
+  <desc id="feature-mobile-description">
+    A vertical schematic for narrow screens showing structured records, a sorted reference-derived variable universe, and aligned binary vectors.
+  </desc>
+  <defs>
+    <marker id="feature-mobile-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#2f6472" />
+    </marker>
+  </defs>
+  <style>
+    .canvas { fill: #ffffff; }
+    .panel { fill: #fbfcfc; stroke: #a8b8bd; stroke-width: 2; }
+    .panel-head { fill: #eaf2f0; }
+    .record { fill: #ffffff; stroke: #b8c5c9; stroke-width: 1.5; }
+    .record-id { fill: #eaf2f0; }
+    .variable { fill: #ffffff; stroke: #c1ccd0; stroke-width: 1.5; }
+    .variable-index { fill: #e7f0f3; }
+    .table-head { fill: #eaf2f0; }
+    .target-row { fill: #fff7f0; stroke: #b76932; stroke-width: 2; }
+    .one { fill: #2f6472; }
+    .zero { fill: #ffffff; stroke: #bcc8cc; stroke-width: 1.5; }
+    .flow { fill: none; stroke: #2f6472; stroke-width: 3; marker-end: url(#feature-mobile-arrow); }
+    .title { fill: #16323d; font-family: Arial, Helvetica, sans-serif; font-size: 31px; font-weight: 700; }
+    .subtitle { fill: #5b7179; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 400; }
+    .panel-letter { fill: #985a2d; font-family: Arial, Helvetica, sans-serif; font-size: 23px; font-weight: 700; }
+    .panel-title { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 21px; font-weight: 700; }
+    .section-label { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 700; }
+    .body { fill: #405b65; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 400; }
+    .body-strong { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; }
+    .note { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; }
+    .mono { fill: #314e58; font-family: "Courier New", Courier, monospace; font-size: 17px; font-weight: 400; }
+    .mono-strong { fill: #244b5a; font-family: "Courier New", Courier, monospace; font-size: 18px; font-weight: 700; }
+    .digit-one { fill: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; text-anchor: middle; }
+    .digit-zero { fill: #687b82; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 600; text-anchor: middle; }
+    .center { text-anchor: middle; }
+  </style>
+
+  <rect class="canvas" x="0" y="0" width="720" height="1520" />
+  <text class="title" x="32" y="43">From records to a shared feature space</text>
+  <text class="subtitle" x="32" y="73">The reference cohort defines one ordered set of variables</text>
+  <text class="subtitle" x="32" y="97">for every record and target.</text>
+
+  <rect class="panel" x="32" y="122" width="656" height="388" rx="7" />
+  <rect class="panel-head" x="32" y="122" width="656" height="70" rx="7" />
+  <path class="panel-head" d="M32 185 H688 V192 H32 Z" />
+  <text class="panel-letter" x="58" y="166">A</text>
+  <text class="panel-title" x="94" y="165">STRUCTURED RECORDS</text>
+
+  <rect class="record" x="58" y="216" width="604" height="112" rx="5" />
+  <rect class="record-id" x="58" y="216" width="118" height="112" rx="5" />
+  <text class="mono-strong center" x="117" y="278">REF-01</text>
+  <text class="mono" x="197" y="246">sex.id = NCIT:C20197</text>
+  <text class="mono" x="197" y="276">phenotypicFeatures = { NCIT:C2985,</text>
+  <text class="mono" x="403" y="306">NCIT:C3117 }</text>
+
+  <rect class="record" x="58" y="350" width="604" height="132" rx="5" />
+  <rect class="record-id" x="58" y="350" width="118" height="132" rx="5" />
+  <text class="mono-strong center" x="117" y="422">REF-02</text>
+  <text class="mono" x="197" y="384">sex.id = NCIT:C16576</text>
+  <text class="mono" x="197" y="416">phenotypicFeatures = { NCIT:C2985 }</text>
+  <text class="mono" x="197" y="448">diseases = { NCIT:C3138 }</text>
+
+  <path class="flow" d="M360 522 V552" />
+
+  <rect class="panel" x="32" y="570" width="656" height="496" rx="7" />
+  <rect class="panel-head" x="32" y="570" width="656" height="70" rx="7" />
+  <path class="panel-head" d="M32 633 H688 V640 H32 Z" />
+  <text class="panel-letter" x="58" y="614">B</text>
+  <text class="panel-title" x="94" y="613">FLATTENED VARIABLE UNIVERSE</text>
+  <text class="section-label" x="58" y="676">UNIQUE REFERENCE KEYS, SORTED</text>
+
+  <g aria-label="Canonical variables">
+    <rect class="variable" x="58" y="696" width="604" height="52" rx="4" />
+    <rect class="variable-index" x="58" y="696" width="62" height="52" rx="4" />
+    <text class="mono-strong center" x="89" y="729">v1</text>
+    <text class="mono" x="140" y="729">diseases.NCIT:C3138...</text>
+
+    <rect class="variable" x="58" y="760" width="604" height="52" rx="4" />
+    <rect class="variable-index" x="58" y="760" width="62" height="52" rx="4" />
+    <text class="mono-strong center" x="89" y="793">v2</text>
+    <text class="mono" x="140" y="793">phenotypicFeatures.NCIT:C2985...</text>
+
+    <rect class="variable" x="58" y="824" width="604" height="52" rx="4" />
+    <rect class="variable-index" x="58" y="824" width="62" height="52" rx="4" />
+    <text class="mono-strong center" x="89" y="857">v3</text>
+    <text class="mono" x="140" y="857">phenotypicFeatures.NCIT:C3117...</text>
+
+    <rect class="variable" x="58" y="888" width="604" height="52" rx="4" />
+    <rect class="variable-index" x="58" y="888" width="62" height="52" rx="4" />
+    <text class="mono-strong center" x="89" y="921">v4</text>
+    <text class="mono" x="140" y="921">sex.id.NCIT:C16576</text>
+
+    <rect class="variable" x="58" y="952" width="604" height="52" rx="4" />
+    <rect class="variable-index" x="58" y="952" width="62" height="52" rx="4" />
+    <text class="mono-strong center" x="89" y="985">v5</text>
+    <text class="mono" x="140" y="985">sex.id.NCIT:C20197</text>
+  </g>
+  <text class="note" x="58" y="1034">Flattened keys retain hierarchy; their sorted union defines the columns.</text>
+
+  <path class="flow" d="M360 1078 V1108" />
+
+  <rect class="panel" x="32" y="1126" width="656" height="362" rx="7" />
+  <rect class="panel-head" x="32" y="1126" width="656" height="70" rx="7" />
+  <path class="panel-head" d="M32 1189 H688 V1196 H32 Z" />
+  <text class="panel-letter" x="58" y="1170">C</text>
+  <text class="panel-title" x="94" y="1169">ALIGNED BINARY VECTORS</text>
+
+  <rect class="table-head" x="58" y="1220" width="604" height="50" rx="4" />
+  <text class="mono-strong" x="78" y="1252">record</text>
+  <text class="mono-strong center" x="393" y="1252">v1</text>
+  <text class="mono-strong center" x="449" y="1252">v2</text>
+  <text class="mono-strong center" x="505" y="1252">v3</text>
+  <text class="mono-strong center" x="561" y="1252">v4</text>
+  <text class="mono-strong center" x="617" y="1252">v5</text>
+
+  <text class="mono-strong" x="78" y="1305">REF-01</text>
+  <rect class="zero" x="376" y="1280" width="34" height="34" rx="3" /><text class="digit-zero" x="393" y="1304">0</text>
+  <rect class="one" x="432" y="1280" width="34" height="34" rx="3" /><text class="digit-one" x="449" y="1304">1</text>
+  <rect class="one" x="488" y="1280" width="34" height="34" rx="3" /><text class="digit-one" x="505" y="1304">1</text>
+  <rect class="zero" x="544" y="1280" width="34" height="34" rx="3" /><text class="digit-zero" x="561" y="1304">0</text>
+  <rect class="one" x="600" y="1280" width="34" height="34" rx="3" /><text class="digit-one" x="617" y="1304">1</text>
+
+  <text class="mono-strong" x="78" y="1350">REF-02</text>
+  <rect class="one" x="376" y="1325" width="34" height="34" rx="3" /><text class="digit-one" x="393" y="1349">1</text>
+  <rect class="one" x="432" y="1325" width="34" height="34" rx="3" /><text class="digit-one" x="449" y="1349">1</text>
+  <rect class="zero" x="488" y="1325" width="34" height="34" rx="3" /><text class="digit-zero" x="505" y="1349">0</text>
+  <rect class="one" x="544" y="1325" width="34" height="34" rx="3" /><text class="digit-one" x="561" y="1349">1</text>
+  <rect class="zero" x="600" y="1325" width="34" height="34" rx="3" /><text class="digit-zero" x="617" y="1349">0</text>
+
+  <rect class="target-row" x="58" y="1376" width="604" height="50" rx="4" />
+  <text class="mono-strong" x="78" y="1408">TARGET</text>
+  <rect class="one" x="376" y="1384" width="34" height="34" rx="3" /><text class="digit-one" x="393" y="1408">1</text>
+  <rect class="zero" x="432" y="1384" width="34" height="34" rx="3" /><text class="digit-zero" x="449" y="1408">0</text>
+  <rect class="one" x="488" y="1384" width="34" height="34" rx="3" /><text class="digit-one" x="505" y="1408">1</text>
+  <rect class="one" x="544" y="1384" width="34" height="34" rx="3" /><text class="digit-one" x="561" y="1408">1</text>
+  <rect class="zero" x="600" y="1384" width="34" height="34" rx="3" /><text class="digit-zero" x="617" y="1408">0</text>
+
+  <text class="note" x="58" y="1460">Each position now refers to the same variable in every record.</text>
+</svg>

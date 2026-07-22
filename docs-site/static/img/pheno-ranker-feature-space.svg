@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="feature-space-title feature-space-description">
+  <title id="feature-space-title">From structured records to a shared binary feature space</title>
+  <desc id="feature-space-description">
+    A schematic showing structured clinical records flattened into a sorted set of canonical variables and encoded as aligned binary vectors for reference records and a target.
+  </desc>
+  <defs>
+    <marker id="feature-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#2f6472" />
+    </marker>
+  </defs>
+  <style>
+    .canvas { fill: #ffffff; }
+    .panel { fill: #fbfcfc; stroke: #a8b8bd; stroke-width: 1.5; }
+    .record { fill: #ffffff; stroke: #b8c5c9; stroke-width: 1.25; }
+    .record-head { fill: #eaf2f0; }
+    .variable { fill: #ffffff; stroke: #c1ccd0; stroke-width: 1; }
+    .variable-index { fill: #e7f0f3; }
+    .table-head { fill: #eaf2f0; }
+    .target-row { fill: #fff7f0; stroke: #b76932; stroke-width: 1.5; }
+    .one { fill: #2f6472; }
+    .zero { fill: #ffffff; stroke: #bcc8cc; stroke-width: 1; }
+    .flow { fill: none; stroke: #2f6472; stroke-width: 2; marker-end: url(#feature-arrow); }
+    .rule { stroke: #c5d0d3; stroke-width: 1; }
+    .title { fill: #16323d; font-family: Arial, Helvetica, sans-serif; font-size: 27px; font-weight: 700; }
+    .subtitle { fill: #5b7179; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; }
+    .panel-letter { fill: #985a2d; font-family: Arial, Helvetica, sans-serif; font-size: 19px; font-weight: 700; }
+    .panel-title { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 700; }
+    .section-label { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 700; }
+    .body { fill: #405b65; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; }
+    .body-strong { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; }
+    .note { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: 400; }
+    .mono { fill: #314e58; font-family: "Courier New", Courier, monospace; font-size: 12px; font-weight: 400; }
+    .mono-strong { fill: #244b5a; font-family: "Courier New", Courier, monospace; font-size: 13px; font-weight: 700; }
+    .digit-one { fill: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+    .digit-zero { fill: #687b82; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 600; text-anchor: middle; }
+    .center { text-anchor: middle; }
+  </style>
+
+  <rect class="canvas" x="0" y="0" width="1200" height="620" />
+  <text class="title" x="28" y="39">From structured records to a shared feature space</text>
+  <text class="subtitle" x="28" y="65">Illustrative subset: the same reference-derived variable order is used for every comparison.</text>
+
+  <rect class="panel" x="28" y="90" width="338" height="494" rx="6" />
+  <text class="panel-letter" x="50" y="122">A</text>
+  <text class="panel-title" x="80" y="121">STRUCTURED RECORDS</text>
+  <line class="rule" x1="50" y1="137" x2="344" y2="137" />
+  <text class="section-label" x="50" y="160">HIERARCHICAL CATEGORICAL DATA</text>
+
+  <rect class="record" x="50" y="176" width="294" height="154" rx="5" />
+  <rect class="record-head" x="50" y="176" width="294" height="31" rx="5" />
+  <path class="record-head" d="M50 202 H344 V207 H50 Z" />
+  <text class="mono-strong" x="65" y="197">REF-01</text>
+  <text class="mono" x="65" y="227">sex: { id: "NCIT:C20197" }</text>
+  <text class="mono" x="65" y="249">phenotypicFeatures: [</text>
+  <text class="mono" x="81" y="271">{ id: "NCIT:C2985" },</text>
+  <text class="mono" x="81" y="293">{ id: "NCIT:C3117" }</text>
+  <text class="mono" x="65" y="315">]</text>
+
+  <rect class="record" x="50" y="346" width="294" height="154" rx="5" />
+  <rect class="record-head" x="50" y="346" width="294" height="31" rx="5" />
+  <path class="record-head" d="M50 372 H344 V377 H50 Z" />
+  <text class="mono-strong" x="65" y="367">REF-02</text>
+  <text class="mono" x="65" y="397">sex: { id: "NCIT:C16576" }</text>
+  <text class="mono" x="65" y="419">phenotypicFeatures: [</text>
+  <text class="mono" x="81" y="441">{ id: "NCIT:C2985" }</text>
+  <text class="mono" x="65" y="463">]</text>
+  <text class="mono" x="65" y="485">diseases: [{ id: "NCIT:C3138" }]</text>
+
+  <text class="body-strong" x="50" y="532">Accepted representations</text>
+  <text class="note" x="50" y="554">BFF, PXF, or configured JSON / YAML</text>
+  <text class="note" x="50" y="574">CSV after conversion to configured JSON</text>
+
+  <path class="flow" d="M375 337 H389" />
+
+  <rect class="panel" x="398" y="90" width="370" height="494" rx="6" />
+  <text class="panel-letter" x="420" y="122">B</text>
+  <text class="panel-title" x="450" y="121">FLATTENED VARIABLE UNIVERSE</text>
+  <line class="rule" x1="420" y1="137" x2="746" y2="137" />
+  <text class="section-label" x="420" y="160">UNIQUE REFERENCE KEYS, SORTED</text>
+
+  <g aria-label="Canonical variables">
+    <rect class="variable" x="420" y="176" width="326" height="48" rx="4" />
+    <rect class="variable-index" x="420" y="176" width="42" height="48" rx="4" />
+    <text class="mono-strong center" x="441" y="205">v1</text>
+    <text class="mono" x="475" y="205">diseases.NCIT:C3138...</text>
+
+    <rect class="variable" x="420" y="234" width="326" height="48" rx="4" />
+    <rect class="variable-index" x="420" y="234" width="42" height="48" rx="4" />
+    <text class="mono-strong center" x="441" y="263">v2</text>
+    <text class="mono" x="475" y="263">phenotypicFeatures.NCIT:C2985...</text>
+
+    <rect class="variable" x="420" y="292" width="326" height="48" rx="4" />
+    <rect class="variable-index" x="420" y="292" width="42" height="48" rx="4" />
+    <text class="mono-strong center" x="441" y="321">v3</text>
+    <text class="mono" x="475" y="321">phenotypicFeatures.NCIT:C3117...</text>
+
+    <rect class="variable" x="420" y="350" width="326" height="48" rx="4" />
+    <rect class="variable-index" x="420" y="350" width="42" height="48" rx="4" />
+    <text class="mono-strong center" x="441" y="379">v4</text>
+    <text class="mono" x="475" y="379">sex.id.NCIT:C16576</text>
+
+    <rect class="variable" x="420" y="408" width="326" height="48" rx="4" />
+    <rect class="variable-index" x="420" y="408" width="42" height="48" rx="4" />
+    <text class="mono-strong center" x="441" y="437">v5</text>
+    <text class="mono" x="475" y="437">sex.id.NCIT:C20197</text>
+  </g>
+
+  <text class="body-strong" x="420" y="492">Flattening preserves hierarchy in each key.</text>
+  <text class="note" x="420" y="516">The union of selected reference keys defines</text>
+  <text class="note" x="420" y="536">the feature columns used by all records.</text>
+
+  <path class="flow" d="M777 337 H791" />
+
+  <rect class="panel" x="800" y="90" width="372" height="494" rx="6" />
+  <text class="panel-letter" x="822" y="122">C</text>
+  <text class="panel-title" x="852" y="121">ALIGNED BINARY VECTORS</text>
+  <line class="rule" x1="822" y1="137" x2="1150" y2="137" />
+  <text class="section-label" x="822" y="160">PRESENT = 1; ABSENT = 0</text>
+
+  <rect class="table-head" x="822" y="176" width="328" height="42" rx="4" />
+  <text class="mono-strong" x="838" y="202">record</text>
+  <text class="mono-strong center" x="963" y="202">v1</text>
+  <text class="mono-strong center" x="1007" y="202">v2</text>
+  <text class="mono-strong center" x="1051" y="202">v3</text>
+  <text class="mono-strong center" x="1095" y="202">v4</text>
+  <text class="mono-strong center" x="1139" y="202">v5</text>
+
+  <text class="mono-strong" x="838" y="250">REF-01</text>
+  <rect class="zero" x="949" y="230" width="28" height="28" rx="3" /><text class="digit-zero" x="963" y="250">0</text>
+  <rect class="one" x="993" y="230" width="28" height="28" rx="3" /><text class="digit-one" x="1007" y="250">1</text>
+  <rect class="one" x="1037" y="230" width="28" height="28" rx="3" /><text class="digit-one" x="1051" y="250">1</text>
+  <rect class="zero" x="1081" y="230" width="28" height="28" rx="3" /><text class="digit-zero" x="1095" y="250">0</text>
+  <rect class="one" x="1125" y="230" width="28" height="28" rx="3" /><text class="digit-one" x="1139" y="250">1</text>
+
+  <text class="mono-strong" x="838" y="296">REF-02</text>
+  <rect class="one" x="949" y="276" width="28" height="28" rx="3" /><text class="digit-one" x="963" y="296">1</text>
+  <rect class="one" x="993" y="276" width="28" height="28" rx="3" /><text class="digit-one" x="1007" y="296">1</text>
+  <rect class="zero" x="1037" y="276" width="28" height="28" rx="3" /><text class="digit-zero" x="1051" y="296">0</text>
+  <rect class="one" x="1081" y="276" width="28" height="28" rx="3" /><text class="digit-one" x="1095" y="296">1</text>
+  <rect class="zero" x="1125" y="276" width="28" height="28" rx="3" /><text class="digit-zero" x="1139" y="296">0</text>
+
+  <rect class="target-row" x="822" y="322" width="328" height="54" rx="4" />
+  <text class="mono-strong" x="838" y="354">TARGET</text>
+  <rect class="one" x="949" y="335" width="28" height="28" rx="3" /><text class="digit-one" x="963" y="355">1</text>
+  <rect class="zero" x="993" y="335" width="28" height="28" rx="3" /><text class="digit-zero" x="1007" y="355">0</text>
+  <rect class="one" x="1037" y="335" width="28" height="28" rx="3" /><text class="digit-one" x="1051" y="355">1</text>
+  <rect class="one" x="1081" y="335" width="28" height="28" rx="3" /><text class="digit-one" x="1095" y="355">1</text>
+  <rect class="zero" x="1125" y="335" width="28" height="28" rx="3" /><text class="digit-zero" x="1139" y="355">0</text>
+
+  <text class="body-strong" x="822" y="418">Comparable positions</text>
+  <text class="note" x="822" y="442">Each column refers to the same canonical</text>
+  <text class="note" x="822" y="462">variable in every binary vector.</text>
+
+  <rect x="822" y="489" width="12" height="12" class="one" rx="2" />
+  <text class="note" x="842" y="500">variable present</text>
+  <rect x="962" y="489" width="12" height="12" class="zero" rx="2" />
+  <text class="note" x="982" y="500">variable absent</text>
+
+  <text class="note" x="822" y="536">In patient mode, target-only variables are not</text>
+  <text class="note" x="822" y="556">added to the reference-derived feature space.</text>
+</svg>
