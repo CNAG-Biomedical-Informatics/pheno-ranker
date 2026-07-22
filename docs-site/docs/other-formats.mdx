@@ -6,31 +6,32 @@ slug: "/other-formats"
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Link from '@docusaurus/Link';
 
 :::tip[About other formats]
 `Pheno-Ranker` leverages the data harmonization provided by **GA4GH** standards. However, to promote broader adoption, we also support other formats like raw `JSON/YAML` and `CSV`.
 :::
 <div className="phenoFormatGrid">
-  <a className="phenoFormatCard" href="bff">
+  <Link className="phenoFormatCard" to="/bff">
     <span className="phenoCardLabel">GA4GH native</span>
     <h3>BFF</h3>
     <p>Beacon v2 <code>individuals.json</code>; no custom configuration required.</p>
-  </a>
-  <a className="phenoFormatCard" href="pxf">
+  </Link>
+  <Link className="phenoFormatCard" to="/pxf">
     <span className="phenoCardLabel">GA4GH native</span>
     <h3>PXF</h3>
     <p>Phenopackets v2 records; no custom configuration required.</p>
-  </a>
-  <a className="phenoFormatCard" href="csv-import">
+  </Link>
+  <Link className="phenoFormatCard" to="/csv-import">
     <span className="phenoCardLabel">Beyond GA4GH</span>
     <h3>CSV</h3>
     <p>Converted to JSON plus configuration with <code>csv2pheno-ranker</code>.</p>
-  </a>
-  <a className="phenoFormatCard" href="generic-json">
+  </Link>
+  <Link className="phenoFormatCard" to="/generic-json">
     <span className="phenoCardLabel">Beyond GA4GH</span>
     <h3>Generic JSON/YAML</h3>
     <p>Custom categorical records described by a configuration file.</p>
-  </a>
+  </Link>
 </div>
 
 <Tabs>

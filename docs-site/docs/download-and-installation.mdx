@@ -2,102 +2,130 @@
 title: "Download & Installation"
 slug: "/download-and-installation"
 ---
-:::info[Compatibility]
-The `Pheno-Ranker` Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions.
 
-| Operating System | Support |
-|------------------|---------|
-| Linux            | Recommended for CLI, Docker, and utility workflows |
-| macOS            | Supported for non-containerized CLI use |
-| Windows          | Supported for the Perl CLI; use Docker, WSL, or a Perl environment such as Strawberry Perl |
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-Python utilities under `utils/` and external R plotting scripts are not part of the CPAN-centered Windows test matrix. For those workflows, Docker or a GitHub checkout is recommended.
-:::
-This page keeps the installation-method nomenclature used in the paper supplementary information:
+Choose one installation path, verify the CLI, and then continue to [First Run](#first-run). The `D`, `G`, and `C` codes retain the nomenclature used in Additional file 2, Supporting Table 2 of the paper.
 
-| Code | Installation method |
-| -- | -- |
-| `D` | Docker |
-| `G` | GitHub |
-| `C` | CPAN |
+| Code | Installation path | Best fit |
+| -- | -- | -- |
+| `C` | CPAN | Stable Perl CLI and CPAN-packaged utilities. |
+| `D` | Docker | Reproducible environment with Perl and Python utilities preinstalled. |
+| `G` | GitHub | Current development version, repository examples, or source access. |
 
-:::info[Which download method should I use?]
-It depends on which component you need and whether you want to manage Perl/Python dependencies yourself. The `D`, `G`, and `C` codes follow Additional file 2, Supporting Table 2.
+## Recommended Installation Paths
 
-| Component | Recommended install methods |
-| -- | -- |
-| `pheno-ranker` CLI | `D`, `G`, `C` |
-| `bff-pxf-simulator` | `D`, `G`, `C` |
-| `csv2pheno-ranker` | `D`, `G`, `C` |
-| `bff-pxf-plot` | `D`, `G` |
-| QR-code/PDF utilities | `D`, `G` |
-| Web App UI | `D`; see [Pheno-Ranker UI](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
-:::
-## Non-Containerized
+<Tabs groupId="installation-path">
+<TabItem value="cpan" label="CPAN (C)" default>
 
-Use this path when you want to run `pheno-ranker` directly from CPAN, GitHub, Conda, or your own Perl environment.
+Use CPAN when you need `pheno-ranker`, `bff-pxf-simulator`, and `csv2pheno-ranker` without the repository-only Python utilities. With `cpanm` installed:
 
-The CPAN distribution includes:
+```bash
+cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+cpanm --notest Pheno::Ranker
+pheno-ranker --help
+```
 
-- `Pheno::Ranker`
-- `pheno-ranker`
-- `bff-pxf-simulator`
-- `csv2pheno-ranker`
+See the [complete CPAN and system-dependency instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#method-1-from-cpan).
 
-Detailed instructions:
+</TabItem>
+<TabItem value="docker" label="Docker (D)">
 
-- [non-containerized/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md)
+Use Docker when you want the full utility environment without managing Perl or Python dependencies:
 
-### Method 1: From CPAN (`C`)
+```bash
+docker pull manuelrueda/pheno-ranker:latest
+docker image tag manuelrueda/pheno-ranker:latest cnag/pheno-ranker:latest
+```
 
-Recommended when you only need the installable Perl CLI and the CPAN-packaged utilities.
+See the [complete Docker instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md).
 
-See the CPAN instructions in [non-containerized/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md).
+</TabItem>
+<TabItem value="github" label="GitHub (G)">
 
-### Method 2: From CPAN in a Conda Environment (`C`)
-
-Recommended when you want the CPAN installation isolated from your system Perl.
-
-See the Conda instructions in [non-containerized/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md).
-
-### Method 3: From GitHub (`G`)
-
-Recommended when you want the current GitHub version without waiting for a CPAN release.
-
-Install directly with `cpanm`:
+Install the current GitHub version directly with `cpanm`:
 
 ```bash
 cpanm --notest https://github.com/CNAG-Biomedical-Informatics/pheno-ranker.git
 pheno-ranker --help
 ```
 
-Use a developer checkout only when you need to inspect the source, run tests, use local examples, or edit code locally. See the full GitHub instructions in [non-containerized/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md).
+Use a repository checkout when you need the Python utilities, local examples, tests, or editable source. See the [complete GitHub installation instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#method-3-from-github).
 
-## Containerized
+</TabItem>
+</Tabs>
 
-Use this path when you want a reproducible environment with Perl dependencies and Python utilities preinstalled.
+## First Run
 
-The Docker image includes:
+Download a small reference cohort and one target patient:
 
-- `Pheno::Ranker`
-- `pheno-ranker`
-- `bff-pxf-simulator`
-- `bff-pxf-plot`
-- `csv2pheno-ranker`
-- QR-code utilities
+```bash
+curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/examples/quickstart/individuals.json -o individuals.json
+curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/examples/quickstart/patient.json -o patient.json
+```
 
-Detailed instructions:
+For a CPAN or GitHub installation (`C` or `G`), run:
 
-- [docker/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md)
+```bash
+pheno-ranker -r individuals.json -t patient.json -o rank.txt
+```
 
-### Method 4: From Docker Hub (`D`)
+For the Docker image (`D`), run the same analysis in the container:
 
-Recommended when you want the prebuilt container image.
+```bash
+docker run --rm \
+  --volume "$PWD:/data" \
+  --workdir /data \
+  cnag/pheno-ranker:latest \
+  /usr/share/pheno-ranker/bin/pheno-ranker \
+  -r individuals.json -t patient.json -o rank.txt
+```
 
-See the Docker Hub instructions in [docker/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md).
+A successful run creates `rank.txt` in the current directory. Its first data row is the closest reference match to the target under the default Hamming-distance ranking. Continue with [Patient Mode](/patient) to interpret the columns or change the analysis.
 
-### Method 5: With Dockerfile (`D`)
+## Additional Installation Methods
 
-Recommended when you want to build the container image yourself.
+### CPAN in a Conda Environment (`C`)
 
-See the Dockerfile instructions in [docker/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md).
+Use this method when you want an isolated Perl environment without Docker. The [Conda instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#method-2-cpan-in-a-conda-environment) cover environment creation, compiler packages, and CPAN installation.
+
+### Developer Checkout (`G`)
+
+Clone the repository when you need to inspect or modify the source, run tests, or use files that are not part of the CPAN distribution. Follow the [developer checkout instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#developer-checkout).
+
+### Build with the Dockerfile (`D`)
+
+Build locally when you need to inspect or customize the image:
+
+```bash
+docker build -f docker/Dockerfile -t cnag/pheno-ranker:latest .
+```
+
+Run this command from the repository root. Multi-architecture and runtime instructions are in [docker/README.md](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md#method-5-with-dockerfile).
+
+## Compatibility and Component Availability
+
+<details>
+<summary>Operating-system and component reference</summary>
+
+The Perl CLI is tested on Linux, macOS, and Windows via GitHub Actions.
+
+| Operating system | Support |
+| -- | -- |
+| Linux | Recommended for CLI, Docker, and utility workflows. |
+| macOS | Supported for non-containerized CLI use. |
+| Windows | Supported for the Perl CLI; use Docker, WSL, or a Perl environment such as Strawberry Perl. |
+
+Python utilities under `utils/` and external R plotting scripts are not part of the CPAN-centered Windows test matrix. For those workflows, Docker or a GitHub checkout is recommended.
+
+| Component | Available installation paths |
+| -- | -- |
+| `pheno-ranker` CLI | `D`, `G`, `C` |
+| `bff-pxf-simulator` | `D`, `G`, `C` |
+| `csv2pheno-ranker` | `D`, `G`, `C` |
+| `bff-pxf-plot` | `D`, `G` |
+| QR-code/PDF utilities | `D`, `G` |
+| Web App UI (legacy) | `D`; supported until 2027; see [Pheno-Ranker UI](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
+
+</details>

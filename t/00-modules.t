@@ -17,6 +17,7 @@ use Pheno::Ranker::Options;
 use Pheno::Ranker::Graph;
 use Pheno::Ranker::IO;
 use Pheno::Ranker::Metrics;
+use Pheno::Ranker::Version;
 use Pheno::Ranker::Compare;
 use Pheno::Ranker::Compare::Alignment;
 use Pheno::Ranker::Compare::Encoding;
@@ -28,6 +29,9 @@ use Pheno::Ranker::Compare::Rank;
 use Pheno::Ranker::Compare::Remap;
 
 my $tmpdir = tempdir( CLEANUP => 1 );
+
+is $Pheno::Ranker::VERSION, $Pheno::Ranker::Version::VERSION,
+  'public module and lightweight CLI versions stay synchronized';
 
 subtest 'Graph helpers can build and summarize Cytoscape graphs' => sub {
     my ( $binary_graph_fh, $binary_graph_file ) =

@@ -20,31 +20,6 @@ Use patient mode when you want to find the closest matches to a patient profile,
   <div><span>Best for</span><strong>Closest matches and alignment review</strong></div>
 </div>
 
-## When to Use It
-
-<div className="phenoCardGrid">
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Match</p>
-    <h3>Find similar records</h3>
-    <p>Rank every reference record against one target patient or object.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Compare</p>
-    <h3>Multiple cohorts</h3>
-    <p>Use several reference files and keep each match traceable to its source cohort.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Interpret</p>
-    <h3>Read match statistics</h3>
-    <p>Use Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap percentages.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Audit</p>
-    <h3>Inspect alignments</h3>
-    <p>Use <code>--align</code> to see which variables match or differ between target and reference.</p>
-  </article>
-</div>
-
 ## What You Get
 
 - `rank.txt`: ranked matches between the target and the reference cohort.
@@ -52,12 +27,7 @@ Use patient mode when you want to find the closest matches to a patient profile,
 - `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
 - Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap statistics for each match.
 
-:::tip[Patient mode vs cohort mode]
-Use **patient mode** when one target should be ranked against a reference cohort. Use [cohort mode](/cohort) when every record should be compared with every other record.
-:::
-<a className="button button--primary" href="usage">See common usage</a>
-<a className="button button--secondary" href="cohort">Compare cohorts</a>
-<a className="button button--secondary" href="download-and-installation">Check installation</a>
+For all-vs-all comparison instead, see [Cohort Mode](/cohort).
 
 ## Usage
 

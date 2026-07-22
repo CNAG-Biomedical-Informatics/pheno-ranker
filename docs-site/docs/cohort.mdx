@@ -20,31 +20,6 @@ Use cohort mode when you want to explore the structure of a cohort, compare mult
   <div><span>Best for</span><strong>Clustering, MDS, UMAP, graph export</strong></div>
 </div>
 
-## When to Use It
-
-<div className="phenoCardGrid">
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Explore</p>
-    <h3>Cohort structure</h3>
-    <p>Generate pairwise distances or similarities between all records in a cohort.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Compare</p>
-    <h3>Multiple cohorts</h3>
-    <p>Pass several reference files and keep source cohorts traceable with prefixes.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Scale</p>
-    <h3>Large outputs</h3>
-    <p>Use sparse Matrix Market output or graph edge filters when dense outputs are too large.</p>
-  </article>
-  <article className="phenoCard">
-    <p className="phenoCardLabel">Inspect</p>
-    <h3>Intermediate vectors</h3>
-    <p>Export hashes, binary vectors, and coverage statistics for debugging or downstream use.</p>
-  </article>
-</div>
-
 ## What You Get
 
 - `matrix.txt`: the default dense pairwise comparison matrix.
@@ -53,18 +28,8 @@ Use cohort mode when you want to explore the structure of a cohort, compare mult
 - `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
 - `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
 
-:::tip[Cohort mode vs patient mode]
-Use **cohort mode** when every record should be compared with every other record. Use [patient mode](/patient) when you have a target patient or object and want a ranked list of closest matches.
-:::
-<a className="button button--primary" href="usage">See common usage</a>
-<a className="button button--secondary" href="generic-json">Read generic JSON tutorial</a>
-<a className="button button--secondary" href="download-and-installation">Check installation</a>
+For target-to-reference ranking instead, see [Patient Mode](/patient). For custom categorical records, see the [Generic JSON tutorial](/generic-json).
 
-:::info[Generic JSON tutorial]
-We created a [tutorial](/generic-json) that deliberately uses generic JSON data (i.e., movies) to illustrate the capabilities of `Pheno-Ranker`, as starting with familiar examples can help you better grasp its usage.
-
-Once you are comfortable with the concepts using movie data, you will find it easier to apply `Pheno-Ranker` to real GA4GH standards. For specific examples, please refer to the [cohort](/cohort) and [patient](/patient) pages in this documentation.
-:::
 ## Usage
 
 The examples below show common cohort-mode command-line patterns. For the complete CLI reference, see [Usage](/usage).

@@ -2,6 +2,9 @@
 title: "User Workflow"
 slug: "/user-workflow"
 ---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 # User Workflow
 
 The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a comparison, inspect or visualize the outputs, and optionally use companion utilities. Start with your data format, choose the comparison mode, then follow the output to the analysis or utility page that matches your task.
@@ -32,7 +35,7 @@ The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a c
   <div className="phenoWorkflowStep">
     <span>03</span>
     <h3>Analyze outputs</h3>
-    <p>Inspect <a href="/pheno-ranker/patient">rankings</a>, <a href="/pheno-ranker/cohort">matrices</a>, sparse Matrix Market files, graph exports, or downstream visualizations.</p>
+    <p>Inspect <a href="/pheno-ranker/patient">rankings</a>, <a href="/pheno-ranker/cohort">matrices</a>, graph exports, or downstream visualizations.</p>
     <div className="phenoWorkflowChips">
       <a href="/pheno-ranker/cohort">Matrices and graphs</a>
       <a href="/pheno-ranker/patient">Ranking statistics</a>
@@ -54,18 +57,12 @@ The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a c
   </div>
 </div>
 
-## 1. Prepare Data
+## Companion Utilities
 
-Use [BFF](/bff) or [PXF](/pxf) directly when your data already follows GA4GH-oriented formats. For custom `JSON` or `YAML`, provide a configuration file that defines the record identifier and comparable terms. For tabular data, use [csv2pheno-ranker](/csv-import) to create both the `JSON` input and the configuration file.
-
-## 2. Compare Records
-
-Run [cohort mode](/cohort) for all-vs-all comparisons within or across cohorts, or [patient mode](/patient) to rank a reference cohort against a target profile. Both workflows use flattened records and one-hot encoded binary vectors.
-
-## 3. Analyze Outputs
-
-The main outputs are plain text files that can be inspected directly or used downstream. Cohort mode produces a pairwise matrix suitable for clustering, multidimensional scaling, or graph analytics. Patient mode produces ranked matches with Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap statistics.
-
-## 4. Use Companion Utilities
-
-The toolkit also includes companion command-line utilities to simulate BFF/PXF data, convert CSV files, plot BFF/PXF summaries, and encode Pheno-Ranker vectors as QR codes. These utilities are useful for testing installations, preparing non-GA4GH data, and building reproducible examples.
+<figure>
+  <picture>
+    <source media="(max-width: 700px)" srcSet={useBaseUrl('/img/pheno-ranker-utilities-map-mobile.svg')} />
+    <img src={useBaseUrl('/img/pheno-ranker-utilities-map.svg')} alt="Map showing where the simulator, CSV converter, BFF/PXF plotter, and barcode utilities connect to the core Pheno-Ranker workflow" />
+  </picture>
+  <figcaption>The utilities are optional and connect at different points: two prepare inputs, one profiles source records, and one reuses exported binary representations.</figcaption>
+</figure>

@@ -93,7 +93,7 @@ const config: Config = {
         },
         {
           href: 'https://pheno-ranker.cnag.eu',
-          label: 'Web App',
+          label: 'Web App (Legacy)',
           position: 'left',
         },
         {

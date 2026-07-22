@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="comparison-modes-title comparison-modes-description">
+  <title id="comparison-modes-title">Cohort mode and patient mode comparison designs</title>
+  <desc id="comparison-modes-description">
+    A two-panel comparison. Cohort mode performs all-versus-all comparisons and returns a symmetric matrix. Patient mode compares one target with all references and returns a ranked table. The panels also show their comparison counts and intended scales.
+  </desc>
+  <defs>
+    <marker id="mode-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#2f6472" />
+    </marker>
+  </defs>
+  <style>
+    .canvas { fill: #ffffff; }
+    .panel { fill: #fbfcfc; stroke: #a8b8bd; stroke-width: 1.5; }
+    .cohort-band { fill: #eaf2f0; }
+    .patient-band { fill: #fff4eb; }
+    .scale-band { fill: #f3f6f6; stroke: #c4ced1; stroke-width: 1; }
+    .rule { stroke: #c4ced1; stroke-width: 1; }
+    .matrix-cell { fill: #ffffff; stroke: #b9c6ca; stroke-width: 1; }
+    .matrix-diagonal { fill: #dbe5e7; stroke: #aab9be; stroke-width: 1; }
+    .matrix-emphasis { fill: #dcece6; stroke: #7da897; stroke-width: 1; }
+    .table-head { fill: #eaf2f0; }
+    .table-row { fill: #ffffff; stroke: #c1ccd0; stroke-width: 1; }
+    .best-row { fill: #edf7f1; stroke: #75a48e; stroke-width: 1.25; }
+    .reference { fill: #ffffff; stroke: #6f939d; stroke-width: 1.5; }
+    .target { fill: #b76932; stroke: #985a2d; stroke-width: 1.5; }
+    .connection { fill: none; stroke: #92aab1; stroke-width: 1.5; }
+    .arrow { fill: none; stroke: #2f6472; stroke-width: 2; marker-end: url(#mode-arrow); }
+    .title { fill: #16323d; font-family: Arial, Helvetica, sans-serif; font-size: 27px; font-weight: 700; }
+    .subtitle { fill: #5b7179; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; }
+    .panel-letter { fill: #985a2d; font-family: Arial, Helvetica, sans-serif; font-size: 19px; font-weight: 700; }
+    .panel-title { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; }
+    .panel-subtitle { fill: #526b74; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; }
+    .section-label { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 700; }
+    .body { fill: #405b65; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 400; }
+    .body-strong { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; }
+    .equation { fill: #244b5a; font-family: "Courier New", Courier, monospace; font-size: 22px; font-weight: 700; }
+    .mono { fill: #314e58; font-family: "Courier New", Courier, monospace; font-size: 12px; font-weight: 400; }
+    .mono-strong { fill: #244b5a; font-family: "Courier New", Courier, monospace; font-size: 13px; font-weight: 700; }
+    .cell-text { fill: #405b65; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+    .node-text { fill: #244b5a; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 700; text-anchor: middle; }
+    .target-text { fill: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+    .scale { fill: #16323d; font-family: Arial, Helvetica, sans-serif; font-size: 17px; font-weight: 700; }
+    .footnote { fill: #657980; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: 400; }
+    .center { text-anchor: middle; }
+  </style>
+
+  <rect class="canvas" x="0" y="0" width="1200" height="650" />
+  <text class="title" x="28" y="39">Two comparison designs, one feature representation</text>
+  <text class="subtitle" x="28" y="65">After encoding, the selected mode determines the number of comparisons and the output structure.</text>
+
+  <rect class="panel" x="28" y="90" width="552" height="500" rx="6" />
+  <rect class="cohort-band" x="28" y="90" width="552" height="79" rx="6" />
+  <path class="cohort-band" d="M28 163 H580 V169 H28 Z" />
+  <text class="panel-letter" x="50" y="123">A</text>
+  <text class="panel-title" x="80" y="122">COHORT MODE</text>
+  <text class="panel-subtitle" x="80" y="146">All reference records are compared with one another.</text>
+
+  <text class="section-label" x="58" y="197">PAIRWISE HAMMING DISTANCE (EXAMPLE)</text>
+  <text class="mono-strong center" x="142" y="230">R1</text>
+  <text class="mono-strong center" x="180" y="230">R2</text>
+  <text class="mono-strong center" x="218" y="230">R3</text>
+  <text class="mono-strong center" x="256" y="230">R4</text>
+  <text class="mono-strong center" x="294" y="230">R5</text>
+  <text class="mono-strong center" x="100" y="260">R1</text>
+  <text class="mono-strong center" x="100" y="298">R2</text>
+  <text class="mono-strong center" x="100" y="336">R3</text>
+  <text class="mono-strong center" x="100" y="374">R4</text>
+  <text class="mono-strong center" x="100" y="412">R5</text>
+
+  <g aria-label="Five by five symmetric Hamming distance matrix">
+    <rect class="matrix-diagonal" x="123" y="238" width="38" height="38" /><text class="cell-text" x="142" y="262">0</text>
+    <rect class="matrix-cell" x="161" y="238" width="38" height="38" /><text class="cell-text" x="180" y="262">4</text>
+    <rect class="matrix-cell" x="199" y="238" width="38" height="38" /><text class="cell-text" x="218" y="262">7</text>
+    <rect class="matrix-emphasis" x="237" y="238" width="38" height="38" /><text class="cell-text" x="256" y="262">2</text>
+    <rect class="matrix-cell" x="275" y="238" width="38" height="38" /><text class="cell-text" x="294" y="262">6</text>
+
+    <rect class="matrix-cell" x="123" y="276" width="38" height="38" /><text class="cell-text" x="142" y="300">4</text>
+    <rect class="matrix-diagonal" x="161" y="276" width="38" height="38" /><text class="cell-text" x="180" y="300">0</text>
+    <rect class="matrix-cell" x="199" y="276" width="38" height="38" /><text class="cell-text" x="218" y="300">3</text>
+    <rect class="matrix-cell" x="237" y="276" width="38" height="38" /><text class="cell-text" x="256" y="300">5</text>
+    <rect class="matrix-cell" x="275" y="276" width="38" height="38" /><text class="cell-text" x="294" y="300">8</text>
+
+    <rect class="matrix-cell" x="123" y="314" width="38" height="38" /><text class="cell-text" x="142" y="338">7</text>
+    <rect class="matrix-cell" x="161" y="314" width="38" height="38" /><text class="cell-text" x="180" y="338">3</text>
+    <rect class="matrix-diagonal" x="199" y="314" width="38" height="38" /><text class="cell-text" x="218" y="338">0</text>
+    <rect class="matrix-cell" x="237" y="314" width="38" height="38" /><text class="cell-text" x="256" y="338">6</text>
+    <rect class="matrix-cell" x="275" y="314" width="38" height="38" /><text class="cell-text" x="294" y="338">4</text>
+
+    <rect class="matrix-emphasis" x="123" y="352" width="38" height="38" /><text class="cell-text" x="142" y="376">2</text>
+    <rect class="matrix-cell" x="161" y="352" width="38" height="38" /><text class="cell-text" x="180" y="376">5</text>
+    <rect class="matrix-cell" x="199" y="352" width="38" height="38" /><text class="cell-text" x="218" y="376">6</text>
+    <rect class="matrix-diagonal" x="237" y="352" width="38" height="38" /><text class="cell-text" x="256" y="376">0</text>
+    <rect class="matrix-cell" x="275" y="352" width="38" height="38" /><text class="cell-text" x="294" y="376">3</text>
+
+    <rect class="matrix-cell" x="123" y="390" width="38" height="38" /><text class="cell-text" x="142" y="414">6</text>
+    <rect class="matrix-cell" x="161" y="390" width="38" height="38" /><text class="cell-text" x="180" y="414">8</text>
+    <rect class="matrix-cell" x="199" y="390" width="38" height="38" /><text class="cell-text" x="218" y="414">4</text>
+    <rect class="matrix-cell" x="237" y="390" width="38" height="38" /><text class="cell-text" x="256" y="414">3</text>
+    <rect class="matrix-diagonal" x="275" y="390" width="38" height="38" /><text class="cell-text" x="294" y="414">0</text>
+  </g>
+
+  <path class="arrow" d="M338 333 H369" />
+  <text class="section-label" x="389" y="231">COMPARISON COUNT</text>
+  <text class="equation" x="389" y="264">n(n - 1) / 2</text>
+  <text class="body" x="389" y="287">unique record pairs</text>
+  <line class="rule" x1="389" y1="307" x2="548" y2="307" />
+  <text class="section-label" x="389" y="334">OUTPUT</text>
+  <text class="mono-strong" x="389" y="359">matrix.txt</text>
+  <text class="body" x="389" y="383">n x n symmetric matrix</text>
+  <text class="body" x="389" y="405">Comparison count: O(n<tspan baseline-shift="super" font-size="10">2</tspan>)</text>
+
+  <rect class="scale-band" x="58" y="466" width="492" height="91" rx="5" />
+  <text class="section-label" x="78" y="493">INTENDED SCALE</text>
+  <text class="scale" x="78" y="519">Thousands of records</text>
+  <text class="footnote" x="78" y="541">For cohort exploration, clustering, MDS, UMAP, or graph analysis.</text>
+
+  <rect class="panel" x="620" y="90" width="552" height="500" rx="6" />
+  <rect class="patient-band" x="620" y="90" width="552" height="79" rx="6" />
+  <path class="patient-band" d="M620 163 H1172 V169 H620 Z" />
+  <text class="panel-letter" x="642" y="123">B</text>
+  <text class="panel-title" x="672" y="122">PATIENT MODE</text>
+  <text class="panel-subtitle" x="672" y="146">One target is compared with every reference record.</text>
+
+  <text class="section-label" x="650" y="197">ONE-VERSUS-MANY DESIGN</text>
+  <circle class="target" cx="704" cy="301" r="27" />
+  <text class="target-text" x="704" y="306">T</text>
+  <text class="body-strong center" x="704" y="346">target</text>
+
+  <path class="connection" d="M731 286 L778 222" />
+  <path class="connection" d="M731 294 L778 264" />
+  <path class="connection" d="M731 303 L778 306" />
+  <path class="connection" d="M731 315 L778 390" />
+  <circle class="reference" cx="798" cy="222" r="20" /><text class="node-text" x="798" y="226">R1</text>
+  <circle class="reference" cx="798" cy="264" r="20" /><text class="node-text" x="798" y="268">R2</text>
+  <circle class="reference" cx="798" cy="306" r="20" /><text class="node-text" x="798" y="310">R3</text>
+  <circle cx="798" cy="338" r="2.2" fill="#70858c" />
+  <circle cx="798" cy="349" r="2.2" fill="#70858c" />
+  <circle cx="798" cy="360" r="2.2" fill="#70858c" />
+  <circle class="reference" cx="798" cy="390" r="20" /><text class="node-text" x="798" y="394">Rn</text>
+
+  <path class="arrow" d="M834 301 H857" />
+  <text class="section-label" x="877" y="197">RANKED OUTPUT (EXAMPLE)</text>
+  <rect class="table-head" x="877" y="215" width="263" height="38" rx="4" />
+  <text class="mono-strong" x="890" y="239">rank</text>
+  <text class="mono-strong" x="946" y="239">ref</text>
+  <text class="mono-strong" x="1002" y="239">dH</text>
+  <text class="mono-strong" x="1062" y="239">Jaccard</text>
+
+  <rect class="best-row" x="877" y="260" width="263" height="36" rx="3" />
+  <text class="mono" x="897" y="283">1</text><text class="mono" x="946" y="283">R4</text><text class="mono" x="1002" y="283">2</text><text class="mono" x="1071" y="283">0.73</text>
+  <rect class="table-row" x="877" y="302" width="263" height="36" rx="3" />
+  <text class="mono" x="897" y="325">2</text><text class="mono" x="946" y="325">R1</text><text class="mono" x="1002" y="325">4</text><text class="mono" x="1071" y="325">0.61</text>
+  <rect class="table-row" x="877" y="344" width="263" height="36" rx="3" />
+  <text class="mono" x="897" y="367">3</text><text class="mono" x="946" y="367">R3</text><text class="mono" x="1002" y="367">5</text><text class="mono" x="1071" y="367">0.54</text>
+  <text class="mono center" x="1008" y="402">...</text>
+
+  <text class="section-label" x="877" y="424">COMPARISON COUNT AND OUTPUT</text>
+  <text class="equation" x="877" y="452">n comparisons</text>
+  <text class="mono-strong" x="1056" y="451">rank.txt</text>
+
+  <rect class="scale-band" x="650" y="466" width="492" height="91" rx="5" />
+  <text class="section-label" x="670" y="493">INTENDED SCALE</text>
+  <text class="scale" x="670" y="519">10<tspan baseline-shift="super" font-size="12">5</tspan> to 10<tspan baseline-shift="super" font-size="12">6</tspan> reference records</text>
+  <text class="footnote" x="670" y="541">For target matching when feature space, hardware, and outputs permit.</text>
+
+  <text class="footnote center" x="600" y="622">Both modes use the same aligned vectors and Hamming or Jaccard metrics; practical limits depend on data and resources.</text>
+</svg>

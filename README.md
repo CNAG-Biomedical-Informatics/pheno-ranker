@@ -30,7 +30,7 @@
 
 **🐳 Docker Hub Image:** <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
 
-**🌐 Web App UI:** <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
+**🌐 Web App UI (legacy; supported until 2027):** <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
 
 ---
 
@@ -53,18 +53,25 @@ Main workflows:
 
 ## Quick Start
 
-All examples below use the `pheno-ranker` command-line executable.
+First, [install Pheno-Ranker](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/) using Docker, GitHub, or CPAN. Then download the tested example data:
+
+```bash
+curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/examples/quickstart/individuals.json -o individuals.json
+curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/examples/quickstart/patient.json -o patient.json
+```
+
+Run patient matching with the primary `-r` and `-t` interface:
+
+```bash
+pheno-ranker -r individuals.json -t patient.json -o rank.txt
+```
+
+The result is written to `rank.txt`; the first data row is the closest reference match. Other common commands include:
 
 Basic cohort comparison:
 
 ```bash
 pheno-ranker -r individuals.json
-```
-
-Patient matching:
-
-```bash
-pheno-ranker -r individuals.json -t patient.json --max-out 10
 ```
 
 Generic JSON with a custom configuration:

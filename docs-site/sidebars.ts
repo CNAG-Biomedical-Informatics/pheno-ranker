@@ -46,8 +46,13 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'doc',
-      label: 'Download & Installation',
+      label: 'Install & First Run',
       id: 'download-and-installation',
+    },
+    {
+      type: 'doc',
+      id: 'usage',
+      label: 'Usage',
     },
     {
       type: 'category',
@@ -162,11 +167,6 @@ const sidebars: SidebarsConfig = {
           type: 'link',
           href: 'https://colab.research.google.com/drive/1gpMikEQ8gz8cFlppem5lMmHu4qGmuooe?usp=sharing',
           label: 'Google Colab',
-        },
-        {
-          type: 'doc',
-          id: 'usage',
-          label: 'Usage',
         },
         {
           type: 'doc',
