@@ -165,7 +165,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'link',
-          href: 'https://colab.research.google.com/drive/1gpMikEQ8gz8cFlppem5lMmHu4qGmuooe?usp=sharing',
+          href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg',
           label: 'Google Colab',
         },
         {
