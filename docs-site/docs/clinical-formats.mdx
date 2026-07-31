@@ -1,0 +1,96 @@
+---
+title: "Convert Clinical Formats to BFF"
+slug: "/clinical-formats"
+---
+
+import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const ClinicalFormatsWorkflow = () => (
+  <img
+    src={useBaseUrl('/img/clinical-formats-workflow.svg')}
+    alt="Clinical source formats pass through Convert-Pheno to produce BFF individuals records for Pheno-Ranker"
+    className="phenoFormatDiagram"
+  />
+);
+
+Pheno-Ranker reads [Beacon v2 Models (BFF)](/bff) and [Phenopackets v2 (PXF)](/pxf) directly. For other structured clinical standards, use [Convert-Pheno](https://cnag-biomedical-informatics.github.io/convert-pheno/) to normalize the source data to BFF before comparison.
+
+<div className="phenoFormatSummary" aria-label="At a glance">
+  <div><span>Role</span><strong>Conversion-assisted input</strong></div>
+  <div><span>Clinical sources</span><strong>OMOP, openEHR, FHIR, REDCap, CDISC</strong></div>
+  <div><span>Handoff</span><strong><code>individuals.json</code> (BFF)</strong></div>
+  <div><span>Configuration</span><strong>Built in after conversion</strong></div>
+</div>
+
+<figure className="phenoFormatFigure">
+  <ClinicalFormatsWorkflow />
+  <figcaption>Convert-Pheno performs source-aware clinical harmonization; Pheno-Ranker compares the resulting BFF individual records.</figcaption>
+</figure>
+
+:::info[Why convert first?]
+Clinical standards encode identity, terminology, and repeated events differently. Convert-Pheno owns those source-specific mappings and groups the data into individual-level BFF records. Pheno-Ranker can then use its built-in BFF configuration and canonicalization instead of treating clinical JSON as an arbitrary structure.
+:::
+
+## Source Format Guides
+
+Use the maintained Convert-Pheno guide for your source format. These pages contain the current installation requirements, mapping scope, examples, and format-specific options.
+
+<div className="phenoFormatGrid">
+  <a className="phenoFormatCard" href="https://cnag-biomedical-informatics.github.io/convert-pheno/omop-cdm">
+    <span className="phenoCardLabel">Clinical source</span>
+    <h3>OMOP-CDM</h3>
+    <p>Consolidate relational clinical tables into individual-level BFF records.</p>
+  </a>
+  <a className="phenoFormatCard" href="https://cnag-biomedical-informatics.github.io/convert-pheno/openehr">
+    <span className="phenoCardLabel">Experimental mapping</span>
+    <h3>openEHR</h3>
+    <p>Group canonical compositions by patient and normalize their clinical content.</p>
+  </a>
+  <a className="phenoFormatCard" href="https://cnag-biomedical-informatics.github.io/convert-pheno/fhir">
+    <span className="phenoCardLabel">Experimental mapping</span>
+    <h3>FHIR R4</h3>
+    <p>Map supported Bundle resources into the corresponding BFF structures.</p>
+  </a>
+  <a className="phenoFormatCard" href="https://cnag-biomedical-informatics.github.io/convert-pheno/redcap">
+    <span className="phenoCardLabel">Clinical source</span>
+    <h3>REDCap</h3>
+    <p>Transform project exports into structured individual records.</p>
+  </a>
+  <a className="phenoFormatCard" href="https://cnag-biomedical-informatics.github.io/convert-pheno/cdisc-odm">
+    <span className="phenoCardLabel">Clinical research</span>
+    <h3>CDISC-ODM</h3>
+    <p>Normalize operational clinical-study data through the BFF target model.</p>
+  </a>
+  <a className="phenoFormatCard" href="https://cnag-biomedical-informatics.github.io/convert-pheno/dataset-json">
+    <span className="phenoCardLabel">Experimental mapping</span>
+    <h3>CDISC Dataset-JSON</h3>
+    <p>Convert supported tabular clinical-study datasets into BFF.</p>
+  </a>
+</div>
+
+:::note[General-purpose data]
+This workflow is for **clinical harmonization**. To compare arbitrary categorical tables or custom records, use [CSV Import](/csv-import) or [Generic JSON/YAML](/generic-json) instead.
+:::
+
+## Run the BFF Output
+
+After Convert-Pheno writes the BFF output, pass its `individuals.json` file to Pheno-Ranker. No source-format configuration is needed at this stage.
+
+For an all-vs-all cohort comparison:
+
+```bash
+pheno-ranker -r individuals.json
+```
+
+To rank references against a target record:
+
+```bash
+pheno-ranker -r individuals.json -t target.json
+```
+
+<div className="button-row">
+  <Link className="button button--primary" to="/bff">Review BFF input</Link>
+  <Link className="button button--secondary" to="/cohort">Continue with cohort mode</Link>
+  <Link className="button button--secondary" to="/patient">Continue with patient mode</Link>
+</div>

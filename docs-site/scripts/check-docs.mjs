@@ -62,11 +62,57 @@ assertContains('usage.mdx', usage, '<code>{"-r, --reference <file>"}</code>', 'i
 assertContains('usage.mdx', usage, '<code>{"--matrix-format <dense\\u007cmtx>"}</code>', 'pipes inside inline-code tables should be escaped for MDX');
 assertNotContains('usage.mdx', usage, '&lt;file&gt;', 'inline placeholders should not remain HTML-escaped');
 
-const omop = readDoc('omop-cdm.mdx');
-assertContains('omop-cdm.mdx', omop, "require('@site/static/img/ohdsi-logo.svg').default", 'OMOP page should use the local OHDSI image');
+const formatDiagrams = [
+  ['bff.mdx', 'bff-format.svg'],
+  ['pxf.mdx', 'pxf-format.svg'],
+  ['csv-import.mdx', 'csv-format.svg'],
+  ['clinical-formats.mdx', 'clinical-formats-workflow.svg'],
+];
+
+for (const [docName, assetName] of formatDiagrams) {
+  const content = readDoc(docName);
+  assertContains(
+    docName,
+    content,
+    `useBaseUrl('/img/${assetName}')`,
+    `format diagram should resolve through the Docusaurus base URL: ${assetName}`,
+  );
+
+  const assetPath = path.join(staticDir, 'img', assetName);
+  if (!fs.existsSync(assetPath)) {
+    failures.push(`${assetName}: format diagram is missing`);
+    continue;
+  }
+
+  const asset = fs.readFileSync(assetPath, 'utf8');
+  assertContains(assetName, asset, '<title ', 'accessible title is missing');
+  assertContains(assetName, asset, '<desc ', 'accessible description is missing');
+}
+
+for (const retiredDoc of ['open-ehr.mdx', 'omop-cdm.mdx']) {
+  if (fs.existsSync(path.join(docsDir, retiredDoc))) {
+    failures.push(`${retiredDoc}: retired source-specific tutorial should not be restored`);
+  }
+}
 
 const citation = readDoc('citation.mdx');
 assertContains('citation.mdx', citation, '[Publication link](https://doi.org/10.1186/s12859-024-05993-2)', 'citation publication link is missing');
+
+const genericJson = readDoc('generic-json.mdx');
+assertContains(
+  'generic-json.mdx',
+  genericJson,
+  "useBaseUrl('/img/moviepackets-logo.svg')",
+  'MoviePackets logo should resolve through the Docusaurus base URL',
+);
+const moviePacketsLogoPath = path.join(staticDir, 'img', 'moviepackets-logo.svg');
+if (!fs.existsSync(moviePacketsLogoPath)) {
+  failures.push('moviepackets-logo.svg: tutorial logo is missing');
+} else {
+  const moviePacketsLogo = fs.readFileSync(moviePacketsLogoPath, 'utf8');
+  assertContains('moviepackets-logo.svg', moviePacketsLogo, '<title ', 'accessible title is missing');
+  assertContains('moviepackets-logo.svg', moviePacketsLogo, '<desc ', 'accessible description is missing');
+}
 
 const about = readDoc('about.mdx');
 assertContains('about.mdx', about, 'className="about-card"', 'About page card layout is missing');
@@ -112,4 +158,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Documentation smoke checks passed (${imageRefs.length} static assets checked).`);
+console.log(`Documentation smoke checks passed (${imageRefs.length + formatDiagrams.length + 1} static assets checked).`);

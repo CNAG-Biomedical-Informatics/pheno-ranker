@@ -6,6 +6,15 @@ slug: "/pxf"
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const PxfFormatImage = () => (
+  <img
+    src={useBaseUrl('/img/pxf-format.svg')}
+    alt="Phenopacket subject fields and nested clinical content used by Pheno-Ranker"
+    className="phenoFormatDiagram"
+  />
+);
 
 **PXF** stands for **P**henotype e**X**change **F**ormat. Phenopackets v2 [documentation](https://phenopacket-schema.readthedocs.io/en/latest/basics.html).
 
@@ -16,9 +25,9 @@ import TabItem from '@theme/TabItem';
   <div><span>Best for</span><strong>Phenopackets v2 records</strong></div>
 </div>
 
-<figure>
-   <img src="https://www.ga4gh.org/wp-content/uploads/2022/02/phenopachets-v2-final-1.jpeg" alt="Phenopackets v2" width="500" />
-   <figcaption>Figure extracted from www.ga4gh.org</figcaption>
+<figure className="phenoFormatFigure">
+  <PxfFormatImage />
+  <figcaption>Top-level Phenopacket fields and representative nested clinical content used for comparison.</figcaption>
 </figure>
 
 Phenopackets organize information using [top-level elements](https://phenopacket-schema.readthedocs.io/en/latest/toplevel.html). Our software, `Pheno-Ranker`, specifically processes data from the [Phenopacket element](https://phenopacket-schema.readthedocs.io/en/latest/phenopacket.html), serialized in [PXF](http://phenopackets.org/) format.

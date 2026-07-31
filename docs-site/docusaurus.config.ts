@@ -92,8 +92,8 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://pheno-ranker.cnag.eu',
-          label: 'Web App (Legacy)',
+          href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg',
+          label: 'Try in Colab',
           position: 'left',
         },
         {
@@ -129,6 +129,10 @@ const config: Config = {
             {
               label: 'Repository',
               href: 'https://github.com/CNAG-Biomedical-Informatics/pheno-ranker',
+            },
+            {
+              label: 'Google Colab',
+              href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg',
             },
             {
               label: 'CPAN',

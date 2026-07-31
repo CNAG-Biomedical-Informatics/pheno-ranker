@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 import Link from '@docusaurus/Link';
 
 :::tip[About other formats]
-`Pheno-Ranker` leverages the data harmonization provided by **GA4GH** standards. However, to promote broader adoption, we also support other formats like raw `JSON/YAML` and `CSV`.
+`Pheno-Ranker` reads BFF and PXF directly. Other clinical standards should first be harmonized to BFF with **Convert-Pheno**, while arbitrary categorical data can be prepared through generic `JSON/YAML` or `CSV` workflows.
 :::
 <div className="phenoFormatGrid">
   <Link className="phenoFormatCard" to="/bff">
@@ -21,6 +21,11 @@ import Link from '@docusaurus/Link';
     <span className="phenoCardLabel">GA4GH native</span>
     <h3>PXF</h3>
     <p>Phenopackets v2 records; no custom configuration required.</p>
+  </Link>
+  <Link className="phenoFormatCard" to="/clinical-formats">
+    <span className="phenoCardLabel">Clinical harmonization</span>
+    <h3>Convert to BFF</h3>
+    <p>Prepare OMOP, openEHR, FHIR, REDCap, or CDISC data with Convert-Pheno.</p>
   </Link>
   <Link className="phenoFormatCard" to="/csv-import">
     <span className="phenoCardLabel">Beyond GA4GH</span>
@@ -35,6 +40,11 @@ import Link from '@docusaurus/Link';
 </div>
 
 <Tabs>
+<TabItem value="clinical" label="Clinical standards">
+
+For OMOP-CDM, openEHR, FHIR R4, REDCap, and CDISC data, use [Convert-Pheno](/clinical-formats) to produce BFF `individuals.json`, then run Pheno-Ranker with its built-in BFF handling.
+
+</TabItem>
 <TabItem value="yaml-json" label="YAML / JSON">
 
 `Pheno-Ranker` _a priori_ accepts as input "any" `JSON` or `YAML` array file. In order to do it, you'll need a **configuration file**. See a tutorial on how to use it [here](/generic-json#moviepackets).

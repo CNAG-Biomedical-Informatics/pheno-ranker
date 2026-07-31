@@ -40,6 +40,27 @@
   margin: 0 auto 0.65rem;
 }
 
+.markdown figure.phenoFormatFigure {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.markdown .phenoFormatDiagram {
+  display: block;
+  width: 100%;
+  min-width: 600px;
+  max-width: 720px;
+  margin: 0 auto 0.7rem;
+}
+
+.markdown .moviePacketsLogo {
+  display: block;
+  width: min(100%, 620px);
+  margin: 0 auto 0.7rem;
+}
+
 .markdown figcaption {
   color: var(--ifm-color-emphasis-700);
   font-size: 0.9rem;

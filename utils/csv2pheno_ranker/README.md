@@ -12,7 +12,7 @@ csv2pheno-ranker: A script to convert a CSV to an input suitable for Pheno-Ranke
       Options:
         -generate-primary-key            Generates a primary key if absent. Use --primary-key-name to set its name
         -primary-key-name <name>         Sets the name for the primary key. Must be a single, non-array field
-        -sep, --separator <char>         Delimiter for CSV fields [;] (e.g., --sep $'\t' for tabs)
+        -sep, --separator <char>         Delimiter for CSV fields [auto: comma for .csv, tab for .tsv]
         -array-separator <char>          Delimiter for nested arrays [|] (e.g., --array-separator ';' for semicolons)
         -output-dir <directory>          Specify the directory where output files will be stored. If not specified, outputs will be placed in the same directory as the input file
 
@@ -29,7 +29,7 @@ Numerous tools exist for CSV to JSON conversion, but our focus here was on creat
 
 The script will create both a JSON file and the configuration file for `Pheno-Ranker`. Then, you can run `Pheno-Ranker` as:
 
-    $ pheno-ranker -r my_csv.json --config --my_csv_config.yaml
+    $ pheno-ranker -r my_csv.json --config my_csv_config.yaml
 
 Note that we load all data in memory before dumping the JSON file. If you have a huge CSV (e.g.,>5M rows) please use a computer that has enough RAM.
 

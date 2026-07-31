@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 300" role="img" aria-labelledby="clinical-title clinical-description">
+  <title id="clinical-title">Clinical formats converted to BFF before comparison</title>
+  <desc id="clinical-description">OMOP-CDM, openEHR, FHIR R4, REDCap, and CDISC data pass through Convert-Pheno to produce BFF individuals records for Pheno-Ranker.</desc>
+  <style>
+    .canvas { fill: #ffffff; stroke: #d6e1e5; stroke-width: 2; }
+    .panel { fill: #f8fbfa; stroke: #9bb7bd; stroke-width: 1.5; }
+    .source { fill: #f3f8fb; stroke: #8eafbd; stroke-width: 1.3; }
+    .convert { fill: #eef8fa; stroke: #147c94; stroke-width: 2; }
+    .bff { fill: #fff7ef; stroke: #df8a43; stroke-width: 2; }
+    .ranker { fill: #eff9f3; stroke: #58a27b; stroke-width: 2; }
+    .line { fill: none; stroke: #60747d; stroke-linecap: round; stroke-width: 2; }
+    .arrow { fill: #60747d; }
+    .section { fill: #49616c; font: 700 12px "Noto Sans", "DejaVu Sans", sans-serif; letter-spacing: 1.1px; }
+    .source-label { fill: #315f72; font: 700 12px "Noto Sans", "DejaVu Sans", sans-serif; }
+    .heading { fill: #174e62; font: 700 17px "Noto Sans", "DejaVu Sans", sans-serif; }
+    .bff-heading { fill: #8c4d1d; font: 700 20px "Noto Sans", "DejaVu Sans", sans-serif; }
+    .ranker-heading { fill: #276749; font: 700 16px "Noto Sans", "DejaVu Sans", sans-serif; }
+    .detail { fill: #60747d; font: 400 11px "Noto Sans", "DejaVu Sans", sans-serif; }
+    .code { fill: #536871; font: 700 12px "DejaVu Sans Mono", monospace; }
+    .handoff-code { font-size: 10.5px; }
+    .accent { fill: #e28a3c; }
+
+    @media (prefers-color-scheme: dark) {
+      .canvas { fill: #14242b; stroke: #405b64; }
+      .panel { fill: #192d35; stroke: #52717b; }
+      .source { fill: #21353d; stroke: #5f7d86; }
+      .convert { fill: #1d3740; stroke: #61bfd2; }
+      .bff { fill: #3a2b20; stroke: #e5a36c; }
+      .ranker { fill: #20372e; stroke: #72bf94; }
+      .line { stroke: #8bb0ba; }
+      .arrow { fill: #8bb0ba; }
+      .section, .source-label, .heading, .bff-heading, .ranker-heading { fill: #edf5f5; }
+      .detail, .code { fill: #bfd0d3; }
+      .accent { fill: #e5a36c; }
+    }
+  </style>
+
+  <rect class="canvas" x="1" y="1" width="838" height="298" rx="10" />
+
+  <text class="section" x="25" y="31">CLINICAL SOURCE FORMATS</text>
+  <rect class="panel" x="24" y="48" width="230" height="205" rx="8" />
+  <rect class="source" x="40" y="69" width="91" height="42" rx="6" />
+  <text class="source-label" x="85.5" y="95" text-anchor="middle">OMOP-CDM</text>
+  <rect class="source" x="143" y="69" width="95" height="42" rx="6" />
+  <text class="source-label" x="190.5" y="95" text-anchor="middle">openEHR</text>
+  <rect class="source" x="40" y="121" width="91" height="42" rx="6" />
+  <text class="source-label" x="85.5" y="147" text-anchor="middle">REDCap</text>
+  <rect class="source" x="143" y="121" width="95" height="42" rx="6" />
+  <text class="source-label" x="190.5" y="147" text-anchor="middle">FHIR R4</text>
+  <rect class="source" x="40" y="173" width="91" height="42" rx="6" />
+  <text class="source-label" x="85.5" y="199" text-anchor="middle">CDISC-ODM</text>
+  <rect class="source" x="143" y="173" width="95" height="42" rx="6" />
+  <text class="source-label" x="190.5" y="192" text-anchor="middle">Dataset-JSON</text>
+  <text class="detail" x="190.5" y="207" text-anchor="middle">experimental</text>
+  <text class="detail" x="139" y="236" text-anchor="middle">Source-specific structures and terminology</text>
+
+  <path class="line" d="M265 150H287" />
+  <path class="arrow" d="M293 150L283 144V156Z" />
+
+  <rect class="convert" x="303" y="69" width="160" height="166" rx="8" />
+  <text class="heading" x="383" y="105" text-anchor="middle">Convert-Pheno</text>
+  <circle class="accent" cx="383" cy="135" r="6" />
+  <circle class="panel" cx="346" cy="158" r="7" />
+  <circle class="panel" cx="420" cy="158" r="7" />
+  <circle class="panel" cx="346" cy="195" r="7" />
+  <circle class="panel" cx="420" cy="195" r="7" />
+  <path class="line" d="M352 158L377 139M389 139L414 158M352 195L377 141M389 141L414 195" />
+  <text class="detail" x="383" y="220" text-anchor="middle">map · normalize · group</text>
+
+  <path class="line" d="M474 150H496" />
+  <path class="arrow" d="M502 150L492 144V156Z" />
+
+  <rect class="bff" x="512" y="69" width="130" height="166" rx="8" />
+  <text class="section" x="577" y="103" text-anchor="middle">HANDOFF</text>
+  <text class="bff-heading" x="577" y="139" text-anchor="middle">BFF</text>
+  <rect class="panel" x="520" y="158" width="114" height="37" rx="5" />
+  <text class="code handoff-code" x="577" y="181" text-anchor="middle">individuals.json</text>
+  <text class="detail" x="577" y="217" text-anchor="middle">built-in configuration</text>
+
+  <path class="line" d="M653 150H675" />
+  <path class="arrow" d="M681 150L671 144V156Z" />
+
+  <rect class="ranker" x="691" y="69" width="125" height="166" rx="8" />
+  <text class="ranker-heading" x="753.5" y="112" text-anchor="middle">Pheno-Ranker</text>
+  <path class="line" d="M716 143H791M716 161H780M716 179H769" />
+  <circle class="accent" cx="711" cy="143" r="3" />
+  <circle class="accent" cx="711" cy="161" r="3" />
+  <circle class="accent" cx="711" cy="179" r="3" />
+  <text class="detail" x="753.5" y="214" text-anchor="middle">rankings · matrices</text>
+
+  <text class="detail" x="420" y="279" text-anchor="middle">Harmonize clinical data once, then compare the resulting individual-level BFF records.</text>
+</svg>

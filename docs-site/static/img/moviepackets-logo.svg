@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="moviepackets-title moviepackets-description">
+  <title id="moviepackets-title">MoviePackets</title>
+  <desc id="moviepackets-description">A film-strip data packet containing JSON braces beside the MoviePackets wordmark.</desc>
+  <style>
+    .back-packet { fill: none; stroke: #9bb7bd; stroke-width: 2; }
+    .packet { fill: #f8fbfa; stroke: #147c94; stroke-width: 3; }
+    .film-strip { fill: #147c94; }
+    .sprocket { fill: #f8fbfa; }
+    .fold { fill: #dceff2; stroke: #147c94; stroke-linejoin: round; stroke-width: 2; }
+    .brace { fill: #244b5a; font: 700 58px "DejaVu Sans Mono", monospace; }
+    .data-line { fill: none; stroke: #789da6; stroke-linecap: round; stroke-width: 5; }
+    .data-dot { fill: #e28a3c; }
+    .movie { fill: #244b5a; }
+    .packets { fill: #147c94; }
+    .wordmark { font: 800 52px "Noto Sans", "DejaVu Sans", sans-serif; letter-spacing: -1.5px; }
+    .tagline { fill: #637c85; font: 700 13px "Noto Sans", "DejaVu Sans", sans-serif; letter-spacing: 2.4px; }
+    .accent-line { stroke: #e28a3c; stroke-linecap: round; stroke-width: 4; }
+
+    @media (prefers-color-scheme: dark) {
+      .back-packet { stroke: #5f7d86; }
+      .packet { fill: #1b3038; stroke: #61bfd2; }
+      .film-strip { fill: #61bfd2; }
+      .sprocket { fill: #1b3038; }
+      .fold { fill: #294752; stroke: #61bfd2; }
+      .brace, .movie { fill: #edf5f5; }
+      .data-line { stroke: #8ba7ae; }
+      .data-dot { fill: #e5a36c; }
+      .packets { fill: #61bfd2; }
+      .tagline { fill: #bfd0d3; }
+      .accent-line { stroke: #e5a36c; }
+    }
+  </style>
+
+  <g aria-label="Film-strip JSON packet">
+    <rect class="back-packet" x="31" y="53" width="190" height="172" rx="18" />
+    <rect class="packet" x="47" y="37" width="190" height="172" rx="18" />
+    <path class="film-strip" d="M65 37H92V209H65C55.1 209 47 200.9 47 191V55C47 45.1 55.1 37 65 37Z" />
+    <rect class="sprocket" x="58" y="55" width="21" height="18" rx="4" />
+    <rect class="sprocket" x="58" y="86" width="21" height="18" rx="4" />
+    <rect class="sprocket" x="58" y="117" width="21" height="18" rx="4" />
+    <rect class="sprocket" x="58" y="148" width="21" height="18" rx="4" />
+    <rect class="sprocket" x="58" y="179" width="21" height="18" rx="4" />
+    <path class="fold" d="M197 37H219C228.9 37 237 45.1 237 55V77Z" />
+
+    <text class="brace" x="103" y="148">{</text>
+    <text class="brace" x="196" y="148" text-anchor="end">}</text>
+    <circle class="data-dot" cx="139" cy="91" r="5" />
+    <path class="data-line" d="M152 91H183" />
+    <circle class="data-dot" cx="139" cy="117" r="5" />
+    <path class="data-line" d="M152 117H174" />
+    <circle class="data-dot" cx="139" cy="143" r="5" />
+    <path class="data-line" d="M152 143H186" />
+  </g>
+
+  <g aria-label="MoviePackets wordmark">
+    <text class="wordmark" x="282" y="127"><tspan class="movie">Movie</tspan><tspan class="packets">Packets</tspan></text>
+    <line class="accent-line" x1="284" y1="153" x2="326" y2="153" />
+    <text class="tagline" x="340" y="158">STRUCTURED MOVIE RECORDS</text>
+  </g>
+</svg>
