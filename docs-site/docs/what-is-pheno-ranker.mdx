@@ -7,9 +7,9 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # What is Pheno-Ranker?
 
-`Pheno-Ranker` is a command-line tool for **individual-level comparison** of phenotypic, clinical, and other categorical records. It was designed for GA4GH-oriented data such as [Beacon v2](/bff) and [Phenopackets v2](/pxf), but it can also compare generic `JSON`, `YAML`, and `CSV`-derived datasets.
+`Pheno-Ranker` is a command-line tool for **individual-level comparison** of phenotypic, clinical, and other categorical records. It reads GA4GH-oriented data such as [Beacon v2](/bff) and [Phenopackets v2](/pxf) directly, accepts [other clinical standards after conversion to BFF](/clinical-formats), and can compare generic `JSON`, `YAML`, and `CSV`-derived datasets.
 
-The primary interface is the `pheno-ranker` CLI. This makes it straightforward to use from a terminal, shell scripts, R/Python automation, workflow managers, and **reproducible batch analyses**. A legacy Web App UI remains supported until 2027 for interactive use.
+The primary interface is the `pheno-ranker` CLI. This makes it straightforward to use from a terminal, shell scripts, R/Python automation, workflow managers, and **reproducible batch analyses**. A legacy Web App UI remains supported until the end of 2026 for interactive use.
 
 :::tip[Designed for scale]
 `Pheno-Ranker` is intended for analyses that are too large to inspect manually: **thousands of records** in all-vs-all cohort comparisons, and **hundreds of thousands to millions of reference records** in patient mode when the feature space, hardware, and output choices permit it.
@@ -46,6 +46,7 @@ The central idea is simple:
 | -- | -- | -- |
 | [Cohort mode](/cohort) | Compare all individuals or records in one or more cohorts. | `matrix.txt` |
 | [Patient mode](/patient) | Rank reference records against a target patient or object. | `rank.txt` |
+| [Clinical formats](/clinical-formats) | Normalize supported clinical standards to BFF with Convert-Pheno before comparison. | BFF `individuals.json` |
 | [Generic JSON](/generic-json) | Compare non-GA4GH categorical records using a configuration file. | `matrix.txt` or `rank.txt` |
 | [Utilities](/user-workflow#companion-utilities) | Prepare, simulate, plot, or encode data around the main ranking workflow. | Utility-specific files |
 
@@ -53,9 +54,9 @@ For specialized analyses, the CLI also provides **include/exclude filters**, **v
 
 ## How to Use Pheno-Ranker
 
-`Pheno-Ranker` is built on a robust [Perl module](https://metacpan.org/pod/Pheno::Ranker), offering multiple interfaces:
+`Pheno-Ranker` can be used through two interfaces:
 
-- **[Command-line Tool](/usage#synopsis)**: The recommended interface for direct data processing and automation.
-- **[Web App UI](https://pheno-ranker.cnag.eu)**: A legacy interactive interface that will be supported until 2027.
+- **[Command-line tool](/usage#synopsis)**: The primary interface for direct data processing and automation.
+- **[Web App UI](https://pheno-ranker.cnag.eu)**: A legacy interactive interface that will be supported until the end of 2026.
 
 Start with [Download & Installation](/download-and-installation), then follow the [Usage](/usage), [Cohort mode](/cohort), or [Patient mode](/patient) pages depending on your analysis.

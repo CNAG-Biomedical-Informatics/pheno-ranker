@@ -6,6 +6,15 @@ slug: "/bff"
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const BffFormatImage = () => (
+  <img
+    src={useBaseUrl('/img/bff-format.svg')}
+    alt="Beacon v2 individual and biosample records with dataset and cohort context"
+    className="phenoFormatDiagram"
+  />
+);
 
 **BFF** stands for **B**eacon **F**riendly **F**ormat. The [BFF](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion) is a data exchange format composed of 7 `JSON` files. These files correspond to the 7 entities of the [Beacon v2 Models](https://docs.genomebeacons.org/models).
 
@@ -16,9 +25,9 @@ import TabItem from '@theme/TabItem';
   <div><span>Best for</span><strong>Beacon v2 individual-level records</strong></div>
 </div>
 
-<figure>
-   <img src={require('@site/static/img/beacon-v2-models.png').default} alt="Beacon v2" width="400" />
-   <figcaption>Entities in Beacon v2 Models</figcaption>
+<figure className="phenoFormatFigure">
+  <BffFormatImage />
+  <figcaption>Beacon entity context; Pheno-Ranker directly reads the <code>individuals</code> collection.</figcaption>
 </figure>
 
 :::info[About Beacon v2 Models' entities]

@@ -8,16 +8,20 @@ import TabItem from '@theme/TabItem';
 
 Choose one installation path, verify the CLI, and then continue to [First Run](#first-run). The `D`, `G`, and `C` codes retain the nomenclature used in Additional file 2, Supporting Table 2 of the paper.
 
+:::tip[Try it before installing]
+The [Google Colab tutorial](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg) runs the actual `pheno-ranker` CLI in a browser. A Google account is required to execute the cells, but no local dependency setup is needed.
+:::
+
 | Code | Installation path | Best fit |
 | -- | -- | -- |
-| `C` | CPAN | Stable Perl CLI and CPAN-packaged utilities. |
-| `D` | Docker | Reproducible environment with Perl and Python utilities preinstalled. |
+| `C` | CPAN / Conda | Stable command-line release, installed directly or in an isolated Conda environment. |
+| `D` | Docker | Reproducible environment with the CLI and companion utilities preinstalled. |
 | `G` | GitHub | Current development version, repository examples, or source access. |
 
-## Recommended Installation Paths
+## Choose How to Run It
 
 <Tabs groupId="installation-path">
-<TabItem value="cpan" label="CPAN (C)" default>
+<TabItem value="cpan" label="CPAN (C)">
 
 Use CPAN when you need `pheno-ranker`, `bff-pxf-simulator`, and `csv2pheno-ranker` without the repository-only Python utilities. With `cpanm` installed:
 
@@ -30,7 +34,7 @@ pheno-ranker --help
 See the [complete CPAN and system-dependency instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#method-1-from-cpan).
 
 </TabItem>
-<TabItem value="docker" label="Docker (D)">
+<TabItem value="docker" label="Docker (D)" default>
 
 Use Docker when you want the full utility environment without managing Perl or Python dependencies:
 
@@ -86,9 +90,9 @@ A successful run creates `rank.txt` in the current directory. Its first data row
 
 ## Additional Installation Methods
 
-### CPAN in a Conda Environment (`C`)
+### Isolated Conda Environment (`C`)
 
-Use this method when you want an isolated Perl environment without Docker. The [Conda instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#method-2-cpan-in-a-conda-environment) cover environment creation, compiler packages, and CPAN installation.
+Use this method when Conda is your preferred local environment and you do not want to use Docker or modify the system Perl installation. Conda isolates the build dependencies, while Pheno-Ranker is installed from CPAN inside the environment. This remains publication installation path `C`; it is not a separate native Conda package. See the [complete Conda environment instructions](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md#method-2-isolated-conda-environment).
 
 ### Developer Checkout (`G`)
 
@@ -126,6 +130,6 @@ Python utilities under `utils/` and external R plotting scripts are not part of 
 | `csv2pheno-ranker` | `D`, `G`, `C` |
 | `bff-pxf-plot` | `D`, `G` |
 | QR-code/PDF utilities | `D`, `G` |
-| Web App UI (legacy) | `D`; supported until 2027; see [Pheno-Ranker UI](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
+| Web App UI (legacy) | `D`; supported until the end of 2026; see [Pheno-Ranker UI](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui) |
 
 </details>

@@ -6,7 +6,16 @@ slug: "/generic-json"
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import CytoscapeGraph from '@site/src/components/CytoscapeGraph';
+
+export const MoviePacketsLogo = () => (
+  <img
+    src={useBaseUrl('/img/moviepackets-logo.svg')}
+    alt="MoviePackets film-strip and JSON data-packet logo"
+    className="moviePacketsLogo"
+  />
+);
 
 <details>
 <summary>Google Colab notebook</summary>
@@ -32,20 +41,19 @@ This tutorial deliberately uses generic JSON data (i.e., movies) to illustrate t
 
 Once you are comfortable with the concepts using movie data, you will find it easier to apply `Pheno-Ranker` to real GA4GH standards. For specific examples, please refer to the [cohort](/cohort) and [patient](/patient) pages in this documentation.
 :::
-### Moviepackets
+### MoviePackets
 
-For this tutorial, we will use **Moviepackets** to show how `Pheno-Ranker` can work with generic `JSON` files.
+For this tutorial, we will use **MoviePackets** to show how `Pheno-Ranker` can work with generic `JSON` files.
 
 <figure>
- MoviePackets logo
- <img src={require('@site/static/img/moviepackets-logo.png').default} alt="MoviePackets" width="300" />
- <figcaption>Image created by ChatGPT4o</figcaption>
+  <MoviePacketsLogo />
+  <figcaption>MoviePackets is the invented generic JSON format used in this tutorial.</figcaption>
 </figure>
 
 <details>
-<summary>What is a Moviepacket file?</summary>
+<summary>What is a MoviePacket file?</summary>
 
-A Moviepacket is an invented data exchange format :smile: designed for movies. In this tutorial it plays the same role that Phenotype Exchange Format ([PXF](/pxf)) plays for pheno-clinical data: it is simply the input data model. Since it is generic JSON, its `Pheno-Ranker` configuration uses `format: JSON`.
+A MoviePacket is an invented data exchange format :smile: designed for movies. In this tutorial it plays the same role that Phenotype Exchange Format ([PXF](/pxf)) plays for pheno-clinical data: it is simply the input data model. Since it is generic JSON, its `Pheno-Ranker` configuration uses `format: JSON`.
 
 </details>
 Imagine you have a catalog of 25 movies described in `JSON` format. Each movie is one record, and each record has several properties, such as `title`, `genre`, `year`, `country`, and `rating`. In `Pheno-Ranker` documentation, these selectable properties are often called `terms`.
@@ -324,7 +332,7 @@ Imagine you have a catalog of 25 movies described in `JSON` format. Each movie i
 ```
 
 </details>
-You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. Because Moviepackets are not one of the built-in formats, the first thing to create is a **configuration file**.
+You are interested in checking the variety of your catalog and plan to use `Pheno-Ranker`. Because MoviePackets are not one of the built-in formats, the first thing to create is a **configuration file**.
 
 <details>
 <summary>What is a `Pheno-Ranker` configuration file?</summary>
@@ -347,13 +355,13 @@ For generic JSON, the configuration mainly tells `Pheno-Ranker` three things:
 - Which fields can be compared (`allowed_terms`).
 - Which first-level fields are arrays (`indexed_terms`), when present.
 
-If your file format resembles Moviepackets, you can use the Moviepacket configuration as a template. Just ensure you **modify the terms** to align with your data.
+If your file format resembles MoviePackets, you can use the MoviePacket configuration as a template. Just ensure you **modify the terms** to align with your data.
 
-In the Moviepacket example, `rating` exists in the JSON data but is not listed in `allowed_terms`; therefore it is not used in the tutorial comparisons. This keeps the example categorical and avoids mixing in quantitative values.
+In the MoviePacket example, `rating` exists in the JSON data but is not listed in `allowed_terms`; therefore it is not used in the tutorial comparisons. This keeps the example categorical and avoids mixing in quantitative values.
 
 ### Creating a configuration file
 
-Because Moviepacket records are identified by `title` and include the array field `genre`, the configuration can be minimal:
+Because MoviePacket records are identified by `title` and include the array field `genre`, the configuration can be minimal:
 
 ```yaml
 format: JSON
@@ -368,7 +376,7 @@ This is enough for scalar arrays such as `genre`, because `Pheno-Ranker` can use
 
 You can also be explicit about how first-level array elements should be named. This is useful when the array contains objects, or when you want output keys to be easier to inspect.
 
-The Moviepacket configuration included with the repo uses this explicit form:
+The MoviePacket configuration included with the repo uses this explicit form:
 
 ```yaml
 format: JSON
@@ -3377,7 +3385,7 @@ The `cytoscape.json` file contains one edge per pairwise comparison and avoids d
 </TabItem>
 <TabItem value="inter-catalog-comparison" label="Inter-catalog comparison">
 
-Imagine you have several **Moviepacket** :smile: catalogs and you want to compare the similarity among them.
+Imagine you have several **MoviePacket** :smile: catalogs and you want to compare the similarity among them.
 
 The way you compute this with `Pheno-Ranker` is similar to the intra-catalog example. The main difference is that the catalogs (i.e., cohorts) receive prefixes so that records from different input files can be identified.
 

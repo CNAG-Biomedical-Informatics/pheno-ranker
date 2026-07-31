@@ -30,7 +30,7 @@
 
 **🐳 Docker Hub Image:** <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
 
-**🌐 Web App UI (legacy; supported until 2027):** <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
+**🌐 Web App UI (legacy; supported until the end of 2026):** <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
 
 ---
 

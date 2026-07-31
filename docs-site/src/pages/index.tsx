@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <Layout
       title="Pheno-Ranker"
-      description="Phenotypic similarity analysis for cohorts and patient matching">
+      description="Command-line phenotypic similarity analysis for cohort comparison and patient ranking">
       <main className={styles.page}>
         <section className={styles.hero}>
           <div className={styles.heroInner}>
@@ -23,13 +23,21 @@ export default function Home() {
               <p className={styles.lede}>
                 Pheno-Ranker compares Beacon v2 Models, Phenopackets v2, and
                 configured JSON or YAML records using Hamming distance or Jaccard
-                similarity. The command-line interface is the primary interface;
-                CSV preparation and a web application are available as companion
-                workflows.
+                similarity. Run the CLI in Colab, Docker, a terminal, or from
+                R/Python; no database or hosted service is required.
               </p>
               <div className={styles.actions}>
-                <Link className={styles.action} to="/usage">
-                  Quickstart
+                <a
+                  className={styles.action}
+                  href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Try in Colab
+                </a>
+                <Link
+                  className={styles.action}
+                  to="/download-and-installation#first-run">
+                  Install &amp; first run
                 </Link>
                 <Link className={styles.action} to="/other-formats">
                   Supported Inputs
@@ -88,8 +96,8 @@ export default function Home() {
               <span>Structured inputs</span>
               <h3>Use native or configured records</h3>
               <p>
-                Read BFF and PXF directly, configure generic JSON or YAML, or
-                prepare CSV data with the included import utility.
+                Read BFF and PXF directly, normalize other clinical standards
+                with Convert-Pheno, or prepare generic JSON, YAML, and CSV data.
               </p>
             </article>
             <article className={styles.operation}>

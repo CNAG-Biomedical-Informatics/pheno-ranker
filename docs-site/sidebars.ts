@@ -144,13 +144,8 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
-          id: 'open-ehr',
-          label: 'openEHR',
-        },
-        {
-          type: 'doc',
-          id: 'omop-cdm',
-          label: 'OMOP-CDM',
+          id: 'clinical-formats',
+          label: 'Clinical Formats to BFF',
         },
         {
           type: 'doc',

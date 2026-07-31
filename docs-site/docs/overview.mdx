@@ -16,9 +16,15 @@ import Link from '@docusaurus/Link';
     preparation, command-line use, interpretation, and downstream analysis.
   </p>
   <div className="button-row">
-    <Link className="button button--primary" to="/download-and-installation">Install &amp; first run</Link>
+    <a
+      className="button button--primary"
+      href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg"
+      target="_blank"
+      rel="noopener noreferrer">
+      Try in Colab
+    </a>
+    <Link className="button button--secondary" to="/download-and-installation">Install &amp; first run</Link>
     <Link className="button button--secondary" to="/user-workflow">Choose a workflow</Link>
-    <Link className="button button--secondary" to="/usage">CLI reference</Link>
   </div>
 </div>
 
@@ -27,13 +33,13 @@ import Link from '@docusaurus/Link';
 - **Learn the concepts:** [What is Pheno-Ranker?](/what-is-pheno-ranker) and [User Workflow](/user-workflow).
 - **Install and run:** [Install & First Run](/download-and-installation), followed by the [CLI reference](/usage).
 - **Choose a comparison:** [Cohort Mode](/cohort) for all-vs-all matrices or [Patient Mode](/patient) for target-to-reference ranking.
-- **Prepare input:** [Input Formats](/other-formats) for BFF, PXF, CSV, and configured JSON/YAML.
+- **Prepare input:** [Input Formats](/other-formats) for native BFF/PXF, [clinical formats converted with Convert-Pheno](/clinical-formats), CSV, and configured JSON/YAML.
 - **Continue downstream:** [Use Cases](/phenopackets-corpus), [Use from R](/use-from-r), and [companion utilities](/user-workflow#companion-utilities).
 - **Find technical or operational detail:** [Implementation](/implementation), [Algorithm](/algorithm), and [FAQ](/faq).
 
 ## Project Status
 
-The documentation follows the current GitHub version of `Pheno-Ranker`; the latest CPAN release can differ between releases. Consult the [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes) for version-specific updates. The CLI is the primary interface, while the legacy Web App remains supported until 2027.
+The documentation follows the current GitHub version of `Pheno-Ranker`; the latest CPAN release can differ between releases. Consult the [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes) for version-specific updates. The CLI is the primary interface, while the legacy Web App remains supported until the end of 2026.
 
 ## Project Links
 
