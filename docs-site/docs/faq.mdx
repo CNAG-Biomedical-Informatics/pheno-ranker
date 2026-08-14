@@ -193,9 +193,19 @@ When handling missing values within the context of Pheno-Ranker, it's essential 
 <details>
 <summary>Should I use **Hamming** distance or **Jaccard** index?</summary>
 
-This depends on the nature of your data. As a rule of thumb, if your data has more than 30% missing values, use **Jaccard**; otherwise, you can use **Hamming**. Note also that **Hamming** distance calculation is **faster** than **Jaccard** (**O(N) vs. O(N) to O(N log N)**), and this difference becomes noticeable when comparing thousands of variables.
+Use **Hamming distance** when differences across the complete aligned binary
+profiles are meaningful. Lower values indicate more similar records.
 
-We recommend checking results with both and assessing them rationally.
+Use the **Jaccard index** when shared present features are more informative than
+shared absences. This is often useful for sparse profiles or datasets with
+substantial missingness, but there is no universal missing-data percentage at
+which one metric automatically becomes preferable. Higher Jaccard values
+indicate more similar records.
+
+Both implementations scan the aligned vectors once. Hamming is generally
+faster because its calculation is simpler, but both are linear in the vector
+length. For a new dataset, compare both results and inspect term coverage before
+choosing the metric used for interpretation.
 
 </details>
 <details>

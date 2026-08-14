@@ -63,17 +63,18 @@ This will create the **output** text file `rank.txt`.
 The first rows in `rank.txt` are the best matches according to the selected sorting metric. By default, patient mode sorts by Hamming distance; use `--sort-by jaccard` to sort by Jaccard similarity instead.
 
 :::info[How to read `rank.txt`]
-For most analyses, start with these columns:
+Read the table in three steps:
 
-* `RANK`: Match order; `1` is the best match under the selected sorting metric.
-* `REFERENCE(ID)`: The matched individual in the reference cohort.
-* `HAMMING-DISTANCE`: Lower values indicate more similar binary profiles.
-* `JACCARD-INDEX`: Higher values indicate more similar binary profiles.
-* `DISTANCE-P-VALUE` / `JACCARD-P-VALUE`: Significance of the match within the distribution of comparisons in the run.
-* `INTERSECT-RATE(%)`: How much of the target profile is covered by the reference match.
-* `COMPLETENESS(%)`: How much of the reference profile is covered by the target.
+1. Start with `RANK` and `REFERENCE(ID)` to identify the best matches.
+2. Check the selected metric: lower `HAMMING-DISTANCE` values or higher
+   `JACCARD-INDEX` values indicate more similar profiles.
+3. Check `INTERSECT-RATE(%)` and `COMPLETENESS(%)` to confirm that the match is
+   supported by enough shared information.
 
-Use Hamming distance when you want a distance-like ranking. Use Jaccard similarity when sparse overlap or missingness is important.
+The Z-scores and p-values describe how each match relates to the comparisons in
+that run. They are supporting statistics rather than universal clinical
+significance thresholds. Their definitions are available in the full column
+reference below.
 :::
 <details>
 <summary>Full `rank.txt` column reference</summary>
