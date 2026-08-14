@@ -13,11 +13,6 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'what-is-pheno-ranker',
-          label: 'What Is Pheno-Ranker?',
-        },
-        {
-          type: 'doc',
           id: 'user-workflow',
           label: 'User Workflow',
         },
@@ -38,7 +33,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               id: 'other-formats',
-              label: 'Other Formats',
+              label: 'Choose an Input Format',
             },
           ],
         },

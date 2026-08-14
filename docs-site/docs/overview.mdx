@@ -6,14 +6,15 @@ hide_title: true
 ---
 
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 <div className="phenoOverviewIntro">
   <p className="phenoEyebrow">Documentation overview</p>
-  <h2>Choose the comparison workflow that matches your data and question.</h2>
+  <h2>Compare cohorts or rank reference records against a target.</h2>
   <p>
     `Pheno-Ranker` compares structured phenotypic, clinical, and categorical
-    records in cohort mode or patient mode. This documentation covers input
-    preparation, command-line use, interpretation, and downstream analysis.
+    records. This documentation covers input preparation, command-line use,
+    interpretation, and downstream analysis.
   </p>
   <div className="button-row">
     <a
@@ -28,18 +29,100 @@ import Link from '@docusaurus/Link';
   </div>
 </div>
 
-## Find the Right Page
+## What Pheno-Ranker Does
 
-- **Learn the concepts:** [What is Pheno-Ranker?](/what-is-pheno-ranker) and [User Workflow](/user-workflow).
-- **Install and run:** [Install & First Run](/download-and-installation), followed by the [CLI reference](/usage).
-- **Choose a comparison:** [Cohort Mode](/cohort) for all-vs-all matrices or [Patient Mode](/patient) for target-to-reference ranking.
-- **Prepare input:** [Input Formats](/other-formats) for native BFF/PXF, [clinical formats converted with Convert-Pheno](/clinical-formats), CSV, and configured JSON/YAML.
-- **Continue downstream:** [Use Cases](/phenopackets-corpus), [Use from R](/use-from-r), and [companion utilities](/user-workflow#companion-utilities).
-- **Find technical or operational detail:** [Implementation](/implementation), [Algorithm](/algorithm), and [FAQ](/faq).
+Pheno-Ranker answers two questions:
+
+- Which records in one or more cohorts are most similar to each other?
+- Which records in a reference cohort are most similar to a target patient or
+  object?
+
+The primary interface is the `pheno-ranker` command-line tool, which can be used
+directly or called from shell scripts, R, Python, notebooks, workflow managers,
+and batch analyses.
+
+It reads [Beacon v2](/bff) and [Phenopackets v2](/pxf) directly. Other
+[clinical standards can be converted to BFF](/clinical-formats), while generic
+JSON, YAML, and CSV-derived categorical datasets use a small configuration.
+
+## A Small Example
+
+Suppose a reference cohort contains two records and the target has `fever` and
+`cough`:
+
+| Record | Present features |
+| --- | --- |
+| Reference A | fever, cough |
+| Reference B | fever, rash |
+| Target | fever, cough |
+
+Patient mode runs one command:
+
+```bash
+pheno-ranker -r cohort.json -t target.json
+```
+
+The resulting `rank.txt` places Reference A first:
+
+| Rank | Reference | Hamming distance | Jaccard index |
+| ---: | --- | ---: | ---: |
+| 1 | Reference A | 0 | 1.000 |
+| 2 | Reference B | 2 | 0.333 |
+
+Reference A has the same categorical profile as the target. Reference B shares
+`fever`, but differs on `cough` and `rash`. The same principle applies to larger
+clinical records and reference cohorts.
+
+## Main Workflows
+
+<figure>
+  <picture>
+    <source media="(max-width: 700px)" srcSet={useBaseUrl('/img/pheno-ranker-comparison-modes-mobile.svg')} />
+    <img src={useBaseUrl('/img/pheno-ranker-comparison-modes.svg')} alt="Cohort mode produces an all-versus-all matrix, while patient mode produces a target ranking" />
+  </picture>
+  <figcaption>Cohort mode compares every unique record pair. Patient mode compares one target with every reference record.</figcaption>
+</figure>
+
+| Workflow | Purpose | Main output |
+| --- | --- | --- |
+| [Cohort mode](/cohort) | Compare all records in one or more cohorts. | `matrix.txt` |
+| [Patient mode](/patient) | Rank reference records against a target. | `rank.txt` |
+| [Clinical formats](/clinical-formats) | Convert supported clinical standards to BFF before comparison. | BFF `individuals.json` |
+| [Generic JSON](/generic-json) | Compare configured categorical records outside BFF/PXF. | `matrix.txt` or `rank.txt` |
+
+<details>
+<summary>How the comparison works</summary>
+
+1. Hierarchical records are flattened into comparable categorical variables.
+2. Every record is encoded against the same ordered variable list.
+3. The resulting binary vectors are compared with Hamming distance or Jaccard
+   similarity.
+4. The CLI writes an all-vs-all matrix or a target-to-reference ranking.
+
+Pheno-Ranker requires no database setup and uses compact binary representations
+internally. Patient mode performs one comparison per reference record, whereas
+cohort mode compares every unique pair. Runtime and memory therefore depend on
+the cohort size, number of variables, metric, and output format. See the
+[Algorithm](/algorithm) page for the complete method.
+
+</details>
+
+## Next Steps
+
+- [Choose an input format](/other-formats) for native BFF/PXF, converted
+  clinical data, CSV, or generic JSON/YAML.
+- [Install and complete a first run](/download-and-installation).
+- Read the [CLI reference](/usage) or follow the visual [User Workflow](/user-workflow).
+- Continue with [Use from R](/use-from-r), [use cases](/phenopackets-corpus), or
+  [companion utilities](/user-workflow#companion-utilities).
 
 ## Project Status
 
-The documentation follows the current GitHub version of `Pheno-Ranker`; the latest CPAN release can differ between releases. Consult the [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes) for version-specific updates. The CLI is the primary interface, while the legacy Web App remains supported until the end of 2026.
+The documentation follows the current GitHub version; the latest CPAN release
+can differ between releases. Consult the
+[Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes)
+for version-specific updates. The CLI is the primary interface. The legacy Web
+App remains supported until the end of 2026.
 
 ## Project Links
 
