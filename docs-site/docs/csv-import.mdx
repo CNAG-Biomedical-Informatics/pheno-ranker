@@ -3,7 +3,6 @@ title: "How to use a CSV with Pheno-Ranker"
 slug: "/csv-import"
 ---
 
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -27,96 +26,71 @@ export const CsvFormatImage = () => (
 
 <figure className="phenoFormatFigure">
   <CsvFormatImage />
-  <figcaption><code>csv2pheno-ranker</code> prepares the two files required for comparison: JSON records and their configuration.</figcaption>
+  <figcaption><code>csv2pheno-ranker</code> creates the JSON records and configuration required by Pheno-Ranker.</figcaption>
 </figure>
+
+The companion `csv2pheno-ranker` command converts a CSV or TSV table into two
+files: a JSON array of records and a matching Pheno-Ranker configuration.
+
+:::note[Categorical data]
+Pheno-Ranker compares categorical values. Convert continuous measurements into
+meaningful categories or ranges before using them in a comparison. The choice
+of ranges should be justified by the domain rather than selected only for the
+software.
+:::
 
 <Tabs>
 <TabItem value="explanation" label="Explanation">
 
-If you have a CSV, you can use `Pheno-Ranker` too :smile: ! The conversion step uses `csv2pheno-ranker`, a companion command-line utility.
+## Convert a table
 
-:::warning[Qualitative (categorical) vs. quantitative values]
-If your dataset contains both quantitative and qualitative variables, consider exploring [Factor Analysis of Mixed Data](https://en.wikipedia.org/wiki/Factor_analysis_of_mixed_data). Alternatively, if your data is purely numeric, you may find [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) useful.
+Suppose `example.csv` uses semicolons between columns and commas between values
+inside the `Bar` column:
 
-If you plan to use `Pheno-Ranker` and some of your variables contain **quantitative values** (such as integers or floating-point numbers), we recommend **discretizing** them into ranges.
-:::
-<details>
-<summary>Best practices for CSV data quality</summary>
-
-Here are a few important considerations regarding the CSV format. Most of these are common-sense guidelines:
-
-* Ensure there are no duplicated column names (headers).
-   
-* While it's acceptable not to include ontologies/terminologies, please maintain consistent nomenclature for values (e.g., avoid using `M` and `Male` to refer to the same concept).
-      
-* Files ending in `.csv` use a comma by default, while `.tsv` files use a tab. Use `--separator` to override this behavior. If columns contain nested values, specify their delimiter with `--array-separator` (default is `|`).
-         
-* `Pheno-Ranker` was built with speed in mind, but if you have more than 10K rows, be aware that the calculations may take more than a few seconds.
-
-</details>
-:::warning[About inter-cohort analysis with CSV]
-Please note that performing inter-cohort analysis may be difficult due to potential inconsistencies or lack of common variables across different CSVs.
-:::
-Ok, let's convert a CSV then.
-
-<Tabs>
-<TabItem value="converting-a-csv" label="Converting a CSV">
-
-Imagine you have a file named `example.csv` that uses `;` as a column separator, and it looks like this:
-
-| Foo  | Bar         | Baz  |
-| ---  | ----------- | ---- |
+| Foo | Bar | Baz |
+| --- | --- | --- |
 | foo1 | bar1a,bar1b | baz1 |
 | foo2 | bar2a,bar2b | baz2 |
 
-Column `Bar` is an array and columns `Foo` and `Baz` aren't. Your file does not have a column that can be used as an **identifier** for each row.
-
-OK, we are going to use the included [utility](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/csv2pheno_ranker/README.md) to convert `example.csv`:
+The table has no unique row identifier. Convert it with:
 
 ```bash
-csv2pheno-ranker -i example.csv --separator ';' --generate-primary-key --primary-key-name Id --array-separator ','
+csv2pheno-ranker -i example.csv --separator ';' --array-separator ',' --generate-primary-key --primary-key-name Id
 ```
 
-Where:
+| Option | Meaning in this example |
+| --- | --- |
+| `--separator ';'` | Columns are separated by semicolons. |
+| `--array-separator ','` | Values inside `Bar` are separated by commas. |
+| `--generate-primary-key` | Create a unique identifier for every row. |
+| `--primary-key-name Id` | Name the generated identifier field `Id`. |
 
-* `--separator ';'` specifies the semicolon used between columns in this example.
+If the table already has a unique, single-value identifier column, omit
+`--generate-primary-key` and pass that column name with `--primary-key-name`.
 
-* `--generate-primary-key` forces the generation of a primary key field for each record in your CSV, if one does not already exist. Use this option when your data lacks a unique identifier. The name of the newly created primary key field should be specified using `--primary-key-name`.
+## Check the generated files
 
-* `--primary-key-name Id` specifies the name `Id` for the primary key field. This option is used together with `--generate-primary-key` to name the newly generated primary key field, or alone, to identify the existing field to be used as a primary key in your CSV data. The specified field must be a single-value field (non-array).
-
-* `--array-separator ','` specifies the delimiter for nested values in columns.
-
-One of the results will be this file named `example.json`:
+The command creates `example.json`:
 
 ```json
 [
-   {
-      "Bar" : [
-         "bar1a",
-         "bar1b"
-      ],
-      "Baz" : "baz1",
-      "Foo" : "foo1",
-      "Id" : "PR_00000001"
-   },
-   {
-      "Bar" : [
-         "bar2a",
-         "bar2b"
-      ],
-      "Baz" : "baz2",
-      "Foo" : "foo2",
-      "Id" : "PR_00000002"
-   }
+  {
+    "Bar": ["bar1a", "bar1b"],
+    "Baz": "baz1",
+    "Foo": "foo1",
+    "Id": "PR_00000001"
+  },
+  {
+    "Bar": ["bar2a", "bar2b"],
+    "Baz": "baz2",
+    "Foo": "foo2",
+    "Id": "PR_00000002"
+  }
 ]
 ```
 
-And the other will be this file named `example_config.yaml`:
+It also creates `example_config.yaml`:
 
-:::note[Configuration names from v1.08]
-The configuration names shown here (`indexed_terms` and `identity_paths`) are used from `Pheno-Ranker` v1.08 onward. Older configuration files using the previous names are still accepted for compatibility.
-:::
 ```yaml
 ---
 allowed_terms:
@@ -133,126 +107,87 @@ identity_paths:
 primary_key: Id
 ```
 
-Once you have these two files you can run `Pheno-Ranker` by using:
+The configuration records which field identifies each row and which columns
+can be compared. It also records that `Bar` contains multiple values.
+
+## Run Pheno-Ranker
+
+Pass both generated files to the main CLI:
 
 ```bash
 pheno-ranker -r example.json --config example_config.yaml
 ```
 
-If you want to exclude or include columns (i.e., terms) you can use the corresponding flag:
+The default cohort output is `matrix.txt`. To omit columns from the comparison:
 
 ```bash
-pheno-ranker -r example.json --exclude-terms Id Foo --config example_config.yaml
+pheno-ranker -r example.json --config example_config.yaml --exclude-terms Id Foo
 ```
 
-Remember to always use `--config example_config.yaml`.
+Always use the generated configuration when working with the converted JSON.
 
-Good luck!
+<details>
+<summary>CSV data checks</summary>
 
-</TabItem>
-</Tabs>
+- Use unique, non-empty column names.
+- Use one consistent value for each category; for example, do not mix `M` and
+  `Male` unless they intentionally represent different categories.
+- `.csv` files use commas and `.tsv` files use tabs by default. Override that
+  behavior with `--separator` when necessary.
+- Use `--array-separator` only for columns containing multiple categorical
+  values. Its default is `|`.
+- When comparing tables from different cohorts, confirm that corresponding
+  columns and category names use the same nomenclature.
+
+</details>
 
 </TabItem>
 <TabItem value="usage" label="Usage">
 
-[View source README](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/csv2pheno_ranker/README.md)
-
-# NAME
-
-csv2pheno-ranker: A script to convert a CSV to an input suitable for Pheno-Ranker
-
-# SYNOPSIS
+## Command reference
 
 ```text
-csv2pheno-ranker -i <input.csv> [-options]
-
-  Arguments:
-    -i, --input <input.csv>          CSV file
-
-  Options:
-    -generate-primary-key            Generates a primary key if absent. Use --primary-key-name to set its name
-    -primary-key-name <name>         Sets the name for the primary key. Must be a single, non-array field
-    -sep, --separator <char>         Delimiter for CSV fields [auto: comma for .csv, tab for .tsv]
-    -array-separator <char>          Delimiter for nested arrays [|] (e.g., --array-separator ';' for semicolons)
-    -output-dir <directory>          Specify the directory where output files will be stored. If not specified, outputs will be placed in the same directory as the input file
-
-  Generic Options:
-    -debug <level>                   Print debugging (from 1 to 5, being 5 max)
-    -h, --help                       Brief help message
-    -man                             Full documentation
-    -v, --verbose                    Verbosity on
-    -V, --version                    Print version
+csv2pheno-ranker -i <input.csv> [options]
 ```
 
-# DESCRIPTION
+| Option | Purpose |
+| --- | --- |
+| `-i, --input <file>` | Input CSV or TSV file. |
+| `--primary-key-name <name>` | Existing identifier column, or name of a generated identifier. |
+| `--generate-primary-key` | Generate an identifier when the table has none. |
+| `--separator, --sep <char>` | Column delimiter; inferred from `.csv` or `.tsv` by default. |
+| `--array-separator <pattern>` | Delimiter for multiple values inside a column; default is `|`. |
+| `--output-dir <directory>` | Directory for the generated JSON and YAML files. |
+| `--verbose` | Report progress and output paths. |
+| `--debug <level>` | Print debugging information from level 1 to 5. |
+| `--help` | Print brief command help. |
+| `--man` | Print the utility manual. |
+| `--version` | Print the utility version. |
 
-Numerous tools exist for CSV to JSON conversion, but our focus here was on creating JSON specifically for `Pheno-Ranker`. The script supports both basic CSV files and complex, comma-separated CSV files with nested fields, ensuring seamless `Pheno-Ranker` integration.
+By default, output files are written beside the input and use its basename. For
+example, `cohort.tsv` produces `cohort.json` and `cohort_config.yaml`.
 
-The script will create both a JSON file and the configuration file for `Pheno-Ranker`. Then, you can run `Pheno-Ranker` as:
+### Examples
 
-```text
-$ pheno-ranker -r my_csv.json --config my_csv_config.yaml
+Use default delimiters and an existing identifier column:
+
+```bash
+csv2pheno-ranker -i cohort.tsv --primary-key-name patient_id
 ```
 
-Note that we load all data in memory before dumping the JSON file. If you have a huge CSV (e.g.,>5M rows) please use a computer that has enough RAM.
+Generate identifiers and write the results elsewhere:
 
-# SUMMARY
-
-A script to convert a CSV to an input suitable for `Pheno-Ranker`
-
-# INSTALLATION
-
-(only needed if you did not install `Pheno-Ranker`)
-
-```text
-$ cpanm --installdeps .
+```bash
+mkdir output
+csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name ID --output-dir output --separator ';' --array-separator ','
 ```
 
-### System requirements
+The converter loads the table into memory before writing JSON. Very large input
+files therefore require enough RAM for the complete converted dataset.
 
-```text
-* Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOs, OpenSuse) should do as well.
-* Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with "perl -v"
-* 1GB of RAM.
-* 1 core (it only uses one core per job).
-* At least 1GB HDD.
-```
-
-# HOW TO RUN CSV2PHENO-RANKER
-
-The software requires a CSV file as the input and operates with default settings. By default, both the `JSON` file and the configuration file will be created in the same directory as the input file, and will share the same basename.
-
-If you have columns with nested values make sure that you use `--array-separator` to define the delimiting character (default is "|").
-
-If you want to change some parameters please take a look to the synopsis.
-
-**Examples:**
-
-```text
-$ ./csv2pheno-ranker -i example.csv
-
-$ ./csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name ID
-
-$ ./csv2pheno-ranker -i example.csv --generate-primary-key --primary-key-name ID  --output-dir /my-path --sep ';' --array-separator ','
-```
-
-## COMMON ERRORS AND SOLUTIONS
-
-```text
-* Error message: Foo
-  Solution: Bar
-
-* Error message: Foo
-  Solution: Bar
-```
-
-# AUTHOR 
-
-Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu).
-
-# COPYRIGHT AND LICENSE
-
-This Perl file is copyrighted. See the LICENSE file included in this distribution.
+See the [source utility README](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/utils/csv2pheno_ranker/README.md)
+for standalone-script information, or [Download & Installation](/download-and-installation)
+for supported installation methods.
 
 </TabItem>
 </Tabs>
