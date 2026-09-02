@@ -17,17 +17,14 @@ As a proof of concept, we created companion command-line utilities that encode/d
 <details>
 <summary>About the utility of QR codes</summary>
 
-2D barcodes are straightforward and easy to scan, typically using a smartphone camera. They offer the convenience of encoding various data. Below are a few examples:
+QR codes can attach an encoded profile to a report or transfer it between controlled systems. Possible uses include:
 
-* Enrolling in clinical trial or health data program via QR
-* Patient-doctor transfer of  information
+* Enrolling in a clinical trial or health data program
+* Transferring information between a patient and doctor
 * Medical reports with augmented data
-* Clinical trials reports (see example below)
-
-Of course if you plan to use `Pheno-Ranker` with non pheno-clinical data you will need to come up with your own examples :smile:.
+* Clinical trial reports (see example below)
 
 </details>
-Ok, let's convert `Pheno-Ranker` data to QRs.
 
 :::danger[Experimental feature]
 This feature serves as a **proof of concept**. The generated QR code images exclusively encode `Pheno-Ranker` data and do not include any clinical information. To decode these images back into phenotypic-clinical data, a specific `template` is required. In a production environment, implementing an additional security layer, such as AES encryption, is recommended to enhance data safety.
