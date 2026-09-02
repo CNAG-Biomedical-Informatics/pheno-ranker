@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 # Processing VCF files
 
-In this page, we aim to explore the full potential of `Pheno-Ranker`. Our focus will be on processing a [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) file - a challenging yet intriguing task.
+This page shows how to compare samples from a multisample [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) file with `Pheno-Ranker`.
 
 <details>
 <summary>A VCF is essentially a specialized form of a TSV</summary>
@@ -36,13 +36,11 @@ The dataset `test_1000G.vcf.gz` is a subset extracted from the 1000 Genomes Proj
 
 </details>
 :::danger[About VCF size and content]
-The idea here is to compare samples (or individuals if you will) by their genomic variations, like if we were comparing a genomic fingerprint. A good example for this would be comparing samples in a **multi-sample** `VCF` from a **gene panel** (or even an Exome) after filtering variations.  This method of course could be complemented by adding the phenotypic information on top of the genomic variations, and then use weights. etc.
+This workflow compares samples by their genomic variants, effectively treating them as genomic fingerprints. It is best suited to a filtered **multisample** `VCF` from a **gene panel** or exome. Phenotypic variables and weights can also be added when the comparison requires both genotype and phenotype information.
 
 :exclamation: We advise against using this method for comparing samples with millions of genomic variations.
 :::
-Let's go!
-
-### Step1: Tranpose the VCF to TSV
+### Step 1: Transpose the VCF to TSV
 
 We are going to be using the included [Python script](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/utils/csv2pheno_ranker/vcf/vcf2pheno-ranker.py)
 
