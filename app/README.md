@@ -144,6 +144,11 @@ Do not publish installers until the packaged-runtime and platform checks pass.
 Run `perl app/scripts/check-release.pl` from the repository root before tagging.
 CLI version `1.09` corresponds to Desktop package version `1.9.0`.
 
+- **Create release draft** is dispatched manually with an existing annotated
+  version tag (for example, `1.09`). It validates versions and creates a draft
+  with that version's notes from `Changes`. Existing drafts, notes, and assets
+  are left untouched; published releases are rejected. It does not build
+  installers or publish to GitHub, CPAN, or Docker Hub.
 - An annotated version tag builds all five Desktop installers into a **draft**
   GitHub release. Manual Desktop runs create compatibility-test prereleases.
 - **Publish to CPAN** is dispatched manually with the annotated release tag.
