@@ -1,0 +1,70 @@
+name: Create release draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing annotated release tag (must equal VERSION, e.g. 1.09)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-draft-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Verify release tag and versions
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        shell: bash
+        run: |
+          perl app/scripts/check-release.pl "$RELEASE_TAG"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          test "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")" = "$(git rev-parse HEAD)"
+
+      - name: Extract release notes from Changes
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        shell: bash
+        run: |
+          perl -0777 -ne '
+            my $tag = quotemeta $ENV{RELEASE_TAG};
+            /\A.*?^$tag [^\n]*\n(.*?)(?=^\d+\.\d+\S* |\z)/ms
+              or die "Cannot find release notes for $ENV{RELEASE_TAG}\n";
+            my $notes = $1;
+            $notes =~ s/\A\s+|\s+\z//g;
+            die "Release notes are empty\n" unless length $notes;
+            print "$notes\n";
+          ' Changes > "$RUNNER_TEMP/release-notes.md"
+
+      - name: Create draft without changing an existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        shell: bash
+        run: |
+          if draft=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft); then
+            if [[ "$draft" != true ]]; then
+              echo "::error::Release $RELEASE_TAG is already published; refusing to modify it."
+              exit 1
+            fi
+            echo "Existing draft retained, including its notes and assets."
+          else
+            gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --draft \
+              --title "Pheno-Ranker $RELEASE_TAG" \
+              --notes-file "$RUNNER_TEMP/release-notes.md"
+          fi
+          url=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json url --jq .url)
+          printf 'Release draft: %s\n\nReview notes and installer assets before publishing.\n' "$url" >> "$GITHUB_STEP_SUMMARY"

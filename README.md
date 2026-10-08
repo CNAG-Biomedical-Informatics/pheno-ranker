@@ -10,7 +10,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/CNAG-Biomedical-Informatics/pheno-ranker/badge.svg?branch=main)](https://coveralls.io/github/CNAG-Biomedical-Informatics/pheno-ranker?branch=main)
 [![CPAN Publish](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/cpan-publish.yml)
 [![Kwalitee Score](https://cpants.cpanauthors.org/dist/Pheno-Ranker.svg)](https://cpants.cpanauthors.org/dist/Pheno-Ranker)
-![version](https://img.shields.io/badge/version-1.08-28a745)
+![version](https://img.shields.io/badge/version-1.09-28a745)
 [![Docker Build](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build-multi-arch.yml/badge.svg)](https://github.com/cnag-biomedical-informatics/pheno-ranker/actions/workflows/docker-build-multi-arch.yml)
 [![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/pheno-ranker?icon=docker&label=pulls)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
 [![Docker Image Size](https://badgen.net/docker/size/manuelrueda/pheno-ranker?icon=docker&label=image%20size)](https://hub.docker.com/r/manuelrueda/pheno-ranker/)
@@ -20,154 +20,45 @@
 
 ---
 
-**📘 Documentation:** <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker</a>
-
-**📖 Usage:** <a href="https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/" target="_blank">https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/</a>
-
-**📓 Google Colab tutorial:** <a href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg" target="_blank">https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg</a>
-
-**📦 CPAN Distribution:** <a href="https://metacpan.org/pod/Pheno::Ranker" target="_blank">https://metacpan.org/pod/Pheno::Ranker</a>
-
-**🐳 Docker Hub Image:** <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
-
-**Desktop App (from v1.09):** Replaces the legacy Web App UI. The CLI remains supported independently. [Legacy Web App UI documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/).
-
-[Legacy Web App UI](https://pheno-ranker.cnag.eu) remains linked during the transition; the hosted service currently has an HTTPS certificate issue.
-
----
-
 # Pheno-Ranker
 
-`Pheno-Ranker` is a lightweight Perl command-line tool for semantic similarity analysis of phenotypic, clinical, and other categorical data serialized as `JSON`, `YAML`, or preprocessed `CSV`.
+**Pheno-Ranker** compares phenotypic, clinical, and other categorical records.
+It supports Beacon Friendly Format (BFF), Phenopackets (PXF), and generic JSON
+data, using Hamming distance or Jaccard similarity to compare cohorts or rank
+reference records against a target patient.
 
-The primary interface is the `pheno-ranker` CLI, suitable for shell scripts, R/Python automation, workflow managers, and reproducible batch analyses. It supports GA4GH-oriented formats such as Beacon Friendly Format (`BFF`) and Phenotype Exchange Format (`PXF`), but it can also rank and compare generic JSON records beyond the biomedical domain.
+## Use Pheno-Ranker
 
-## What It Does
+The **Desktop app**, introduced in v1.09, provides guided setup, local analysis,
+and interactive results, including patient alignments, MDS/UMAP plots, and
+networks. Companion tools support CSV import, record simulation, phenotype
+summaries, QR codes, and PDF reports.
 
-`Pheno-Ranker` turns hierarchical records into comparable one-hot encoded binary vectors. It then computes pairwise similarity or distance metrics for cohort exploration, patient matching, clustering, multidimensional scaling, and graph analytics.
+The **CLI** remains available for scripts, R/Python automation, and batch
+analyses. Desktop and CLI use the same analysis engine; CPAN distributes the
+CLI independently.
 
-Main workflows:
+- [Install and use Desktop](https://cnag-biomedical-informatics.github.io/pheno-ranker/desktop/)
+- [Install the CLI](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/)
+- [CLI usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/)
+- [Complete documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker/)
+- [CLI tutorial in Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg)
 
-- **Cohort mode**: compare every individual or record against every other record in one or more cohorts.
-- **Patient mode**: rank records in a reference cohort against a target patient or object.
-- **Generic JSON mode**: compare arbitrary categorical JSON data using a configuration file.
-- **Utility workflows**: companion CLI tools simulate BFF/PXF data, convert CSV data for ranking, plot summary statistics, and encode vectors as QR codes.
+Desktop replaces the [legacy Web App UI](https://pheno-ranker.cnag.eu).
+Its [documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/)
+remains available.
 
-## Quick Start
-
-First, [install Pheno-Ranker](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/) using Docker, GitHub, or CPAN. Then download the tested example data:
-
-```bash
-curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/examples/quickstart/individuals.json -o individuals.json
-curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/examples/quickstart/patient.json -o patient.json
-```
-
-Run patient matching with the primary `-r` and `-t` interface:
-
-```bash
-pheno-ranker -r individuals.json -t patient.json -o rank.txt
-```
-
-The result is written to `rank.txt`; the first data row is the closest reference match. Other common commands include:
-
-Basic cohort comparison:
-
-```bash
-pheno-ranker -r individuals.json
-```
-
-Generic JSON with a custom configuration:
-
-```bash
-pheno-ranker -r movies.json --config movies_config.yaml --include-terms genre year
-```
-
-Cytoscape-compatible graph export:
-
-```bash
-pheno-ranker -r individuals.json --cytoscape-json graph.json
-```
-
-## Selected Features
-
-- Native support for `BFF` and `PXF` JSON/YAML inputs.
-- Generic JSON support through YAML/JSON configuration files.
-- Cohort and patient-ranking modes.
-- Hamming distance and Jaccard similarity.
-- Patient-mode Z-scores and p-values for match significance.
-- Include/exclude term filters, optional variable weights, and HPO ascendant expansion.
-- Export of binary vectors, intermediate hashes, alignments, and coverage statistics.
-- Outputs suitable for clustering, multidimensional scaling, and graph analytics.
-- QR-code command-line utilities for compact encoded vector exchange.
-- Companion CLI utilities for CSV import, BFF/PXF simulation, and summary-statistics plotting.
-
-## Output Formats
-
-Common outputs include:
-
-- `matrix.txt`: dense pairwise comparison matrix.
-- `rank.txt`: patient-mode ranking output.
-- `graph.json`: Cytoscape-compatible graph output.
-- `graph_stats.txt`: graph summary statistics.
-- `export.*.json`: intermediate files for inspection or precomputed workflows.
-- `matrix.mtx`: optional sparse Matrix Market output for large matrix workflows.
-
-## Installation
-
-The Perl command-line interface is tested on Linux, macOS, and Windows via GitHub Actions. On Windows, use Docker, WSL, or a Perl environment such as Strawberry Perl; Python utilities under `utils/` and external R plotting scripts are best used from Docker or a GitHub checkout.
-
-For CPAN installation:
-
-```bash
-cpanm Pheno::Ranker
-pheno-ranker --help
-```
-
-For repository-based development:
-
-```bash
-git clone https://github.com/cnag-biomedical-informatics/pheno-ranker.git
-cd pheno-ranker
-cpanm --notest --installdeps .
-bin/pheno-ranker --help
-```
-
-Docker images are also available from Docker Hub:
-
-```bash
-docker pull manuelrueda/pheno-ranker:latest
-```
-
-Detailed installation instructions are available in the documentation:
-
-- <https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/>
-- Non-containerized install: <https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/non-containerized/README.md>
-- Docker install: <https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/docker/README.md>
-
-## Documentation
-
-Long-form documentation, tutorials, and use cases live in the documentation site:
-
-- [Usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/)
-- [Cohort mode](https://cnag-biomedical-informatics.github.io/pheno-ranker/cohort/)
-- [Patient mode](https://cnag-biomedical-informatics.github.io/pheno-ranker/patient/)
-- [Generic JSON tutorial](https://cnag-biomedical-informatics.github.io/pheno-ranker/generic-json/)
-- [CSV import](https://cnag-biomedical-informatics.github.io/pheno-ranker/csv-import/)
-
-The built-in CLI help remains available:
-
-```bash
-pheno-ranker --help
-```
-
-`--man` is deprecated and now points to the online usage documentation.
+Similarity results support research and exploration, not clinical diagnosis.
 
 ## Citation
 
-If you use `Pheno-Ranker` in published work, please cite:
+If you use Pheno-Ranker in published work, please cite:
 
 Leist, I.C. et al. (2024). *Pheno-Ranker: a toolkit for comparison of phenotypic data stored in GA4GH standards and beyond*. BMC Bioinformatics. <https://doi.org/10.1186/s12859-024-05993-2>
 
-## Author
+## Author and License
 
-Manuel Rueda, PhD. CNAG: <https://www.cnag.eu>
+Manuel Rueda, PhD. [CNAG](https://www.cnag.eu).
+
+Pheno-Ranker is distributed under the [Artistic License 2.0](LICENSE).
+Third-party components and datasets retain their own licensing terms.
