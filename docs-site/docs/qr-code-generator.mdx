@@ -8,7 +8,34 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Converting pheno-clinical data to 2D-barcodes
+Encode analysis profiles as QR images, decode them with the matching variable
+template, or create PDF research reports. These operations are available in
+Desktop and as standalone utilities.
+
+:::danger[Experimental feature]
+QR images encode analysis data, not the complete original record. Decoding
+requires the matching variable template. Compression is **not encryption**:
+treat QR images, templates, and decoded reports as potentially sensitive data.
+:::
+
+## Usage
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+1. Open **Tools > Encode QR codes** and select a completed analysis with intermediate
+   exports, or supply its exported binary vectors.
+2. Browse the resulting QR images. To decode an image, use **Decode QR codes** with
+   the matching global-variable template from the same analysis.
+3. Use **PDF reports** to create reports from decoded records and their matching
+   QR images. Label hints use the matching analysis exports and enrich the PDF
+   only; they do not change the decoded JSON or QR payload.
+
+Keep each QR set with its original template. An unrelated template cannot
+reliably recover the variables represented by the encoded positions.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 <Tabs>
 <TabItem value="explanation" label="Explanation">
@@ -27,9 +54,6 @@ QR codes can attach an encoded profile to a report or transfer it between contro
 
 </details>
 
-:::danger[Experimental feature]
-This feature serves as a **proof of concept**. The generated QR code images exclusively encode `Pheno-Ranker` data and do not include any clinical information. To decode these images back into phenotypic-clinical data, a specific `template` is required. In a production environment, implementing an additional security layer, such as AES encryption, is recommended to enhance data safety.
-:::
 <Tabs>
 <TabItem value="from-pheno-ranker-to-qr" label="From Pheno-Ranker to QR">
 
@@ -104,7 +128,7 @@ only the decoded data. These reports are descriptive, not diagnostic interpretat
 </Tabs>
 
 </TabItem>
-<TabItem value="usage" label="Usage">
+<TabItem value="usage" label="CLI usage">
 
 [View source README](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/barcode/README.md)
 
@@ -224,6 +248,9 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.
 # COPYRIGHT AND LICENSE
 
 This Python file is copyrighted. See the LICENSE file included in this distribution.
+
+</TabItem>
+</Tabs>
 
 </TabItem>
 </Tabs>

@@ -572,7 +572,9 @@ fn main() {
                             "Mojolicious - local API service\n",
                             "Built with TypeScript and Vite\n\n",
                             "Manuel Rueda\nCNAG\nArtistic License 2.0\n",
-                            "Third-party components retain their own licenses."
+                            "Third-party components retain their own licenses.\n\n",
+                            "Human Phenotype Ontology (HPO) and its annotations retain their own licensing terms and applicable source-data requirements, including those for the OMIM/ORPHA-derived profiles.\n",
+                            "https://hpo.jax.org/data/annotations"
                         ), env!("PHENO_RANKER_VERSION"))
                     };
                     app.dialog().message(message).title(if update { "Pheno-Ranker updates" } else { "About Pheno-Ranker" }).blocking_show();

@@ -39,14 +39,14 @@ function assertBefore(name, content, first, second, message) {
 }
 
 const simulator = readDoc('bff-pxf-simulator.mdx');
-assertContains('bff-pxf-simulator.mdx', simulator, '<Tabs>', 'utility page should render MkDocs tabs as Docusaurus tabs');
-assertContains('bff-pxf-simulator.mdx', simulator, '<TabItem value="usage" label="Usage">', 'Usage tab is missing');
+assertContains('bff-pxf-simulator.mdx', simulator, 'groupId="interface"', 'utility page should share the Desktop/CLI tab selection');
+assertContains('bff-pxf-simulator.mdx', simulator, '<TabItem value="cli" label="CLI">', 'CLI tab is missing');
 assertBefore(
   'bff-pxf-simulator.mdx',
   simulator,
   '<summary>Default Ontologies used</summary>',
-  '<TabItem value="usage" label="Usage">',
-  'folded ontology block should stay inside the Explanation tab',
+  '<Tabs defaultValue="desktop"',
+  'shared ontology reference should remain outside the interface tabs',
 );
 assertContains('bff-pxf-simulator.mdx', simulator, '-f, --format <format>', 'README usage placeholders should render literally');
 assertNotContains('bff-pxf-simulator.mdx', simulator, '&lt;format&gt;', 'README usage placeholders should not remain HTML-escaped');
@@ -98,6 +98,17 @@ for (const retiredDoc of ['open-ehr.mdx', 'omop-cdm.mdx']) {
 const citation = readDoc('citation.mdx');
 assertContains('citation.mdx', citation, '[Publication link](https://doi.org/10.1186/s12859-024-05993-2)', 'citation publication link is missing');
 
+// These routes are cited in the article and supplementary information.
+for (const route of ['download-and-installation', 'bff-pxf-plot', 'bff-pxf-simulator', 'csv-import', 'qr-code-generator']) {
+  assertContains(`${route}.mdx`, readDoc(`${route}.mdx`), `slug: "/${route}"`, 'publication-linked route must remain available');
+}
+
+for (const mode of ['patient', 'cohort']) {
+  const content = readDoc(`${mode}.mdx`);
+  assertContains(`${mode}.mdx`, content, 'label="Desktop"', 'analysis mode needs Desktop instructions');
+  assertContains(`${mode}.mdx`, content, 'label="CLI"', 'analysis mode needs CLI instructions');
+}
+
 const genericJson = readDoc('generic-json.mdx');
 assertContains(
   'generic-json.mdx',
@@ -115,7 +126,7 @@ if (!fs.existsSync(moviePacketsLogoPath)) {
 }
 
 const about = readDoc('about.mdx');
-assertContains('about.mdx', about, 'className="about-card"', 'About page card layout is missing');
+assertContains('about.mdx', about, 'https://www.cnag.eu/sofia-chaves', 'logo attribution is missing');
 assertNotContains('about.mdx', about, '&lt;article', 'About page HTML tags should not be escaped');
 
 const homePath = path.join(docsSiteDir, 'src', 'pages', 'index.tsx');

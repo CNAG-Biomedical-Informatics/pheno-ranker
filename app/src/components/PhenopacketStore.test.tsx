@@ -16,6 +16,8 @@ it('checks and downloads only on request, then combines selected collections', a
   render(<PhenopacketStore operation="cohort" disabled={false} onBusy={vi.fn()} onLoad={onLoad}/> )
   await waitFor(() => expect(api.storeCached).toHaveBeenCalled())
   expect(api.storeLatest).not.toHaveBeenCalled()
+  expect(screen.getByRole('link', {name: 'BSD-3-Clause license'})).toHaveAttribute('href', 'https://github.com/monarch-initiative/phenopacket-store/blob/main/LICENSE')
+  expect(screen.getByText(/These data retain their original/)).toHaveTextContent('separate from the app license')
   fireEvent.click(screen.getByRole('button', {name: 'Check latest release'}))
   fireEvent.click(await screen.findByRole('button', {name: /Download \(/}))
   fireEvent.click(await screen.findByRole('button', {name: 'Select all collections'}))

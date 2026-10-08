@@ -68,6 +68,25 @@
   text-align: center;
 }
 
+.markdown .desktopScreenshotFrame {
+  overflow: hidden;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 8px 24px rgba(21, 50, 68, 0.08);
+}
+
+.markdown .desktopScreenshot {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.markdown .desktopScreenshotFrame figcaption {
+  padding: 0 1rem 0.85rem;
+}
+
 .markdown img[alt='Pheno-Ranker'] {
   display: block;
   width: min(460px, 88vw);
@@ -311,40 +330,6 @@
   border-color: rgba(230, 154, 63, 0.38);
   color: var(--pr-ink);
   text-decoration: none;
-}
-
-.about-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  margin: 1rem 0 2rem;
-}
-
-.about-card {
-  background: var(--ifm-card-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(20, 48, 66, 0.08);
-  padding: 1.15rem;
-}
-
-.about-card h3 {
-  font-size: 1.18rem;
-  margin: 0.35rem 0 0.5rem;
-}
-
-.about-card p {
-  color: var(--ifm-color-emphasis-800);
-  margin: 0;
-}
-
-.about-kicker {
-  color: var(--ifm-color-primary);
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 @media (max-width: 820px) {

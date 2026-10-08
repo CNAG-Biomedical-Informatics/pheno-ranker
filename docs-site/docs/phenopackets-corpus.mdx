@@ -6,8 +6,34 @@ slug: "/phenopackets-corpus"
 
 
 import CytoscapeGraph from '@site/src/components/CytoscapeGraph';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 Here we will describe how to use `Pheno-Ranker` with the data from the recently published [Phenopacket Corpus](https://www.cell.com/hgg-advances/fulltext/S2666-2477(24)00111-8).
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+1. Select **Cohort comparison > Use cases > Phenopacket Store collections**.
+2. Select **Check latest release**, then download it. Downloaded releases remain
+   available offline.
+3. Select the collections to compare and choose **Load as one cohort**. Their
+   individual Phenopackets are combined into one reference dataset.
+4. Select **Run analysis** and explore the projection or other available results.
+   Collection labels colour the plots; they are not included in similarity scores.
+
+For patient ranking, use the same collection selection and supply your own target
+patient. Plot availability depends on the selected cohort size and viewer limits.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
+## CLI and R Walkthrough
+
+The example below uses a 1,000-record subset and external R plotting. It is
+separate from the Desktop release importer: selecting today's latest release
+will not reproduce the historical figures exactly. Keep the release identifier
+and selected records with your analysis.
 
 # Data Download
 
@@ -1367,6 +1393,9 @@ Now, we run it in **patient** mode.
 | 5 | PMID_35344616_A19 | PMID_35344616_A2 | PXF |     41 | False |   23 |  -2.790 |    0.0026344 |   0.7809 |   0.439 |   8.254 |    0.0000000 |     28 |     31 |     18 |    58.06 |    64.29 |
 :::
 There might be cases where you want to retain `phenotypicFeatures` set to `"excluded": true` (i.e., absent). For instance, when you want to match individuals with the same diseases but lacking some features. Use `--retain-excluded-phenotypicFeatures` for that.
+
+</TabItem>
+</Tabs>
 
 # Citation
 

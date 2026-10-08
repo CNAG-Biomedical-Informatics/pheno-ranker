@@ -3,169 +3,218 @@ title: "Desktop App"
 slug: "/desktop"
 ---
 
-From v1.09, Pheno-Ranker Desktop provides a local graphical interface for patient
-ranking, cohort comparison, and companion tools. It uses the same analysis engine
-as the [CLI](/usage), with run history and interactive result viewers.
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Desktop replaces the legacy Shiny Web App UI, not the CLI. Use the CLI for
-automation, remote servers, or existing scripts; use Desktop to set up analyses
-and explore results interactively.
+export const DesktopScreenshot = ({name, alt}) => (
+  <img src={useBaseUrl(`/img/${name}`)} alt={alt} className="desktopScreenshot" />
+);
 
-The [legacy Web App UI](https://pheno-ranker.cnag.eu) remains available in the
-browser, with its [own documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/).
-Unlike Desktop, it runs analyses on the hosted server rather than your computer.
+Pheno-Ranker Desktop provides a local graphical interface for patient ranking,
+cohort comparison, and companion tools. It uses the same analysis engine as the
+[CLI](/usage), while adding guided setup, run history, and interactive results.
 
-## Try an Analysis
+<div className="button-row">
+  <a className="button button--primary" href="https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/releases">Download Desktop</a>
+  <Link className="button button--secondary" to="#first-analysis">Run the example</Link>
+  <Link className="button button--secondary" to="/download-and-installation">Install the CLI</Link>
+</div>
 
-1. Select **New analysis**, then patient or cohort mode.
-2. Choose **Examples** for a small demonstration dataset, or **Use cases** to
-   load the full bundled OMIM or ORPHA disease reference in either analysis mode.
-3. Review the selected inputs and run settings. Patient mode needs a target and
-   a reference cohort; cohort mode compares all selected records with each other.
-4. Select **Run analysis**. The run appears in the left-hand history; select it
-   to inspect its status and results.
+:::note[Local analysis]
+Desktop runs analyses on your computer. Similarity results support research and
+exploration; they do not provide a clinical interpretation or diagnosis.
+:::
 
-You can run with the defaults without opening any settings sections.
-**Customize analysis** contains term selection, the metric, and ranking limits.
-**Output options** contains alignment, graph, matrix, projection, and output-folder
-settings. **Advanced settings** contains configuration, weights, manually selected
-precomputed references, HPO ancestors, and resource limits. Closing a section
-does not reset its settings.
+## Install Desktop
 
-The bundled disease examples work offline. Loading an example prepares inputs
-and settings but does not start a job. These examples illustrate similarity
-analysis, not diagnosis.
+Download the installer for your operating system and processor from
+[GitHub Releases](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/releases).
+The Pheno-Ranker engine and runtimes are included; Perl, Python, and Node.js do
+not need to be installed separately.
 
-OMIM and ORPHA use **precomputed references** in both modes with their initial
-settings. You can still change the metric, ranking limits, graph filters, and
-projection settings. Changing how the data is prepared (for example, selecting
-different terms, including HPO ancestors, or supplying custom configuration or
-weights) uses the original data instead. The input summary shows **Using
-precomputed reference** or **Reference will be rebuilt with these settings**.
-Cohort mode still computes all pairwise comparisons; the cache saves reference
-preparation, not matrix calculation.
+<Tabs defaultValue="windows" groupId="desktop-platform">
+<TabItem value="windows" label="Windows">
 
-## Choose Input Data
+Download `pheno-ranker-windows-x86_64-setup.exe`, run it, then open
+Pheno-Ranker from the Start menu. The installer is not code-signed, so Windows
+may show SmartScreen. Confirm that the file came from the project release before
+selecting **More info > Run anyway**.
 
-Use the source selector in Setup to choose **User files**, **Previous runs**,
-**Examples**, **Use cases**, or **Beacon**. Choosing another source clears the
-current inputs and resets settings, without changing previous runs or original
-files. Select **Reset setup** to return the current source view to its empty
-state; this does not delete runs or source files. The input summary shows what
-the next analysis will use.
+</TabItem>
+<TabItem value="macos" label="macOS">
 
-In **Beacon**, select **Use BioData.pt example** to prepare the public
-`https://beacon.biodata.pt/api/individuals` endpoint, then **Import records**.
-The data is downloaded on demand and may change; it is not bundled with Desktop.
-You can also enter another individuals endpoint or a Beacon API base URL.
-See the [BioData.pt API documentation](https://beacon.biodata.pt/api_help).
+Choose `macos-apple-silicon.dmg` or `macos-intel.dmg` to match
+**About This Mac**. Open the DMG and drag Pheno-Ranker into **Applications**.
+The app is not Apple-notarized; if macOS blocks the first launch, use
+**System Settings > Privacy & Security > Open Anyway**.
 
-Select **Discover filters** to search advertised terms by label or identifier,
-then add or remove filters. Selected filters are combined with **AND**; they
-select the reference cohort before Pheno-Ranker ranks similarities. Manual
-identifier entry remains available if discovery is unsupported. BioData.pt
-currently returns an empty filter catalogue, although its records contain terms
-such as `NCIT:C16576` (female), `GAZ:00002641` (England), and `LOINC:35925-4`
-(BMI). These are data examples, not a guarantee of server-side filter support.
+</TabItem>
+<TabItem value="linux" label="Linux">
 
-For a small import, set **Records per page** to **5** and **Maximum pages** to
-**1**, leaving **Keep records up to the page limit** enabled. Page size applies
-to each result set. The app and saved provenance identify page-limited imports
-as potentially incomplete; they are not random samples. Disable this option
-when you require the import to finish without reaching the page limit.
+Choose `linux-x86_64.AppImage` for Intel/AMD or `linux-aarch64.AppImage` for
+ARM64, then run:
 
-**Previous runs** lists compatible outputs from completed jobs. Selecting CSV
-conversion output also selects its matching configuration, with confirmation
-before replacing existing inputs. **Beacon** retrieves reference records;
-select the target separately in patient mode. Configuration and weights files
-remain accessible whichever source view is selected.
+```bash
+chmod +x pheno-ranker-linux-x86_64.AppImage
+./pheno-ranker-linux-x86_64.AppImage
+```
 
-### Phenopacket Store Collections
+The Linux build baselines are Ubuntu 22.04 for x86_64 and Ubuntu 24.04 for
+ARM64. AppImages still depend on a compatible host glibc.
 
-In **Use cases**, choose **Phenopacket Store collections** to compare individual
-case reports rather than the disease profiles provided by OMIM and ORPHA.
+</TabItem>
+</Tabs>
 
-1. Select **Check latest release**, then **Download**. The app verifies the
-   archive against its published SHA-256 checksum and caches that version.
-2. Search for collection or gene names and select the collections you want, or
-   select all. The summary shows the total number of records before loading.
-3. Select **Load as one cohort**, then **Run analysis**. In patient mode, select
-   your own target patient first; the downloaded records form the reference.
+The Desktop installers are separate from the five publication-numbered CLI
+[installation methods](/download-and-installation); their `D`, `G`, and `C`
+codes remain unchanged.
 
-Each source JSON describes one individual. Desktop combines the selected JSONs
-into **one PXF JSON array**, not thousands of separate reference cohorts. Original
-record IDs and contents are preserved; duplicate IDs stop the import rather than
-being silently overwritten. Loading replaces the current input selection and
-resets analysis settings to phenotypic-feature comparisons.
+## First Analysis
 
-Collection membership is saved separately and used to colour MDS/UMAP points and
-network nodes. **Collection names do not contribute to similarity scores.**
-The output file `collection-labels.json`, under advanced files, retains the
-release, selected collections, record membership and checksums. Automatic
-collection colouring applies to this single reference with the default config.
+1. Select **Cohort comparison** or **Patient ranking**.
+2. Open **Examples**, then select **Load example**. Patient mode loads both the
+   target and reference data. Nothing runs until you select **Run analysis**.
+3. Select **Run analysis** in the top toolbar. Follow the run on the left, then
+   open it to inspect the results.
 
-Downloads happen only on request. Cached releases can be reused offline, and
-checking for updates does not replace data already loaded or saved in projects.
-Keep the `.phenoranker.data` directory with a saved project to retain its combined
-cohort and provenance.
+<figure className="desktopScreenshotFrame">
+  <DesktopScreenshot
+    name="desktop-setup.png"
+    alt="Pheno-Ranker Desktop with cohort mode, the Examples source, and a loaded example ready to run"
+  />
+  <figcaption>The mode, input source, selected files, and readiness check are visible before an analysis starts.</figcaption>
+</figure>
 
-For an initial cohort exploration, try **AAGAB** and **ABCA4**. Full releases can
-exceed the default projection limits: **10,500 records for MDS and UMAP**.
-Both limits can be changed independently in **Settings**.
-Large MDS calculations can require several GiB of RAM. Select fewer collections
-when needed. All-pairs matrix export still works for larger selections and can
-take considerably longer. Network export is off by default for this use case
-and can be enabled in output options.
-
-Source and citation: [Phenopacket Store](https://monarch-initiative.github.io/phenopacket-store/),
-Danis et al. (2025), *A corpus of GA4GH phenopackets: Case-level phenotyping for
-genomic diagnostics and discovery*.
+Use the defaults for a first run. **Customize analysis**, **Output options**,
+and **Advanced settings** stay folded until needed. **Reset setup** clears the
+current setup without deleting runs or original files.
 
 ## Explore Results
 
-| Analysis | What to inspect |
+<Tabs defaultValue="patient" groupId="desktop-results">
+<TabItem value="patient" label="Patient ranking">
+
+The ranking table orders reference records for the selected target. Select a
+reference ID to inspect the pair by entity and term, including the contribution
+to Hamming distance.
+
+<figure className="desktopScreenshotFrame">
+  <DesktopScreenshot
+    name="desktop-patient-ranking.png"
+    alt="Completed patient ranking in Pheno-Ranker Desktop with ranked reference records"
+  />
+  <figcaption>A completed patient run with its ranking table and retained output files.</figcaption>
+</figure>
+
+</TabItem>
+<TabItem value="cohort" label="Cohort comparison">
+
+Cohort runs provide output files and, when requested, MDS or UMAP projections,
+a network, and a heatmap. Plots can be expanded to fill the window.
+
+<figure className="desktopScreenshotFrame">
+  <DesktopScreenshot
+    name="desktop-cohort-mds.png"
+    alt="Expanded MDS projection from a completed cohort comparison in Pheno-Ranker Desktop"
+  />
+  <figcaption>An expanded MDS projection generated from a completed cohort comparison.</figcaption>
+</figure>
+
+</TabItem>
+</Tabs>
+
+For a completed dense cohort matrix, **Add projection** creates MDS or UMAP
+coordinates without repeating the pairwise comparisons. Interactive previews
+may be limited for very large outputs; the complete saved files are retained.
+See [Patient Mode](/patient) and [Cohort Mode](/cohort) for interpretation.
+
+## Choose Data
+
+| Source | Use it for |
 | --- | --- |
-| Patient | Ranked matches; select a reference record to inspect its comparison with the target, grouped by entity. |
-| Cohort | MDS or UMAP projections, a heatmap, and a network when graph output is available. |
-| Either | Output files, input provenance, run settings, and execution details. |
+| **User files** | Local BFF, PXF, generic JSON, configuration, and weights files. |
+| **Use cases** | Bundled OMIM/ORPHA references or Phenopacket Store collections. |
+| **Examples** | A small offline analysis requiring no setup. |
+| **Previous runs** | Reuse compatible outputs from completed jobs. |
+| **Beacon** | Retrieve reference records from a Beacon v2 endpoint. |
 
-For a completed cohort run with a dense matrix, **Add projection** creates MDS
-or UMAP coordinates from that saved matrix without repeating pairwise
-comparisons. The projection appears as a separate run linked to its source.
+Changing the source clears the current setup, not run history or original
+files. The input summary always shows what the next run will use.
 
-Large outputs may exceed interactive preview limits. This does not truncate
-the saved matrix: use **Save as** or **Open output folder** to access full files.
-MDS and UMAP are visual summaries, not additional similarity scores.
+## Companion Tools
 
-Read [Patient Mode](/patient) and [Cohort Mode](/cohort) for interpretation of
-the underlying results, independent of which interface produced them.
+Open **Tools** for CSV/TSV preparation, simulated records, BFF/PXF summary
+reports, QR encoding and decoding, and PDF reports. Completed runs offer relevant
+follow-up actions using the matching outputs, reducing manual file selection.
 
-## Use Companion Tools
+## Save Work
 
-Open **Tools** for CSV preparation, simulated records, BFF/PXF summary reports,
-and QR/PDF utilities. Completed runs also offer relevant follow-up actions,
-such as **Create QR codes**, using the matching outputs from that run.
+- Save a project from the application menu. Keep its `.phenoranker` file and
+  `.phenoranker.data` directory together.
+- Set a default results folder in **Settings**, or choose one for a specific run.
+- Deleting a run can remove history only or both history and generated outputs.
+  Original imported files are never deleted.
 
-Review the displayed input files before starting a tool. Encoded profiles and
-their global dictionary must come from the same analysis; dictionaries are not
-interchangeable merely because they contain the same number of terms.
+## Reference
 
-## Save Work and Outputs
+<details>
+<summary><strong>OMIM, ORPHA, and precomputed references</strong></summary>
 
-- Save projects from the application menu. Keep the `.phenoranker` file and
-  its companion `.phenoranker.data` directory together. External inputs remain
-  referenced, so keep those files available too.
-- Set a default results folder in **Settings**, or choose a different folder
-  for an analysis in Setup. Each run writes to its own subfolder.
-- Without a selected destination, outputs stay in the application-managed
-  run folder. **Open output folder** locates a run's files.
-- Deleting a run lets you remove history only or also delete its output files.
-  Original imported files are retained.
+Bundled OMIM and ORPHA use precomputed references in patient and cohort mode.
+Metrics, ranking limits, graph filters, and projections can still be changed.
+Changing data preparation, such as included terms, HPO ancestors, configuration,
+or weights, rebuilds the reference from the bundled source data. Cohort mode
+always computes the requested pairwise comparisons.
 
-## Other Ways to Run Pheno-Ranker
+</details>
 
-The [CLI installation methods](/download-and-installation) retain their original
-method numbers and `D`, `G`, and `C` codes. CPAN distributes the CLI, not Desktop.
+<details>
+<summary><strong>Phenopacket Store collections</strong></summary>
 
-The [Google Colab tutorial](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg)
-runs the **CLI in a notebook**, not the Desktop App.
+Under **Use cases**, open **Phenopacket Store collections**, check the latest
+release, download it, and select one or more collections. Desktop verifies and
+caches the release, then combines the selected individual JSON files into one
+PXF cohort while retaining record IDs and collection membership.
+
+Collection names colour projections and networks but do not contribute to
+similarity. The default MDS and UMAP limit is 10,500 records and can be changed
+in **Settings**. Large all-pairs analyses can require several GiB of RAM.
+
+Source: [Phenopacket Store](https://monarch-initiative.github.io/phenopacket-store/).
+
+</details>
+
+<details>
+<summary><strong>Beacon v2 import</strong></summary>
+
+Under **Beacon**, use the BioData.pt example or enter another Beacon individuals
+endpoint. Optional discovered or manually entered filters are combined with
+**AND**. Page limits produce an explicitly marked partial import; disable partial
+imports when the complete query result is required.
+
+See the [BioData.pt API documentation](https://beacon.biodata.pt/api_help).
+
+</details>
+
+<details>
+<summary><strong>Application data and projects</strong></summary>
+
+Desktop keeps run history, settings, and managed outputs in the operating
+system's application-data directory. A custom results folder can be selected in
+**Settings**. Saved projects retain references to external inputs, so keep those
+files available and keep `.phenoranker` beside `.phenoranker.data`.
+
+</details>
+
+<details>
+<summary><strong>CLI and legacy Web App UI</strong></summary>
+
+The [CLI](/usage) remains supported for scripts, remote servers, and automation.
+The [legacy Shiny Web App UI](https://pheno-ranker.cnag.eu) also remains online
+for hosted browser use, with its [original documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/).
+
+</details>
+
+For troubleshooting and common questions, continue to the [FAQ](/faq).

@@ -7,15 +7,13 @@ slug: "/patient"
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Patient Mode
-
 _Patient mode_ ranks records in a reference cohort against a target patient or object. It uses the same flattened variables and binary-vector representation as cohort mode, but the output is a ranked table instead of an all-vs-all matrix.
 
 Use patient mode when you want to find the closest matches to a patient profile, inspect which variables overlap, or assess match significance with Z-scores and p-values.
 
 <div className="phenoFormatSummary" aria-label="At a glance">
   <div><span>Compares</span><strong>Target against reference records</strong></div>
-  <div><span>Basic command</span><strong><code>pheno-ranker -r cohort.json -t patient.json</code></strong></div>
+  <div><span>Inputs</span><strong>Reference cohort(s) and one target</strong></div>
   <div><span>Main output</span><strong><code>rank.txt</code></strong></div>
   <div><span>Best for</span><strong>Closest matches and alignment review</strong></div>
 </div>
@@ -23,27 +21,44 @@ Use patient mode when you want to find the closest matches to a patient profile,
 ## What You Get
 
 - `rank.txt`: ranked matches between the target and the reference cohort.
-- `alignment*`: optional variable-level alignment files when `--align` is used.
-- `export.*.json`: optional intermediate hashes, vectors, and coverage statistics when `--export` is used.
+- Variable-level alignments for inspecting shared and differing terms when alignment output is enabled.
+- Intermediate hashes, vectors, labels, and coverage statistics when intermediate export is enabled.
 - Hamming distance, Jaccard similarity, Z-scores, p-values, and overlap statistics for each match.
 
 For all-vs-all comparison instead, see [Cohort Mode](/cohort).
 
 ## Usage
 
-The examples below show the common patient-mode command-line patterns. For the complete CLI reference, see [Usage](/usage).
+Both interfaces calculate the same metrics for the same inputs and settings.
 
-<Tabs>
-<TabItem value="against-one-cohort" label="Against one cohort">
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
 
-Example:
+1. Select **Patient ranking**, then choose an input source. **Examples > Load example** supplies both reference and target records.
+2. For your own data, select the reference cohort(s) and target under **User files**. Add any required configuration under **Advanced settings**.
+3. Under **Customize analysis**, choose **Rank by** and **Maximum ranked records**, then select **Run analysis**.
+4. Open the completed run and select a reference ID in the ranking to inspect its comparison with the target. **Differences only** focuses on mismatched terms.
+
+**Generate alignment** is enabled by default under **Output options**. See the
+[Desktop guide](/desktop#explore-results) for the result viewer.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 ```bash
 pheno-ranker -r individuals.json -t patient.json
 ```
 
+This creates `rank.txt`, sorted by Hamming distance by default. Use
+`--sort-by jaccard` to rank by Jaccard similarity, `--max-out` to limit the
+reported matches, and `--align` to generate variable-level alignments.
+See the [CLI Reference](/usage) for all options.
+
+</TabItem>
+</Tabs>
+
 <details>
-<summary>How do I extract one or many patients from a cohort file?</summary>
+<summary>CLI example: extract target records from a cohort</summary>
 
 ```bash
 pheno-ranker -r t/data/individuals.json --patients-of-interest 107:week_0_arm_1 125:week_0_arm_1
@@ -58,9 +73,10 @@ mv 107:week_0_arm_1.json patient.json
 ```
 
 </details>
-This will create the **output** text file `rank.txt`.
+## Read the Ranking
 
-The first rows in `rank.txt` are the best matches according to the selected sorting metric. By default, patient mode sorts by Hamming distance; use `--sort-by jaccard` to sort by Jaccard similarity instead.
+The Desktop ranking table and the saved `rank.txt` use the same columns. The
+first rows are the best matches according to the selected sorting metric.
 
 :::info[How to read `rank.txt`]
 Read the table in three steps:
@@ -83,9 +99,9 @@ reference below.
 
 * `RANK`: Match order. A rank of `1` is the best match.
 * `REFERENCE(ID)`: The unique identifier (`primary_key`) for the reference individual.
-* `TARGET(ID)`: The unique identifier (`primary_key`) for the target individual passed with `--target`.
+* `TARGET(ID)`: The unique identifier (`primary_key`) for the selected target individual.
 * `FORMAT`: Input format used by the configuration, such as `BFF`, `PXF`, or `CSV`.
-* `WEIGHTED`: Whether the calculation used variable weights with `--weights`.
+* `WEIGHTED`: Whether the calculation used variable weights.
 
 ### Alignment size
 
@@ -227,8 +243,13 @@ $$
 
 </details>
 
-</TabItem>
-<TabItem value="against-multiple-cohorts" label="Against multiple cohorts">
+## Multiple Reference Cohorts
+
+In Desktop, select multiple files under **Reference cohorts**. The same target
+is compared against all selected reference records.
+
+<details>
+<summary>CLI example: rank against multiple cohorts</summary>
 
 The process mirrors handling a single cohort; the main difference is that each reference cohort gets a prefix in its `primary_key`, making it possible to trace the origin of every individual.
 
@@ -270,8 +291,16 @@ Note that you can exclude `id` by adding `--exclude-terms id`.
 
 </details>
 
-</TabItem>
-</Tabs>
+</details>
+
+## Inspect a Pair
+
+In Desktop, select a reference ID in the ranking to open the comparison grouped
+by entity. Each term shows its reference and target values, weight, and
+contribution to Hamming distance. Alignment output must be enabled for the run.
+
+<details>
+<summary>CLI alignment exports and example</summary>
 :::info[Obtaining additional information on the alignments]
 You can create several files related to the reference-target alignment by adding `--align`. By default, this creates `alignment*` files in the current directory, but you can specify a <code>{"</path/basename>"}</code>. Example:
 
@@ -309,3 +338,4 @@ You can create several files related to the reference-target alignment by adding
  ...
  ```
 :::
+</details>

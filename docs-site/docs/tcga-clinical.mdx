@@ -3,13 +3,31 @@ title: "Using Pheno-Ranker with TCGA Clinical Data"
 sidebar_label: "TCGA Clinical"
 slug: "/tcga-clinical"
 ---
-# Using `Pheno-Ranker` with TCGA Clinical Data
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 This guide explains how to use `Pheno-Ranker` with data from [TCGA](https://portal.gdc.cancer.gov), obtained via the **Genomic Data Commons Data Portal**.
 
 :::warning[About this example]
 This example demonstrates how to process and use the data. It is not intended to yield relevant scientific conclusions.
 :::
+## Choose Your Interface
+
+Both workflows start with a TCGA clinical table and convert it to JSON plus
+configuration before comparing categorical records.
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+In Desktop, obtain and extract the same `clinical.tsv`, then use
+**Tools > CSV/TSV** to convert it. Select **Use in analysis** to carry the JSON
+and configuration into cohort setup. Apply the same term exclusions described
+below before running. Desktop does not bundle the TCGA dataset or perform the
+download steps for you. The CLI tab includes the download and preparation recipe.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
 ## Data Download
 
 1. We are going to perform a data download by visiting the following link: [Cohort Builder](https://portal.gdc.cancer.gov/analysis_page?app=CohortBuilder&tab=general)
@@ -210,6 +228,9 @@ REF -- TAR
 0 --xxx 1 | (w:  1|d:  1|cd:  1|) diagnoses.site_of_resection_or_biopsy.Thorax, NOS (Thorax, NOS)
 1 ----- 1 | (w:  1|d:  0|cd:  1|) diagnoses.tissue_or_organ_of_origin.Breast, NOS (Breast, NOS)
 ```
+
+</TabItem>
+</Tabs>
 
 ### All-to-All Precomputed Similarity
 
