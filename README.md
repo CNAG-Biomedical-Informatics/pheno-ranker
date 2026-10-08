@@ -30,7 +30,9 @@
 
 **🐳 Docker Hub Image:** <a href="https://hub.docker.com/r/manuelrueda/pheno-ranker/tags" target="_blank">https://hub.docker.com/r/manuelrueda/pheno-ranker/tags</a>
 
-**🌐 Web App UI (legacy; supported until the end of 2026):** <a href="https://pheno-ranker.cnag.eu" target="_blank">https://pheno-ranker.cnag.eu</a>
+**Desktop App (from v1.09):** Replaces the legacy Web App UI. The CLI remains supported independently. [Legacy Web App UI documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/).
+
+[Legacy Web App UI](https://pheno-ranker.cnag.eu) remains linked during the transition; the hosted service currently has an HTTPS certificate issue.
 
 ---
 

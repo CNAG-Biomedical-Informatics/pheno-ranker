@@ -2,200 +2,42 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
   docsSidebar: [
+    {type: 'doc', id: 'overview', label: 'Overview'},
+    {type: 'doc', id: 'desktop', label: 'Desktop App'},
     {
-      type: 'doc',
-      id: 'overview',
-      label: 'Overview',
+      type: 'category', label: 'Analysis', collapsed: true,
+      items: ['user-workflow', 'patient', 'cohort'],
     },
     {
-      type: 'category',
-      label: 'Introduction',
+      type: 'category', label: 'Input Formats', collapsed: true,
+      link: {type: 'doc', id: 'other-formats'},
+      items: ['generic-json', 'bff', 'pxf', 'clinical-formats', 'vcf'],
+    },
+    {
+      type: 'category', label: 'CLI', collapsed: true,
       items: [
-        {
-          type: 'doc',
-          id: 'user-workflow',
-          label: 'User Workflow',
-        },
-        {
-          type: 'category',
-          label: 'Input Formats',
-          items: [
-            {
-              type: 'doc',
-              id: 'bff',
-              label: 'Beacon v2 Models',
-            },
-            {
-              type: 'doc',
-              id: 'pxf',
-              label: 'Phenopackets v2',
-            },
-            {
-              type: 'doc',
-              id: 'other-formats',
-              label: 'Choose an Input Format',
-            },
-          ],
-        },
+        {type: 'doc', id: 'download-and-installation', label: 'CLI Installation & First Run'},
+        {type: 'doc', id: 'usage', label: 'CLI Reference'},
+        'use-from-r',
+        {type: 'link', href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg', label: 'Try the CLI in Colab'},
       ],
     },
     {
-      type: 'doc',
-      label: 'Install & First Run',
-      id: 'download-and-installation',
-    },
-    {
-      type: 'doc',
-      id: 'usage',
-      label: 'Usage',
-    },
-    {
-      type: 'category',
-      label: 'Modes of Operation',
+      type: 'category', label: 'Utilities', collapsed: true,
       items: [
-        {
-          type: 'doc',
-          id: 'cohort',
-          label: 'Cohort Mode',
-        },
-        {
-          type: 'doc',
-          id: 'patient',
-          label: 'Patient Mode',
-        },
+        {type: 'doc', id: 'bff-pxf-plot', label: 'BFF/PXF Plot'},
+        {type: 'doc', id: 'bff-pxf-simulator', label: 'BFF/PXF Simulator'},
+        {type: 'doc', id: 'csv-import', label: 'CSV Import'},
+        {type: 'doc', id: 'qr-code-generator', label: 'QR Code Generator'},
       ],
     },
     {
-      type: 'category',
-      label: 'Technical Details',
-      items: [
-        {
-          type: 'doc',
-          id: 'implementation',
-          label: 'Implementation',
-        },
-        {
-          type: 'doc',
-          id: 'algorithm',
-          label: 'Algorithm',
-        },
-      ],
+      type: 'category', label: 'Use Cases', collapsed: true,
+      items: ['phenopackets-corpus', 'omim-database', 'tcga-clinical'],
     },
     {
-      type: 'category',
-      label: 'Utilities',
-      items: [
-        {
-          type: 'doc',
-          id: 'bff-pxf-plot',
-          label: 'BFF/PXF Plot',
-        },
-        {
-          type: 'doc',
-          id: 'bff-pxf-simulator',
-          label: 'BFF/PXF Simulator',
-        },
-        {
-          type: 'doc',
-          id: 'csv-import',
-          label: 'CSV Import',
-        },
-        {
-          type: 'doc',
-          id: 'qr-code-generator',
-          label: 'QR Code Generator',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Use Cases',
-      items: [
-        {
-          type: 'doc',
-          id: 'phenopackets-corpus',
-          label: 'Phenopackets Corpus',
-        },
-        {
-          type: 'doc',
-          id: 'omim-database',
-          label: 'OMIM Database',
-        },
-        {
-          type: 'doc',
-          id: 'tcga-clinical',
-          label: 'TCGA Clinical',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Formats Beyond BFF/PXF',
-      items: [
-        {
-          type: 'doc',
-          id: 'generic-json',
-          label: 'Generic JSON',
-        },
-        {
-          type: 'doc',
-          id: 'clinical-formats',
-          label: 'Clinical Formats to BFF',
-        },
-        {
-          type: 'doc',
-          id: 'vcf',
-          label: 'VCF',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Help',
-      items: [
-        {
-          type: 'link',
-          href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg',
-          label: 'Google Colab',
-        },
-        {
-          type: 'doc',
-          id: 'use-from-r',
-          label: 'Use from R',
-        },
-        {
-          type: 'doc',
-          id: 'faq',
-          label: 'FAQs',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Addendum',
-      items: [
-        {
-          type: 'doc',
-          id: 'federated-version-proposal',
-          label: 'Federated Version Proposal',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'About',
-      items: [
-        {
-          type: 'doc',
-          id: 'about',
-          label: 'About',
-        },
-        {
-          type: 'doc',
-          id: 'citation',
-          label: 'Citation',
-        },
-      ],
+      type: 'category', label: 'Reference & Help', collapsed: true,
+      items: ['faq', 'algorithm', 'implementation', 'federated-version-proposal', 'about', 'citation'],
     },
   ],
 };

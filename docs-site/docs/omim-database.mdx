@@ -1,5 +1,6 @@
 ---
-title: "Using `Pheno-Ranker` with OMIM Data"
+title: "Using Pheno-Ranker with OMIM Data"
+sidebar_label: "OMIM Database"
 slug: "/omim-database"
 ---
 
@@ -10,6 +11,28 @@ import CytoscapeGraph from '@site/src/components/CytoscapeGraph';
 # Using `Pheno-Ranker` with OMIM Data
 
 This guide explains how to use `Pheno-Ranker` with data from the [OMIM Database](https://omim.org).
+
+:::tip[Try it in Desktop]
+In the Desktop app, open **New analysis** and choose **Patient ranking** or
+**Cohort comparison**. Expand **Try a published use case**, select **OMIM disease
+profiles** or **ORPHA disease profiles**, then click **Load use case**.
+Review the settings before clicking **Run analysis**. All inputs are bundled;
+no download is needed.
+
+Patient mode loads the published patient `PMID_35344616_A2` and ranks diseases
+using phenotypic features and Jaccard similarity. Cohort mode compares all disease
+profiles using phenotypic features and Hamming distance. Full-cohort runs may take
+several minutes; large-result safeguards may omit graph and MDS previews.
+These examples demonstrate similarity analysis, not clinical diagnosis.
+:::
+
+There are three different ways to work with these data:
+
+| Data | Purpose | Where to get it |
+| --- | --- | --- |
+| Source disease cohorts | Run new analyses against OMIM or ORPHA | Bundled under `share/diseases/hpo/`; download instructions below |
+| Precomputed reference hashes | Reuse prepared reference vectors with new patients | Generate them with `-e omim`, as shown below; no ready-made hash bundle is provided here |
+| Stored comparison results | Look up scores already calculated for existing records | The [online playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/) queries the published SQLite databases |
 
 ## Data Download
 
@@ -266,6 +289,12 @@ With **precomputed data**, the calculation takes only **0.5 seconds** while yiel
 ### All-to-All Precomputed Similarity
 
 We have precomputed pairwise similarity scores for every OMIM entry and stored them in a backend database. The proof-of-concept web app lets you enter any OMIM ID (`TAR-UUID`) or filter by any database column and retrieve the top five most similar diseases.
+
+The SQLite results are hosted in [CBI Datahub](https://github.com/CNAG-Biomedical-Informatics/cbi-datahub/tree/main/sqlite).
+The playground queries these existing results; it does not run a new analysis or
+accept a new patient. These databases are not the reference hashes used by
+`--precomputed-ref-prefix`. In Desktop, **Help > Explore Published Comparison Results**
+opens the same playground in your browser (internet access required).
 
 [Go to the Pheno-Ranker Use Cases Playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/).
 

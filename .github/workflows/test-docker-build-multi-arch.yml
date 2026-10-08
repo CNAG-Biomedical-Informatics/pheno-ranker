@@ -1,17 +1,40 @@
 name: Test Docker build
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Annotated release tag to test (e.g. 1.09)
+        required: true
+        type: string
+      publish:
+        description: Publish to the separate pheno-ranker-test repository
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+          fetch-depth: 0
 
       - name: Get version
         id: get_version
-        run: echo "VERSION=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          perl app/scripts/check-release.pl "$RELEASE_TAG"
+          git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          test "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")" = "$(git rev-parse HEAD)"
+          echo "VERSION=$(tr -d '\r\n' < VERSION)" >> "$GITHUB_OUTPUT"
+          echo "REVISION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -22,6 +45,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Log in to Docker Hub
+        if: inputs.publish
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -32,7 +56,10 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          push: true
+          push: ${{ inputs.publish }}
+          build-args: |
+            BUILD_VERSION=${{ steps.get_version.outputs.VERSION }}
+            VCS_REF=${{ steps.get_version.outputs.REVISION }}
           tags: |
             manuelrueda/pheno-ranker-test:${{ steps.get_version.outputs.VERSION }}
             manuelrueda/pheno-ranker-test:latest

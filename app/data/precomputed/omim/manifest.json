@@ -1,0 +1,52 @@
+{
+  "configSha256": "b6dc713e7a1ca036ae39a060c0259c65011d74d90dee34c8ff6f5d933d696b6e",
+  "coverage": {
+    "cohort_size": 6471,
+    "coverage_terms": {
+      "id": 6471,
+      "phenotypicFeatures": 6471,
+      "subject": 6471
+    },
+    "format": "PXF"
+  },
+  "dataset": "omim",
+  "engineVersion": "1.09",
+  "files": {
+    "omim.coverage_stats.json.gz": {
+      "bytes": 121,
+      "sha256": "a00e0126ab6cc7eb8161485d96beef9a1a19e353c99e95eb5eb26e9c2f031f19",
+      "uncompressedSha256": "69bcbbee0273004af9b16ee751f4443ab5fe741d41634788dc5bca666b41ce18"
+    },
+    "omim.glob_hash.json.gz": {
+      "bytes": 47777,
+      "sha256": "649f664d3d29bf8c47b1b56ca8e45df32e4385b25ae0fc81b50541847e033a24",
+      "uncompressedSha256": "cddbed00d3c40a001ab498c519dc061075cd1e9e5de82c72228a383e05069041"
+    },
+    "omim.labels.json.gz": {
+      "bytes": 140782,
+      "sha256": "3f8fad27c4de828e9c3b7cac2b961a4927611ccd882455d5fcbef5dcd936760b",
+      "uncompressedSha256": "01ee281ec04bf5b37da38e4655b7a9b01e6eab95262b484c922aae87c9917701"
+    },
+    "omim.ref_binary_hash.json.gz": {
+      "bytes": 1124156,
+      "sha256": "418c464824de1aea3349205593f78c697c273e5641fe87d34a04633959b046d5",
+      "uncompressedSha256": "d9749d458e50977368ed275486f58f9a89b7e3a69c95cb936efba33c134f5f21"
+    },
+    "omim.ref_hash.json.gz": {
+      "bytes": 627924,
+      "sha256": "5e9ac3ac605e0fe471d65974143165343a357174691ce09951cd569a186cad56",
+      "uncompressedSha256": "01d34504626f9d32dc5732fae2a9704c5c9586fd52dd1d883982f1900bcf94a1"
+    }
+  },
+  "formatVersion": 1,
+  "globalFeatureCount": 8647,
+  "settings": {
+    "include-terms": [
+      "phenotypicFeatures"
+    ]
+  },
+  "source": "share/diseases/hpo/omim.pxf.json.gz",
+  "sourceSha256": "7e86f2bc993bd1d9a93c1968d901d434d0ac9c5d995f09f1212a1fda06f4c8d8",
+  "validationTarget": "app/engine/examples/patient.json",
+  "validationTargetSha256": "c5430aba51bd197a2a540dad63646669ec0430fe94c96b6b7cc6ea250116942f"
+}
