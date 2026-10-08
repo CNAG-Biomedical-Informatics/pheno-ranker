@@ -34,10 +34,25 @@ it('places Cohort before Patient regardless of catalog order', async () => {
   expect(buttons[0]).toHaveTextContent('cohort')
   expect(buttons[0]).toHaveAttribute('aria-pressed', 'true')
   expect(buttons[1]).toHaveTextContent('patient')
+  expect(buttons[0].querySelector('.analysis-mode-icon')).toHaveAttribute('aria-hidden', 'true')
+  expect(buttons[0].querySelectorAll('.analysis-mode-icon svg')).toHaveLength(1)
+  expect(buttons[1].querySelector('.analysis-mode-icon')).toHaveAttribute('aria-hidden', 'true')
+  expect(buttons[1].querySelectorAll('.analysis-mode-icon svg')).toHaveLength(3)
   fireEvent.click(buttons[0])
   expect(buttons[0]).toHaveAttribute('aria-pressed', 'true')
   fireEvent.click(buttons[1])
   expect(buttons[1]).toHaveAttribute('aria-pressed', 'true')
+})
+
+it('shows workflow icons beside run names without replacing status text', async () => {
+  render(<App/> )
+  const history = await screen.findByRole('complementary', {name: 'Run history'})
+  await waitFor(() => expect(history.querySelectorAll('.run-name')).toHaveLength(2))
+  const names = [...history.querySelectorAll('.run-name')]
+  expect(names.find(name => name.textContent === 'patient')?.querySelector('.patient-icon')).toHaveAttribute('aria-hidden', 'true')
+  expect(names.find(name => name.textContent === 'csv')?.querySelector('svg.tool-icon')).toHaveAttribute('aria-hidden', 'true')
+  expect(history.querySelector('.run-state.completed')).toHaveTextContent('completed')
+  expect(history.querySelector('.run-state.queued')).toHaveTextContent('queued')
 })
 
 it('toggles the run sidebar from the native View menu', async () => {
@@ -102,6 +117,54 @@ it('enables Run analysis after loading complete inputs and disables it after rem
   expect(api.submit).not.toHaveBeenCalled()
 })
 
+it('resets a loaded patient example without deleting runs or leaving the Examples tab', async () => {
+  vi.mocked(api.operations).mockResolvedValue(['cohort', 'patient'].map(id => ({
+    id, label: id, description: '', available: true, options: [], input: {files: [
+      {name: 'reference', label: 'Reference', required: false, multiple: true},
+      ...(id === 'patient' ? [{name: 'target', label: 'Target', required: true, multiple: false}] : []),
+    ]},
+  })))
+  vi.mocked(api.example).mockResolvedValue(Object.fromEntries(['reference', 'target'].map(role => [role, [{id: role, filename: `${role}.json`, bytes: 1, directory: false}]])))
+  render(<App/>)
+  fireEvent.click(await screen.findByRole('button', {name: /patient Rank reference/}))
+  fireEvent.click(screen.getByRole('button', {name: 'Examples'}))
+  expect(screen.queryByRole('button', {name: 'Select Target'})).not.toBeInTheDocument()
+  expect(screen.getByText(/includes both a target patient and reference records/)).toBeVisible()
+  fireEvent.click(screen.getByRole('button', {name: 'Load example'}))
+  await screen.findByText('Ready to run')
+  fireEvent.click(screen.getByRole('button', {name: 'Reset Examples'}))
+  expect(screen.queryByText('Reference: reference.json')).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', {name: 'Select Target'})).not.toBeInTheDocument()
+  expect(screen.getByRole('button', {name: 'Run analysis'})).toBeDisabled()
+  expect(screen.getByRole('button', {name: 'Examples'})).toHaveAttribute('aria-pressed', 'true')
+  expect(screen.getByRole('button', {name: 'Load example'})).toHaveClass('primary')
+  expect(screen.getByRole('complementary', {name: 'Run history'}).querySelectorAll('.run-entry')).toHaveLength(2)
+  fireEvent.click(screen.getByRole('button', {name: 'Load example'}))
+  await screen.findByText('Ready to run')
+  fireEvent.click(screen.getByRole('button', {name: /cohort Compare all/}))
+  fireEvent.click(screen.getByRole('button', {name: /patient Rank reference/}))
+  expect(screen.getByRole('button', {name: 'Run analysis'})).toBeDisabled()
+  expect(screen.queryByText('Reference: reference.json')).not.toBeInTheDocument()
+})
+
+it('offers reset for every analysis source and tool setup', async () => {
+  render(<App/>)
+  await screen.findByRole('button', {name: 'User files'})
+  for (const source of ['User files', 'Use cases', 'Examples', 'Previous runs', 'Beacon']) {
+    fireEvent.click(screen.getByRole('button', {name: source}))
+    fireEvent.click(screen.getByRole('button', {name: `Reset ${source}`}))
+    expect(screen.getByRole('button', {name: source})).toHaveAttribute('aria-pressed', 'true')
+  }
+  fireEvent.click(screen.getByRole('button', {name: 'Tools'}))
+  fireEvent.click(within(screen.getByRole('group', {name: 'Companion tools'})).getByRole('button', {name: 'csv'}))
+  vi.mocked(api.example).mockResolvedValue({source: [{id: 'csv', filename: 'example.csv', bytes: 1, directory: false}]})
+  fireEvent.click(screen.getByRole('button', {name: 'Load example'}))
+  await screen.findByText(/CSV example loaded/)
+  fireEvent.click(screen.getByRole('button', {name: 'Reset setup'}))
+  expect(screen.getByRole('button', {name: 'Load example'})).toHaveClass('primary')
+  expect(screen.queryByText(/CSV example loaded/)).not.toBeInTheDocument()
+})
+
 it('searches and filters runs without changing the draft workflow', async () => {
   render(<App/>)
   await screen.findByRole('group', {name: 'Analysis mode'})
@@ -147,6 +210,7 @@ it('loads and runs the CSV example without redundant confirmations', async () =>
   vi.mocked(api.submit).mockResolvedValue({id: 'new-csv', conversion: 'csv', status: 'queued', created: 3, sources: ['example.csv'], options: {}})
   vi.mocked(confirmAction).mockClear()
   render(<App/> )
+  await waitFor(() => expect(screen.getByRole('button', {name: 'Tools'})).toBeEnabled())
   fireEvent.click(await screen.findByRole('button', {name: 'Tools'}))
   fireEvent.click(await screen.findByRole('button', {name: 'CSV/TSV'}))
   const load = await screen.findByRole('button', {name: 'Load example'})

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Wrench, ChevronDown } from 'lucide-react'
 import type { Operation } from '../types'
+import ToolIcon from './ToolIcon'
 
 export default function ToolsMenu({operations, disabled, onSelect}: {operations: Operation[]; disabled: boolean; onSelect: (id: string) => void}) {
   const [open, setOpen] = useState(false)
@@ -19,7 +20,7 @@ export default function ToolsMenu({operations, disabled, onSelect}: {operations:
     <button ref={trigger} disabled={disabled} aria-expanded={open} aria-controls="tools-list" onClick={() => setOpen(value => !value)}><Wrench/>Tools<ChevronDown/></button>
     {open && <div id="tools-list" className="tools-list" role="group" aria-label="Companion tools">
       {ordered.map(item => <button key={item.id} disabled={!item.available} title={!item.available ? 'Required utility dependencies are unavailable' : item.description}
-        onClick={() => {onSelect(item.id); setOpen(false); trigger.current?.focus()}}>{item.label}</button>)}
+        onClick={() => {onSelect(item.id); setOpen(false); trigger.current?.focus()}}><ToolIcon operation={item.id}/>{item.label}</button>)}
     </div>}
   </div>
 }

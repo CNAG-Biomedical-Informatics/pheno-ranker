@@ -18,6 +18,9 @@
 .desktop-shell .desktop-titlebar img { width:30px; height:34px; object-fit:contain; flex-shrink:0; }
 .cohort-views { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
 .cohort-views button { border-radius:4px; }
+.input-source-note { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.input-source-note p { flex:1; margin:8px 0 0; }
+.input-source-note button { flex-shrink:0; margin-top:5px; }
 .result-actions label { display:flex; align-items:center; gap:8px; }
 .result-actions input[type=number] { width:110px; }
 .desktop-shell .workspace-tree { width:250px; flex:0 0 250px; padding:0; background:var(--desk-chrome); }
@@ -37,6 +40,16 @@
 .desktop-shell .run-tree { overflow:visible; }
 .desktop-shell .tree-run { width:100%; border-radius:4px; margin-bottom:5px; gap:5px; }
 .tree-run strong { font-size:12px; overflow-wrap:anywhere; }
+.tree-run .run-name { display:flex; align-items:center; gap:7px; min-width:0; }
+.run-name .tool-icon { width:16px; height:16px; flex-shrink:0; color:var(--desk-muted); }
+.run-name .patient-icon { display:flex; align-items:center; width:42px; }
+.run-name .patient-icon svg { width:16px; height:16px; flex-shrink:0; }
+.run-name .patient-icon svg:nth-child(2) { width:10px; }
+.tree-run[aria-pressed="true"] .tool-icon { color:var(--desk-accent); }
+.history-group { margin-bottom:12px; }
+.desktop-shell .history-group-heading { display:flex; align-items:center; gap:6px; width:100%; margin:0 0 4px; padding:7px 5px; border:0; background:transparent; color:var(--desk-muted); font-size:11px; font-weight:600; text-align:left; }
+.history-group-heading span { margin-left:auto; font-variant-numeric:tabular-nums; }
+.history-group-heading[aria-disabled="true"] { cursor:default; }
 .desktop-shell .workspace-nav { padding:10px 12px; border-top:1px solid var(--desk-line); background:var(--desk-panel); }
 .desktop-shell button > svg { width:16px; height:16px; flex-shrink:0; vertical-align:middle; }
 .desktop-shell button:has(> svg) { display:inline-flex; align-items:center; gap:8px; }
@@ -44,14 +57,21 @@
 .tools-picker { position:relative; }
 .tools-list { position:absolute; top:calc(100% + 6px); left:0; z-index:20; width:260px; max-width:calc(100vw - 32px); max-height:60vh; overflow:auto; padding:4px; border:1px solid var(--desk-line); border-radius:4px; background:var(--desk-panel); box-shadow:0 4px 12px #0002; }
 .tools-list button { display:block; width:100%; text-align:left; border:0; }
+.tools-list .tool-icon { color:var(--desk-muted); }
+.conversion-heading h1:has(.tool-icon) { display:flex; align-items:center; gap:10px; }
+.conversion-heading .tool-icon { width:24px; height:24px; flex-shrink:0; color:var(--desk-accent); stroke-width:1.6; }
 .analysis-modes { display:grid; grid-template-columns:1fr 1fr; margin-bottom:22px; gap:8px; }
-.analysis-modes button { text-align:left; padding:12px 14px; border-radius:4px; }
+.analysis-modes button { display:flex; align-items:center; gap:12px; text-align:left; padding:12px 14px; border-radius:4px; }
+.analysis-mode-icon { display:flex; align-items:center; justify-content:center; gap:3px; flex-shrink:0; width:70px; color:var(--desk-muted); }
+.analysis-mode-icon svg { width:24px; height:24px; stroke-width:1.6; }
+.analysis-mode-icon .analysis-mode-arrow { width:16px; height:16px; }
+.analysis-modes button[aria-pressed="true"] .analysis-mode-icon { color:var(--desk-accent); }
 .analysis-modes strong, .analysis-modes small { display:block; }
 .analysis-modes small { margin-top:5px; font-size:12px; font-weight:400; color:var(--desk-muted); }
 .desktop-shell .conversion-card { border-radius:5px; box-shadow:none; }
 .desktop-shell .conversion-heading h1 { font-size:21px; }
 .desktop-shell .desktop-toolbar { flex-wrap:wrap; gap:8px; }
-@media (max-width:760px) { .desktop-shell .workspace-tree { width:200px; flex-basis:200px; } .analysis-modes { grid-template-columns:1fr; } .local-note { display:none; } }
+@media (max-width:760px) { .desktop-shell .workspace-tree { width:200px; flex-basis:200px; } .analysis-modes { grid-template-columns:1fr; } .input-source-note { display:block; } .local-note { display:none; } }
 .ranker-setup-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px; align-items:start; }
 .ranker-setup-grid h2 { margin-top:0; }
 .analysis-settings { display:grid; gap:10px; margin-top:16px; }

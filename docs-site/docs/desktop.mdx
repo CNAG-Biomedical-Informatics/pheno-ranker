@@ -11,6 +11,10 @@ Desktop replaces the legacy Shiny Web App UI, not the CLI. Use the CLI for
 automation, remote servers, or existing scripts; use Desktop to set up analyses
 and explore results interactively.
 
+The [legacy Web App UI](https://pheno-ranker.cnag.eu) remains available in the
+browser, with its [own documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/).
+Unlike Desktop, it runs analyses on the hosted server rather than your computer.
+
 ## Try an Analysis
 
 1. Select **New analysis**, then patient or cohort mode.
@@ -46,7 +50,9 @@ preparation, not matrix calculation.
 Use the source selector in Setup to choose **User files**, **Previous runs**,
 **Examples**, **Use cases**, or **Beacon**. Choosing another source clears the
 current inputs and resets settings, without changing previous runs or original
-files. The input summary shows what the next analysis will use.
+files. Select **Reset setup** to return the current source view to its empty
+state; this does not delete runs or source files. The input summary shows what
+the next analysis will use.
 
 In **Beacon**, select **Use BioData.pt example** to prepare the public
 `https://beacon.biodata.pt/api/individuals` endpoint, then **Import records**.
