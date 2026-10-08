@@ -13,18 +13,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
   <h2>Compare cohorts or rank reference records against a target.</h2>
   <p>
     `Pheno-Ranker` compares structured phenotypic, clinical, and categorical
-    records. This documentation covers input preparation, command-line use,
+    records. This documentation covers Desktop and CLI use, input preparation,
     interpretation, and downstream analysis.
   </p>
   <div className="button-row">
-    <a
-      className="button button--primary"
-      href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg"
-      target="_blank"
-      rel="noopener noreferrer">
-      Try in Colab
-    </a>
-    <Link className="button button--secondary" to="/download-and-installation">Install &amp; first run</Link>
+    <Link className="button button--primary" to="/desktop">Start with Desktop</Link>
+    <Link className="button button--secondary" to="/download-and-installation">CLI installation</Link>
     <Link className="button button--secondary" to="/user-workflow">Choose a workflow</Link>
   </div>
 </div>
@@ -37,9 +31,9 @@ Pheno-Ranker answers two questions:
 - Which records in a reference cohort are most similar to a target patient or
   object?
 
-The primary interface is the `pheno-ranker` command-line tool, which can be used
-directly or called from shell scripts, R, Python, notebooks, workflow managers,
-and batch analyses.
+The [Desktop App](/desktop) provides interactive analysis and result exploration
+from v1.09. The same engine is available through the `pheno-ranker` CLI for shell
+scripts, R, Python, notebooks, workflow managers, and batch analyses.
 
 It reads [Beacon v2](/bff) and [Phenopackets v2](/pxf) directly. Other
 [clinical standards can be converted to BFF](/clinical-formats), while generic
@@ -111,7 +105,7 @@ the cohort size, number of variables, metric, and output format. See the
 
 - [Choose an input format](/other-formats) for native BFF/PXF, converted
   clinical data, CSV, or generic JSON/YAML.
-- [Install and complete a first run](/download-and-installation).
+- [Start with Desktop](/desktop) or [install and run the CLI](/download-and-installation).
 - Read the [CLI reference](/usage) or follow the visual [User Workflow](/user-workflow).
 - Continue with [Use from R](/use-from-r), [use cases](/phenopackets-corpus), or
   [companion utilities](/user-workflow#companion-utilities).
@@ -121,9 +115,11 @@ the cohort size, number of variables, metric, and output format. See the
 The documentation follows the current GitHub version; the latest CPAN release
 can differ between releases. Consult the
 [Changes file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/Changes)
-for version-specific updates. The CLI is the primary interface. The legacy Web
-App remains supported until the end of 2026.
+for version-specific updates. The CLI remains supported. From v1.09, the Desktop
+App replaces the legacy Web App UI as the graphical interface.
 
 ## Project Links
 
-[GitHub repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker) &middot; [CPAN distribution](https://metacpan.org/dist/Pheno-Ranker) &middot; [Publication and citation](/citation) &middot; [Web App UI](https://pheno-ranker.cnag.eu)
+[GitHub repository](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker) &middot; [CPAN distribution](https://metacpan.org/dist/Pheno-Ranker) &middot; [Publication and citation](/citation) &middot; [Legacy Web App UI](https://pheno-ranker.cnag.eu) &middot; [Legacy UI documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/)
+
+The legacy hosted UI currently has an HTTPS certificate issue; see the [FAQ](/faq).

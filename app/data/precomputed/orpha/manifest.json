@@ -1,0 +1,52 @@
+{
+  "configSha256": "b6dc713e7a1ca036ae39a060c0259c65011d74d90dee34c8ff6f5d933d696b6e",
+  "coverage": {
+    "cohort_size": 2402,
+    "coverage_terms": {
+      "id": 2402,
+      "phenotypicFeatures": 2402,
+      "subject": 2402
+    },
+    "format": "PXF"
+  },
+  "dataset": "orpha",
+  "engineVersion": "1.09",
+  "files": {
+    "orpha.coverage_stats.json.gz": {
+      "bytes": 121,
+      "sha256": "974765cb4fc1fb986ed0fe7c94c3f7f006fb9607e8d79eea041fe4f276a012a6",
+      "uncompressedSha256": "0013de89cfe42d5dc1df0be89160ba22f92f7411a19f6e0831b7798cf1d37b2a"
+    },
+    "orpha.glob_hash.json.gz": {
+      "bytes": 39139,
+      "sha256": "3f4c1092163ee284fcc406add5fb34eef3160a308823037dbbbcd8255181c69f",
+      "uncompressedSha256": "6d3b1de10663d024fdaa5ab1aaf8ddcbab3bd4bcbbc7bc940c7a12aa238f2a13"
+    },
+    "orpha.labels.json.gz": {
+      "bytes": 111782,
+      "sha256": "77cac7a648eabd17d000b5ab4b4530e9d1385ee484eef240a8868eed1c62a1b7",
+      "uncompressedSha256": "5727ea34c60f2ecea9a23dbd71ebeb0655981ef7ca19bdf96ffa61845bd71ced"
+    },
+    "orpha.ref_binary_hash.json.gz": {
+      "bytes": 488504,
+      "sha256": "2eff2da8369019f24899290ab1b7e7f64dfb1156250c63780bb8ea7a7e8552ab",
+      "uncompressedSha256": "7ca5f8b8de281b8efc01b9edce23f39fc658fec1cbb82ec6fbcb24e44570b5d2"
+    },
+    "orpha.ref_hash.json.gz": {
+      "bytes": 344595,
+      "sha256": "c8411a993fd7096ffb41f2a718d779665bb547c1537e6b226646a199bb7a20fa",
+      "uncompressedSha256": "c381ef1c234ce23381a16322bfe0a226571e6b510d499e219e9fba04db120004"
+    }
+  },
+  "formatVersion": 1,
+  "globalFeatureCount": 7075,
+  "settings": {
+    "include-terms": [
+      "phenotypicFeatures"
+    ]
+  },
+  "source": "share/diseases/hpo/orpha.pxf.json.gz",
+  "sourceSha256": "96c8d7a2ac0efc631b4e1f77a4728445f76b3e0ed04d0154afcd13a89b38e92c",
+  "validationTarget": "app/engine/examples/patient.json",
+  "validationTargetSha256": "c5430aba51bd197a2a540dad63646669ec0430fe94c96b6b7cc6ea250116942f"
+}

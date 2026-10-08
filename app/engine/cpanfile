@@ -1,0 +1,11 @@
+requires 'Mojolicious', '9.33';
+requires 'IO::Socket::SSL';
+requires 'File::HomeDir';
+requires 'JSON::XS';
+requires 'YAML::XS';
+requires 'Path::Tiny';
+requires 'Text::CSV_XS';
+requires 'IO::Uncompress::Unzip';
+on test => sub {
+    requires 'Test::More';
+};

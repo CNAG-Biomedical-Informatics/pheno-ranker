@@ -1,5 +1,6 @@
 ---
-title: "Using `Pheno-Ranker` with TCGA Clinical Data"
+title: "Using Pheno-Ranker with TCGA Clinical Data"
+sidebar_label: "TCGA Clinical"
 slug: "/tcga-clinical"
 ---
 # Using `Pheno-Ranker` with TCGA Clinical Data
@@ -213,6 +214,12 @@ REF -- TAR
 ### All-to-All Precomputed Similarity
 
 We have precomputed pairwise similarity scores for every GDC case, including TCGA projects, and stored them in a backend database. The proof-of-concept web app lets you enter any GDC case ID (`TAR-UUID`) or filter by any database column and retrieve the top five most similar cases.
+
+These are **stored comparison results**, hosted as `tcga.db` in
+[CBI Datahub](https://github.com/CNAG-Biomedical-Informatics/cbi-datahub/tree/main/sqlite),
+not precomputed reference hashes for new patient analyses. The playground queries
+existing scores without running Pheno-Ranker. Desktop users can open it through
+**Help > Explore Published Comparison Results** (internet access required).
 
 [Go to the Pheno-Ranker Use Cases Playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/). Note that you will need to select TCGA tab.
 

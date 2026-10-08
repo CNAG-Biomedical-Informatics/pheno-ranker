@@ -123,7 +123,7 @@ sub parse_args {
 
     my (
         $glob_hash_file,       $ref_hash_file,
-        $ref_binary_hash_file, $coverage_stats_file
+        $ref_binary_hash_file, $coverage_stats_file, $labels_file
     );
     if ( defined $precomputed_ref_prefix ) {
         my $has_incompatible_options =
@@ -153,6 +153,8 @@ sub parse_args {
         $ref_hash_file        = resolve_file( $precomputed_ref_prefix . '.ref_hash.json' );
         $ref_binary_hash_file = resolve_file( $precomputed_ref_prefix . '.ref_binary_hash.json' );
         $coverage_stats_file  = resolve_file( $precomputed_ref_prefix . '.coverage_stats.json' );
+        my $candidate = resolve_file( $precomputed_ref_prefix . '.labels.json' );
+        $labels_file = $candidate if -e $candidate;
     }
 
     handle_option(
@@ -198,6 +200,7 @@ sub parse_args {
         ref_hash_file                      => $ref_hash_file,
         ref_binary_hash_file               => $ref_binary_hash_file,
         coverage_stats_file                => $coverage_stats_file,
+        labels_file                        => $labels_file,
         config_file                        => $config_file,
         age                                => $age,
         cli                                => $cli,

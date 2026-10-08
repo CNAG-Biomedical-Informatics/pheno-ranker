@@ -1,70 +1,60 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use File::Spec::Functions qw(catdir catfile);
-use Test::More tests => 2;    # Indicate the number of tests you want to run
-use File::Compare;
+use File::Spec::Functions qw(catfile);
+use File::Temp qw(tempdir);
+use Test::More;
 use lib qw(./lib ../lib t/lib);
 use Test::PhenoRanker qw(fixture);
 
-##########
-# TEST 1 #
-##########
-SKIP: {
-    skip "Skipping PNG comparison tests on macOS", 1 if $^O eq 'darwin'; # mrueda 01/17/25
+my $script  = catfile( 'utils', 'bff_pxf_plot', 'bff-pxf-plot' );
+my $tmp_dir = tempdir( CLEANUP => 1 );
 
+for my $case (
     {
-        # The command line script to be tested
-        my $script = catfile( 'utils', 'bff_pxf_plot', 'bff-pxf-plot' );
+        name      => 'BFF',
+        input     => fixture('individuals.json'),
+    },
+    {
+        name      => 'PXF',
+        input     => fixture('pxf_random_100.json'),
+    },
+) {
+    subtest "$case->{name} plot" => sub {
+        my $output = catfile( $tmp_dir, lc($case->{name}) . '.html' );
 
-        # Input file for the command line script, if needed
-        my $input_file = fixture('individuals.json');
-
-        # The reference files to compare the output with
-        my $reference_file = catfile( 'xt', 'plot', 'bff.png' );
-
-        # The output files
-        my $output_file = catfile( 'xt' , 'plot', 'bff_tmp.png' );
-
-        # Run the command line
-        system("$script -i $input_file -o $output_file");
-
-        # Compare the output_file and the reference_file
-        ok(
-            compare( $output_file, $reference_file ) == 0,
-            qq/Output matches the <$reference_file> file/
+        is(
+            system( $script, '-i', $case->{input}, '-o', $output ),
+            0,
+            'plot command succeeds',
         );
-        unlink $output_file;
-    }
+
+        open my $fh, '<:encoding(UTF-8)', $output or die "Cannot read $output: $!";
+        local $/;
+        my $html = <$fh>;
+        like($html, qr/Q1 \(25%\)/, 'annotation-depth summary with quartiles');
+        like($html, qr/Excluded phenotypes/, 'excluded annotations separated');
+        like($html, qr/Filter terms/, 'searchable full term tables');
+    };
 }
 
-##########
-# TEST 2 #
-##########
-SKIP: {
-    skip "Skipping PNG comparison tests on macOS", 1 if $^O eq 'darwin';
+subtest 'self-contained HTML report' => sub {
+    my $output = catfile( $tmp_dir, 'pxf.html' );
+    is(
+        system( $script, '-i', fixture('pxf_random_100.json'), '-o', $output ),
+        0,
+        'HTML report command succeeds',
+    );
+    open my $fh, '<:encoding(UTF-8)', $output or die "Cannot read $output: $!";
+    local $/;
+    my $document = <$fh>;
+    like( $document, qr/\A<!doctype html>/, 'output is an HTML document' );
+    like( $document, qr{data:image/svg\+xml;base64,}, 'vector plots are embedded in the report' );
+    unlike( $document, qr{(?:src|href)=["']https?://}, 'report has no remote assets' );
+    my @charts = $document =~ /class="chart-image"/g;
+    is(scalar @charts, 9, 'PXF report includes the unique-descriptor distribution without empty panels');
+    like($document, qr/No entries in any record/, 'empty sections are listed compactly');
+    like($document, qr/class="report-logo" src="data:image\/svg\+xml;base64,/, 'logo is embedded, not externally linked');
+};
 
-    {
-        # The command line script to be tested
-        my $script = catfile( 'utils', 'bff_pxf_plot', 'bff-pxf-plot' );
-
-        # Input file for the command line script, if needed
-        my $input_file = fixture('pxf_random_100.json');
-
-        # The reference files to compare the output with
-        my $reference_file = catfile( 'xt', 'plot', 'pxf.png' );
-
-        # The output files
-        my $output_file = catfile( 'xt' , 'plot', 'pxf_tmp.png' );
-
-        # Run the command line
-        system("$script -i $input_file -o $output_file");
-
-        # Compare the output_file and the reference_file
-        ok(
-            compare( $output_file, $reference_file ) == 0,
-            qq/Output matches the <$reference_file> file/
-        );
-        unlink $output_file;
-    }
-}
+done_testing;

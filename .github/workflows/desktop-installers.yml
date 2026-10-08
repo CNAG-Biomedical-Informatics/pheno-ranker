@@ -1,0 +1,330 @@
+name: Build desktop installers
+
+on:
+  push:
+    tags:
+      - "[0-9]*.[0-9]*"
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: Installer platforms for compatibility testing
+        type: choice
+        default: all
+        options:
+          - all
+          - macos-linux
+          - windows
+
+permissions:
+  contents: read
+
+jobs:
+  installer:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(inputs.platforms == 'windows' && '[{"os":"windows-2022","name":"Windows x86_64","artifact":"windows-x86_64","bundle":"nsis"}]' || inputs.platforms == 'macos-linux' && '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"},{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"},{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"},{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"}]' || '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"},{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"},{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"},{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"},{"os":"windows-2022","name":"Windows x86_64","artifact":"windows-x86_64","bundle":"nsis"}]') }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: dtolnay/rust-toolchain@1.86.0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: app/engine/python/requirements.txt
+
+      - name: Install Linux build-host libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential libbz2-dev libexpat1-dev libssl-dev zlib1g-dev \
+            libgtk-3-dev libwebkit2gtk-4.1-dev librsvg2-dev patchelf libfuse2 \
+            libzbar0 libzbar-dev
+
+      - name: Install macOS build-host libraries
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          brew list --versions openssl@3 >/dev/null || brew install openssl@3
+          brew list --versions zbar >/dev/null || brew install zbar
+          echo "OPENSSL_PREFIX=$(brew --prefix openssl@3)" >> "$GITHUB_ENV"
+
+      - name: Build relocatable Perl runtime
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          runtime="$RUNNER_TEMP/pheno-ranker-perl"
+          bash app/scripts/build-relocatable-perl.sh "$runtime"
+          echo "$runtime/bin" >> "$GITHUB_PATH"
+          echo "PERL_PREFIX=$runtime" >> "$GITHUB_ENV"
+
+      - name: Set up Strawberry Perl
+        if: runner.os == 'Windows'
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.42'
+          distribution: strawberry
+
+      - name: Install Perl dependencies
+        run: cpanm --notest --configure-timeout 300 --installdeps .
+
+      - name: Install Desktop Perl dependencies
+        run: cpanm --notest --configure-timeout 300 --installdeps app/engine
+
+      - name: Install Python dependencies
+        run: python -m pip install --disable-pip-version-check -r app/engine/python/requirements.txt PyInstaller==6.16.0
+
+      - name: Select Desktop Python interpreter
+        shell: bash
+        run: python -c 'import os, sys; print("PHENO_RANKER_PYTHON=" + sys.executable, file=open(os.environ["GITHUB_ENV"], "a"))'
+
+      - name: Verify release versions and tag
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_EVENT: ${{ github.event_name }}
+        run: |
+          if [[ "$RELEASE_EVENT" == push ]]; then
+            perl app/scripts/check-release.pl "$RELEASE_TAG"
+            git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+            test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+            test "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")" = "$(git rev-parse HEAD)"
+          else
+            perl app/scripts/check-release.pl
+          fi
+
+      - name: Test core and desktop engines
+        shell: bash
+        run: |
+          prove -lr t app/engine/t
+          python -m unittest discover -s utils/barcode/tests -p 'test_*.py'
+          python -m unittest discover -s utils/bff_pxf_plot/tests -p 'test_*.py'
+          python -m unittest discover -s app/engine/python -p 'test_*.py'
+          perl app/scripts/test-python-helper.pl --python "$PHENO_RANKER_PYTHON"
+
+      - name: Install frontend dependencies
+        working-directory: app
+        run: npm ci
+
+      - name: Test frontend and native layer
+        working-directory: app
+        shell: bash
+        run: |
+          npm test
+          npm run build
+          cargo test --manifest-path src-tauri/Cargo.toml --locked
+
+      - name: Build frozen Python helper
+        shell: bash
+        run: |
+          output="$RUNNER_TEMP/pheno-ranker-python"
+          python app/scripts/build-python-helper.py --root "$PWD" --output "$output"
+          suffix=""
+          [[ "$RUNNER_OS" != Windows ]] || suffix=".exe"
+          echo "PYTHON_HELPER=$output/pheno-ranker-helper$suffix" >> "$GITHUB_ENV"
+
+      - name: Stage relocatable engine
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          perl app/scripts/stage-desktop-engine.pl \
+            --root "$PWD" \
+            --perl-prefix "$PERL_PREFIX" \
+            --python-helper "$PYTHON_HELPER" \
+            --destination "$PWD/app/src-tauri/engine"
+          bash app/scripts/vendor-desktop-libraries.sh "$PWD/app/src-tauri/engine"
+          perl app/scripts/test-desktop-engine.pl "$PWD/app/src-tauri/engine"
+
+      - name: Stage relocatable engine on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $prefix = perl -MConfig -e 'print $Config{prefix}'
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot determine Perl prefix' }
+          $compilerBin = Split-Path (Get-Command gcc).Source
+          $libraries = @(perl -MConfig -e 'print "$_\n" for grep { defined && length } @Config{qw(vendorlib vendorarch sitelib sitearch)}')
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot determine Perl library paths' }
+          $libraries += Join-Path $PWD 'local/lib/perl5'
+          $stageArgs = @(
+            '--root', "$PWD",
+            '--perl-prefix', "$prefix",
+            '--compiler-bin', "$compilerBin",
+            '--python-helper', "$env:PYTHON_HELPER",
+            '--destination', "$PWD/app/src-tauri/engine"
+          )
+          foreach ($library in ($libraries | Select-Object -Unique)) {
+            if (Test-Path -LiteralPath $library -PathType Container) {
+              $stageArgs += @('--extra-perl-lib', $library)
+            }
+          }
+          perl app/scripts/stage-desktop-engine.pl @stageArgs
+          if ($LASTEXITCODE -ne 0) { throw 'Desktop engine staging failed' }
+          perl app/scripts/test-desktop-engine.pl "$PWD/app/src-tauri/engine"
+          if ($LASTEXITCODE -ne 0) { throw 'Relocated desktop engine test failed' }
+
+      - name: Build installer
+        working-directory: app
+        env:
+          CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS: ${{ runner.os == 'Windows' && '-C target-feature=+crt-static' || '' }}
+        run: npm run tauri build -- --bundles ${{ matrix.bundle }}
+
+      - name: Inspect Linux package
+        if: runner.os == 'Linux'
+        working-directory: app
+        shell: bash
+        run: |
+          shopt -s nullglob
+          images=(src-tauri/target/release/bundle/appimage/*.AppImage)
+          test "${#images[@]}" -eq 1
+          image="src-tauri/target/release/bundle/appimage/pheno-ranker-${{ matrix.artifact }}.AppImage"
+          mv "${images[0]}" "$image"
+          chmod +x "$image"
+          (cd "$RUNNER_TEMP" && "$GITHUB_WORKSPACE/app/$image" --appimage-extract >/dev/null)
+          manifest="$(find "$RUNNER_TEMP/squashfs-root" -name engine-manifest.json -print -quit)"
+          test -n "$manifest"
+          perl "$GITHUB_WORKSPACE/app/scripts/test-desktop-engine.pl" "$(dirname "$manifest")"
+          (cd "$(dirname "$image")" && sha256sum "$(basename "$image")" > "$(basename "$image").sha256")
+
+      - name: Inspect macOS package
+        if: runner.os == 'macOS'
+        working-directory: app
+        shell: bash
+        run: |
+          shopt -s nullglob
+          images=(src-tauri/target/release/bundle/dmg/*.dmg)
+          test "${#images[@]}" -eq 1
+          image="src-tauri/target/release/bundle/dmg/pheno-ranker-${{ matrix.artifact }}.dmg"
+          mv "${images[0]}" "$image"
+          hdiutil verify "$image"
+          mount_dir="$(mktemp -d)"
+          hdiutil attach "$image" -readonly -nobrowse -mountpoint "$mount_dir"
+          trap 'hdiutil detach "$mount_dir"' EXIT
+          app_bundle="$(find "$mount_dir" -maxdepth 1 -name '*.app' -print -quit)"
+          test -n "$app_bundle"
+          plutil -lint "$app_bundle/Contents/Info.plist"
+          codesign --verify --deep --strict --verbose=2 "$app_bundle"
+          manifest="$(find "$app_bundle/Contents/Resources" -name engine-manifest.json -print -quit)"
+          test -n "$manifest"
+          perl "$GITHUB_WORKSPACE/app/scripts/test-desktop-engine.pl" "$(dirname "$manifest")"
+          (cd "$(dirname "$image")" && shasum -a 256 "$(basename "$image")" > "$(basename "$image").sha256")
+          PHENO_RANKER_DESKTOP_SMOKE_TEST=1 python3 - "$app_bundle/Contents/MacOS/pheno-ranker-desktop" <<'PY'
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          env = os.environ.copy()
+          for key in ('DYLD_LIBRARY_PATH', 'PERL5LIB', 'PERL5OPT'):
+              env.pop(key, None)
+          result = subprocess.run([str(Path(sys.argv[1]).resolve(strict=True))], env=env, capture_output=True, text=True, timeout=60)
+          print(result.stdout)
+          print(result.stderr, file=sys.stderr)
+          if result.returncode or 'Desktop startup smoke test passed' not in result.stdout:
+              raise SystemExit('Packaged desktop startup failed')
+          PY
+
+      - name: Install and inspect Windows package
+        if: runner.os == 'Windows'
+        working-directory: app
+        shell: pwsh
+        run: |
+          $installers = @(Get-ChildItem src-tauri/target/release/bundle/nsis/*-setup.exe)
+          if ($installers.Count -ne 1) { throw 'Expected one Windows installer' }
+          $download = Join-Path $installers[0].DirectoryName 'pheno-ranker-windows-x86_64-setup.exe'
+          Move-Item $installers[0].FullName $download
+          $destination = Join-Path $env:LOCALAPPDATA 'Pheno-Ranker-install-test'
+          $setup = Start-Process -FilePath $download -ArgumentList @('/S', "/D=$destination") -PassThru
+          if (-not $setup.WaitForExit(180000)) { $setup.Kill(); throw 'Installer timed out' }
+          if ($setup.ExitCode -ne 0) { throw "Installer failed: $($setup.ExitCode)" }
+          $manifest = Get-ChildItem $destination -Filter engine-manifest.json -Recurse | Select-Object -First 1
+          if (-not $manifest) { throw 'Installed engine is missing' }
+          perl "$env:GITHUB_WORKSPACE/app/scripts/test-desktop-engine.pl" $manifest.DirectoryName
+          if ($LASTEXITCODE -ne 0) { throw 'Installed desktop engine test failed' }
+          $binary = Get-ChildItem $destination -Filter pheno-ranker-desktop.exe -Recurse | Select-Object -First 1
+          if (-not $binary) { throw 'Installed application is missing' }
+          $application = Start-Process -FilePath $binary.FullName -PassThru
+          try {
+            $windowFound = $false
+            for ($attempt = 0; $attempt -lt 30; $attempt++) {
+              Start-Sleep -Seconds 1
+              $application.Refresh()
+              if ($application.HasExited) { throw "Installed application exited: $($application.ExitCode)" }
+              if ($application.MainWindowHandle -ne 0) { $windowFound = $true; break }
+            }
+            if (-not $windowFound) { throw 'Installed application did not create a window' }
+          } finally {
+            if (-not $application.HasExited) { Stop-Process -Id $application.Id }
+          }
+          $hash = (Get-FileHash $download -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $(Split-Path $download -Leaf)" | Set-Content "$download.sha256" -Encoding ascii
+          Get-AuthenticodeSignature $download | Format-List Status, StatusMessage
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pheno-ranker-${{ matrix.artifact }}-test
+          path: |
+            app/src-tauri/target/release/bundle/appimage/pheno-ranker-*.AppImage
+            app/src-tauri/target/release/bundle/appimage/*.sha256
+            app/src-tauri/target/release/bundle/dmg/pheno-ranker-*.dmg
+            app/src-tauri/target/release/bundle/dmg/*.sha256
+            app/src-tauri/target/release/bundle/nsis/pheno-ranker-*-setup.exe
+            app/src-tauri/target/release/bundle/nsis/*.sha256
+          if-no-files-found: error
+          retention-days: 7
+
+  prerelease:
+    name: Collect inspected installers
+    needs: installer
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v5
+        with:
+          pattern: pheno-ranker-*-test
+          path: release-assets
+          merge-multiple: true
+
+      - name: Publish inspected installers
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_EVENT: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          PLATFORMS: ${{ inputs.platforms }}
+        shell: bash
+        run: |
+          version="$(tr -d '\r\n' < VERSION)"
+          mapfile -t assets < <(find release-assets -type f -print | sort)
+          expected=10
+          [[ "$PLATFORMS" != windows ]] || expected=2
+          [[ "$PLATFORMS" != macos-linux ]] || expected=8
+          test "${#assets[@]}" -eq "$expected"
+          if [[ "$RELEASE_EVENT" == push ]]; then
+            if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft)" = true
+              gh release upload "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
+            else
+              gh release create "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --verify-tag --draft \
+                --title "Pheno-Ranker $version" \
+                --notes "Desktop installers and SHA-256 checksums for Pheno-Ranker $version. Review platform tests and release notes before publishing."
+            fi
+            exit 0
+          fi
+          tag="desktop-v${version}.0-test.${GITHUB_RUN_NUMBER}"
+          gh release create "$tag" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "Pheno-Ranker Desktop test build ${GITHUB_RUN_NUMBER}" \
+            --notes "Compatibility test for selected platforms: $PLATFORMS. These installers are not a stable release. macOS is not Apple-notarized; Windows installers are unsigned."

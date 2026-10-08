@@ -7,6 +7,7 @@ import zlib
 import base64
 import qrcode
 import glob
+import gzip
 from PIL import Image
 
 UNCOMPRESSED_PREFIX = "UNCOMP:"
@@ -130,6 +131,7 @@ def generate_qr_from_data(binary_digit_string, output_path, qr_version, compress
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(output_path)
+    return data_to_encode, qr.version
 
 def generate_qr_codes_from_json(json_data, output_dir, qr_version, compress=True):
     if not isinstance(json_data, dict):
@@ -170,20 +172,56 @@ def is_data_compressed(qr_data):
         print(f"Error determining data compression: {e}")
         return False
 
-def decode_binary_string(binary_string, json_template):
-    keys = list(json_template.keys())
+def load_vector_labels(filename, template):
+    def unique_keys(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f'Duplicate key in labels file: {key}')
+            result[key] = value
+        return result
+    opener = gzip.open if str(filename).endswith('.gz') else open
+    with opener(filename, 'rt', encoding='utf-8') as handle:
+        labels = json.load(handle, object_pairs_hook=unique_keys)
+    validate_vector_labels(labels, template)
+    return labels
+
+
+def validate_vector_labels(labels, template):
+    if not isinstance(labels, dict) or any(not isinstance(value, str) for value in labels.values()):
+        raise ValueError('Labels must be an object mapping exact global-vector keys to strings')
+    if set(labels) - set(template):
+        raise ValueError('Labels contain feature keys absent from the supplied global vector')
+
+
+def decode_binary_string(binary_string, json_template, labels=None):
+    if not isinstance(json_template, dict) or not json_template:
+        raise ValueError('Template must be a nonempty global-vector object')
+    keys = sorted(json_template)
+    if not isinstance(binary_string, str) or not re.fullmatch('[01]+', binary_string) or len(binary_string) != len(keys):
+        raise ValueError('Binary vector must contain exactly one bit per global-vector key')
+    if labels is not None:
+        validate_vector_labels(labels, json_template)
     decoded_data = {}
+    supplied_labels = {}
     for i, bit in enumerate(binary_string):
-        if i < len(keys) and bit == '1':
+        if bit == '1':
             full_key = keys[i]
             *key_parts, value = full_key.split('.')
             key = '.'.join(key_parts)
             decoded_data[key] = value
+            # Bind the label to this active vector position before reconstruction.
+            label = (labels or {}).get(full_key)
+            if key.endswith('.id') and label and label.strip() and label != value:
+                supplied_labels[key[:-3] + '.label'] = label
+    for key, label in supplied_labels.items():
+        if not decoded_data.get(key):
+            decoded_data[key] = label
     return decoded_data
 
-def reconstruct_json_from_binary(binary_digit_string, json_template):
+def reconstruct_json_from_binary(binary_digit_string, json_template, labels=None):
     """Rebuild one JSON object from the QR binary vector and template."""
-    result = decode_binary_string(binary_digit_string, json_template)
+    result = decode_binary_string(binary_digit_string, json_template, labels)
     unflattened_result = unflatten(result)
     return convert_curie_objects_to_array(unflattened_result)
 

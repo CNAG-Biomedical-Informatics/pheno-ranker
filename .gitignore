@@ -1,4 +1,5 @@
 *.sh
+!/app/scripts/*.sh
 *.txt
 !t/ref_align.txt
 !docs-site/static/data/*.txt
@@ -23,3 +24,16 @@ bck/
 old/
 _Inline/
 ori/
+/app/node_modules/
+/app/dist/
+/app/src-tauri/target/
+/app/src-tauri/gen/
+/app/src-tauri/engine/*
+!/app/src-tauri/engine/.gitkeep
+/app/build/
+/app/test-results/
+/app/*.tsbuildinfo
+!/app/engine/python/requirements.txt
+/app/**/__pycache__/
+/app/.pytest_cache/
+/app/.venv/

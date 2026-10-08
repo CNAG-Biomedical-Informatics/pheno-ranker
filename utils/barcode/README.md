@@ -57,7 +57,7 @@ Example:
 ## pheno-ranker2pdf
 
 ```bash
-usage: pheno-ranker2pdf [-h] -j JSON -q QR [QR ...] [-o OUTPUT] -t {bff,pxf} [-l LOGO] [--test]
+usage: pheno-ranker2pdf [-h] -j JSON -q QR [QR ...] [-o OUTPUT] -t {bff,pxf} [-l LOGO] [--labels LABELS --template TEMPLATE] [--test]
 
 Convert JSON data to a formatted PDF file.
 
@@ -70,8 +70,10 @@ options:
                         Output directory for PDF files. Default: pdf
   -t {bff,pxf}, --type {bff,pxf}
                         Type of data processing required.
-  -l LOGO, --logo LOGO  Path to the logo image.
+  -l LOGO, --logo LOGO  Custom logo image (default: Pheno-Ranker logo).
   --test                Enable test mode (does not print date to PDF).
+  --labels LABELS       Optional export.labels.json[.gz] for missing ontology labels.
+  --template TEMPLATE   Matching global-vector JSON; required with --labels.
 ```
 
 Example:
@@ -79,6 +81,34 @@ Example:
 ```bash
 ./pheno-ranker2pdf -j output.json -q qr_codes/*png -t bff -o my_pdf_dir
 ```
+
+To display missing ontology names from the same analysis's label sidecar:
+
+```bash
+./pheno-ranker2pdf -j decoded.json -q qr_codes/*.png -t pxf \
+  --labels export.labels.json.gz --template export.glob_hash.json -o reports
+```
+
+This is optional, PDF-only enrichment. The PNG is decoded using the sorted keys
+of its matching global-vector template, and the result must match the supplied
+decoded record. Each active bit uses the label attached to its **exact feature
+key**, before reconstructing the display record. Labels are never paired by file
+order or by a later CURIE-only lookup. Missing labels do not shift positions;
+unknown feature keys and vector-length mismatches are rejected.
+
+Existing labels are preserved. Supplemented names appear within their original
+sections and array items, in a third **Label hint** column beside the corresponding
+ID fields, rather than as extra label rows; phenotype names
+also appear in the phenotype overview. A single report note explains the source
+of these display hints. Decoded JSON and QR payloads remain unchanged.
+No enriched JSON file is written. These checks enforce alignment; they
+do not independently validate the ontology names in a user-supplied labels file.
+
+Reports group fields by their original schema section and array item, preserving
+camelCase keys and ontology identifiers. Longer sections continue across numbered
+pages with repeated table headings. The Pheno-Ranker logo is included by default;
+use `--logo` to replace it with your own image. Logos keep their aspect ratio;
+the QR code remains separate from the report text.
 
 # INSTALLATION
 

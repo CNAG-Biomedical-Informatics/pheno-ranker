@@ -6,30 +6,34 @@ slug: "/bff-pxf-plot"
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # BFF-PXF-PLOT
 
 <Tabs>
 <TabItem value="explanation" label="Explanation">
 
-`bff-pxf-plot` is a companion command-line utility for plotting basic statistics from [BFF](/bff) or [PXF](/pxf) formats. 
+`bff-pxf-plot` creates a self-contained HTML report from [BFF](/bff) or [PXF](/pxf) records. From v1.09, HTML replaces PNG output.
+
+The report shows entry distributions (including the mean and median), section coverage,
+and phenotype and disease frequencies with searchable term tables. Excluded phenotypes
+are shown separately. Counts describe available annotations, not necessarily disease
+complexity or annotation quality. All charts and tables work offline.
 
 The tool, `bff-pxf-plot`, is found in the `utils` directory (if downloaded from GitHub or Docker).
 
-:::info[BFF plots]
-<figure>
- <img src="https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/xt/plot/bff.png" alt="BFF plots" width="800" />
- <figcaption>Beacon Friendly Format plots</figcaption>
-</figure>
-:::
+## Example reports
+
+These reports were generated with v1.09 from the repository's BFF example and
+100 simulated PXF records. Open either report to explore its summary table,
+distributions, section coverage and searchable terms.
+
+<p><a href={useBaseUrl('/examples/bff-summary.html')} target="_blank" rel="noopener noreferrer">Open BFF report</a>
+{' · '}<a href={useBaseUrl('/examples/pxf-summary.html')} target="_blank" rel="noopener noreferrer">Open PXF report</a></p>
+
 <details>
-<summary>PXF plots</summary>
-
-<figure>
- <img src="https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/xt/plot/pxf.png" alt="PXF plots" width="800" />
- <figcaption>Phenotype Exchange Format</figcaption>
-</figure>
-
+<summary>Preview the BFF report</summary>
+<iframe src={useBaseUrl('/examples/bff-summary.html')} title="BFF phenotype summary report" loading="lazy" style={{width: '100%', height: 850, border: '1px solid var(--ifm-color-emphasis-300)'}} />
 </details>
 
 </TabItem>
@@ -42,14 +46,14 @@ The tool, `bff-pxf-plot`, is found in the `utils` directory (if downloaded from 
 ```bash
 usage: bff-pxf-plot [-h] -i INPUT [-o OUTPUT] [-v]
 
-Process BFF/PXF (JSON or YAML) data and generate plots in a PNG file.
+Process BFF/PXF (JSON or YAML) data and generate a self-contained HTML report.
 
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         Input JSON or YAML file path (e.g., "data.json" or "data.yaml").
   -o OUTPUT, --output OUTPUT
-                        Optional: Output PNG file path (default: "output_plots.png")
+                        Output HTML file path (default: "output_plots.html")
   -v, --verbose         Increase output verbosity
 
 ```
@@ -65,7 +69,7 @@ Example:
 It should work out of the box with the containerized version. Otherwise:
 
 ```
-pip install pandas matplotlib PyYAML
+pip install matplotlib PyYAML
 ```
 
 # AUTHOR 

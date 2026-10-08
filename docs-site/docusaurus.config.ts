@@ -82,18 +82,13 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          to: '/download-and-installation',
-          label: 'Install',
+          to: '/desktop',
+          label: 'Desktop',
           position: 'left',
         },
         {
           to: '/usage',
-          label: 'Usage',
-          position: 'left',
-        },
-        {
-          href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg',
-          label: 'Try in Colab',
+          label: 'CLI',
           position: 'left',
         },
         {
@@ -131,7 +126,7 @@ const config: Config = {
               href: 'https://github.com/CNAG-Biomedical-Informatics/pheno-ranker',
             },
             {
-              label: 'Google Colab',
+              label: 'CLI in Google Colab',
               href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg',
             },
             {

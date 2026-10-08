@@ -19,11 +19,13 @@ Yes. See the [license](https://github.com/mrueda/pheno-ranker/blob/main/LICENSE)
 
 </details>
 <details>
-<summary>Is the Web App UI still available?</summary>
+<summary>What replaces the Web App UI?</summary>
 
-The Web App UI is a legacy interface that will be supported until the end of 2026. For new workflows, use the maintained [`pheno-ranker` command-line interface](/usage) locally or through Docker.
+From v1.09, the Desktop App replaces the legacy Web App UI as the graphical interface and runs locally. The [`pheno-ranker` command-line interface](/usage) remains supported for terminal and scripted workflows, locally or through Docker.
 
-The Web App UI is available at [https://pheno-ranker.cnag.eu](https://pheno-ranker.cnag.eu).
+The [legacy Web App UI documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/) remains available for reference.
+
+Legacy does not mean shut down: the [Shiny application](https://pheno-ranker.cnag.eu) still runs, but the hosted service currently has an HTTPS certificate issue. Do not bypass certificate warnings or submit sensitive data over an insecure connection.
 
 Playground credentials:
 
@@ -227,7 +229,7 @@ Then, you can re-use the exported data using the flag `--prp|precomputed-ref-pre
 pheno-ranker --prp my_export_prefix -t patient.json --include-terms phenotypicFeatures --sort-by jaccard
 ```
  
-Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{global_hash,ref_hash,ref_binary_hash,coverage_stats}.json`.
+Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{glob_hash,ref_hash,ref_binary_hash,coverage_stats}.json`.
 
 Note that the exported `JSON` files can also be **gzipped**.
 
