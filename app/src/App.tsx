@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { listen } from '@tauri-apps/api/event'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { invoke } from '@tauri-apps/api/core'
-import { Plus, Search, PanelLeftClose, PanelLeftOpen, Settings, BookOpen, Ellipsis, Trash2, Play, X, Check, Pencil, FolderOpen, FlaskConical, QrCode, FileText } from 'lucide-react'
+import { Plus, Search, PanelLeftClose, PanelLeftOpen, Settings, BookOpen, Ellipsis, Trash2, Play, X, Check, Pencil, FolderOpen, FlaskConical, QrCode, FileText, UserRound, UsersRound, ArrowLeftRight, RotateCcw } from 'lucide-react'
 import * as api from './api'
 import { confirmAction, finishQuit, openExternal, projectFile, revealRun, selectPaths } from './desktop'
 import type { FileDefinition, FileHandle, Job, Operation, OutputFile, Project, SafetyAssessment } from './types'
@@ -16,6 +16,8 @@ import YamlEditor from './components/YamlEditor'
 import BeaconImport from './components/BeaconImport'
 import AnalysisSettings from './components/AnalysisSettings'
 import ToolsMenu from './components/ToolsMenu'
+import ToolIcon from './components/ToolIcon'
+import RunHistory from './components/RunHistory'
 import RunStatus from './components/RunStatus'
 import RunInputs from './components/RunInputs'
 import InputSource, { type InputSourceKind } from './components/InputSource'
@@ -36,6 +38,7 @@ export default function App() {
   const [operation, setOperation] = useState('cohort')
   const [files, setFiles] = useState<Record<string, FileHandle[]>>({})
   const [inputSource, setInputSource] = useState<InputSourceKind>('files')
+  const [setupRevision, setSetupRevision] = useState(0)
   const [options, setOptions] = useState<Record<string, unknown>>({})
   const [runs, setRuns] = useState<Job[]>([])
   const historyRevision = useRef(0)
@@ -130,6 +133,12 @@ export default function App() {
     delete drafts.current.patient
     delete drafts.current.cohort
   }
+  function resetSetup() {
+    if (busy || editor) return
+    setFiles({}); setOptions({}); setDestination(undefined); setNotice(''); setError(''); setDirty(true)
+    delete drafts.current[operation]
+    setSetupRevision(value => value + 1)
+  }
   async function removeRuns(item?: Job, deleteFiles = false) {
     historyRevision.current++
     const result = item ? await api.request(`/api/jobs/${item.id}${deleteFiles ? '/files' : ''}`, undefined, 'DELETE')
@@ -152,6 +161,9 @@ export default function App() {
     setOperation(id); setOptions(drafts.current[id]?.options || {}); setTab('setup'); setDirty(true)
     const roles = catalog.find(item => item.id === id)?.input.files.map(item => item.name) || []
     setFiles(drafts.current[id]?.files || (isAnalysis && ['patient', 'cohort'].includes(id) ? Object.fromEntries(Object.entries(files).filter(([role]) => roles.includes(role))) : {}))
+    if (inputSource === 'examples' && isAnalysis && ['patient', 'cohort'].includes(id)) {
+      setFiles({}); setOptions({})
+    }
   }
   async function save(as = false): Promise<boolean> {
     if (editor) throw new Error('Apply or close the YAML editor before saving the project.')
@@ -315,28 +327,35 @@ export default function App() {
           </select>
           <p className="queue-summary">{runs.filter(item => item.status === 'running' || item.status === 'cancelling').length} running · {runs.filter(item => item.status === 'queued').length} queued</p>
           {!visibleRuns.length && <p className="run-empty">{runs.length ? 'No matching runs.' : 'Your runs will appear here. Start with an example or your own files.'}</p>}
-          <div className="run-tree">{visibleRuns.map(item => <div className="run-entry" key={item.id} onKeyDown={event => {if (event.key === 'Escape') {setRunMenu(''); setRenaming('')}}}>
+          <RunHistory runs={visibleRuns} selected={renaming || (tab === 'results' ? selected : '')} searching={!!runQuery.trim()} finishedCount={runs.filter(item => !active(item)).length}>{item => <div className="run-entry" key={item.id} onKeyDown={event => {if (event.key === 'Escape') {setRunMenu(''); setRenaming('')}}}>
             {renaming === item.id ? <form className="run-rename" onSubmit={event => {event.preventDefault(); void perform(() => renameRun(item.id))}}><input autoFocus aria-label="Run name" maxLength={80} value={runName} onChange={event => setRunName(event.target.value)}/><button title="Save name" aria-label="Save name" disabled={busy || !runName.trim()}><Check/></button><button type="button" title="Cancel renaming" aria-label="Cancel renaming" onClick={() => setRenaming('')}><X/></button></form> : <>
             <button className="tree-run" aria-pressed={tab === 'results' && selected === item.id} onClick={() => {setSelected(item.id); setTab('results'); setRunMenu('')}}>
-            <strong>{item.name || label(item.conversion)}</strong><RunStatus status={item.status}/><small>{new Date(item.created * 1000).toLocaleString()}</small><small>{item.id.slice(0, 8)}{item.queuePosition ? ` / queue ${item.queuePosition}` : ''}</small>
+            <strong className="run-name"><ToolIcon operation={item.conversion}/><span>{item.name || label(item.conversion)}</span></strong><RunStatus status={item.status}/><small>{new Date(item.created * 1000).toLocaleString()}</small><small>{item.id.slice(0, 8)}{item.queuePosition ? ` / queue ${item.queuePosition}` : ''}</small>
             </button><button className="run-more" title="Run actions" aria-label={`Actions for ${item.name || label(item.conversion)}`} aria-expanded={runMenu === item.id} onClick={() => setRunMenu(runMenu === item.id ? '' : item.id)}><Ellipsis/></button>
             {runMenu === item.id && <div className="run-action-menu"><button disabled={busy} onClick={() => {setRenaming(item.id); setRunName(item.name || label(item.conversion)); setRunMenu('')}}><Pencil/>Rename</button><button className="delete-run" disabled={busy || active(item)} onClick={() => setDeleteRequest({item})}><Trash2/>Delete run</button></div>}</>}
-          </div>)}</div>
+          </div>}</RunHistory>
         </div>
         <nav className="workspace-nav" aria-label="Application"><button aria-pressed={tab === 'settings'} onClick={() => setTab('settings')}><Settings/>Settings</button><button onClick={() => void menu.current('docs')}><BookOpen/>Documentation</button></nav>
       </aside>}
       <main className="desktop-content">
         <nav className="workspace-tabs" aria-label="Workspace views">{['setup', 'results'].map(name => <button key={name} disabled={name === 'results' && !run} aria-current={tab === name ? 'page' : undefined} onClick={() => setTab(name)}>{name === 'setup' ? 'Setup' : 'Selected run'}</button>)}</nav>
         <div className="workspace-view">
-          {tab === 'setup' && spec && <section className="conversion-editor">
-            {isAnalysis && <div className="analysis-modes" role="group" aria-label="Analysis mode">{catalog.filter(item => ['cohort', 'patient'].includes(item.id)).sort((a, b) => Number(a.id === 'patient') - Number(b.id === 'patient')).map(item => <button key={item.id} disabled={busy || !!editor} aria-pressed={operation === item.id} onClick={() => changeOperation(item.id)}><strong>{item.label}</strong><small>{item.id === 'patient' ? 'Rank reference records for a patient' : 'Compare all records across cohorts'}</small></button>)}</div>}
-            <div className="conversion-heading"><div><h1>{spec.label}</h1><p>{spec.description}</p></div>{operation === 'csv' && <button className={files.source?.length ? undefined : 'primary'} disabled={busy || !!editor} onClick={() => void perform(async () => {
+          {tab === 'setup' && spec && <section className="conversion-editor" key={setupRevision}>
+            {isAnalysis && <div className="analysis-modes" role="group" aria-label="Analysis mode">{catalog.filter(item => ['cohort', 'patient'].includes(item.id)).sort((a, b) => Number(a.id === 'patient') - Number(b.id === 'patient')).map(item => <button key={item.id} disabled={busy || !!editor} aria-pressed={operation === item.id} onClick={() => changeOperation(item.id)}>
+              <span className="analysis-mode-icon" aria-hidden="true">
+                {item.id === 'patient' && <><UserRound/><ArrowLeftRight className="analysis-mode-arrow"/></>}
+                <UsersRound/>
+              </span>
+              <span><strong>{item.label}</strong><small>{item.id === 'patient' ? 'Rank reference records for a patient' : 'Compare all records across cohorts'}</small></span>
+            </button>)}</div>}
+            <div className="conversion-heading"><div><h1>{!isAnalysis && <ToolIcon operation={operation}/>} {spec.label}</h1><p>{spec.description}</p></div>{operation === 'csv' && <button className={files.source?.length ? undefined : 'primary'} disabled={busy || !!editor} onClick={() => void perform(async () => {
               updateFiles(await api.example(operation)); setOptions({separator: ';', 'array-separator': ','})
               setNotice('CSV example loaded with matching separators. Review the settings, then run the conversion.')
-            })}><FlaskConical/>Load example</button>}</div>
-            {isAnalysis && <InputSource value={inputSource} onChange={changeInputSource} disabled={busy || !!editor}/>}
+            })}><FlaskConical/>Load example</button>}{!isAnalysis && <button disabled={busy || !!editor} title="Clear this setup; runs and source files are unchanged" onClick={resetSetup}><RotateCcw aria-hidden="true"/>Reset setup</button>}</div>
+            {isAnalysis && <InputSource value={inputSource} onChange={changeInputSource} onReset={resetSetup} disabled={busy || !!editor}/>}
             {isAnalysis && inputSource === 'examples' && <section className="conversion-card" aria-label="Example inputs">
               <h2>Small example</h2>
+              {operation === 'patient' && <p>The example includes both a target patient and reference records. No files need to be selected manually.</p>}
               <button className={files.reference?.length ? undefined : 'primary'} disabled={busy || !!editor} onClick={() => void perform(async () => {
                 if ((Object.values(files).some(entries => entries.length) || Object.keys(options).length) && !await confirmAction('Load example?', 'Replace the current inputs and settings with this example? Existing runs and original files will not be changed.')) return
                 updateFiles(await api.example(operation)); setOptions({}); setNotice('Example loaded. Review the selected inputs, then run the analysis.')
@@ -349,7 +368,7 @@ export default function App() {
             {isAnalysis && inputSource === 'beacon' && <button className={files.reference?.length ? undefined : 'primary'} disabled={busy || !!editor} onClick={() => setBeaconImport(true)}><Plus/>Import Beacon v2 reference</button>}
             {operation !== 'simulate' && (!isAnalysis || Object.values(files).some(entries => entries.length > 0)) && <RunInputs operation={spec} files={files} runs={runs} options={options}/>}
             {isAnalysis ? <>
-              {(['files', 'runs'].includes(inputSource) || spec.input.files.some(role => role.name === 'target')) && <section className="conversion-card">
+              {(['files', 'runs'].includes(inputSource) || (spec.input.files.some(role => role.name === 'target') && (inputSource !== 'examples' || Object.values(files).some(entries => entries.length > 0)))) && <section className="conversion-card">
                 <h2>{['files', 'runs'].includes(inputSource) ? 'Input data' : 'Target record'}</h2>
                 {renderInputs(spec.input.files.filter(role => ['files', 'runs'].includes(inputSource) ? ['reference', 'target'].includes(role.name) : role.name === 'target'))}
                 {inputSource === 'files' && <p className="muted">Using a precomputed reference? Select it under Advanced settings.</p>}

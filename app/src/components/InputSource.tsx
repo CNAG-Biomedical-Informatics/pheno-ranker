@@ -1,4 +1,4 @@
-import { FolderOpen, History, FlaskConical, Database, Globe } from 'lucide-react'
+import { FolderOpen, History, FlaskConical, Database, Globe, RotateCcw } from 'lucide-react'
 
 export type InputSourceKind = 'files' | 'runs' | 'examples' | 'use-cases' | 'beacon'
 const sources = [
@@ -9,14 +9,17 @@ const sources = [
   {id: 'beacon', label: 'Beacon', icon: Globe, description: 'Retrieve reference records from a Beacon v2 endpoint. This requires a network connection.'},
 ] as const
 
-export default function InputSource({value, onChange, disabled}: {
-  value: InputSourceKind; onChange: (value: InputSourceKind) => void; disabled: boolean
+export default function InputSource({value, onChange, onReset, disabled}: {
+  value: InputSourceKind; onChange: (value: InputSourceKind) => void; onReset: () => void; disabled: boolean
 }) {
   return <section aria-label="Input source">
     <div className="cohort-views" role="group" aria-label="Choose input source">
       {sources.map(({id, label, icon: Icon}) => <button key={id} disabled={disabled}
         aria-pressed={value === id} onClick={() => onChange(id)}><Icon size={16} aria-hidden="true"/>{label}</button>)}
     </div>
-    <p className="muted">{sources.find(source => source.id === value)?.description} Choosing another source clears the current inputs and resets settings. Previous runs are unchanged.</p>
+    <div className="input-source-note">
+      <p className="muted">{sources.find(source => source.id === value)?.description} Choosing another source clears the current inputs and resets settings. Previous runs are unchanged.</p>
+      <button disabled={disabled} title="Clear the current setup; runs and source files are unchanged" aria-label={`Reset ${sources.find(source => source.id === value)?.label}`} onClick={onReset}><RotateCcw aria-hidden="true"/>Reset setup</button>
+    </div>
   </section>
 }
