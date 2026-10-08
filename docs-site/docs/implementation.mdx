@@ -6,7 +6,7 @@ slug: "/implementation"
 
 The core of `Pheno-Ranker` is a [Perl module](https://metacpan.org/pod/Pheno%3A%3ARanker), accessible through a [command-line interface](/usage#synopsis).
 
-A [Web App UI](https://pheno-ranker.cnag.eu), built with [R-Shiny](https://shiny.posit.co), is a legacy interface that will be supported until the end of 2026. The CLI is recommended for new workflows.
+The R-Shiny [Web App UI](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/) is legacy. From v1.09, the Desktop App replaces it as the graphical interface. The CLI remains available independently, including through CPAN.
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
@@ -29,10 +29,10 @@ graph LR
   style D fill: #FFFF33, stroke: #FFFF33
 ```
 
-<figcaption>Diagram showing Pheno-Ranker implementation</figcaption>
+<figcaption>Legacy Web App UI architecture</figcaption>
 
 :::tip[Which interface should I use?]
-Use the [Command-Line Interface (CLI)](/usage) for new workflows. The legacy Web App UI remains supported until the end of 2026 for existing workflows.
+The Desktop App provides a local graphical interface from v1.09. Use the [Command-Line Interface (CLI)](/usage) for terminal and scripted workflows. The legacy Web App UI is no longer the interface for new workflows.
 :::
 ## Utilities
 

@@ -68,10 +68,20 @@ Use `--include-terms` or `--exclude-terms` to control which configured fields ar
 
 Reuse exported reference vectors for repeated patient matching:
 
+These hashes are generated from your reference data; they are different from the
+SQLite comparison results available in the [OMIM playground](/omim-database).
+
 ```bash
 pheno-ranker -r individuals.json --export ref_cache
 pheno-ranker --precomputed-ref-prefix ref_cache -t patient.json
 ```
+
+From v1.09, `--export` also writes `ref_cache.labels.json`, mapping global
+feature keys to display labels. The four existing reference files are unchanged.
+`--precomputed-ref-prefix` loads this optional sidecar automatically, including
+`.labels.json.gz` when the plain file is absent. Older exports remain usable
+without it; alignment falls back to identifiers for unavailable labels.
+Labels affect display only, not similarity scores or binary vectors.
 
 **Graph export**
 

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Pheno-Ranker",
+  "version": "1.9.0",
+  "identifier": "org.cnag.pheno-ranker",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "additionalWatchFolders": ["../engine", "../../lib", "../../bin", "../../share/conf"],
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [{"label": "main", "title": "Pheno-Ranker", "width": 1440, "height": 900, "minWidth": 960, "minHeight": 640}],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src blob:; worker-src 'self' blob:; font-src 'self' blob: data:; connect-src 'self' ipc: http://ipc.localhost http://127.0.0.1:*; object-src 'none'; base-uri 'self'",
+      "devCsp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src blob:; worker-src 'self' blob:; font-src 'self' blob: data:; connect-src 'self' ipc: http://ipc.localhost http://127.0.0.1:* ws://127.0.0.1:1420; object-src 'none'; base-uri 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/64x64.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": {"engine": "engine"},
+    "shortDescription": "Compare phenotypic and categorical records",
+    "longDescription": "Desktop software for patient ranking and cohort similarity analysis through the Pheno-Ranker core engine.",
+    "category": "Medical",
+    "copyright": "Copyright 2026 Manuel Rueda",
+    "license": "Artistic-2.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mdsRecords": 10500,
+  "umapRecords": 10500,
+  "heatmapRecords": 1500,
+  "graphNodes": 1500,
+  "graphEdges": 20000,
+  "graphExportRecords": 1500,
+  "matrixRows": 100,
+  "matrixColumns": 50,
+  "tableRows": 500,
+  "previewMiB": 32
+}

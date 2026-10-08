@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <Layout
       title="Pheno-Ranker"
-      description="Command-line phenotypic similarity analysis for cohort comparison and patient ranking">
+      description="Phenotypic similarity analysis for cohort comparison and patient ranking, with Desktop and CLI interfaces">
       <main className={styles.page}>
         <section className={styles.hero}>
           <div className={styles.heroInner}>
@@ -23,21 +23,18 @@ export default function Home() {
               <p className={styles.lede}>
                 Pheno-Ranker compares Beacon v2 Models, Phenopackets v2, and
                 configured JSON or YAML records using Hamming distance or Jaccard
-                similarity. Run the CLI in Colab, Docker, a terminal, or from
-                R/Python; no database or hosted service is required.
+                similarity. Set up analyses and explore results in the Desktop
+                App, or use the CLI for scripted workflows. Both run locally
+                without a database or hosted service.
               </p>
               <div className={styles.actions}>
-                <a
-                  className={styles.action}
-                  href="https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Try in Colab
-                </a>
+                <Link className={styles.action} to="/desktop">
+                  Desktop App
+                </Link>
                 <Link
                   className={styles.action}
                   to="/download-and-installation#first-run">
-                  Install &amp; first run
+                  CLI installation
                 </Link>
                 <Link className={styles.action} to="/other-formats">
                   Supported Inputs
