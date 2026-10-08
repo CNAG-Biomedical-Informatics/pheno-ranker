@@ -5,15 +5,6 @@ const sidebars: SidebarsConfig = {
     {type: 'doc', id: 'overview', label: 'Overview'},
     {type: 'doc', id: 'desktop', label: 'Desktop App'},
     {
-      type: 'category', label: 'Analysis', collapsed: true,
-      items: ['user-workflow', 'patient', 'cohort'],
-    },
-    {
-      type: 'category', label: 'Input Formats', collapsed: true,
-      link: {type: 'doc', id: 'other-formats'},
-      items: ['generic-json', 'bff', 'pxf', 'clinical-formats', 'vcf'],
-    },
-    {
       type: 'category', label: 'CLI', collapsed: true,
       items: [
         {type: 'doc', id: 'download-and-installation', label: 'CLI Installation & First Run'},
@@ -21,6 +12,20 @@ const sidebars: SidebarsConfig = {
         'use-from-r',
         {type: 'link', href: 'https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg', label: 'Try the CLI in Colab'},
       ],
+    },
+    {
+      type: 'category', label: 'Input Formats', collapsed: true,
+      link: {type: 'doc', id: 'other-formats'},
+      items: [
+        {type: 'doc', id: 'bff', label: 'Beacon v2 (BFF)'},
+        {type: 'doc', id: 'pxf', label: 'Phenopackets (PXF)'},
+        {type: 'doc', id: 'generic-json', label: 'Generic JSON/YAML'},
+        {type: 'doc', id: 'clinical-formats', label: 'Clinical Formats'},
+      ],
+    },
+    {
+      type: 'category', label: 'Analysis Modes', collapsed: true,
+      items: ['user-workflow', 'patient', 'cohort'],
     },
     {
       type: 'category', label: 'Utilities', collapsed: true,
@@ -33,11 +38,14 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category', label: 'Use Cases', collapsed: true,
-      items: ['phenopackets-corpus', 'omim-database', 'tcga-clinical'],
+      items: ['phenopackets-corpus', 'omim-database', 'tcga-clinical', {type: 'doc', id: 'vcf', label: 'VCF Workflow'}],
     },
+    {type: 'category', label: 'Reference', collapsed: true, items: ['algorithm', 'implementation']},
     {
-      type: 'category', label: 'Reference & Help', collapsed: true,
-      items: ['faq', 'algorithm', 'implementation', 'federated-version-proposal', 'about', 'citation'],
+      type: 'category', label: 'Help', collapsed: true,
+      items: ['faq', 'about', 'citation',
+        {type: 'doc', id: 'federated-version-proposal', label: 'Addendum: Federated Analysis'},
+      ],
     },
   ],
 };

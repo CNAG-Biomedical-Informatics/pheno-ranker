@@ -5,9 +5,11 @@ slug: "/user-workflow"
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# User Workflow
-
 The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a comparison, inspect or visualize the outputs, and optionally use companion utilities. Start with your data format, choose the comparison mode, then follow the output to the analysis or utility page that matches your task.
+
+These stages apply to both [Desktop](/desktop) and the [CLI](/usage). Desktop
+provides input selection and result viewers; the CLI exposes the same analysis
+engine for terminal and scripted workflows.
 
 <div className="phenoWorkflow" aria-label="Pheno-Ranker toolkit user workflow">
   <div className="phenoWorkflowStep">
@@ -26,7 +28,7 @@ The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a c
   <div className="phenoWorkflowStep">
     <span>02</span>
     <h3>Compare records</h3>
-    <p>Run <a href="/pheno-ranker/cohort">cohort mode</a> for all-vs-all comparisons or <a href="/pheno-ranker/patient">patient mode</a> to rank matches against a target patient.</p>
+    <p>Select <a href="/pheno-ranker/cohort">cohort mode</a> for all-vs-all comparisons or <a href="/pheno-ranker/patient">patient mode</a> to rank matches against a target patient. In Desktop, choose the mode in Setup; from the CLI, supplying a target selects patient mode.</p>
     <div className="phenoWorkflowChips">
       <a href="/pheno-ranker/cohort">Cohort mode</a>
       <a href="/pheno-ranker/patient">Patient mode</a>
@@ -36,7 +38,7 @@ The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a c
   <div className="phenoWorkflowStep">
     <span>03</span>
     <h3>Analyze outputs</h3>
-    <p>Inspect <a href="/pheno-ranker/patient">rankings</a>, <a href="/pheno-ranker/cohort">matrices</a>, graph exports, or downstream visualizations.</p>
+    <p>Explore <a href="/pheno-ranker/patient">rankings</a>, pair comparisons, and <a href="/pheno-ranker/cohort">cohort plots</a> in Desktop, or open the saved outputs in R and other analysis tools.</p>
     <div className="phenoWorkflowChips">
       <a href="/pheno-ranker/cohort">Matrices and graphs</a>
       <a href="/pheno-ranker/patient">Ranking statistics</a>
@@ -48,7 +50,7 @@ The typical `Pheno-Ranker` workflow has four stages: prepare input data, run a c
   <div className="phenoWorkflowStep">
     <span>04</span>
     <h3>Use utilities</h3>
-    <p>Run companion CLI tools to <a href="/pheno-ranker/bff-pxf-simulator">simulate data</a>, <a href="/pheno-ranker/csv-import">import CSV files</a>, <a href="/pheno-ranker/bff-pxf-plot">plot BFF/PXF summaries</a>, or <a href="/pheno-ranker/qr-code-generator">encode vectors as QR codes</a>.</p>
+    <p>Use the Desktop <strong>Tools</strong> menu or the companion CLI utilities to <a href="/pheno-ranker/bff-pxf-simulator">simulate data</a>, <a href="/pheno-ranker/csv-import">import CSV files</a>, <a href="/pheno-ranker/bff-pxf-plot">plot BFF/PXF summaries</a>, or <a href="/pheno-ranker/qr-code-generator">encode vectors as QR codes</a>.</p>
     <div className="phenoWorkflowChips">
       <a href="/pheno-ranker/csv-import">CSV import</a>
       <a href="/pheno-ranker/bff-pxf-simulator">BFF/PXF simulator</a>

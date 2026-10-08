@@ -50,13 +50,8 @@ Suppose a reference cohort contains two records and the target has `fever` and
 | Reference B | fever, rash |
 | Target | fever, cough |
 
-Patient mode runs one command:
-
-```bash
-pheno-ranker -r cohort.json -t target.json
-```
-
-The resulting `rank.txt` places Reference A first:
+In **Patient ranking**, select the reference cohort and target, then run the
+analysis. The ranking, also saved as `rank.txt`, places Reference A first:
 
 | Rank | Reference | Hamming distance | Jaccard index |
 | ---: | --- | ---: | ---: |
@@ -91,7 +86,7 @@ clinical records and reference cohorts.
 2. Every record is encoded against the same ordered variable list.
 3. The resulting binary vectors are compared with Hamming distance or Jaccard
    similarity.
-4. The CLI writes an all-vs-all matrix or a target-to-reference ranking.
+4. The analysis produces an all-vs-all matrix or a target-to-reference ranking.
 
 Pheno-Ranker requires no database setup and uses compact binary representations
 internally. Patient mode performs one comparison per reference record, whereas

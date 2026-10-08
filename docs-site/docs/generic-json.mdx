@@ -41,6 +41,42 @@ This tutorial deliberately uses generic JSON data (i.e., movies) to illustrate t
 
 Once you are comfortable with the concepts using movie data, you will find it easier to apply `Pheno-Ranker` to real GA4GH standards. For specific examples, please refer to the [cohort](/cohort) and [patient](/patient) pages in this documentation.
 :::
+
+## Run This Format
+
+Generic JSON/YAML requires a configuration that identifies each record and the
+fields to compare. The MoviePackets tutorial below creates both files.
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+1. Select **New analysis**, then choose cohort or patient mode.
+2. Open **User files** and select the JSON/YAML records as the reference.
+3. Open **Advanced settings** and select the matching configuration file.
+4. In patient mode, also select the target record, then select **Run analysis**.
+
+See the [Desktop guide](/desktop) for the visual workflow.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
+For cohort mode:
+
+```bash
+pheno-ranker -r records.json --config config.yaml
+```
+
+For patient mode:
+
+```bash
+pheno-ranker -r records.json -t target.json --config config.yaml
+```
+
+Continue with the full [CLI Reference](/usage) for additional options.
+
+</TabItem>
+</Tabs>
+
 ### MoviePackets
 
 For this tutorial, we will use **MoviePackets** to show how `Pheno-Ranker` can work with generic `JSON` files.
@@ -406,10 +442,14 @@ from the categorical content used in the comparison. See the
 for the technical details.
 
 </details>
-### Running `Pheno-Ranker`
+### Run the MoviePackets Examples
 
 Once `movies.json` and `movies_config.yaml` are in the current directory, run
-`pheno-ranker` with the commands below.
+`pheno-ranker` with the **CLI examples** below. In Desktop, load those same
+files under **User files**, select the configuration under **Advanced settings**,
+and choose the corresponding terms, weights, and outputs. The examples explain
+how each choice changes the comparison; running shell commands is not required
+to analyze these records in Desktop.
 
 <Tabs>
 <TabItem value="intra-catalog-comparison" label="Intra-catalog comparison">
