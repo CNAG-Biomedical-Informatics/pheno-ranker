@@ -44,9 +44,39 @@ You can browse a public BFF v2 file with the following **JSON viewers**:
 * [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubusercontent.com%2Fcnag-biomedical-informatics%2Fpheno-ranker%2Fmain%2Ft%2Fdata%2Findividuals.json#/data?sql=select+*+from+individuals)
 
 </details>
-## BFF As Input <img src="https://avatars.githubusercontent.com/u/33450937?s=200&v=4" alt="BFF" width="20" />
+## Run This Format
 
-The examples below show the minimal command-line patterns. For the complete CLI reference, see [Usage](/usage).
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+1. Select **New analysis**, then choose cohort or patient mode.
+2. Open **User files** and select `individuals.json` as the reference cohort.
+3. In patient mode, also select the target record.
+4. Select **Run analysis**.
+
+No configuration file is required. See the [Desktop guide](/desktop) for the
+visual workflow.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
+For cohort mode:
+
+```bash
+pheno-ranker -r individuals.json
+```
+
+For patient mode:
+
+```bash
+pheno-ranker -r individuals.json -t patient.json
+```
+
+The commands create `matrix.txt` and `rank.txt`, respectively. Continue with
+[Cohort Mode](/cohort), [Patient Mode](/patient), or the full [CLI Reference](/usage).
+
+</TabItem>
+</Tabs>
 
 <details>
 <summary>How are BFF arrays compared?</summary>
@@ -56,31 +86,3 @@ For first-level BFF arrays such as `diseases`, `exposures`, `interventionsOrProc
 From v1.08 onward, users do not need to transpose or manually rewrite nested BFF arrays. Nested arrays are canonicalized automatically from their meaningful content, so equivalent nested objects can match even if their order differs between records.
 
 </details>
-<Tabs>
-<TabItem value="cohort-mode" label="Cohort mode">
-
-Basic run:
-
-```bash
-pheno-ranker -r individuals.json
-```
-
-The default **output** is named `matrix.txt`. It is an `N x N` matrix with pairwise comparisons for all individuals.
-
-For more information visit the [cohort mode](/cohort) page.
-
-</TabItem>
-<TabItem value="patient-mode" label="Patient mode">
-
-Basic run:
-
-```bash
-pheno-ranker -r individuals.json -t patient.json
-```
-
-The **output** will be printed to `STDOUT` and to a file named `rank.txt`. The matching individuals will be sorted according to their [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance) to the reference patient. See additional details in the [Patient Mode](/patient) page.
-
-For more information visit the [patient mode](/patient) page.
-
-</TabItem>
-</Tabs>

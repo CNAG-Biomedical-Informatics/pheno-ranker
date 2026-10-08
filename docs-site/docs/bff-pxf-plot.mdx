@@ -8,19 +8,12 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# BFF-PXF-PLOT
-
-<Tabs>
-<TabItem value="explanation" label="Explanation">
-
 `bff-pxf-plot` creates a self-contained HTML report from [BFF](/bff) or [PXF](/pxf) records. From v1.09, HTML replaces PNG output.
 
 The report shows entry distributions (including the mean and median), section coverage,
 and phenotype and disease frequencies with searchable term tables. Excluded phenotypes
 are shown separately. Counts describe available annotations, not necessarily disease
 complexity or annotation quality. All charts and tables work offline.
-
-The tool, `bff-pxf-plot`, is found in the `utils` directory (if downloaded from GitHub or Docker).
 
 ## Example reports
 
@@ -36,8 +29,20 @@ distributions, section coverage and searchable terms.
 <iframe src={useBaseUrl('/examples/bff-summary.html')} title="BFF phenotype summary report" loading="lazy" style={{width: '100%', height: 850, border: '1px solid var(--ifm-color-emphasis-300)'}} />
 </details>
 
+## Usage
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+Open **Tools > Phenotype summary plot**, select BFF or PXF records from a file or
+previous run, then run the utility. Open the HTML report in the results panel;
+expand it to explore the charts and searchable tables. Generic JSON and binary
+analysis exports are not supported as summary inputs.
+
 </TabItem>
-<TabItem value="usage" label="Usage">
+<TabItem value="cli" label="CLI">
+
+The tool, `bff-pxf-plot`, is found in the `utils` directory (if downloaded from GitHub or Docker).
 
 [View source README](https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/utils/bff_pxf_plot/README.md)
 

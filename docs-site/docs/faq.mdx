@@ -2,8 +2,6 @@
 title: "FAQs"
 slug: "/faq"
 ---
-Frequently Asked Questions
-
 ## General
 
 <details>
@@ -36,15 +34,20 @@ Playground credentials:
 <details>
 <summary>Can I export term coverage and intermediate files?</summary>
 
-Yes. It is possible to export a file indicating **coverage** for each term (i.e., 1D-keys) as well as all **intermediate files** using the flag `--e`.
-
-On top of that, in _patient mode_, alignment files can be obtained by using `--align`.
+Yes. In Desktop, check **Output options** for intermediate exports and patient
+alignments. The completed run lists the generated files under **Output files**.
+In the CLI, use `--export <prefix>` for coverage and intermediate files, and
+`--align` for patient-mode alignments.
 
 </details>
 <details>
 <summary>How can I exclude a given variable?</summary>
 
-To exclude a specific variable, you can use one of the following methods:
+In Desktop, use the term selectors under **Customize analysis** to include or
+exclude sections of the input. For more detailed filtering, supply a custom
+configuration or weights under **Advanced settings**.
+
+The corresponding CLI and configuration controls are:
 
 1. Utilize the `--include-terms` or `--exclude-terms` options in the command-line interface (CLI).
 2. Implement a regular expression (regex) in the configuration file using the `exclude_variables_regex` parameter.

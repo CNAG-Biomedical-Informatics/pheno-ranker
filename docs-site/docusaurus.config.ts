@@ -106,14 +106,14 @@ const config: Config = {
           items: [
             {
               label: 'Overview',
-              to: '/',
+              to: '/overview',
             },
             {
               label: 'Algorithm',
               to: '/algorithm',
             },
             {
-              label: 'Usage',
+              label: 'CLI Reference',
               to: '/usage',
             },
           ],

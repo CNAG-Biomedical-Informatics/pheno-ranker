@@ -15,8 +15,6 @@ export const CsvFormatImage = () => (
   />
 );
 
-# How to use a CSV with Pheno-Ranker
-
 <div className="phenoFormatSummary" aria-label="At a glance">
   <div><span>Role</span><strong>Utility-assisted input</strong></div>
   <div><span>Accepted input</span><strong>Delimited text table</strong></div>
@@ -39,8 +37,24 @@ of ranges should be justified by the domain rather than selected only for the
 software.
 :::
 
+## Usage
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+Open **Tools > CSV/TSV**, select your table, and check its delimiter and record
+identifier settings before running the conversion. When it finishes, select
+**Use in analysis**: Desktop carries both the converted JSON and its matching
+configuration into the cohort setup. Review the setup, then run the analysis.
+
+Keep the generated JSON and configuration together if you export them for use
+outside Desktop.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
 <Tabs>
-<TabItem value="explanation" label="Explanation">
+<TabItem value="explanation" label="Worked example">
 
 ## Convert a table
 
@@ -142,7 +156,7 @@ Always use the generated configuration when working with the converted JSON.
 </details>
 
 </TabItem>
-<TabItem value="usage" label="Usage">
+<TabItem value="usage" label="CLI usage">
 
 ## Command reference
 
@@ -188,6 +202,9 @@ files therefore require enough RAM for the complete converted dataset.
 See the [source utility README](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/utils/csv2pheno_ranker/README.md)
 for standalone-script information, or [Download & Installation](/download-and-installation)
 for supported installation methods.
+
+</TabItem>
+</Tabs>
 
 </TabItem>
 </Tabs>

@@ -5,6 +5,8 @@ slug: "/clinical-formats"
 
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 export const ClinicalFormatsWorkflow = () => (
   <img
@@ -31,6 +33,40 @@ Pheno-Ranker reads [Beacon v2 Models (BFF)](/bff) and [Phenopackets v2 (PXF)](/p
 :::info[Why convert first?]
 Clinical standards encode identity, terminology, and repeated events differently. Convert-Pheno owns those source-specific mappings and groups the data into individual-level BFF records. Pheno-Ranker can then use its built-in BFF configuration and canonicalization instead of treating clinical JSON as an arbitrary structure.
 :::
+
+## Run This Format
+
+First use Convert-Pheno to produce BFF `individuals.json`. Then run that BFF
+output in Pheno-Ranker; no source-format configuration is required.
+
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+1. In Convert-Pheno, convert the clinical source to Beacon v2/BFF.
+2. In Pheno-Ranker Desktop, select **New analysis** and choose cohort or patient mode.
+3. Under **User files**, select the generated `individuals.json` as the reference.
+4. In patient mode, also select a target record, then select **Run analysis**.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
+For cohort mode:
+
+```bash
+pheno-ranker -r individuals.json
+```
+
+For patient mode:
+
+```bash
+pheno-ranker -r individuals.json -t target.json
+```
+
+Continue with [Cohort Mode](/cohort), [Patient Mode](/patient), or the full
+[CLI Reference](/usage).
+
+</TabItem>
+</Tabs>
 
 ## Source Format Guides
 
@@ -72,22 +108,6 @@ Use the maintained Convert-Pheno guide for your source format. These pages conta
 :::note[General-purpose data]
 This workflow is for **clinical harmonization**. To compare arbitrary categorical tables or custom records, use [CSV Import](/csv-import) or [Generic JSON/YAML](/generic-json) instead.
 :::
-
-## Run the BFF Output
-
-After Convert-Pheno writes the BFF output, pass its `individuals.json` file to Pheno-Ranker. No source-format configuration is needed at this stage.
-
-For an all-vs-all cohort comparison:
-
-```bash
-pheno-ranker -r individuals.json
-```
-
-To rank references against a target record:
-
-```bash
-pheno-ranker -r individuals.json -t target.json
-```
 
 <div className="button-row">
   <Link className="button button--primary" to="/bff">Review BFF input</Link>

@@ -7,14 +7,17 @@ slug: "/omim-database"
 
 
 import CytoscapeGraph from '@site/src/components/CytoscapeGraph';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Using `Pheno-Ranker` with OMIM Data
 
 This guide explains how to use `Pheno-Ranker` with data from the [OMIM Database](https://omim.org).
 
-:::tip[Try it in Desktop]
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
 In the Desktop app, open **New analysis** and choose **Patient ranking** or
-**Cohort comparison**. Expand **Try a published use case**, select **OMIM disease
+**Cohort comparison**. Open **Use cases**, select **OMIM disease
 profiles** or **ORPHA disease profiles**, then click **Load use case**.
 Review the settings before clicking **Run analysis**. All inputs are bundled;
 no download is needed.
@@ -24,15 +27,22 @@ using phenotypic features and Jaccard similarity. Cohort mode compares all disea
 profiles using phenotypic features and Hamming distance. Full-cohort runs may take
 several minutes; large-result safeguards may omit graph and MDS previews.
 These examples demonstrate similarity analysis, not clinical diagnosis.
-:::
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 There are three different ways to work with these data:
 
 | Data | Purpose | Where to get it |
 | --- | --- | --- |
 | Source disease cohorts | Run new analyses against OMIM or ORPHA | Bundled under `share/diseases/hpo/`; download instructions below |
-| Precomputed reference hashes | Reuse prepared reference vectors with new patients | Generate them with `-e omim`, as shown below; no ready-made hash bundle is provided here |
+| Precomputed reference hashes | Reuse prepared reference vectors | Desktop bundles these for OMIM and ORPHA; for custom CLI analyses, generate them with `-e omim`, as shown below |
 | Stored comparison results | Look up scores already calculated for existing records | The [online playground](https://cnag-biomedical-informatics.github.io/sql.js-httpvfs-playground/) queries the published SQLite databases |
+
+The following sections are a **CLI and R walkthrough**, including the commands
+used to generate the illustrated results. Desktop users can run the bundled use
+cases without following these installation or download steps. The bundled data
+and settings may differ from this walkthrough; use the same inputs and settings
+when comparing results.
 
 ## Data Download
 
@@ -285,6 +295,9 @@ This process takes **~10 seconds**. For a much faster approach using **precomput
 ```
 
 With **precomputed data**, the calculation takes only **0.5 seconds** while yielding identical results.
+
+</TabItem>
+</Tabs>
 
 ### All-to-All Precomputed Similarity
 

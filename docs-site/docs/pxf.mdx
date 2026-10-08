@@ -45,9 +45,43 @@ or [Datasette](https://lite.datasette.io/?json=https%3A%2F%2Fraw.githubuserconte
 
 </details>
 
-## PXF As Input
+## Run This Format
 
-The examples below use a simulated cohort of 100 Phenopackets. Download it once:
+<Tabs defaultValue="desktop" groupId="interface">
+<TabItem value="desktop" label="Desktop">
+
+1. Select **New analysis**, then choose cohort or patient mode.
+2. Open **User files** and select the Phenopacket JSON/YAML as the reference.
+3. In patient mode, also select one target Phenopacket.
+4. Select **Run analysis**.
+
+No configuration file is required. See the [Desktop guide](/desktop) for the
+visual workflow.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
+For cohort mode:
+
+```bash
+pheno-ranker -r pxf.json
+```
+
+For patient mode:
+
+```bash
+pheno-ranker -r pxf.json -t target.json
+```
+
+The commands create `matrix.txt` and `rank.txt`, respectively. Continue with
+[Cohort Mode](/cohort), [Patient Mode](/patient), or the full [CLI Reference](/usage).
+
+</TabItem>
+</Tabs>
+
+### Try the Sample Cohort
+
+Download a simulated cohort of 100 Phenopackets:
 
 ```bash
 curl -L https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/pheno-ranker/main/share/ex/pxf_random_100.json -o pxf.json
@@ -58,30 +92,13 @@ No manual transposition is required. Pheno-Ranker automatically handles nested
 arrays, including PXF-specific genomic interpretations, before comparison.
 :::
 
-<Tabs>
-<TabItem value="cohort-mode" label="Cohort mode">
-
-Compare every Phenopacket against every other Phenopacket:
-
-```bash
-pheno-ranker -r pxf.json
-```
-
-The command creates `matrix.txt`, an `N x N` pairwise comparison matrix. To
-compare only selected top-level elements, use `--include-terms`:
+To compare only selected top-level elements in cohort mode, use `--include-terms`:
 
 ```bash
 pheno-ranker -r pxf.json --include-terms phenotypicFeatures diseases
 ```
 
-Continue with [Cohort Mode](/cohort) to choose a metric, create sparse output,
-or export a graph.
-
-</TabItem>
-<TabItem value="patient-mode" label="Patient mode">
-
-Patient mode requires one target Phenopacket. You can provide your own target or
-extract one record from the downloaded cohort:
+Patient mode requires one target Phenopacket. To extract one from the sample:
 
 ```bash
 pheno-ranker -r pxf.json --patients-of-interest Phenopacket_1
@@ -93,12 +110,6 @@ This creates `Phenopacket_1.json`. Rank the reference cohort against it:
 pheno-ranker -r pxf.json -t Phenopacket_1.json
 ```
 
-The command creates `rank.txt`, ordered by Hamming distance by default. Continue
-with [Patient Mode](/patient) to interpret the ranking columns or select Jaccard
-similarity.
-
-</TabItem>
-</Tabs>
 
 ## Automatic Nested-Array Handling
 

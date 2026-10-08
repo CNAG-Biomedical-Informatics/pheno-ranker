@@ -51,6 +51,7 @@ export default function PhenopacketStore({operation, disabled, onBusy, onLoad}: 
       </select></label>}
       {release && !release.collections && <button className="primary" disabled={locked} onClick={() => void perform('Downloading and checking release...', async () => remember(await api.storeDownload(tag)))}><Download size={16}/>Download ({(release.bytes / 1024 / 1024).toFixed(1)} MB)</button>}
     </div>
+    <p className="muted">These data retain their original <a href="https://github.com/monarch-initiative/phenopacket-store/blob/main/LICENSE" target="_blank" rel="noreferrer">BSD-3-Clause license</a>, separate from the app license.</p>
     {!!collections.length && <>
       <label>Find collections<input type="search" value={query} disabled={locked} placeholder="Collection or gene name" onChange={event => setQuery(event.target.value)}/></label>
       <div className="use-case-controls">
