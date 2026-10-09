@@ -29,6 +29,7 @@
       "icons/icon.ico"
     ],
     "resources": {"engine": "engine"},
+    "macOS": {"signingIdentity": "-"},
     "shortDescription": "Compare phenotypic and categorical records",
     "longDescription": "Desktop software for patient ranking and cohort similarity analysis through the Pheno-Ranker core engine.",
     "category": "Medical",

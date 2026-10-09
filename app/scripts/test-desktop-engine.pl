@@ -43,7 +43,10 @@ if ( @ARGV && $ARGV[0] eq '--probe' ) {
 
 my $engine = abs_path( shift // die "Usage: $0 ENGINE_DIRECTORY\n" )
   or die "Cannot resolve engine directory\n";
-my $perl = File::Spec->catfile( $engine, 'runtime', 'bin',
+my $runtime_perl = $^O eq 'MSWin32'
+  ? File::Spec->catdir( $engine, 'runtime', 'perl' )
+  : File::Spec->catdir( $engine, 'runtime' );
+my $perl = File::Spec->catfile( $runtime_perl, 'bin',
     $^O eq 'MSWin32' ? 'perl.exe' : 'perl' );
 die "Staged Perl executable is missing\n" unless -f $perl;
 my $helper = File::Spec->catfile( $engine, 'python',
@@ -53,7 +56,7 @@ my $home = tempdir(CLEANUP => 1);
 local %ENV = (
     ( $^O eq 'MSWin32'
         ? ( SystemRoot => $ENV{SystemRoot}, WINDIR => $ENV{WINDIR},
-            PATH => File::Spec->catdir( $engine, 'runtime', 'bin' ) )
+            PATH => File::Spec->catdir( $runtime_perl, 'bin' ) )
         : () ),
     HOME => $home, USERPROFILE => $home,
     TMPDIR => $home, TEMP => $home, TMP => $home,
