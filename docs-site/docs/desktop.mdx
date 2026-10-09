@@ -32,7 +32,8 @@ exploration; they do not provide a clinical interpretation or diagnosis.
 Download the installer for your operating system and processor from
 [GitHub Releases](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/releases).
 The Pheno-Ranker engine and runtimes are included; Perl, Python, and Node.js do
-not need to be installed separately.
+not need to be installed separately. On the release page, expand **Assets** and
+choose an installer rather than one of GitHub's automatic source-code archives.
 
 <Tabs defaultValue="windows" groupId="desktop-platform">
 <TabItem value="windows" label="Windows">
@@ -70,6 +71,71 @@ ARM64. AppImages still depend on a compatible host glibc.
 The Desktop installers are separate from the five publication-numbered CLI
 [installation methods](/download-and-installation); their `D`, `G`, and `C`
 codes remain unchanged.
+
+### Storage, updates, and removal
+
+<details className="alert alert--info">
+<summary><strong>Where Pheno-Ranker stores application data</strong></summary>
+
+Desktop stores settings, run history, downloaded use-case data, and
+application-managed outputs separately from the installed application:
+
+- **Linux:** `~/.local/share/org.cnag.pheno-ranker/` (or `$XDG_DATA_HOME/org.cnag.pheno-ranker/` when configured).
+- **macOS:** `~/Library/Application Support/org.cnag.pheno-ranker/`.
+- **Windows:** `%LOCALAPPDATA%\org.cnag.pheno-ranker\`.
+
+This per-user folder persists when the app is closed, updated, or reinstalled.
+That is why a new installer opened under the same account shows the existing run
+history. User-selected input files remain in their original locations. Results
+written to a custom folder in **Settings** also remain outside application
+storage.
+
+Projects are saved wherever you choose. Keep each `.phenoranker` file beside
+its matching `.phenoranker.data` directory.
+
+</details>
+
+#### Update Desktop
+
+Quit Pheno-Ranker before updating:
+
+- **macOS:** replace the app in **Applications** with the copy from the new DMG.
+- **Windows:** run the newer setup executable and follow its wizard.
+- **Linux:** replace the AppImage and restore executable permission if needed.
+
+The existing application-data folder preserves settings and run history across
+the update.
+
+#### Uninstall or reset
+
+1. Save projects and copy any generated results you want to keep outside the
+   application-data folder.
+2. Quit Pheno-Ranker.
+3. To uninstall, delete the AppImage on Linux, remove Pheno-Ranker from
+   **Applications** on macOS, or run the Pheno-Ranker uninstaller from the
+   Windows Start menu or **Settings > Apps > Installed apps**.
+4. On Windows, the uninstaller asks whether to **Delete app data**. Leave this
+   unchecked to preserve settings and run history for a later reinstall. Select
+   it only when you also want to remove downloads, managed outputs, and local
+   history. The application-data path shown above is included in that cleanup.
+5. On Linux or macOS, remove the application-data folder listed above only when
+   you also want to reset settings and local history. Separately remove custom
+   results folders only if you no longer need them.
+
+On Windows, the installed program directory under `%LOCALAPPDATA%` is separate
+from `%LOCALAPPDATA%\org.cnag.pheno-ranker\`. The program directory is removed
+during uninstall; the application-data directory is removed when **Delete app
+data** is selected.
+
+Deleting application data without uninstalling resets the local working state;
+Pheno-Ranker recreates it on the next launch. It does not remove original input
+files, separately saved projects, or results stored in a custom folder.
+
+:::caution[Save before resetting]
+Deleting the application-data folder permanently removes its local run history
+and application-managed outputs. Save the project or copy required outputs
+first.
+:::
 
 ## First Analysis
 
@@ -195,16 +261,6 @@ endpoint. Optional discovered or manually entered filters are combined with
 imports when the complete query result is required.
 
 See the [BioData.pt API documentation](https://beacon.biodata.pt/api_help).
-
-</details>
-
-<details>
-<summary><strong>Application data and projects</strong></summary>
-
-Desktop keeps run history, settings, and managed outputs in the operating
-system's application-data directory. A custom results folder can be selected in
-**Settings**. Saved projects retain references to external inputs, so keep those
-files available and keep `.phenoranker` beside `.phenoranker.data`.
 
 </details>
 
