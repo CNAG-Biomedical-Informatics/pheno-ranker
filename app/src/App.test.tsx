@@ -94,7 +94,7 @@ it('starts fresh when changing input sources without running jobs', async () => 
   fireEvent.click(screen.getByRole('button', {name: 'User files'}))
   expect(screen.getByRole('button', {name: 'Select Target'})).toBeInTheDocument()
   expect(api.submit).not.toHaveBeenCalled()
-}, 15_000)
+})
 
 it('enables Run analysis after loading complete inputs and disables it after removal', async () => {
   vi.mocked(api.operations).mockResolvedValue([{id: 'cohort', label: 'Cohort', description: '', available: true, options: [], input: {files: []}}, {id: 'patient', label: 'Patient', description: '', available: true, options: [], input: {files: [
