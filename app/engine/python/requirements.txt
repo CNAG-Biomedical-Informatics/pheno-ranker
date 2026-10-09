@@ -1,5 +1,7 @@
 numpy>=1.26,<3
 umap-learn==0.5.9.post2
+# Numba 0.62 is the last series shipping Intel macOS binaries.
+numba>=0.62,<0.63; sys_platform == "darwin" and platform_machine == "x86_64"
 pandas>=2,<3
 matplotlib>=3.8,<4
 qrcode>=7.4,<9
