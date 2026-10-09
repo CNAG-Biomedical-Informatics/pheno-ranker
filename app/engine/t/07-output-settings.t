@@ -17,14 +17,14 @@ my $jobs=Pheno::Ranker::Desktop::Jobs->new(root=>"$tmp/jobs",worker=>$worker);
 END {$jobs->shutdown if $jobs}
 my $grant=$jobs->register_file("$results");
 $jobs->update_settings({defaultOutputFolder=>$grant->{id}});
-is($jobs->settings->{defaultOutputFolder},"$results",'global results folder stored');
+is(abs_path($jobs->settings->{defaultOutputFolder}),abs_path("$results"),'global results folder stored');
 $jobs->update_settings({maxConcurrentJobs=>1});
-is($jobs->settings->{defaultOutputFolder},"$results",'scheduler updates preserve folder');
+is(abs_path($jobs->settings->{defaultOutputFolder}),abs_path("$results"),'scheduler updates preserve folder');
 ok(!eval {$jobs->update_settings({defaultOutputFolder=>"$override"});1},'ungranted raw paths rejected');
 ok(!eval {$jobs->update_settings({defaultOutputFolder=>$jobs->register_file("$original")->{id}});1},'files cannot be result folders');
 $jobs->shutdown;
 $jobs=Pheno::Ranker::Desktop::Jobs->new(root=>"$tmp/jobs",worker=>$worker);
-is($jobs->settings->{defaultOutputFolder},"$results",'folder survives restart without session handles');
+is(abs_path($jobs->settings->{defaultOutputFolder}),abs_path("$results"),'folder survives restart without session handles');
 sub run {
     my ($destination)=@_;
     my $job=$jobs->submit({conversion=>'simulate',input=>{files=>{}},options=>{number=>2},output=>{},defined($destination) ? (destination=>$destination) : ()});
