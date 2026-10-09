@@ -12,7 +12,7 @@ dependencies in `engine/cpanfile`, Node.js, Rust and Tauri's native prerequisite
 
 ```sh
 cpanm --installdeps ..
-cpanm --installdeps engine
+cpanm --installdeps ./engine
 npm install
 npm run desktop
 ```

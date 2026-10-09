@@ -83,7 +83,7 @@ jobs:
         run: cpanm --notest --configure-timeout 300 --installdeps .
 
       - name: Install Desktop Perl dependencies
-        run: cpanm --notest --configure-timeout 300 --installdeps app/engine
+        run: cpanm --notest --configure-timeout 300 --installdeps ./app/engine
 
       - name: Install Python dependencies
         run: python -m pip install --disable-pip-version-check -r app/engine/python/requirements.txt PyInstaller==6.16.0
