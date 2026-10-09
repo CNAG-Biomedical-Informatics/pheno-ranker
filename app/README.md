@@ -150,7 +150,8 @@ CLI version `1.09` corresponds to Desktop package version `1.9.0`.
   are left untouched; published releases are rejected. It does not build
   installers or publish to GitHub, CPAN, or Docker Hub.
 - An annotated version tag builds all five Desktop installers into a **draft**
-  GitHub release. Manual Desktop runs create compatibility-test prereleases.
+  GitHub release. Manual Desktop runs retain inspected compatibility-test
+  artifacts without creating a release.
 - **Publish to CPAN** is dispatched manually with the annotated release tag.
   The workflow checks out that tag and runs `make disttest` before uploading.
 - **Docker build (native multi-arch)** is dispatched manually with the same tag.
