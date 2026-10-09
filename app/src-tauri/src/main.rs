@@ -80,7 +80,7 @@ fn start_engine(app: &tauri::App) -> Result<Engine, Box<dyn std::error::Error>> 
     let perl = if cfg!(debug_assertions) && !uses_smoke_engine {
         PathBuf::from("perl")
     }
-        else { root.join(if cfg!(windows) { "runtime/bin/perl.exe" } else { "runtime/bin/perl" }) };
+        else { root.join(if cfg!(windows) { "runtime/perl/bin/perl.exe" } else { "runtime/bin/perl" }) };
     let listener = TcpListener::bind("127.0.0.1:0")?;
     let url = format!("http://127.0.0.1:{}", listener.local_addr()?.port());
     let token = uuid::Uuid::new_v4().simple().to_string();
