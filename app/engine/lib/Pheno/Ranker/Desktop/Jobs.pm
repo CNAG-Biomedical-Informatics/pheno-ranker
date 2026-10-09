@@ -553,6 +553,7 @@ sub cancel_pending {
 
 sub shutdown {
     my ($self)=@_;
+    local $?;
     return if $self->{stopped};
     # Prevent polling/cancellation from starting queued work during shutdown.
     $self->{stopped} = 1;

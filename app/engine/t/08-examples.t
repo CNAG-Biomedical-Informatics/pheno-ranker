@@ -50,4 +50,7 @@ for my $mode (qw(omim orpha)) {
     my $prefix = uc $mode;
     like($output->slurp_raw, qr/\Q$prefix\E:/, 'ranking uses the selected disease reference');
 }
+$? = 37 << 8;
+$jobs->shutdown;
+is($?, 37 << 8, 'worker cleanup preserves the caller exit status');
 done_testing;
