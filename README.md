@@ -20,6 +20,15 @@
 
 ---
 
+[🖥️ Desktop](https://cnag-biomedical-informatics.github.io/pheno-ranker/desktop/) ·
+[📘 Documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker/) ·
+[💻 CLI Installation](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/) ·
+[📖 CLI Usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/) ·
+[📓 Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg) ·
+[📦 CPAN](https://metacpan.org/pod/Pheno::Ranker) ·
+[🐳 Docker](https://hub.docker.com/r/manuelrueda/pheno-ranker/tags) ·
+[🌐 Legacy Web App](https://pheno-ranker.cnag.eu)
+
 # Pheno-Ranker
 
 **Pheno-Ranker** compares phenotypic, clinical, and other categorical records.
@@ -37,12 +46,6 @@ summaries, QR codes, and PDF reports.
 The **CLI** remains available for scripts, R/Python automation, and batch
 analyses. Desktop and CLI use the same analysis engine; CPAN distributes the
 CLI independently.
-
-- [Install and use Desktop](https://cnag-biomedical-informatics.github.io/pheno-ranker/desktop/)
-- [Install the CLI](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/)
-- [CLI usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/)
-- [Complete documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker/)
-- [CLI tutorial in Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg)
 
 Desktop replaces the [legacy Web App UI](https://pheno-ranker.cnag.eu).
 Its [documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/)
