@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Annotated release tag (e.g. 1.09)
-        required: true
+        description: Annotated release tag; leave blank for a non-publishing test
+        required: false
         type: string
       publish:
         description: Publish images to Docker Hub
@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: docker-${{ inputs.tag }}
+  group: docker-${{ inputs.tag || github.ref }}
   cancel-in-progress: false
 
 env:
@@ -32,21 +32,32 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: refs/tags/${{ inputs.tag }}
+          ref: ${{ inputs.tag || github.sha }}
           fetch-depth: 0
 
       - name: Validate and resolve release once for both architectures
         id: metadata
         env:
           RELEASE_TAG: ${{ inputs.tag }}
+          PUBLISH: ${{ inputs.publish }}
         run: |
-          perl app/scripts/check-release.pl "$RELEASE_TAG"
-          git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
           version="$(tr -d '\r\n' < VERSION)"
-          test "$RELEASE_TAG" = "$version"
-          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
-          revision="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
-          test "$revision" = "$(git rev-parse HEAD)"
+          if [ -n "$RELEASE_TAG" ]; then
+            perl app/scripts/check-release.pl "$RELEASE_TAG"
+            git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+            test "$RELEASE_TAG" = "$version"
+            test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+            revision="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
+            test "$revision" = "$(git rev-parse HEAD)"
+          else
+            test "$PUBLISH" != true || {
+              echo "Publishing requires an annotated release tag" >&2
+              exit 1
+            }
+            perl app/scripts/check-release.pl
+            revision="$(git rev-parse HEAD)"
+            echo "Testing untagged revision $revision without publication"
+          fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
 
