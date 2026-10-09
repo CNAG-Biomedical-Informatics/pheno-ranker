@@ -8,7 +8,7 @@ use Cwd qw(abs_path);
 use Time::HiRes qw(time sleep);
 use Pheno::Ranker::Desktop::Jobs;
 
-my $tmp=tempdir(CLEANUP=>1);
+my $tmp=abs_path(tempdir(CLEANUP=>1));
 my $results=path($tmp,'results'); $results->mkpath;
 my $override=path($tmp,'override'); $override->mkpath;
 my $original=$results->child('original.txt'); $original->spew_utf8('Keep this input');
