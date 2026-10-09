@@ -157,9 +157,7 @@ CLI version `1.09` corresponds to Desktop package version `1.9.0`.
   Native AMD64 and ARM64 runners build and test each image without emulation.
   Before tagging, leave `tag` blank and `publish` unchecked to test the selected
   branch. Publishing requires an annotated tag and assigns the versioned image
-  and `latest` only after both architectures pass. The single-architecture
-  workflow publishes only a versioned `-amd64` image, leaving the
-  multi-architecture tags untouched.
+  and `latest` only after both architectures pass.
 - Documentation deployment remains manual, as in Convert-Pheno, so documentation
   corrections do not require a software release.
 
