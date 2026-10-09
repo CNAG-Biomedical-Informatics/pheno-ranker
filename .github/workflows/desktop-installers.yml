@@ -172,8 +172,14 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $prefix = perl -MConfig -e 'print $Config{prefix}'
-          if ($LASTEXITCODE -ne 0) { throw 'Cannot determine Perl prefix' }
+          $perlExe = (Get-Command perl).Source
+          $prefix = Split-Path (Split-Path $perlExe)
+          $runtimePerl = Join-Path $prefix 'bin/perl.exe'
+          $activeVersion = perl -e 'print $^V'
+          $runtimeVersion = & $runtimePerl -e 'print $^V'
+          if ($LASTEXITCODE -ne 0 -or $activeVersion -ne $runtimeVersion) {
+            throw "Selected Perl and staged runtime differ: $activeVersion vs $runtimeVersion"
+          }
           $compilerBin = Split-Path (Get-Command gcc).Source
           $libraries = @(perl -MConfig -e 'print "$_\n" for grep { defined && length } @Config{qw(vendorlib vendorarch sitelib sitearch)}')
           if ($LASTEXITCODE -ne 0) { throw 'Cannot determine Perl library paths' }
