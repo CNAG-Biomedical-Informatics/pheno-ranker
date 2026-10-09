@@ -52,6 +52,9 @@ def main():
             "--add-binary", f"{zbar_library}:.",
             "--runtime-hook", str(root / "app" / "scripts" / "pyinstaller" / "pyzbar_macos.py"),
         ])
+    elif sys.platform == "win32":
+        # The Windows pyzbar wheel ships zbar and libiconv beside its modules.
+        pyinstaller_args.extend(["--collect-binaries", "pyzbar"])
     pyinstaller_args.append(str(root / "app" / "engine" / "python" / "worker.py"))
     subprocess.run(pyinstaller_args, check=True, env=environment)
     print(output / ("pheno-ranker-helper.exe" if sys.platform == "win32" else "pheno-ranker-helper"))
