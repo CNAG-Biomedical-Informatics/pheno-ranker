@@ -121,12 +121,18 @@ jobs:
         shell: pwsh
         run: prove -lr t app/engine/t
 
-      - name: Test Python utilities and helper
+      - name: Test barcode utilities
+        run: python -m unittest discover -s utils/barcode/tests -p 'test_*.py'
+
+      - name: Test phenotype summary utility
+        run: python -m unittest discover -s utils/bff_pxf_plot/tests -p 'test_*.py'
+
+      - name: Test Python engine
+        run: python -m unittest discover -s app/engine/python -p 'test_*.py'
+
+      - name: Test Python helper integration
         shell: bash
         run: |
-          python -m unittest discover -s utils/barcode/tests -p 'test_*.py'
-          python -m unittest discover -s utils/bff_pxf_plot/tests -p 'test_*.py'
-          python -m unittest discover -s app/engine/python -p 'test_*.py'
           perl app/scripts/test-python-helper.pl --python "$PHENO_RANKER_PYTHON"
 
       - name: Install frontend dependencies
