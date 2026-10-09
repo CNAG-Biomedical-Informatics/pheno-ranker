@@ -57,7 +57,7 @@ jobs:
           sudo apt-get install -y \
             build-essential libbz2-dev libexpat1-dev libssl-dev zlib1g-dev \
             libgtk-3-dev libwebkit2gtk-4.1-dev librsvg2-dev patchelf libfuse2 \
-            libzbar0 libzbar-dev
+            libzbar0 libzbar-dev xvfb xauth
 
       - name: Install macOS build-host libraries
         if: runner.os == 'macOS'
@@ -195,6 +195,36 @@ jobs:
           perl app/scripts/test-desktop-engine.pl "$PWD/app/src-tauri/engine"
           if ($LASTEXITCODE -ne 0) { throw 'Relocated desktop engine test failed' }
 
+      - name: Smoke test native app before packaging
+        if: runner.os != 'Windows'
+        working-directory: app
+        shell: bash
+        env:
+          PHENO_RANKER_DESKTOP_ENGINE: ${{ github.workspace }}/app/src-tauri/engine
+          PHENO_RANKER_DESKTOP_SMOKE_TEST: '1'
+        run: |
+          command=(cargo run --manifest-path src-tauri/Cargo.toml --features custom-protocol --locked)
+          if [[ "$RUNNER_OS" == Linux ]]; then
+            smoke_output="$(xvfb-run -a timeout 120s "${command[@]}" 2>&1)"
+          else
+            smoke_output="$("${command[@]}" 2>&1)"
+          fi
+          printf '%s\n' "$smoke_output"
+          grep -Fq 'Desktop startup smoke test passed' <<<"$smoke_output"
+
+      - name: Smoke test native app before packaging on Windows
+        if: runner.os == 'Windows'
+        working-directory: app
+        shell: pwsh
+        env:
+          PHENO_RANKER_DESKTOP_ENGINE: ${{ github.workspace }}/app/src-tauri/engine
+          PHENO_RANKER_DESKTOP_SMOKE_TEST: '1'
+        run: |
+          $output = cargo run --manifest-path src-tauri/Cargo.toml --features custom-protocol --locked 2>&1 | Out-String
+          Write-Output $output
+          if ($LASTEXITCODE -ne 0) { throw 'Native startup smoke test failed' }
+          if ($output -notmatch 'Desktop startup smoke test passed') { throw 'Native startup marker was not emitted' }
+
       - name: Build installer
         working-directory: app
         env:
@@ -216,6 +246,9 @@ jobs:
           manifest="$(find "$RUNNER_TEMP/squashfs-root" -name engine-manifest.json -print -quit)"
           test -n "$manifest"
           perl "$GITHUB_WORKSPACE/app/scripts/test-desktop-engine.pl" "$(dirname "$manifest")"
+          smoke_output="$(PHENO_RANKER_DESKTOP_SMOKE_TEST=1 xvfb-run -a timeout 90s "$GITHUB_WORKSPACE/app/$image" 2>&1)"
+          printf '%s\n' "$smoke_output"
+          grep -Fq 'Desktop startup smoke test passed' <<<"$smoke_output"
           (cd "$(dirname "$image")" && sha256sum "$(basename "$image")" > "$(basename "$image").sha256")
 
       - name: Inspect macOS package
@@ -274,6 +307,17 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Installed desktop engine test failed' }
           $binary = Get-ChildItem $destination -Filter pheno-ranker-desktop.exe -Recurse | Select-Object -First 1
           if (-not $binary) { throw 'Installed application is missing' }
+          $smokeOut = Join-Path $env:RUNNER_TEMP 'pheno-ranker-smoke-out.txt'
+          $smokeErr = Join-Path $env:RUNNER_TEMP 'pheno-ranker-smoke-err.txt'
+          $env:PHENO_RANKER_DESKTOP_SMOKE_TEST = '1'
+          $smoke = Start-Process -FilePath $binary.FullName -RedirectStandardOutput $smokeOut -RedirectStandardError $smokeErr -PassThru
+          if (-not $smoke.WaitForExit(60000)) { $smoke.Kill(); throw 'Installed application smoke test timed out' }
+          Remove-Item Env:PHENO_RANKER_DESKTOP_SMOKE_TEST
+          $smokeOutput = (Get-Content $smokeOut -Raw) + (Get-Content $smokeErr -Raw)
+          Write-Output $smokeOutput
+          if ($smoke.ExitCode -ne 0 -or $smokeOutput -notmatch 'Desktop startup smoke test passed') {
+            throw 'Installed application smoke test failed'
+          }
           $application = Start-Process -FilePath $binary.FullName -PassThru
           try {
             $windowFound = $false
