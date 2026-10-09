@@ -70,10 +70,16 @@ impl Drop for Engine {
 }
 
 fn start_engine(app: &tauri::App) -> Result<Engine, Box<dyn std::error::Error>> {
-    let root = if cfg!(debug_assertions) {
+    let smoke_engine = std::env::var_os("PHENO_RANKER_DESKTOP_ENGINE").map(PathBuf::from);
+    let uses_smoke_engine = smoke_engine.is_some();
+    let root = if let Some(engine) = smoke_engine {
+        engine.canonicalize()?
+    } else if cfg!(debug_assertions) {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..").canonicalize()?
     } else { app.path().resource_dir()?.join("engine") };
-    let perl = if cfg!(debug_assertions) { PathBuf::from("perl") }
+    let perl = if cfg!(debug_assertions) && !uses_smoke_engine {
+        PathBuf::from("perl")
+    }
         else { root.join(if cfg!(windows) { "runtime/bin/perl.exe" } else { "runtime/bin/perl" }) };
     let listener = TcpListener::bind("127.0.0.1:0")?;
     let url = format!("http://127.0.0.1:{}", listener.local_addr()?.port());
