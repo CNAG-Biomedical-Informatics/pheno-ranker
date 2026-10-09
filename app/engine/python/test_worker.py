@@ -143,7 +143,7 @@ class BarcodeHandoffTests(unittest.TestCase):
     def test_qr_inputs_deduplicate_paths_but_reject_colliding_names(self):
         with tempfile.TemporaryDirectory() as temp:
             image = str(Path(temp) / 'one.png')
-            self.assertEqual(unique_qr_inputs([image, image]), [image])
+            self.assertEqual(unique_qr_inputs([image, image]), [str(Path(image).resolve())])
             with self.assertRaisesRegex(ValueError, 'share the record identifier'):
                 unique_qr_inputs([image, str(Path(temp) / 'other' / 'one.png')])
 
@@ -162,9 +162,10 @@ class BarcodeHandoffTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             temp = Path(tmp)
             # Small real analysis; fixtures are only read and every output stays temporary.
-            subprocess.run(['perl', str(ROOT / 'bin' / 'pheno-ranker'), '--reference',
+            analysis = subprocess.run(['perl', str(ROOT / 'bin' / 'pheno-ranker'), '--reference',
                             str(ROOT / 't/data/individuals.json'), '--no-color', '--export',
-                            str(temp / 'export'), '--out-file', str(temp / 'matrix.txt')], check=True, capture_output=True)
+                            str(temp / 'export'), '--out-file', str(temp / 'matrix.txt')], capture_output=True, text=True)
+            self.assertEqual(analysis.returncode, 0, analysis.stderr + analysis.stdout)
             worker = str(Path(__file__).with_name('worker.py'))
             subprocess.run([sys.executable, worker, 'qr-encode', '--input', str(temp / 'export.ref_binary_hash.json'),
                             '--template', str(temp / 'export.glob_hash.json'), '--labels', str(temp / 'export.labels.json'), '--output', str(temp / 'qr')], check=True, capture_output=True)
