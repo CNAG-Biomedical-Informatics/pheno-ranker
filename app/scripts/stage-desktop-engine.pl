@@ -80,17 +80,26 @@ sub copy_tree {
 }
 
 my $all = sub {1};
+my $runtime_perl = $^O eq 'MSWin32'
+  ? File::Spec->catdir( $destination, 'runtime', 'perl' )
+  : File::Spec->catdir( $destination, 'runtime' );
 for my $directory (qw(bin lib)) {
     copy_tree(
         File::Spec->catdir( $perl_prefix, $directory ),
-        File::Spec->catdir( $destination, 'runtime', $directory ), $all
+        File::Spec->catdir( $runtime_perl, $directory ), $all
     );
+}
+if ( $^O eq 'MSWin32' ) {
+    my $portable = File::Spec->catfile( dirname($perl_prefix), 'portable.perl' );
+    die "Strawberry portable marker is missing <$portable>\n" unless -f $portable;
+    copy( $portable, File::Spec->catfile( $destination, 'runtime', 'portable.perl' ) )
+      or die "Cannot copy Strawberry portable marker: $!\n";
 }
 for my $library (@extra_perl_libs) {
     die "Missing additional Perl library <$library>\n" unless -d $library;
     my $arch_library = File::Spec->catdir( $library, $Config{archname} );
     copy_tree(
-        $library, File::Spec->catdir( $destination, 'runtime', 'lib' ),
+        $library, File::Spec->catdir( $runtime_perl, 'lib' ),
         sub {
             my ($relative) = @_;
             my @parts = File::Spec->splitdir($relative);
@@ -100,13 +109,13 @@ for my $library (@extra_perl_libs) {
         }
     );
     copy_tree(
-        $arch_library, File::Spec->catdir( $destination, 'runtime', 'lib' ),
+        $arch_library, File::Spec->catdir( $runtime_perl, 'lib' ),
         sub { my @parts = File::Spec->splitdir( $_[0] ); return !( @parts && $parts[0] eq '.meta' ) }
     ) if -d $arch_library;
 }
 if ( defined $compiler_bin && -d $compiler_bin ) {
     for my $dll ( glob File::Spec->catfile( $compiler_bin, '*.dll' ) ) {
-        copy( $dll, File::Spec->catdir( $destination, 'runtime', 'bin' ) )
+        copy( $dll, File::Spec->catdir( $runtime_perl, 'bin' ) )
           or die "Cannot copy <$dll>: $!\n";
     }
 }
@@ -141,7 +150,7 @@ for my $fixture (qw(individuals.json patient.json example.csv)) {
       or die "Cannot copy example <$fixture>: $!\n";
 }
 
-my $perl = File::Spec->catfile( $destination, 'runtime', 'bin',
+my $perl = File::Spec->catfile( $runtime_perl, 'bin',
     $^O eq 'MSWin32' ? 'perl.exe' : 'perl' );
 die "Staged Perl executable is missing\n"
   unless -x $perl || ( $^O eq 'MSWin32' && -f $perl );
@@ -154,7 +163,7 @@ local $ENV{PHENO_RANKER_ROOT} = $destination;
 local $ENV{PHENO_RANKER_SHARE_DIR} = File::Spec->catdir( $destination, 'share' );
 local $ENV{PERL5LIB} = join( $Config{path_sep},
     File::Spec->catdir( $destination, 'lib' ),
-    File::Spec->catdir( $destination, 'runtime', 'lib' ) );
+    File::Spec->catdir( $runtime_perl, 'lib' ) );
 system $perl, '-MPheno::Ranker::Metrics', '-e',
   'die "Metric cache probe failed\n" unless Pheno::Ranker::Metrics::hd_fast("01","11") == 1';
 die "Could not build the packaged metric cache\n" if $? != 0;
