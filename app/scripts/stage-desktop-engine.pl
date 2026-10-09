@@ -12,6 +12,13 @@ use File::Spec;
 use Getopt::Long qw(GetOptions);
 use JSON::PP;
 
+if ( @ARGV == 1 && $ARGV[0] eq '--metric-probe' ) {
+    require Pheno::Ranker::Metrics;
+    die "Metric cache probe failed\n"
+      unless Pheno::Ranker::Metrics::hd_fast( '01', '11' ) == 1;
+    exit 0;
+}
+
 my ( $root, $destination, $perl_prefix, $compiler_bin, $python_helper,
     @extra_perl_libs );
 GetOptions(
@@ -164,8 +171,7 @@ local $ENV{PHENO_RANKER_SHARE_DIR} = File::Spec->catdir( $destination, 'share' )
 local $ENV{PERL5LIB} = join( $Config{path_sep},
     File::Spec->catdir( $destination, 'lib' ),
     File::Spec->catdir( $runtime_perl, 'lib' ) );
-system $perl, '-MPheno::Ranker::Metrics', '-e',
-  'die "Metric cache probe failed\n" unless Pheno::Ranker::Metrics::hd_fast("01","11") == 1';
+system $perl, abs_path(__FILE__), '--metric-probe';
 die "Could not build the packaged metric cache\n" if $? != 0;
 remove_tree( File::Spec->catdir( $inline, 'build' ) );
 
