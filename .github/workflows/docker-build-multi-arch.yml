@@ -1,4 +1,4 @@
-name: Docker build (multi-arch)
+name: Docker build (native multi-arch)
 
 on:
   workflow_dispatch:
@@ -19,31 +19,64 @@ concurrency:
   group: docker-${{ inputs.tag }}
   cancel-in-progress: false
 
+env:
+  IMAGE: manuelrueda/pheno-ranker
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
-  build:
-    runs-on: ubuntu-latest 
+  release:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.metadata.outputs.version }}
+      revision: ${{ steps.metadata.outputs.revision }}
     steps:
       - uses: actions/checkout@v6
         with:
           ref: refs/tags/${{ inputs.tag }}
           fetch-depth: 0
 
-      - name: Get version
-        id: get_version
+      - name: Validate and resolve release once for both architectures
+        id: metadata
         env:
           RELEASE_TAG: ${{ inputs.tag }}
         run: |
           perl app/scripts/check-release.pl "$RELEASE_TAG"
           git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+          version="$(tr -d '\r\n' < VERSION)"
+          test "$RELEASE_TAG" = "$version"
           test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
-          test "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")" = "$(git rev-parse HEAD)"
-          echo "VERSION=$(tr -d '\r\n' < VERSION)" >> "$GITHUB_OUTPUT"
-          echo "REVISION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          revision="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
+          test "$revision" = "$(git rev-parse HEAD)"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+  build:
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    name: Build and test linux/${{ matrix.arch }} natively
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
         with:
-          platforms: arm64,amd64
+          ref: ${{ needs.release.outputs.revision }}
+
+      - name: Verify native Docker architecture
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: |
+          native="$(docker info --format '{{.Architecture}}')"
+          case "$ARCH:$native" in
+            amd64:x86_64|amd64:amd64|arm64:aarch64|arm64:arm64) ;;
+            *) echo "Expected native $ARCH, found $native" >&2; exit 1 ;;
+          esac
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -55,16 +88,101 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push multi-arch image
+      - name: Build image from the selected release
+        id: image
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./docker/Dockerfile
-          push: ${{ inputs.publish }}
+          file: docker/Dockerfile
+          platforms: linux/${{ matrix.arch }}
+          tags: ${{ env.IMAGE }}
+          load: ${{ !inputs.publish }}
+          outputs: ${{ inputs.publish && 'type=image,push-by-digest=true,name-canonical=true,push=true' || '' }}
           build-args: |
-            BUILD_VERSION=${{ steps.get_version.outputs.VERSION }}
-            VCS_REF=${{ steps.get_version.outputs.REVISION }}
-          tags: |
-            manuelrueda/pheno-ranker:${{ steps.get_version.outputs.VERSION }}
-            manuelrueda/pheno-ranker:latest
-          platforms: linux/amd64,linux/arm64
+            BUILD_VERSION=${{ needs.release.outputs.version }}
+            VCS_REF=${{ needs.release.outputs.revision }}
+          cache-from: type=gha,scope=pheno-ranker-native-${{ matrix.arch }}
+          cache-to: type=gha,scope=pheno-ranker-native-${{ matrix.arch }},mode=max
+
+      - name: Test the actual image on its native runner
+        timeout-minutes: 15
+        env:
+          PUBLISH: ${{ inputs.publish }}
+          DIGEST: ${{ steps.image.outputs.digest }}
+          ARCH: ${{ matrix.arch }}
+          REVISION: ${{ needs.release.outputs.revision }}
+        run: |
+          image="$IMAGE:latest"
+          if [ "$PUBLISH" = true ]; then
+            image="$IMAGE@$DIGEST"
+            docker pull --platform "linux/$ARCH" "$image"
+          fi
+          test "$(docker image inspect --format '{{.Architecture}}' "$image")" = "$ARCH"
+          test "$(docker image inspect --format '{{index .Config.Labels "org.opencontainers.image.revision"}}' "$image")" = "$REVISION"
+          docker run --rm --network none "$image" \
+            /usr/share/pheno-ranker/bin/pheno-ranker --version
+          docker run --rm --network none "$image" prove -j2 -lr t
+
+      - name: Record tested image digest
+        if: inputs.publish
+        env:
+          DIGEST: ${{ steps.image.outputs.digest }}
+        run: |
+          [[ "$DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]
+          mkdir -p "$RUNNER_TEMP/digests"
+          printf '%s\n' "$DIGEST" > "$RUNNER_TEMP/digests/${{ matrix.arch }}.txt"
+
+      - uses: actions/upload-artifact@v4
+        if: inputs.publish
+        with:
+          name: docker-native-digest-${{ matrix.arch }}
+          path: ${{ runner.temp }}/digests/*.txt
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    if: inputs.publish
+    needs: [release, build]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release.outputs.revision }}
+
+      - name: Refuse publication if the release tag moved during the build
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          REVISION: ${{ needs.release.outputs.revision }}
+        run: |
+          git fetch --force origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          test "$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")" = "$REVISION"
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - uses: actions/download-artifact@v5
+        with:
+          pattern: docker-native-digest-*
+          path: digests
+          merge-multiple: true
+
+      - name: Publish one multi-platform image under the existing tags
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          sources=()
+          for arch in amd64 arm64; do
+            digest="$(cat "digests/$arch.txt")"
+            [[ "$digest" =~ ^sha256:[a-f0-9]{64}$ ]]
+            sources+=("$IMAGE@$digest")
+          done
+          docker buildx imagetools create --dry-run "${sources[@]}" > manifest.json
+          jq -e '[.manifests[].platform | select(.os == "linux") | .architecture] | sort == ["amd64", "arm64"]' manifest.json
+          docker buildx imagetools create \
+            --tag "$IMAGE:$VERSION" --tag "$IMAGE:latest" "${sources[@]}"
+          docker buildx imagetools inspect "$IMAGE:$VERSION"

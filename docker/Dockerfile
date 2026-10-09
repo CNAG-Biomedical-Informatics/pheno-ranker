@@ -11,9 +11,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Ensure that system sbin directories are in PATH
 ENV PATH="/usr/local/sbin:/usr/sbin:/sbin:${PATH}"
 
-# Override ldconfig to prevent segfaults under QEMU
-RUN ln -sf /bin/true /sbin/ldconfig
-
 # Update and install all system dependencies in one command
 RUN apt-get update && \
     apt-get install -y \
