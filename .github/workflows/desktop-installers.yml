@@ -355,8 +355,9 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  prerelease:
-    name: Collect inspected installers
+  release:
+    if: github.event_name == 'push'
+    name: Create draft release from inspected installers
     needs: installer
     runs-on: ubuntu-24.04
     permissions:
@@ -372,29 +373,17 @@ jobs:
       - name: Publish inspected installers
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_EVENT: ${{ github.event_name }}
           RELEASE_TAG: ${{ github.ref_name }}
-          PLATFORMS: ${{ inputs.platforms }}
         shell: bash
         run: |
           version="$(tr -d '\r\n' < VERSION)"
           mapfile -t assets < <(find release-assets -type f -print | sort)
-          expected=10
-          [[ -z "$PLATFORMS" || "$PLATFORMS" == all || "$PLATFORMS" == macos-linux ]] || expected=2
-          [[ "$PLATFORMS" != macos-linux ]] || expected=8
-          test "${#assets[@]}" -eq "$expected"
-          if [[ "$RELEASE_EVENT" == push ]]; then
-            if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-              test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft)" = true
-              gh release upload "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
-            else
-              gh release create "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --verify-tag --draft \
-                --title "Pheno-Ranker $version" \
-                --notes "Desktop installers and SHA-256 checksums for Pheno-Ranker $version. Review platform tests and release notes before publishing."
-            fi
-            exit 0
+          test "${#assets[@]}" -eq 10
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft)" = true
+            gh release upload "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --verify-tag --draft \
+              --title "Pheno-Ranker $version" \
+              --notes "Desktop installers and SHA-256 checksums for Pheno-Ranker $version. Review platform tests and release notes before publishing."
           fi
-          tag="desktop-v${version}.0-test.${GITHUB_RUN_NUMBER}"
-          gh release create "$tag" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
-            --title "Pheno-Ranker Desktop test build ${GITHUB_RUN_NUMBER}" \
-            --notes "Compatibility test for selected platforms: $PLATFORMS. These installers are not a stable release. macOS is not Apple-notarized; Windows installers are unsigned."
