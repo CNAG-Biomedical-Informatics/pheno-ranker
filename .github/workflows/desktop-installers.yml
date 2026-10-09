@@ -14,6 +14,10 @@ on:
           - all
           - macos-linux
           - windows
+          - macos-apple-silicon
+          - macos-intel
+          - linux-x86_64
+          - linux-aarch64
 
 permissions:
   contents: read
@@ -26,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJSON(inputs.platforms == 'windows' && '[{"os":"windows-2022","name":"Windows x86_64","artifact":"windows-x86_64","bundle":"nsis"}]' || inputs.platforms == 'macos-linux' && '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"},{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"},{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"},{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"}]' || '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"},{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"},{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"},{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"},{"os":"windows-2022","name":"Windows x86_64","artifact":"windows-x86_64","bundle":"nsis"}]') }}
+        include: ${{ fromJSON(inputs.platforms == 'macos-apple-silicon' && '[{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"}]' || inputs.platforms == 'macos-intel' && '[{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"}]' || inputs.platforms == 'linux-x86_64' && '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"}]' || inputs.platforms == 'linux-aarch64' && '[{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"}]' || inputs.platforms == 'windows' && '[{"os":"windows-2022","name":"Windows x86_64","artifact":"windows-x86_64","bundle":"nsis"}]' || inputs.platforms == 'macos-linux' && '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"},{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"},{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"},{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"}]' || '[{"os":"ubuntu-22.04","name":"Linux x86_64","artifact":"linux-x86_64","bundle":"appimage"},{"os":"ubuntu-24.04-arm","name":"Linux ARM64","artifact":"linux-aarch64","bundle":"appimage"},{"os":"macos-15","name":"macOS Apple Silicon","artifact":"macos-apple-silicon","bundle":"dmg"},{"os":"macos-15-intel","name":"macOS Intel","artifact":"macos-intel","bundle":"dmg"},{"os":"windows-2022","name":"Windows x86_64","artifact":"windows-x86_64","bundle":"nsis"}]') }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -62,6 +66,7 @@ jobs:
           brew list --versions openssl@3 >/dev/null || brew install openssl@3
           brew list --versions zbar >/dev/null || brew install zbar
           echo "OPENSSL_PREFIX=$(brew --prefix openssl@3)" >> "$GITHUB_ENV"
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix zbar)/lib" >> "$GITHUB_ENV"
 
       - name: Build relocatable Perl runtime
         if: runner.os != 'Windows'
@@ -318,7 +323,7 @@ jobs:
           version="$(tr -d '\r\n' < VERSION)"
           mapfile -t assets < <(find release-assets -type f -print | sort)
           expected=10
-          [[ "$PLATFORMS" != windows ]] || expected=2
+          [[ -z "$PLATFORMS" || "$PLATFORMS" == all || "$PLATFORMS" == macos-linux ]] || expected=2
           [[ "$PLATFORMS" != macos-linux ]] || expected=8
           test "${#assets[@]}" -eq "$expected"
           if [[ "$RELEASE_EVENT" == push ]]; then
