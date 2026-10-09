@@ -155,10 +155,11 @@ CLI version `1.09` corresponds to Desktop package version `1.9.0`.
   The workflow checks out that tag and runs `make disttest` before uploading.
 - **Docker build (native multi-arch)** is dispatched manually with the same tag.
   Native AMD64 and ARM64 runners build and test each image without emulation.
-  Leave `publish` unchecked for a build-only run; enable it to publish the
-  versioned image and `latest` only after both architectures pass. The
-  single-architecture workflow publishes only a versioned `-amd64` image,
-  leaving the multi-architecture tags untouched.
+  Before tagging, leave `tag` blank and `publish` unchecked to test the selected
+  branch. Publishing requires an annotated tag and assigns the versioned image
+  and `latest` only after both architectures pass. The single-architecture
+  workflow publishes only a versioned `-amd64` image, leaving the
+  multi-architecture tags untouched.
 - Documentation deployment remains manual, as in Convert-Pheno, so documentation
   corrections do not require a software release.
 
