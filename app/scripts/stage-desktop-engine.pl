@@ -162,8 +162,14 @@ remove_tree( File::Spec->catdir( $inline, 'build' ) );
 
 make_path( File::Spec->catdir( $destination, 'python' ) );
 my $helper_name = $^O eq 'MSWin32' ? 'pheno-ranker-helper.exe' : 'pheno-ranker-helper';
-copy( $python_helper, File::Spec->catfile( $destination, 'python', $helper_name ) )
+my $staged_helper = File::Spec->catfile( $destination, 'python', $helper_name );
+copy( $python_helper, $staged_helper )
   or die "Cannot copy Python helper: $!\n";
+unless ( $^O eq 'MSWin32' ) {
+    chmod( ( stat($python_helper) )[2] & 07777, $staged_helper )
+      or die "Cannot preserve Python helper permissions: $!\n";
+    die "Staged Python helper is not executable\n" unless -x $staged_helper;
+}
 
 my $manifest = {
     format => 'pheno-ranker-desktop-engine', formatVersion => 1,
