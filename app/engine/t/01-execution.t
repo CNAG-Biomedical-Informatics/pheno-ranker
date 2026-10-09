@@ -103,7 +103,9 @@ while ($jobs->status($bad->{id})->{status} =~ /^(queued|running)$/) {die 'timeou
 is($jobs->status($bad->{id})->{status},'failed','arbitrary CLI output options are rejected');
 like($jobs->status($bad->{id})->{message},qr/Unknown option/,'validation gives a useful error');
 ok(-f $ref,'original fixture is still present');
-eval {Pheno::Ranker::Desktop::Service::_run_command($tmp,$^X,'-e','print STDERR "specific failure\\n"; exit 3')};
+my $failing_script=path($tmp,'fail.pl');
+$failing_script->spew('print STDERR "specific failure\n"; exit 3;');
+eval {Pheno::Ranker::Desktop::Service::_run_command($tmp,$^X,"$failing_script")};
 like($@,qr/exit code 3.*specific failure/s,'subprocess stderr is captured with a readable exit code');
 eval {Pheno::Ranker::Desktop::Service::_run_command($tmp,$^X,'-e','exit 7')};
 like($@,qr/exit code 7/,'exit status remains readable');
