@@ -17,7 +17,7 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     environment = os.environ.copy()
     environment["MPLBACKEND"] = "Agg"
-    subprocess.run([
+    pyinstaller_args = [
         sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean",
         "--onefile", "--name", "pheno-ranker-helper",
         "--distpath", str(output), "--workpath", str(output / "work"),
@@ -38,8 +38,22 @@ def main():
         "--copy-metadata", "scipy",
         "--exclude-module", "tkinter",
         "--exclude-module", "matplotlib.backends.backend_tkagg",
-        str(root / "app" / "engine" / "python" / "worker.py"),
-    ], check=True, env=environment)
+    ]
+    if sys.platform == "darwin":
+        zbar_prefix = os.environ.get("ZBAR_PREFIX")
+        if not zbar_prefix:
+            zbar_prefix = subprocess.check_output(
+                ["brew", "--prefix", "zbar"], text=True
+            ).strip()
+        zbar_library = Path(zbar_prefix) / "lib" / "libzbar.dylib"
+        if not zbar_library.is_file():
+            raise FileNotFoundError(f"Cannot find zbar library at {zbar_library}")
+        pyinstaller_args.extend([
+            "--add-binary", f"{zbar_library}:.",
+            "--runtime-hook", str(root / "app" / "scripts" / "pyinstaller" / "pyzbar_macos.py"),
+        ])
+    pyinstaller_args.append(str(root / "app" / "engine" / "python" / "worker.py"))
+    subprocess.run(pyinstaller_args, check=True, env=environment)
     print(output / ("pheno-ranker-helper.exe" if sys.platform == "win32" else "pheno-ranker-helper"))
 
 

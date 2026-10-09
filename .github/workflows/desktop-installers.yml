@@ -66,6 +66,7 @@ jobs:
           brew list --versions openssl@3 >/dev/null || brew install openssl@3
           brew list --versions zbar >/dev/null || brew install zbar
           echo "OPENSSL_PREFIX=$(brew --prefix openssl@3)" >> "$GITHUB_ENV"
+          echo "ZBAR_PREFIX=$(brew --prefix zbar)" >> "$GITHUB_ENV"
           echo "DYLD_LIBRARY_PATH=$(brew --prefix zbar)/lib" >> "$GITHUB_ENV"
 
       - name: Build relocatable Perl runtime
