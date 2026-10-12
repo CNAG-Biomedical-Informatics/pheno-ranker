@@ -22,6 +22,7 @@
 
 [🖥️ Desktop](https://cnag-biomedical-informatics.github.io/pheno-ranker/desktop/) ·
 [📘 Documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker/) ·
+[Video Tutorials](https://cnag-biomedical-informatics.github.io/pheno-ranker/video-tutorials/) ·
 [💻 CLI Installation](https://cnag-biomedical-informatics.github.io/pheno-ranker/download-and-installation/) ·
 [📖 CLI Usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/) ·
 [📓 Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg) ·
