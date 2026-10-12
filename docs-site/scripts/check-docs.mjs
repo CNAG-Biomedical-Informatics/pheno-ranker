@@ -98,6 +98,10 @@ for (const retiredDoc of ['open-ehr.mdx', 'omop-cdm.mdx']) {
 const citation = readDoc('citation.mdx');
 assertContains('citation.mdx', citation, '[Publication link](https://doi.org/10.1186/s12859-024-05993-2)', 'citation publication link is missing');
 
+const videos = readDoc('video-tutorials.mdx');
+assertContains('video-tutorials.mdx', videos, 'https://www.youtube.com/playlist?list=PLErogZfEae0M', 'Desktop tutorial playlist link is missing');
+assertContains('desktop.mdx', readDoc('desktop.mdx'), '(/video-tutorials)', 'Desktop guide should link to the video tutorials');
+
 // These routes are cited in the article and supplementary information.
 for (const route of ['download-and-installation', 'bff-pxf-plot', 'bff-pxf-simulator', 'csv-import', 'qr-code-generator']) {
   assertContains(`${route}.mdx`, readDoc(`${route}.mdx`), `slug: "/${route}"`, 'publication-linked route must remain available');

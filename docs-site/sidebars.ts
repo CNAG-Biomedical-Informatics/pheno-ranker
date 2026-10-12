@@ -43,7 +43,7 @@ const sidebars: SidebarsConfig = {
     {type: 'category', label: 'Reference', collapsed: true, items: ['algorithm', 'implementation']},
     {
       type: 'category', label: 'Help', collapsed: true,
-      items: ['faq', 'about', 'citation',
+      items: ['video-tutorials', 'faq', 'about', 'citation',
         {type: 'doc', id: 'federated-version-proposal', label: 'Addendum: Federated Analysis'},
       ],
     },
