@@ -27,8 +27,7 @@
 [📖 CLI Usage](https://cnag-biomedical-informatics.github.io/pheno-ranker/usage/) ·
 [📓 Google Colab](https://colab.research.google.com/drive/1n3Etu4fnwuDWNveSMb1SzuN50O2a05Rg) ·
 [📦 CPAN](https://metacpan.org/pod/Pheno::Ranker) ·
-[🐳 Docker](https://hub.docker.com/r/manuelrueda/pheno-ranker/tags) ·
-[🌐 Legacy Web App](https://pheno-ranker.cnag.eu)
+[🐳 Docker](https://hub.docker.com/r/manuelrueda/pheno-ranker/tags)
 
 # Pheno-Ranker
 
@@ -47,10 +46,6 @@ summaries, QR codes, and PDF reports.
 The **CLI** remains available for scripts, R/Python automation, and batch
 analyses. Desktop and CLI use the same analysis engine; CPAN distributes the
 CLI independently.
-
-Desktop replaces the [legacy Web App UI](https://pheno-ranker.cnag.eu).
-Its [documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/)
-remains available.
 
 Similarity results support research and exploration, not clinical diagnosis.
 

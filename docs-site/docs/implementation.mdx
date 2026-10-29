@@ -4,35 +4,15 @@ slug: "/implementation"
 ---
 ## Components
 
-The core of `Pheno-Ranker` is a [Perl module](https://metacpan.org/pod/Pheno%3A%3ARanker), accessible through a [command-line interface](/usage#synopsis).
-
-The R-Shiny [Web App UI](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/) is legacy. From v1.09, the Desktop App replaces it as the graphical interface. The CLI remains available independently, including through CPAN.
-
-```mermaid
-%%{init: {'theme':'neutral'}}%%
-graph LR
-  subgraph "Perl"
-  A[Module]--> B[CLI]
-  end
-
-  subgraph "ShinyProxy"
-  B --> C[Docker Containers]
-  end
-
-  subgraph "R-Shiny"
-  C --> D[Web App UI]
-  end
-
-  style A fill: #6495ED, stroke: #6495ED
-  style B fill: #6495ED, stroke: #6495ED
-  style C fill: #AFEEEE, stroke: #AFEEEE
-  style D fill: #FFFF33, stroke: #FFFF33
-```
-
-<figcaption>Legacy Web App UI architecture</figcaption>
+The core of `Pheno-Ranker` is a [Perl module](https://metacpan.org/pod/Pheno%3A%3ARanker),
+accessible through a [command-line interface](/usage#synopsis). The
+[Desktop App](/desktop) uses the same analysis engine through a local graphical
+interface. The CLI remains available independently, including through CPAN.
 
 :::tip[Which interface should I use?]
-The Desktop App provides a local graphical interface from v1.09. Use the [Command-Line Interface (CLI)](/usage) for terminal and scripted workflows. The legacy Web App UI is no longer the interface for new workflows.
+Use the Desktop App for guided local workflows and interactive results. Use the
+[Command-Line Interface (CLI)](/usage) for terminal, server, batch, and scripted
+workflows.
 :::
 ## Utilities
 

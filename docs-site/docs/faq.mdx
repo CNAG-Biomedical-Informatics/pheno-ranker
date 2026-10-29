@@ -2,58 +2,113 @@
 title: "FAQs"
 slug: "/faq"
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## General
 
 <details>
 <summary>What does `Pheno-Ranker` do?</summary>
 
-`Pheno-Ranker` is an open-source toolkit developed for the semantic similarity analysis of phenotypic and clinical data. It natively supports GA4GH standards, such as [Phenopackets v2](/pxf) and [Beacon v2](/bff), using as input their JSON/YAML data exchange formats. Configured `JSON`, `YAML`, and categorical `CSV` data can also be compared, including datasets outside the health domain. Pheno-Ranker transforms hierarchical data into binary digit strings, enabling efficient similarity matching both within cohorts and between individual patients and reference cohorts.
+`Pheno-Ranker` compares phenotypic, clinical, and other categorical data **at scale**,
+using compact binary representations for fast similarity comparisons across large
+datasets. It supports both all-pairs cohort comparisons and ranking reference
+records against an individual patient.
+
+It natively supports [Phenopackets v2](/pxf) and [Beacon v2 (BFF)](/bff) in
+JSON/YAML format. Configured generic JSON/YAML and categorical CSV data can also
+be compared, including datasets outside the health domain.
 
 </details>
+
 <details>
 <summary>Is `Pheno-Ranker` free?</summary>
 
 Yes. See the [license](https://github.com/mrueda/pheno-ranker/blob/main/LICENSE).
 
 </details>
+
 <details>
-<summary>What replaces the Web App UI?</summary>
+<summary>Where can I download Pheno-Ranker?</summary>
 
-From v1.09, the Desktop App replaces the legacy Web App UI as the graphical interface and runs locally. The [`pheno-ranker` command-line interface](/usage) remains supported for terminal and scripted workflows, locally or through Docker.
-
-The [legacy Web App UI documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/) remains available for reference.
-
-The [legacy Shiny Web App UI](https://pheno-ranker.cnag.eu) remains available for browser-based use. It runs analyses on the hosted server; Desktop runs them locally on your computer.
-
-Playground credentials:
-
-**Username:** `pheno`  
-**Password:** `ranker`
+For the graphical application, follow [Install Desktop](/desktop#install-desktop).
+For terminal and scripted workflows, see [CLI installation](/download-and-installation),
+including CPAN, an isolated Conda environment, GitHub, and Docker.
 
 </details>
-<details>
-<summary>Can I export term coverage and intermediate files?</summary>
 
-Yes. In Desktop, check **Output options** for intermediate exports and patient
-alignments. The completed run lists the generated files under **Output files**.
-In the CLI, use `--export <prefix>` for coverage and intermediate files, and
-`--align` for patient-mode alignments.
+<details>
+<summary>What happened to the Web App UI?</summary>
+
+The former hosted R-Shiny Web App UI is **no longer maintained**. From v1.09, the
+[Desktop App](/desktop) is the current graphical interface and runs analyses
+locally. The [`pheno-ranker` command-line interface](/usage) remains supported
+for terminal and scripted workflows, locally or through Docker.
+
+The [original Web App UI documentation](https://cnag-biomedical-informatics.github.io/pheno-ranker-ui/)
+remains available as an archival reference for the published work.
 
 </details>
+
 <details>
-<summary>How can I exclude a given variable?</summary>
+<summary>Do Desktop and CLI produce the same results?</summary>
 
-In Desktop, use the term selectors under **Customize analysis** to include or
-exclude sections of the input. For more detailed filtering, supply a custom
-configuration or weights under **Advanced settings**.
-
-The corresponding CLI and configuration controls are:
-
-1. Utilize the `--include-terms` or `--exclude-terms` options in the command-line interface (CLI).
-2. Implement a regular expression (regex) in the configuration file using the `exclude_variables_regex` parameter.
-3. Assign a weight of zero to the variable in a weights file (indicated by the `--w` flag). This approach offers the most detailed control over variable exclusion.
+Desktop and CLI use the **same analysis engine**. Similarity scores should match
+when the engine version, input data, configuration, weights, and analysis options
+match. Check these settings when comparing runs; the interfaces may select
+different defaults or request different output files.
 
 </details>
+
+## Desktop
+
+<details>
+<summary>Does Desktop upload my data?</summary>
+
+Desktop runs analyses **locally on your computer**; it does not upload your input
+files to a hosted analysis service. Beacon imports send requests, including any
+filters you specify, to the selected Beacon endpoint. Phenopacket Store imports
+download collections from an external service. Once imported, those records are
+also analysed locally.
+
+</details>
+
+<details>
+<summary>Where do I find results and plots?</summary>
+
+Select the completed run in the left sidebar. Patient runs provide rankings and
+pair comparisons; cohort runs provide output files and interactive views.
+For a completed dense cohort matrix, **Add projection** creates an MDS or UMAP
+plot **without rerunning the comparisons**. See the [Desktop guide](/desktop) for
+the available views and plotting limits.
+
+</details>
+
+<details>
+<summary>Where are my runs stored, and can I choose a results folder?</summary>
+
+Desktop keeps run history and application-managed outputs in its per-user data
+folder. Set a default results folder in **Settings**, or choose one for a specific
+run. See [Storage, updates, and removal](/desktop#storage-updates-and-removal)
+for paths and cleanup instructions.
+
+</details>
+
+<details>
+<summary>How do I save a project or delete a run?</summary>
+
+Save a project from the application menu, keeping its `.phenoranker` file beside
+its matching `.phenoranker.data` directory. When deleting a run, choose whether
+to remove **only its history entry** or **also its generated outputs**.
+
+</details>
+
+## CLI
+
+See [Data and interpretation](#data-and-interpretation) for shared questions
+about exports, filtering, and similarity metrics.
+
 <details>
 <summary>Do you have estimates on CPU time and RAM depending on size?</summary>
 
@@ -68,7 +123,7 @@ Expected times and memory using an imported `CSV` with 19 columns:
 | 10K   | 1m    | &lt;1GB*| &lt;1s   | &lt;1GB |
 | 50K   | 1h    | &lt;1GB*|  3s   | &lt;1GB |
 | 100K  |  -    |  -   |  6s   | &lt;1GB |
-| 1M    |  -    |  -   |  1m   | &lt;4GB | 
+| 1M    |  -    |  -   |  1m   | &lt;4GB |
 
 1 x Intel(R) Xeon(R) W-1350P @ 4.00GHz - 32GB RAM - SSD
 
@@ -95,12 +150,180 @@ pheno-ranker -r individuals.json --similarity-metric-cohort jaccard --cytoscape-
 :::
 
 </details>
-<details>
-<summary>Can I use `pedigrees` term in `BFF`?</summary>
 
-A priori, you can, but the term `pedigrees` is excluded by default via [configuration file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/share/conf/config.yaml). Pedigrees are often case-related, so the information is not relevant for comparison to other cases. If you want to include it, please modify the default configuration file and use it with the <code>{"--config <your-config-file>"}</code> option.
+<details>
+<summary>Can I use pre-computed data?</summary>
+
+Yes. Exporting a reference once lets you reuse it for repeated comparisons,
+for example when matching patients against the [OMIM database](/omim-database).
+Choose the reference terms before exporting: **the exported reference vector is fixed**.
+
+```bash
+pheno-ranker -r individuals.json -e my_export_prefix --include-terms phenotypicFeatures
+```
+
+Then, you can re-use the exported data using the flag `--prp|precomputed-ref-prefix`. Note that that the **include/exclude terms only will apply to the target as the reference vector is fixed**:
+
+```bash
+pheno-ranker --prp my_export_prefix -t patient.json --include-terms phenotypicFeatures --sort-by jaccard
+```
+
+Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{glob_hash,ref_hash,ref_binary_hash,coverage_stats}.json`.
+
+Note that the exported `JSON` files can also be **gzipped**.
+
+:::warning[What happens if I don't exclude/include terms in patient mode?]
+As the global vector is built using the reference cohort(s), it's really not that important. However, one value that can be affected is the **INTERSECT-RATE(%)**, as it uses all the variables for the target. If you don't restrict it, it may account for terms not present in the precomputed data.
+:::
 
 </details>
+
+### Pre-processing
+
+<details>
+<summary>How can I create a `JSON` file consisting of a subset of individuals?</summary>
+
+You can use the tool `jq`:
+
+```bash
+# Let's assume you have an array of "id" values in a variable named ids
+ids=( "157a:week_0_arm_1" "157a:week_2_arm_1" )
+
+# Use jq to filter the array based on the "id" values
+jq --argjson ids "$(printf '%s\n' "${ids[@]}" | jq -R -s -c 'split("\n")')" 'map(select(.id | IN($ids[])))' < individuals.json > subset.json
+
+```
+
+</details>
+
+<details>
+<summary>I have noticed that in _cohort mode_, `Pheno-Ranker` takes as input an array of objects. Does it also support independent `JSON` files (one per patient)?</summary>
+
+The simple answer is _yes_. However, what actually happens under the hood is that each independent file is treated as a cohort, and a prefix (defaulting to 'CX_') is added to the primary_key ID. This does not affect the results. Additionally, in colored MDS plots, each patient represented in separate files will be distinguished with a different color.
+
+If you prefer to combine all independent `JSON` files into a single `JSON` array, consider using one of the following alternatives:
+
+With the tool `jq`:
+```bash
+jq -s '.' *.json > combined.json
+```
+
+Alternatively, if you want to resort to `Bash`:
+
+<details>
+<summary>See `Bash` code:</summary>
+
+```bash
+#!/bin/bash
+
+# Start the JSON array
+echo '['
+
+# Concatenate the JSON files
+first=1
+for file in *.json; do
+    if [[ $first -eq 1 ]]; then
+        first=0
+    else
+        echo ','
+    fi
+    cat "$file"
+done
+
+# End the JSON array
+echo ']'
+```
+
+</details>
+
+</details>
+
+<details>
+<summary>How do I store `Pheno-Ranker`'s binary string vectors in a `CSV`</summary>
+
+First, export intermediate files using the following command:
+
+```bash
+pheno-ranker -r individuals.json -e my_export_data
+```
+
+This command will generate a set of intermediate files, and the one you'll need for queries is `my_export_data.ref_binary_hash.json`.
+
+To convert the `JSON` data to `CSV`, you can use various methods, but we recommend using the `jq` tool:
+
+```bash
+jq -r 'to_entries[] | [.key, .value.binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,binary_digit_string"}{print}' > output.csv
+```
+
+The results are now stored at `output.csv`
+
+Please note that from version **1.05** the file `my_export_data.ref_binary_hash.json` also has the string zlib-compressed and encoded in `base64`. For storing it you could use:
+
+```bash
+jq -r 'to_entries[] | [.key, .value.zlib_base64_binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,zlib_base64_binary_digit_string"}{print}' > output.csv
+```
+
+If you are storing compact binary-vector representations, you may also want to check the [QR-codes page](/qr-code-generator).
+
+</details>
+
+<span id="installation" />
+
+<details>
+<summary>Do you have a way of installing `R` (+ plotting libraries) along with Pheno-Ranker?</summary>
+
+R is not required to run the `pheno-ranker` CLI. Use R when you want to post-process outputs such as `matrix.txt`, `rank.txt`, `matrix.mtx`, or exported JSON files.
+
+If you want to call `pheno-ranker` from R, see [Use from R](/use-from-r). For containerized installations, see [Download & Installation](/download-and-installation) and the Docker instructions linked from that page.
+
+</details>
+
+## Data and interpretation
+
+These questions apply to both Desktop and CLI. Where the controls differ,
+select the tab for your interface.
+
+<details>
+<summary>How can I exclude a given variable?</summary>
+
+<Tabs groupId="faq-interface">
+<TabItem value="desktop" label="Desktop">
+
+Use the term selectors under **Customize analysis** to include or exclude
+sections of the input. For finer control, supply a custom configuration or
+weights under **Advanced settings**.
+
+</TabItem>
+<TabItem value="cli" label="CLI">
+
+Use `--include-terms` or `--exclude-terms` to select sections of the input.
+For finer control, set `exclude_variables_regex` in the configuration file,
+or assign a variable a **weight of zero** in a weights file supplied with `--w`.
+
+</TabItem>
+</Tabs>
+
+</details>
+
+<details>
+<summary>Should I use **Hamming** distance or **Jaccard** index?</summary>
+
+Use **Hamming distance** when differences across the complete aligned binary
+profiles are meaningful. **Lower values** indicate more similar records.
+
+Use the **Jaccard index** when shared present features are more informative than
+shared absences. This is often useful for sparse profiles or datasets with
+substantial missingness, but there is no universal missing-data percentage at
+which one metric automatically becomes preferable. **Higher Jaccard values**
+indicate more similar records.
+
+Both implementations scan the aligned vectors once. Hamming is generally
+faster because its calculation is simpler, but both are linear in the vector
+length. For a new dataset, compare both results and inspect term coverage before
+choosing the metric used for interpretation.
+
+</details>
+
 <details>
 <summary>How does `Pheno-Ranker` treat empty and missing values?</summary>
 
@@ -120,7 +343,7 @@ Let's consider the following example:
     "id": "PR_2",
     "Name": "Bar"
   },
-  { 
+  {
     "id": "PR_3"
   },
   {
@@ -136,7 +359,7 @@ Let's consider the following example:
 
 We have only one variable (i.e., category) named `Name`. The first two individuals contain valid values, the third does not contain the key, the fourth has it as `null`, and the fifth has `NA`.
 
-The coverage (see "Can I export term coverage and intermediate files?" above) for the terms will be the following:
+The coverage (see "Can I export term coverage and intermediate files?" below) for the terms will be the following:
 
 ```json
 {
@@ -195,146 +418,46 @@ In this context, the distance from `PR_1` to `PR_2` is `2` (indicating they diff
 When handling missing values within the context of Pheno-Ranker, it's essential to consider the specific characteristics of your dataset, the nature of missingness, and the potential impact on downstream analyses
 
 </details>
-<details>
-<summary>Should I use **Hamming** distance or **Jaccard** index?</summary>
-
-Use **Hamming distance** when differences across the complete aligned binary
-profiles are meaningful. Lower values indicate more similar records.
-
-Use the **Jaccard index** when shared present features are more informative than
-shared absences. This is often useful for sparse profiles or datasets with
-substantial missingness, but there is no universal missing-data percentage at
-which one metric automatically becomes preferable. Higher Jaccard values
-indicate more similar records.
-
-Both implementations scan the aligned vectors once. Hamming is generally
-faster because its calculation is simpler, but both are linear in the vector
-length. For a new dataset, compare both results and inspect term coverage before
-choosing the metric used for interpretation.
-
-</details>
-<details>
-<summary>Can I use pre-computed data?</summary>
-
-Yes, starting with version **1.02**, it is possible to use pre-computed data. In general, you don't want to do this, as the calculation is **fast enough** to be started from scratch each time. 
-
-There is an **exception** when you have to compare patients multiple times to a **very large (>2K) reference cohort(s)**. For instance, when matching patients against the [OMIM database](/omim-database).
-
-First, you have to export intermediate files, **make sure you select the terms you want to include or exclude as they will be final**:
-
-```bash
-pheno-ranker -r individuals.json -e my_export_prefix --include-terms phenotypicFeatures
-```
-
-Then, you can re-use the exported data using the flag `--prp|precomputed-ref-prefix`. Note that that the **include/exclude terms only will apply to the target as the reference vector is fixed**:
-
-```bash
-pheno-ranker --prp my_export_prefix -t patient.json --include-terms phenotypicFeatures --sort-by jaccard
-```
- 
-Where `my_export_prefix` is the prefix you used for the export with `-e`. The files used will be `*.{glob_hash,ref_hash,ref_binary_hash,coverage_stats}.json`.
-
-Note that the exported `JSON` files can also be **gzipped**.
-
-:::warning[What happens if I don't exclude/include terms in patient mode?]
-As the global vector is built using the reference cohort(s), it's really not that important. However, one value that can be affected is the **INTERSECT-RATE(%)**, as it uses all the variables for the target. If you don't restrict it, it may account for terms not present in the precomputed data.
-:::
-
-</details>
-### Pre-processing
 
 <details>
-<summary>How can I create a `JSON` file consisting of a subset of individuals?</summary>
+<summary>Can I export term coverage and intermediate files?</summary>
 
-You can use the tool `jq`:
+<Tabs groupId="faq-interface">
+<TabItem value="desktop" label="Desktop">
 
-```bash
-# Let's assume you have an array of "id" values in a variable named ids
-ids=( "157a:week_0_arm_1" "157a:week_2_arm_1" )
+Enable intermediate exports and patient alignments under **Output options**.
+Open **Output files** in the completed run to find the generated files.
 
-# Use jq to filter the array based on the "id" values
-jq --argjson ids "$(printf '%s\n' "${ids[@]}" | jq -R -s -c 'split("\n")')" 'map(select(.id | IN($ids[])))' < individuals.json > subset.json
+</TabItem>
+<TabItem value="cli" label="CLI">
 
-```
+Use `--export <prefix>` for coverage and intermediate files, and `--align`
+for patient-mode alignments.
 
-</details>
-<details>
-<summary>I have noticed that in _cohort mode_, `Pheno-Ranker` takes as input an array of objects. Does it also support independent `JSON` files (one per patient)?</summary>
-
-The simple answer is _yes_. However, what actually happens under the hood is that each independent file is treated as a cohort, and a prefix (defaulting to 'CX_') is added to the primary_key ID. This does not affect the results. Additionally, in colored MDS plots, each patient represented in separate files will be distinguished with a different color.
-
-If you prefer to combine all independent `JSON` files into a single `JSON` array, consider using one of the following alternatives:
-
-With the tool `jq`:
-```bash
-jq -s '.' *.json > combined.json
-```
-
-Alternatively, if you want to resort to `Bash`:
-
-<details>
-<summary>See `Bash` code:</summary>
-
-```bash
-#!/bin/bash
-
-# Start the JSON array
-echo '['
-
-# Concatenate the JSON files
-first=1
-for file in *.json; do
-    if [[ $first -eq 1 ]]; then
-        first=0
-    else
-        echo ','
-    fi
-    cat "$file"
-done
-
-# End the JSON array
-echo ']'
-```
+</TabItem>
+</Tabs>
 
 </details>
 
+<details>
+<summary>Can I use `pedigrees` term in `BFF`?</summary>
+
+A priori, you can, but the term `pedigrees` is excluded by default via [configuration file](https://github.com/CNAG-Biomedical-Informatics/pheno-ranker/blob/main/share/conf/config.yaml). Pedigrees are often case-related, so the information is not relevant for comparison to other cases. If you want to include it, please modify the default configuration file and use it with the <code>{"--config <your-config-file>"}</code> option.
+
 </details>
+
 <details>
 <summary>Do you account for `BFF/PXF` schema versions?</summary>
 
 As of August 2024, we do not explicitly account for BFF/PXF schema versions. In some cases, BFF data may not include a version, requiring us to infer changes. However, most schema updates are downstream and do not impact term-level data. As a result, the overall effect of comparing data from different schema versions is typically minimal. We assume that users are aware of the versions they are working with and understand the implications of using data from different schema versions.
 
 </details>
+
 ### Post-processing
 
-<details>
-<summary>How do I store `Pheno-Ranker`'s binary string vectors in a `CSV`</summary>
+The R recipes below work with exported results from either interface. Running
+an analysis from inside R is covered separately in [Use from R](/use-from-r).
 
-First, export intermediate files using the following command:
-
-```bash
-pheno-ranker -r individuals.json -e my_export_data
-```
-
-This command will generate a set of intermediate files, and the one you'll need for queries is `my_export_data.ref_binary_hash.json`.
-
-To convert the `JSON` data to `CSV`, you can use various methods, but we recommend using the `jq` tool:
-
-```bash
-jq -r 'to_entries[] | [.key, .value.binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,binary_digit_string"}{print}' > output.csv
-```
-
-The results are now stored at `output.csv`
-
-Please note that from version **1.05** the file `my_export_data.ref_binary_hash.json` also has the string zlib-compressed and encoded in `base64`. For storing it you could use:
-
-```bash
-jq -r 'to_entries[] | [.key, .value.zlib_base64_binary_digit_string] | @csv' < my_export_data.ref_binary_hash.json | awk 'BEGIN {print "id,zlib_base64_binary_digit_string"}{print}' > output.csv
-``` 
-
-If you are storing compact binary-vector representations, you may also want to check the [QR-codes page](/qr-code-generator).
-
-</details>
 <details>
 <summary>Can I Perform MDS with Jaccard Indices?</summary>
 
@@ -368,11 +491,12 @@ fit <- cmdscale(dissimilarity_matrix, eig=TRUE, k=2)
 ```
 
 </details>
+
 <details>
 <summary>Can I convert a Hamming distance matrix to a similarity matrix?</summary>
 
 First of all, if you are seeking a similarity metric, you might want to consider using `jaccard` as a metric. However, if you wish to convert a distance-based matrix to a similarity matrix, you can use the following formula:
- 
+
 $$ S = 1 - \frac{d}{n} $$
 Where:
 \( S \) is the similarity.
@@ -380,24 +504,25 @@ Where:
 \( n \) is the number of characters compared in the Hamming distance.
 
 Here, R is used only for **post-processing** an existing `matrix.txt`. If you want to launch `pheno-ranker` from inside R, see [Use from R](/use-from-r).
- 
+
 Example `R` code:
- 
+
 ```R
 # Load the matrix of Hamming distances from a text file
 data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
 
 # Set n (extracted with --export option)
 n = 100
- 
+
 # Convert Hamming distance to a similarity matrix
 similarity_matrix <- 1 - (data / n)
- 
+
 # Additional analysis and plotting code here
 ...
 ```
 
 </details>
+
 <details>
 <summary>How can I convert a Hamming distance matrix to a standardized matrix?</summary>
 
@@ -426,6 +551,7 @@ write.table(standardized_matrix, "standardized_matrix.txt", sep = "\t", quote = 
 ```
 
 </details>
+
 <details>
 <summary>Can I create network/graph plots from `Pheno-Ranker` output data?</summary>
 
@@ -487,14 +613,14 @@ Now we plot the resulting `matrix.txt` file.
  }
  library(qgraph)
  data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
- 
+
  # Start PNG device
  png(filename = "qgraph.png", width = 1000, height = 1000,
      units = "px", pointsize = 12, bg = "white", res = NA)
- 
+
  # Toggle for coloring the last node black
  colorLastNodeBlack <- FALSE  # Change to TRUE for black / FALSE to retain original color
- 
+
  # Function to determine color based on threshold values
  getColorBasedOnThreshold <- function(value, thresholdHigh, thresholdMid, colorHigh, colorMid, colorLow) {
    if (value > thresholdHigh) {
@@ -505,26 +631,26 @@ Now we plot the resulting `matrix.txt` file.
      return(colorLow)
    }
  }
- 
+
  # Apply this function to each node and edge
  node_thresholds <- apply(data, 1, function(x) sum(x > 0.9))
  max_node_threshold <- max(node_thresholds)
  min_node_threshold <- min(node_thresholds)
  normalized_node_thresholds <- (node_thresholds - min_node_threshold) / (max_node_threshold - min_node_threshold)
- 
+
  # Color nodes based on normalized threshold
  node_colors <- colorRampPalette(c("red", "green", "blue"))(length(unique(normalized_node_thresholds)))
  node_colors <- node_colors[as.integer(cut(normalized_node_thresholds, breaks = length(node_colors), include.lowest = TRUE))]
- 
+
  # Conditionally color the last node black
  if (colorLastNodeBlack) {
      node_colors[length(node_colors)] <- "black"  # Last node in black
  }
- 
+
  # Edge colors with similar logic
  edge_colors <- apply(data, c(1,2), function(x) getColorBasedOnThreshold(x, 0.90, 0.50, "blue", "green", "red"))
  edge_colors <- matrix(edge_colors, nrow=nrow(data), ncol=ncol(data))
- 
+
  # Create and plot the graph
  qgraph(data,
         labels=colnames(data),
@@ -536,7 +662,7 @@ Now we plot the resulting `matrix.txt` file.
         color=node_colors,  # Node colors
         edge.color=edge_colors,  # Edge colors
         edge.width=1)  # Edge width
- 
+
  # Close the device to save the PNG file
  dev.off()
 ```
@@ -573,14 +699,14 @@ Now we plot the resulting `matrix.txt` file, but this time the `TAR_107:week_0_a
  }
  library(qgraph)
  data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
- 
+
  # Start PNG device
  png(filename = "qgraph.png", width = 1000, height = 1000,
      units = "px", pointsize = 12, bg = "white", res = NA)
- 
+
  # Toggle for coloring the last node black
  colorLastNodeBlack <- TRUE  # Change to TRUE for black / FALSE to retain original color
- 
+
  # Function to determine color based on threshold values
  getColorBasedOnThreshold <- function(value, thresholdHigh, thresholdMid, colorHigh, colorMid, colorLow) {
    if (value > thresholdHigh) {
@@ -591,26 +717,26 @@ Now we plot the resulting `matrix.txt` file, but this time the `TAR_107:week_0_a
      return(colorLow)
    }
  }
- 
+
  # Apply this function to each node and edge
  node_thresholds <- apply(data, 1, function(x) sum(x > 0.9))
  max_node_threshold <- max(node_thresholds)
  min_node_threshold <- min(node_thresholds)
  normalized_node_thresholds <- (node_thresholds - min_node_threshold) / (max_node_threshold - min_node_threshold)
- 
+
  # Color nodes based on normalized threshold
  node_colors <- colorRampPalette(c("red", "green", "blue"))(length(unique(normalized_node_thresholds)))
  node_colors <- node_colors[as.integer(cut(normalized_node_thresholds, breaks = length(node_colors), include.lowest = TRUE))]
- 
+
  # Conditionally color the last node black
  if (colorLastNodeBlack) {
      node_colors[length(node_colors)] <- "black"  # Last node in black
  }
- 
+
  # Edge colors with similar logic
  edge_colors <- apply(data, c(1,2), function(x) getColorBasedOnThreshold(x, 0.90, 0.50, "blue", "green", "red"))
  edge_colors <- matrix(edge_colors, nrow=nrow(data), ncol=ncol(data))
- 
+
  # Create and plot the graph
  qgraph(data,
         labels=colnames(data),
@@ -622,7 +748,7 @@ Now we plot the resulting `matrix.txt` file, but this time the `TAR_107:week_0_a
         color=node_colors,  # Node colors
         edge.color=edge_colors,  # Edge colors
         edge.width=1)  # Edge width
- 
+
  # Close the device to save the PNG file
  dev.off()
 ```
@@ -657,41 +783,41 @@ You want to know the shortest path between `PR_1` and `PR_2` (Hamming distance =
      install.packages("igraph")
  }
  library(igraph)
- 
+
  # Define start and end nodes
  START_NODE <- "PR_1"
  END_NODE <- "PR_2"
- 
+
  # Read the data matrix from a file, assuming it's a distance matrix
  data <- as.matrix(read.table("matrix.txt", header = TRUE, row.names = 1, check.names = FALSE))
- 
+
  # Adjust weights of zero to a small positive value for calculation
  data[data == 0] <- 1e-10
- 
+
  # Create an igraph graph from the adjusted distance matrix
  g <- graph_from_adjacency_matrix(data, mode = "undirected", weighted = TRUE, diag = FALSE)
- 
+
  # Set node names
  V(g)$label <- V(g)$name  # assuming node names are already defined
- 
+
  # Find the shortest paths between START_NODE and END_NODE
  shortest_path <- shortest_paths(g, from = START_NODE, to = END_NODE, mode = "out", output = "vpath")
- 
+
  # Extract the edges in the shortest path
  edges_in_path <- E(g, path = unlist(shortest_path$vpath))
- 
+
  # Define colors for vertices and edges
  vertex_colors <- ifelse(V(g)$name == START_NODE, "orange", ifelse(V(g)$name == END_NODE, "green", "grey"))
  edge_colors <- ifelse(E(g) %in% edges_in_path, "black", "grey")
  edge_widths <- ifelse(E(g) %in% edges_in_path, 3, 0.2)
- 
+
  # Prepare edge labels to display original values
  edge_labels <- ifelse(E(g)$weight == 1e-10, 0, E(g)$weight)
- 
+
  # Start PNG device
  png(filename = "igraph.png", width = 1000, height = 1000,
      units = "px", pointsize = 12, bg = "white", res = NA)
- 
+
  # Plot the graph
  plot(g, layout = layout_nicely(g),
       edge.label.cex = 3,  # Edge label size
@@ -712,21 +838,5 @@ You want to know the shortest path between `PR_1` and `PR_2` (Hamming distance =
 
 </details>
 :::
-
-</details>
-## Installation
-
-<details>
-<summary>From where can I download the software?</summary>
-
-See [Download & Installation](/download-and-installation). It summarizes CPAN, Conda, GitHub checkout, Docker Hub, and Dockerfile-based installation paths.
-
-</details>
-<details>
-<summary>Do you have a way of installing `R` (+ plotting libraries) along with Pheno-Ranker?</summary>
-
-R is not required to run the `pheno-ranker` CLI. Use R when you want to post-process outputs such as `matrix.txt`, `rank.txt`, `matrix.mtx`, or exported JSON files.
-
-If you want to call `pheno-ranker` from R, see [Use from R](/use-from-r). For containerized installations, see [Download & Installation](/download-and-installation) and the Docker instructions linked from that page.
 
 </details>

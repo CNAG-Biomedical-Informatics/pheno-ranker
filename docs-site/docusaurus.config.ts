@@ -92,6 +92,11 @@ const config: Config = {
           position: 'left',
         },
         {
+          href: 'https://www.youtube.com/playlist?list=PLErogZfEae0M',
+          label: 'Videos',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/CNAG-Biomedical-Informatics/pheno-ranker',
           label: 'GitHub',
           position: 'right',
